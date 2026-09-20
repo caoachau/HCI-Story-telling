@@ -1,0 +1,11 @@
+{
+  "name": "tra-vinh-heritage",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Prototype ban tuong tac di san Tra Vinh",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/session.test.cjs",
+    "test:browser": "node tests/browser-test.cjs"
+  }
+}
