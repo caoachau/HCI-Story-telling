@@ -1,91 +1,60 @@
-# Trà Vinh Heritage — Prototype bàn tương tác
+﻿# Ký Ức Bản Địa · Diễn Giải Di Sản Trà Vinh
 
-Bản đầu hoàn thành ngày 20/09/2026. Giao diện dành cho màn hình cảm ứng lớn đặt nằm nghiêng, một hướng đọc từ cạnh trước. Chạy bằng HTML, CSS và JavaScript thuần, không cần cài thư viện.
+Giao diện chính dùng React, Vite, MapLibre và Three.js. Dữ liệu hiện bao gồm bảy điểm di sản Trà Vinh, các tuyến tham quan, nội dung diễn giải, hiện vật 3D, panorama, tìm kiếm, QR, âm thanh và chế độ trình chiếu kiosk.
 
-## Mở bản demo
-
-**Nhanh nhất:** mở `index.html` bằng Chrome hoặc Edge. Các ảnh và mã nguồn đều nằm trong thư mục, không cần mạng để xem nội dung.
-
-**Chạy qua localhost:** mở terminal trong thư mục `prototype`, chạy:
+## Chạy ứng dụng
 
 ```powershell
-node server.js
+npm install
+npm start
 ```
 
-Truy cập **http://127.0.0.1:4173**. Màn hình mở thẳng bản đồ toàn cảnh. Dùng nút toàn màn hình ở góc phải hoặc phím **F11** trên máy tính.
+Mở http://127.0.0.1:3000. Tạo bản dựng bằng `npm run build`; xem trước bằng `npm run preview`.
 
-Nếu cổng 4173 đang bận, sử dụng một cổng khác:
+Bản đồ và ảnh từ các dịch vụ bên ngoài cần kết nối Internet. Không cần khóa API để chạy ứng dụng. ZIP có metadata nhắc đến Gemini nhưng không chứa màn hình AI hoặc endpoint gọi Gemini, vì vậy tính năng đó chưa có trong bản tích hợp.
 
-```powershell
-$env:PORT = '4174'
-node server.js
-```
+Chế độ Esri dùng [World Imagery Wayback, bản phát hành 2025-12-18](https://www.arcgis.com/home/item.html?id=929ed51e5c11448c8ff82ef637bf42d6) để tránh dải mây và mép ghép lớn quanh Cồn Chim trong nguồn World Imagery hiện hành. Ngày này là ngày phát hành bản đồ, không phải ngày chụp ảnh. Nguồn hiển thị và tải trước tile dùng chung cấu hình trong `src/services/esriImagery.ts`; zoom Esri giới hạn ở mức 17. Khi chọn phiên bản khác, cần đối chiếu ảnh tại các cột mốc và nhiều mức zoom trước khi cập nhật.
 
-## Các màn đã làm
+Ứng dụng kèm 36.551 tile (khoảng 244 MB) trong `public/map-tiles`:
 
-- Màn hình chờ: bản đồ toàn cảnh Trà Vinh, bảy địa điểm, biểu tượng văn hóa và bộ lọc Văn hóa/Thiên nhiên.
-- Fly-to: chọn điểm 300 ms → chuẩn bị 200 ms → camera pan/zoom 2,8× trong 1.200 ms → dừng 300 ms → popup trượt lên 450 ms. Bản đồ và marker giữ nguyên phần tử DOM xuyên suốt ba trạng thái.
-- Popup Ao Bà Om nằm trên bản đồ vừa zoom, có lưu địa điểm trong phiên, đóng, khám phá câu chuyện và Xem 360°. Đóng giữ nguyên góc nhìn; nút Quay lại/Toàn cảnh/Bản đồ bay về toàn cảnh trong 1.000 ms. Escape đóng popup rồi trở về toàn cảnh.
-- Bấm lặp không khởi động lại chuyến bay. Thoát, kết thúc phiên và đổi địa điểm hủy chuyển động cũ. Giảm chuyển động bỏ qua pan/zoom và các khoảng chờ.
-- Ao Bà Om: mở đầu; chọn chủ đề; hai nhánh với ba cảnh mỗi nhánh.
-- Nhánh truyền thuyết có tương tác mở chi tiết ánh đèn; luôn ghi rõ là minh họa truyền thuyết.
-- Nhánh văn hóa dùng nội dung sự kiện năm 2024; hình vẽ là minh họa không gian, không phải ảnh sự kiện.
-- Toàn cảnh: ảnh kéo ngang, nút trái/phải, hai hotspot, đường quay lại đúng nội dung trước đó.
-- Quiz: đúng/sai, giải thích, xem lại và bỏ qua; tổng kết và chuyển sang Chùa Âng.
-- Hướng dẫn, nguồn tư liệu, bản đọc, trợ năng, tiến độ tạm và kết thúc phiên.
+- Esri: 6.078 ảnh, zoom 6–17.
+- Google vệ tinh: 9.967 ảnh, zoom 6–20.
+- Cao độ: 252 ảnh, zoom 6–12.
+- Thông tin Google: 10.127 ảnh trong suốt tiếng Việt và 10.127 ảnh tiếng Anh, zoom 6–20 (tổng khoảng 47 MB).
 
-## Quy tắc phiên
+Bộ ảnh phủ vùng toàn cảnh Trà Vinh và hành lang bay ở zoom 6–14; ảnh chi tiết phủ vùng rộng quanh bảy mốc, đủ cho xoay góc nhìn và zoom gần. Nguồn Google trả 404 cho 160 ô; các ô này dùng phần ảnh tương ứng từ tile Google ở mức zoom thấp hơn đã lưu sẵn, không gửi lại yêu cầu bị lỗi. Map và tải trước ảnh dùng chung bộ định tuyến file nội bộ; vùng ngoài bộ ảnh vẫn lấy từ nhà cung cấp.
 
-- Bắt đầu bộ đếm khi mở một nội dung chính.
-- **Một nội dung hiển thị quá 300 giây sẽ về bản đồ toàn cảnh**, ngay cả khi đang đọc hoặc nghe. Đây không phải thời gian không hoạt động. Bản đồ chờ ban đầu không chạy bộ đếm.
-- Chuyển sang cảnh, địa điểm hoặc nội dung chính khác bắt đầu thời gian mới.
-- Lọc trên bản đồ, mở hotspot, mở hướng dẫn, chỉnh chữ, trả lời trong cùng quiz hoặc chỉnh panorama không làm mới thời gian.
-- Kết thúc sẽ hủy chuyến bay, dừng giọng đọc, đóng lớp phủ, xóa tiến độ, địa điểm đã lưu, đáp án và thiết lập tạm.
-- Tab bị đưa xuống nền được kiểm tra thời hạn khi quay lại; không dùng localStorage hoặc tài khoản.
+Service worker `public/map-cache-sw.js` lưu những ảnh đã xem vào bộ nhớ đệm của trình duyệt để dùng lại sau khi mở trang hoặc đổi chế độ. Việc này chạy khi trình duyệt cho phép service worker (localhost hoặc HTTPS); ảnh trong ứng dụng vẫn dùng được nếu service worker không hoạt động. Không tải toàn bộ bộ ảnh lúc mở màn hình.
 
-## Phạm vi và giới hạn
+Vite tự chép bộ ảnh và service worker vào bản build. Chạy `npm run cache:map` để bổ sung file bị thiếu và tạo lại các danh sách `*Cache.generated.ts`, mã phiên bản cache và báo cáo `public/map-tiles/cache-summary.json`. Script dùng lại file đã có, giữ phạm vi đã tải khi thay đổi tọa độ mốc, giới hạn tải đồng thời và ghi file hoàn chỉnh trước khi đưa vào danh sách. Vùng ngoài bộ ảnh và nội dung ảnh từ dịch vụ bên ngoài vẫn cần Internet.
 
-- **Ao Bà Om đã có luồng hoàn chỉnh.** Chùa Âng và các địa điểm còn lại có thẻ giới thiệu; giao diện ghi rõ nội dung chưa triển khai.
-- Bản đồ dùng ảnh tham khảo do người dùng cung cấp, đã xử lý phần ghim và giao diện dính trong ảnh bằng công cụ imagegen. Chuyển tiếp từ toàn tỉnh sang ảnh cận Ao ở mức zoom 2,8× là mô phỏng kể chuyện; ảnh chưa được ghép theo tọa độ GIS. Không suy ra khoảng cách, đường đi hoặc vị trí công trình mới từ chuyển tiếp này. Xem [phân tích tư liệu](REFERENCE-ANALYSIS.md).
-- Nút **Xem 360°** nối vào màn toàn cảnh hiện có: ảnh rộng kéo ngang, có nhãn mô phỏng, chưa phải dữ liệu 360° hoặc không gian 3D.
-- Audio dùng giọng đọc tiếng Việt có sẵn của hệ điều hành/trình duyệt. Nếu chưa có giọng Việt, giao diện thông báo và vẫn cung cấp bản đọc; chưa có bản thuyết minh thu âm riêng. Một số giọng hệ thống có thể cần mạng.
-- Đã kiểm tra bố cục trên trình duyệt ở 1920 × 1080, 1440 × 960, 1366 × 768 và 390 × 844. Cần thử tiếp trên bàn cảm ứng thật để đánh giá tầm với, góc nghiêng, độ chói và sử dụng theo nhóm. Ở cỡ chữ lớn, vùng nội dung có thể cuộn để tránh mất chữ.
-- Đây là prototype học tập chạy cục bộ. Xem `assets/CREDITS.md` để biết nguồn và trạng thái quyền sử dụng ảnh; không mặc định ảnh được cấp phép tái xuất bản.
+## Tọa độ cột mốc
 
-## Xem ảnh giao diện
+Bảy mốc dùng điểm địa danh Google Maps đã đối chiếu ngày 27/09/2026, ở hệ WGS 84. Tọa độ, tên địa danh và liên kết theo place ID nằm trong [bảng nguồn vị trí](docs/heritage-locations.md). Dữ liệu dùng chung ở `src/data/heritageSites.ts` đồng bộ marker, bay đến, đưa mốc về giữa, xoay 360°, chọn diễn giải theo vị trí gần và tải trước ảnh trên cả hai nền. Bộ ảnh đã bổ sung vùng quanh vị trí mới, gồm nhãn tiếng Việt và tiếng Anh.
 
-- [Video Fly-to Ao Bà Om](preview/fly-to-ao-ba-om.webm)
-- [Màn hình chờ toàn cảnh](preview/01-fly-overview.png)
-- [Bản đồ](preview/02-ban-do.png)
-- [Thẻ Ao Bà Om](preview/03-ao-ba-om.png)
-- [Ao Bà Om sau khi camera đến nơi](preview/03-fly-focused.png)
-- [Chọn câu chuyện](preview/04-chon-cau-chuyen.png)
-- [Cảnh truyền thuyết](preview/05-cau-chuyen.png)
-- [Bản đồ 1920 × 1080](preview/06-ban-do-1920.png)
-- [Bản đồ 1366 × 768](preview/07-ban-do-1366.png)
+## Chế độ Chi tiết
 
-## Kiểm tra
+Nút **Chi tiết** phủ lớp thông tin Google trong suốt lên cả Google vệ tinh và Esri: đường, tên địa điểm, khu dân cư và các tiện ích như bệnh viện, trường học, nhà hàng, cửa hàng. Cách ghép ảnh vệ tinh với nhãn tương ứng với [kiểu hybrid của Google Maps](https://developers.google.com/maps/documentation/javascript/maptypes). Số địa điểm hiển thị phụ thuộc dữ liệu Google và mức zoom; đây là lớp hiển thị, chưa gồm trang đánh giá hoặc thông tin kinh doanh khi nhấn vào từng tiện ích.
 
-```powershell
-node --test tests/session.test.cjs
-node tests/browser-test.cjs
-```
+Cấu hình và định tuyến tile nằm trong `src/services/mapDetails.ts`. File PNG được phục vụ ngay từ ứng dụng trong vùng cache, dùng chung giữa hai nền; bật/tắt chỉ đổi trạng thái hiển thị và giữ nguồn cùng cache. Chuyển ngôn ngữ chọn bộ nhãn tương ứng mà không đổi camera. Ứng dụng tải trước một vùng nhỏ quanh góc nhìn và điểm đến với độ ưu tiên thấp, không đợi tải xong mới cho người dùng tương tác. Chỉ dùng một mức chi tiết nhãn trong cùng khung hình để tránh lặp tên khi nghiêng camera.
 
-Kiểm tra trình duyệt dùng Chrome headless đã cài trên Windows; có thể đặt `CHROME_PATH` nếu Chrome ở vị trí khác. Không cần Playwright/npm install. Script tạo hồ sơ Chrome riêng trong `.browser-profile` và ảnh trong `preview`.
+## Nhãn biển đảo
 
-Kiểm tra tự động bao gồm: mở offline, DOM bản đồ được giữ nguyên, thứ tự và thời gian các bước fly-to, transform giữa chuyến bay, popup mở trễ, đóng/mở lại, hủy chuyến bay, giảm chuyển động, lọc marker, hai nhánh câu chuyện, panorama, quiz, trợ năng, xóa phiên, quá hạn thời gian và bố cục thích ứng. Các kiểm tra này không thay thế usability test với người dùng thật.
+Lớp địa danh trong ứng dụng bổ sung Hoàng Sa, Trường Sa và 47 đảo thuộc hai quần đảo cùng các đảo ven bờ chính. Nhãn có tên, cờ và dòng Việt Nam/Viet Nam, thể hiện theo nguồn Việt Nam; nguồn được liên kết ngay ở phần ghi nguồn bản đồ. Dữ liệu tên và điểm nhãn lấy từ [danh mục kèm Thông tư 33/2024/TT-BTNMT](https://mae.gov.vn/noidung/Lists/VBQPPL/Attachments/514/1_DanhMuc_TT_DiaDanh_BanHanh.pdf), có số trang và tọa độ gốc trong `src/data/maritimePlaces.generated.ts`. Thông tin chủ quyền theo [lập trường được Bộ Ngoại giao Việt Nam công bố](https://mofa.gov.vn/vi/tin-chi-tiet/chi-tiet/viet-nam-co-day-du-bang-chung-khang-dinh-chu-quyen-cua-minh-doi-voi-hai-quan-dao-hoang-sa-va-truong-sa-589.html).
 
-## Tệp chính
+Tọa độ địa lý VN-2000 của danh mục được chuyển sang WGS 84 bằng phép chuyển EPSG VN-2000 to WGS 84 (2), thay vì coi hai hệ giống nhau. Tái tạo dữ liệu bằng `scripts/import-maritime-labels.py` với file PDF nguồn và các thư viện Python `pypdf`, `pyproj`; ứng dụng không phụ thuộc hai thư viện này khi chạy.
 
-| Tệp | Mục đích |
-| --- | --- |
-| `index.html` | Điểm mở prototype |
-| `styles.css` | Bố cục, màu sắc, trạng thái trợ năng và thích ứng kích thước |
-| `map.css` | Bản đồ toàn cảnh, marker văn hóa, popup và bố cục thích ứng |
-| `map.js` | Camera liên tục, các trạng thái fly-to, hủy chuyến bay và giữ nguyên DOM |
-| `art.js` | Bản đồ, biểu tượng địa điểm và minh họa SVG tự thiết kế |
-| `app.js` | Nội dung, điều hướng và các tương tác |
-| `session.js` | Quy tắc thời hạn của nội dung |
-| `server.js` | Máy chủ cục bộ tùy chọn, chỉ lắng nghe 127.0.0.1 |
+Nhãn được vẽ bằng canvas với phông hệ thống có dấu tiếng Việt rồi hiển thị qua lớp symbol GeoJSON, luôn hướng về màn hình khi nghiêng hoặc xoay. Dữ liệu và nhãn nằm trong ứng dụng, không cần tải tile hay phông từ dịch vụ khác. Các tên vẫn hoạt động khi tắt **Chi tiết**, đổi nền vệ tinh hoặc chuyển ngôn ngữ. Khi zoom gần, tên từng đảo không bị ẩn bởi giới hạn zoom hay va chạm nhãn. Tên khu vực vẫn hiện ở đầu khung nhìn khi điểm nhãn quần đảo hoặc đảo lớn nằm ngoài màn hình. Các khoảng chọn ngữ cảnh chỉ phục vụ tiêu đề; không phải đường biên giới hay phạm vi chủ quyền trên biển.
 
-Tài liệu nền và kịch bản: [thư mục tài liệu đề tài](../tai-lieu-de-tai/README.md).
+Worker MapLibre 6 được đóng gói qua truy vấn Vite `?worker&url` trước khi tạo map, để các lớp cao độ và GeoJSON tải đúng trong cả chế độ phát triển và bản build.
+
+## Tương tác kiosk
+
+- Chọn điểm trên bản đồ, danh sách hoặc ô điểm đến để bay tới; mở bảng diễn giải để xem chương, nghệ nhân, tuyến và tư liệu.
+- Dùng nút trợ năng ở góc phải bản đồ để tăng cỡ chữ, tăng tương phản hoặc giảm chuyển động.
+- Phiên nội dung tự kết thúc sau năm phút khi bảng diễn giải đang mở. Thời gian không được gia hạn bởi di chuyển chuột hay chạm liên tục.
+- Sau 75 giây không hoạt động, bản đồ vào chế độ thu hút khách.
+
+## Ghi chú biên tập
+
+Nội dung và số liệu trong dữ liệu dự án chưa được xác minh độc lập trong lần tích hợp này. Hãy đối chiếu hồ sơ hiện vật, tiểu sử, số liệu cộng đồng, ảnh và trích dẫn với cộng đồng và nguồn địa phương trước khi coi là dữ kiện đã kiểm chứng hoặc phát hành chính thức. Nguồn ảnh prototype trước đây được ghi tại `assets/CREDITS.md`.

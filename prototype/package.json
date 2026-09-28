@@ -1,11 +1,33 @@
 {
-  "name": "tra-vinh-heritage",
-  "version": "1.0.0",
+  "name": "ky-uc-ban-dia",
   "private": true,
-  "description": "Prototype ban tuong tac di san Tra Vinh",
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "test": "node --test tests/session.test.cjs",
-    "test:browser": "node tests/browser-test.cjs"
+    "start": "vite --host 127.0.0.1 --port 3000",
+    "dev": "vite --host 127.0.0.1 --port 3000",
+    "build": "vite build",
+    "cache:map": "node scripts/cache-map-imagery.mjs",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "lucide-react": "^0.546.0",
+    "maplibre-gl": "^6.11.2",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "three": "^0.186.1",
+    "vite": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "autoprefixer": "^10.4.21",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2"
   }
 }
