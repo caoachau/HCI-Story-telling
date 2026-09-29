@@ -1,30 +1,28 @@
 import React from 'react';
 import {
-  Maximize2,
-  Minimize2,
+  Expand,
+  Shrink,
   Home,
   ArrowLeft,
   Volume2,
   VolumeX,
-  Globe,
-  Map as MapIcon,
-  Layers,
-  Sparkles,
   Info,
-  List,
   Search,
-  Eye,
+  Sun,
+  CloudSun,
+  Cloud,
+  CloudRain,
+  CloudLightning,
+  MoonStar,
 } from 'lucide-react';
+import type { LocalWeather } from '../services/localWeather';
+import { weatherDescription } from '../services/localWeather';
 
 interface HeaderTopBarProps {
   onHomeClick: () => void;
   onBackClick: () => void;
-  viewMode: '3d' | '2d';
-  onToggleViewMode: (mode: '3d' | '2d') => void;
   selectedCategory: string;
   onSelectCategory: (category: string) => void;
-  isListDrawerOpen: boolean;
-  onToggleListDrawer: () => void;
   isSoundPlaying: boolean;
   onToggleSound: () => void;
   lang: 'vi' | 'en';
@@ -36,17 +34,14 @@ interface HeaderTopBarProps {
   onOpenSearch?: () => void;
   isReduceMotion?: boolean;
   onToggleReduceMotion?: () => void;
+  weather?: LocalWeather | null;
 }
 
 export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
   onHomeClick,
   onBackClick,
-  viewMode,
-  onToggleViewMode,
   selectedCategory,
   onSelectCategory,
-  isListDrawerOpen,
-  onToggleListDrawer,
   isSoundPlaying,
   onToggleSound,
   lang,
@@ -58,6 +53,7 @@ export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
   onOpenSearch,
   isReduceMotion,
   onToggleReduceMotion,
+  weather,
 }) => {
   const categories = [
     { id: 'all', label: lang === 'vi' ? 'Tất Cả' : 'All Sites' },
@@ -108,34 +104,8 @@ export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
         </a>
       </div>
 
-      {/* Zone 2: Curatorial Category Filter & 2D/3D Mode (Centered, clean segmented control) */}
+      {/* Zone 2: Curatorial category filter and local weather */}
       <div className="hidden lg:flex items-center gap-3">
-        {/* 2D / 3D Mode Switcher */}
-        <div className="bg-[#121620] p-1 rounded-xl border border-white/10 flex items-center shadow-inner">
-          <button
-            onClick={() => onToggleViewMode('3d')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap ${
-              viewMode === '3d'
-                ? 'bg-amber-600 text-white shadow-sm'
-                : 'text-stone-400 hover:text-white'
-            }`}
-          >
-            <Globe className="w-3.5 h-3.5" />
-            <span>{lang === 'vi' ? '3D Sa Bàn Số' : '3D Terrain'}</span>
-          </button>
-          <button
-            onClick={() => onToggleViewMode('2d')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 whitespace-nowrap ${
-              viewMode === '2d'
-                ? 'bg-amber-600 text-white shadow-sm'
-                : 'text-stone-400 hover:text-white'
-            }`}
-          >
-            <MapIcon className="w-3.5 h-3.5" />
-            <span>{lang === 'vi' ? '2D Mặt Bằng' : '2D Map'}</span>
-          </button>
-        </div>
-
         {/* Category Filters */}
         <div className="bg-[#121620] p-1 rounded-xl border border-white/10 flex items-center shadow-inner">
           {categories.map((cat) => (
@@ -152,19 +122,11 @@ export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
             </button>
           ))}
         </div>
+        <WeatherPill lang={lang} weather={weather} />
       </div>
 
       {/* Zone 3: Functional Interactive Actions (Sound, List Drawer, Lang, Kiosk) */}
       <div className="flex items-center gap-2 md:gap-2.5 shrink-0">
-        {/* Mobile 2D/3D toggle */}
-        <button
-          onClick={() => onToggleViewMode(viewMode === '3d' ? '2d' : '3d')}
-          className="lg:hidden p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-stone-300 border border-white/10 min-w-[40px] min-h-[40px] flex items-center justify-center text-xs font-mono font-bold text-amber-400"
-          title={lang === 'vi' ? 'Chuyển chế độ 2D / 3D' : 'Switch between 2D and 3D'}
-        >
-          {viewMode === '3d' ? '3D' : '2D'}
-        </button>
-
         {/* Search Modal Trigger */}
         {onOpenSearch && (
           <button
@@ -175,20 +137,6 @@ export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
             <Search className="w-4 h-4" />
           </button>
         )}
-
-        {/* Landmark List Drawer Toggle */}
-        <button
-          onClick={onToggleListDrawer}
-          className={`px-3 py-2 rounded-xl text-xs font-medium transition-all border flex items-center gap-1.5 min-h-[40px] ${
-            isListDrawerOpen
-              ? 'bg-amber-600 text-stone-950 border-amber-400 font-semibold shadow-md'
-              : 'bg-white/5 hover:bg-white/10 text-stone-300 hover:text-white border-white/10'
-          }`}
-          title={lang === 'vi' ? 'Danh sách 7 địa điểm' : 'Site Directory'}
-        >
-          <List className="w-4 h-4" />
-          <span className="hidden md:inline">{lang === 'vi' ? 'Điểm Đến' : 'Sites'}</span>
-        </button>
 
         {/* Ambient Soundscape Toggle */}
         <button
@@ -229,9 +177,37 @@ export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
           className="p-2.5 rounded-xl bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/30 text-amber-300 transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center"
           title={lang === 'vi' ? 'Toàn màn hình kiosk triển lãm' : 'Toggle exhibition kiosk fullscreen'}
         >
-          {isKioskFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+          {isKioskFullscreen ? <Shrink className="w-4 h-4" /> : <Expand className="w-4 h-4" />}
         </button>
       </div>
     </header>
   );
 };
+
+function WeatherPill({ lang, weather }: { lang: 'vi' | 'en'; weather?: LocalWeather | null }) {
+  const code = weather?.weatherCode ?? 0;
+  const WeatherIcon = !weather
+    ? CloudSun
+    : code >= 95
+      ? CloudLightning
+      : code >= 51
+        ? CloudRain
+        : code >= 3
+          ? Cloud
+          : weather.isDay
+            ? (code <= 1 ? Sun : CloudSun)
+            : MoonStar;
+  const temperature = weather ? `${weather.temperature}°` : '—';
+  const description = weatherDescription(code, lang);
+
+  return (
+    <div
+      className="flex min-h-[40px] items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 text-xs text-stone-200 shadow-inner"
+      title={`${description} · ${lang === 'vi' ? 'Trà Vinh, Việt Nam' : 'Trà Vinh, Vietnam'}`}
+      aria-label={`${temperature} · ${lang === 'vi' ? 'Trà Vinh, Việt Nam' : 'Trà Vinh, Vietnam'}`}
+    >
+      <WeatherIcon className="h-4 w-4 text-amber-300" aria-hidden="true" />
+      <span className="whitespace-nowrap font-medium">{temperature} | {lang === 'vi' ? 'Trà Vinh, Việt Nam' : 'Trà Vinh, Vietnam'}</span>
+    </div>
+  );
+}

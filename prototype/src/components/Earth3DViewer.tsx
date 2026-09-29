@@ -35,6 +35,7 @@ import {
   Hand,
   ZoomIn,
   ZoomOut,
+  Accessibility,
 } from 'lucide-react';
 
 // MapLibre 6 cannot infer its worker location from Vite's dependency cache.
@@ -57,6 +58,8 @@ interface Earth3DViewerProps {
   onHomeClick?: () => void;
   hasUserSelectedSite?: boolean;
   isReduceMotion?: boolean;
+  isAccessibilityOpen?: boolean;
+  onToggleAccessibility?: () => void;
   onRegisterCameraManager?: (manager: CameraManager) => void;
 }
 
@@ -173,6 +176,8 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
   onHomeClick,
   hasUserSelectedSite = false,
   isReduceMotion = false,
+  isAccessibilityOpen = false,
+  onToggleAccessibility,
   onRegisterCameraManager,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -978,6 +983,20 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
         >
           <Compass className="h-5 w-5 transition-transform duration-300" style={{ transform: `rotate(${-telemetry.bearing}deg)` }} />
         </button>
+        {onToggleAccessibility && (
+          <>
+            <div className="mx-2 my-1 h-px bg-white/10" />
+            <button
+              onClick={onToggleAccessibility}
+              className={`flex h-11 w-11 items-center justify-center rounded-xl transition-colors ${isAccessibilityOpen ? 'bg-amber-500 text-stone-950' : 'text-stone-300 hover:bg-white/10 hover:text-amber-300'}`}
+              title={lang === 'vi' ? 'Tùy chỉnh trợ năng' : 'Accessibility settings'}
+              aria-label={lang === 'vi' ? 'Tùy chỉnh trợ năng' : 'Accessibility settings'}
+              aria-expanded={isAccessibilityOpen}
+            >
+              <Accessibility className="h-5 w-5" />
+            </button>
+          </>
+        )}
       </div>      {/* Vertical zoom rail */}
       <div className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-2xl border border-white/10 bg-[#0b0e15]/85 px-2.5 py-3 shadow-2xl backdrop-blur-md sm:left-5" role="group" aria-label={lang === 'vi' ? 'Điều khiển thu phóng' : 'Zoom controls'}>
         <div className="flex flex-col items-center gap-2.5">
@@ -1003,7 +1022,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
       </div>
 
       {/* Horizontal bearing rail */}
-      <div className="absolute bottom-24 left-1/2 z-20 w-[min(78vw,440px)] -translate-x-1/2 rounded-2xl border border-white/10 bg-[#0b0e15]/88 px-4 py-3 shadow-2xl backdrop-blur-md sm:bottom-5">
+      <div className="map-bearing-rail absolute z-20 rounded-2xl border border-white/10 bg-[#0b0e15]/88 px-4 py-3 shadow-2xl backdrop-blur-md">
         <div className="flex items-center gap-3">
           <RotateCw className="h-4 w-4 shrink-0 text-amber-300" aria-hidden="true" />
           <input

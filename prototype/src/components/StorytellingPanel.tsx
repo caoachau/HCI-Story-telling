@@ -22,6 +22,10 @@ import {
   Camera,
   Layers,
   X,
+  Expand,
+  Shrink,
+  PanelRightOpen,
+  PanelRightClose,
 } from 'lucide-react';
 
 interface StorytellingPanelProps {
@@ -32,6 +36,10 @@ interface StorytellingPanelProps {
   onClose?: () => void;
   onOpenPanorama360?: () => void;
   onOpenQRCode?: () => void;
+  isExpanded?: boolean;
+  onToggleExpanded?: () => void;
+  isSidebarWide?: boolean;
+  onToggleSidebarWide?: () => void;
   onSelectChapterCamera?: (cameraView: { lng: number; lat: number; zoom: number; pitch: number; bearing: number }) => void;
   onContentChange?: () => void;
 }
@@ -44,6 +52,10 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
   onClose,
   onOpenPanorama360,
   onOpenQRCode,
+  isExpanded = false,
+  onToggleExpanded,
+  isSidebarWide = false,
+  onToggleSidebarWide,
   onSelectChapterCamera,
   onContentChange,
 }) => {
@@ -107,11 +119,11 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
   const coords = formatCoordinates(site.lat, site.lng);
 
   return (
-    <div className="w-full h-full flex flex-col bg-[#11141c]/95 border-l border-white/10 text-stone-200 overflow-hidden shadow-2xl backdrop-blur-xl">
+    <div className={`relative w-full h-full flex flex-col bg-[#11141c]/95 text-stone-200 overflow-visible shadow-2xl backdrop-blur-xl ${isExpanded ? 'border-0' : 'border-l border-white/10'}`}>
       {/* 1. Header Banner & Location Identity */}
       <div className="border-b border-white/10 bg-gradient-to-b from-[#181d28] to-[#11141c]">
         {/* Real Documentary Photography Hero Cover */}
-        <div className="relative w-full h-44 overflow-hidden group">
+        <div className={`relative w-full ${isExpanded ? 'h-56 md:h-64 lg:h-72' : 'h-44'} overflow-hidden group`}>
           <img
             src={site.heroImage}
             alt={lang === 'vi' ? site.name : site.englishName}
@@ -161,6 +173,22 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
                 {isNarrating ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
               </button>
 
+              {onToggleExpanded && (
+                <button
+                  onClick={onToggleExpanded}
+                  className="rounded-xl border border-white/15 bg-black/70 p-2 text-stone-300 shadow-lg backdrop-blur-md transition-colors hover:bg-black/90 hover:text-amber-300"
+                  title={isExpanded
+                    ? (lang === 'vi' ? 'Thu nhỏ toàn màn hình' : 'Exit full screen')
+                    : (lang === 'vi' ? 'Mở toàn màn hình' : 'Open full screen')}
+                  aria-label={isExpanded
+                    ? (lang === 'vi' ? 'Thu nhỏ toàn màn hình' : 'Exit full screen')
+                    : (lang === 'vi' ? 'Mở toàn màn hình' : 'Open full screen')}
+                  aria-pressed={isExpanded}
+                >
+                  {isExpanded ? <Shrink className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
+                </button>
+              )}
+
               {onClose && (
                 <button
                   onClick={onClose}
@@ -180,20 +208,53 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
         </div>
 
         {/* Title & Coordinates Info */}
-        <div className="p-5 pt-3 space-y-1">
+        <div className={`relative ${isExpanded ? 'p-6 lg:px-10 pt-4' : 'p-5 pt-3'} space-y-1`}>
+          {onToggleSidebarWide && (
+            <button
+              onClick={onToggleSidebarWide}
+              className="absolute left-0 top-0 z-[90] flex h-10 w-10 -translate-x-[84%] -translate-y-1/2 items-center justify-center rounded-full border border-amber-400/70 bg-[#11141c] text-amber-300 shadow-[0_6px_20px_rgba(0,0,0,0.65)] transition-all hover:bg-amber-600 hover:text-white focus-visible:outline-2 focus-visible:outline-amber-300"
+              title={isSidebarWide
+                ? (lang === 'vi' ? 'Thu gọn bảng diễn giải' : 'Narrow interpretation panel')
+                : (lang === 'vi' ? 'Mở rộng bảng diễn giải sang trái' : 'Expand interpretation panel left')}
+              aria-label={isSidebarWide
+                ? (lang === 'vi' ? 'Thu gọn bảng diễn giải' : 'Narrow interpretation panel')
+                : (lang === 'vi' ? 'Mở rộng bảng diễn giải sang trái' : 'Expand interpretation panel left')}
+              aria-pressed={isSidebarWide}
+            >
+              {isSidebarWide ? <PanelRightClose className="h-5 w-5" /> : <PanelRightOpen className="h-5 w-5" />}
+            </button>
+          )}
           <div className="flex items-center gap-2 text-xs font-mono text-amber-400">
             <span>{site.province}</span>
             <span>·</span>
             <span>{coords.decimal}</span>
           </div>
 
-          <h2 className="text-2xl font-serif font-bold text-amber-100 tracking-wide">
-            {lang === 'vi' ? site.name : site.englishName}
-          </h2>
+          <div className="flex items-start justify-between gap-3">
+            <h2 className="min-w-0 text-2xl font-serif font-bold text-amber-100 tracking-wide">
+              {lang === 'vi' ? site.name : site.englishName}
+            </h2>
+          </div>
 
           <p className="text-xs text-stone-300 leading-relaxed font-sans italic pt-1">
             {lang === 'vi' ? <>&ldquo;{site.tagline}&rdquo;</> : <>&ldquo;{site.englishName}&rdquo;</>}
           </p>
+
+          {isExpanded && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-4">
+              {[
+                [lang === 'vi' ? 'Loại hình' : 'Category', lang === 'vi' ? site.category : site.category],
+                [lang === 'vi' ? 'Vùng văn hóa' : 'Cultural region', lang === 'vi' ? site.region : site.region],
+                [lang === 'vi' ? 'Độ cao' : 'Elevation', `${site.elevationMeters} m`],
+                [lang === 'vi' ? 'Tư liệu' : 'Archive', `${site.gallery.length} ${lang === 'vi' ? 'ảnh' : 'photos'}`],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                  <div className="text-[10px] font-mono uppercase tracking-wider text-stone-500">{label}</div>
+                  <div className="mt-1 truncate text-xs font-medium text-amber-100" title={value}>{value}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Audio Live Subtitle Banner (When narration is active) */}
@@ -208,9 +269,11 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
         )}
 
         {/* 2. Navigation Tab Bar (Museum Story Modules) */}
-        <div className="flex border-t border-white/10 px-3 bg-[#0d1017] overflow-x-auto scrollbar-none">
+        <div className={`story-tab-strip flex border-t border-white/10 ${isExpanded ? 'px-6 lg:px-10' : 'px-3'} bg-[#0d1017] overflow-x-auto`} role="tablist" aria-label={lang === 'vi' ? 'Các mục diễn giải' : 'Interpretation sections'}>
           <button
             onClick={() => handleSelectTab('chapters')}
+            role="tab"
+            aria-selected={activeTab === 'chapters'}
             className={`py-3 px-3 text-xs font-mono flex items-center gap-1.5 border-b-2 transition-all shrink-0 ${
               activeTab === 'chapters'
                 ? 'border-amber-400 text-amber-300 font-bold bg-white/5'
@@ -223,6 +286,8 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
 
           <button
             onClick={() => handleSelectTab('beforeAfter')}
+            role="tab"
+            aria-selected={activeTab === 'beforeAfter'}
             className={`py-3 px-3 text-xs font-mono flex items-center gap-1.5 border-b-2 transition-all shrink-0 ${
               activeTab === 'beforeAfter'
                 ? 'border-amber-400 text-amber-300 font-bold bg-white/5'
@@ -235,6 +300,8 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
 
           <button
             onClick={() => handleSelectTab('artisans')}
+            role="tab"
+            aria-selected={activeTab === 'artisans'}
             className={`py-3 px-3 text-xs font-mono flex items-center gap-1.5 border-b-2 transition-all shrink-0 ${
               activeTab === 'artisans'
                 ? 'border-amber-400 text-amber-300 font-bold bg-white/5'
@@ -247,6 +314,8 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
 
           <button
             onClick={() => handleSelectTab('trail')}
+            role="tab"
+            aria-selected={activeTab === 'trail'}
             className={`py-3 px-3 text-xs font-mono flex items-center gap-1.5 border-b-2 transition-all shrink-0 ${
               activeTab === 'trail'
                 ? 'border-amber-400 text-amber-300 font-bold bg-white/5'
@@ -259,6 +328,8 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
 
           <button
             onClick={() => handleSelectTab('media')}
+            role="tab"
+            aria-selected={activeTab === 'media'}
             className={`py-3 px-3 text-xs font-mono flex items-center gap-1.5 border-b-2 transition-all shrink-0 ${
               activeTab === 'media'
                 ? 'border-amber-400 text-amber-300 font-bold bg-white/5'
@@ -272,10 +343,10 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
       </div>
 
       {/* 3. Tab Body Content Area */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-6">
+      <div className={`flex-1 overflow-y-auto ${isExpanded ? 'p-6 lg:px-10 xl:px-16 space-y-8' : 'p-5 space-y-6'}`}>
         {/* TAB 1: CURATED CHAPTERS WITH CAMERA VIEWPOINTS */}
         {activeTab === 'chapters' && (
-          <div className="space-y-5">
+          <div className={isExpanded ? 'grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)]' : 'space-y-5'}>
             {/* Chapter Stepper Buttons */}
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs font-mono text-stone-400 pb-1">
@@ -285,7 +356,7 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
                 </span>
               </div>
 
-              <div className="grid grid-cols-3 gap-2">
+              <div className={isExpanded ? 'grid grid-cols-1 gap-2' : 'grid grid-cols-3 gap-2'}>
                 {site.chapters.map((ch, idx) => (
                   <button
                     key={idx}
@@ -304,7 +375,7 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
             </div>
 
             {/* Selected Chapter Long-Form Article */}
-            <article className="bg-[#141822]/80 border border-white/10 rounded-2xl p-6 space-y-4 shadow-xl">
+            <article className="bg-[#141822]/80 border border-white/10 rounded-2xl p-6 lg:p-8 space-y-5 shadow-xl">
               <div className="border-b border-white/10 pb-3 flex items-start justify-between">
                 <div>
                   <span className="text-[11px] font-mono uppercase tracking-widest text-amber-400">
@@ -550,7 +621,7 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
               <h4 className="text-xs font-mono uppercase tracking-widest text-stone-400 mb-3">
                 {lang === 'vi' ? 'Bộ Sưu Tập Ảnh Tư Liệu' : 'Archive Photo Collection'} ({site.gallery.length} {lang === 'vi' ? 'tác phẩm' : 'photos'})
               </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className={isExpanded ? 'grid grid-cols-2 xl:grid-cols-3 gap-4' : 'grid grid-cols-1 sm:grid-cols-2 gap-3'}>
                 {site.gallery.map((item, idx) => (
                   <div key={idx} className="rounded-xl overflow-hidden border border-white/10 bg-black/40 space-y-2 pb-2">
                     <img
