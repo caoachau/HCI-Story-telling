@@ -39,7 +39,7 @@ async function section(name) {
   await click('.md-screen-dot[data-section="' + name + '"]');
   await wait(`!document.getElementById('museo-${name}').hidden`, name + ' screen is active');
   await evaluate(`document.getElementById('museo-${name}').scrollTop=0`);
-  await wait("[...document.querySelectorAll('.md-root img')].filter(img=>img.getBoundingClientRect().top<innerHeight&&img.getBoundingClientRect().bottom>0).every(img=>img.complete&&img.naturalWidth>0)", name + ' visible images');
+  await wait("[...document.querySelectorAll('.md-root img')].filter(img=>{const r=img.getBoundingClientRect();if(!r.width||!r.height||r.top>=innerHeight||r.bottom<=0||r.left>=innerWidth||r.right<=0)return false;const strip=img.closest('.md-site-strip');if(strip){const p=strip.getBoundingClientRect();return r.right>p.left&&r.left<p.right}return true}).every(img=>img.complete&&img.naturalWidth>0)", name + ' visible images');
 }
 async function quickViewChecks() {
   await viewport(1440, 960);
@@ -113,6 +113,12 @@ async function quickViewChecks() {
     await click('[data-overview-topic="collections"]');
     await wait("document.querySelector('.md-dialog-overview')?.open",'English museum collection story');
     await check("document.querySelector('#md-dialog-title').textContent==='Four themes, one Khmer way of life' && document.querySelector('.md-khmer-story').lang==='en' && document.querySelector('.md-khmer-story-prose').innerText.includes('palm-leaf manuscripts')",width+'px collection dialog shows the full English content');
+    await escape();
+    await section('map'); await click('[data-place-zone="upper"]');
+    await check("document.querySelector('.md-featured-title h3').textContent==='Religion & belief' && document.querySelector('[data-place-zone=\"upper\"]').textContent.includes('Upper floor')",width+'px Khmer place introductions follow the English host language');
+    await click('[data-action="explore-khmer-place"]');
+    await wait("document.querySelector('.md-khmer-place-dialog')?.open",'English Khmer place dialog');
+    await check("document.querySelector('#md-dialog-title').textContent==='Religion & belief' && document.querySelector('.md-site-paragraphs').textContent.includes('Theravada') && document.querySelector('.md-site-photo-caption strong').textContent==='Faith and belief displays'",width+'px place story and photograph captions render in English');
     await escape();
   }
   await click('.md-host-controls button:nth-last-child(2)');
@@ -345,6 +351,99 @@ async function khmerOverviewChecks() {
   await viewport(1440,960); await section('overview'); await shot('khmer-overview-desktop');
   await viewport(390,844); await shot('khmer-overview-mobile');
 }
+async function khmerPlacesChecks() {
+  await viewport(1440,960); await section('map');
+  await check("document.querySelectorAll('.md-site-strip button').length===16 && document.querySelectorAll('[data-place-zone]').length===4 && !document.querySelector('.md-world-map')", 'Khmer section has 16 points, four areas and no prehistoric world map');
+  await check("const pins=[...document.querySelectorAll('.md-places-geo-pin')];pins.length===3 && pins.some(pin=>pin.dataset.placeId==='entrance'&&pin.dataset.latitude==='9.9161668'&&pin.dataset.longitude==='106.3049936') && document.querySelectorAll('.md-places-tiles img').length===9", 'heritage map uses registered museum coordinates and cached imagery');
+  await click('.md-places-geo-pin[data-place-id="pond"]');
+  await check("document.querySelector('.md-featured-title h3').textContent==='Ao Bà Om' && document.querySelector('.md-site-strip [data-place-id=\"pond\"]').getAttribute('aria-pressed')==='true'", 'map markers synchronize the feature and thumbnail selection');
+  for (const [zone,count] of [['grounds',4],['ground',2],['upper',7]]) {
+    await click('[data-place-zone="'+zone+'"]');
+    await check(`document.querySelectorAll('.md-places-topic').length===${count} && document.querySelector('[data-place-zone="${zone}"]').getAttribute('aria-pressed')==='true' && document.querySelector('.md-places-plan-note').textContent.includes('không phải mặt bằng')`, zone+' shows a labelled thematic diagram with the right topics');
+    await shot('khmer-places-'+zone);
+    await click('.md-places-topic:last-of-type');
+    await check("document.querySelector('.md-featured-site').dataset.selectedPlace===document.querySelector('.md-places-topic[aria-pressed=\"true\"]').dataset.placeId", zone+' diagram selection opens the corresponding introduction');
+  }
+  await click('.md-site-strip [data-place-id="entrance"]');
+  await click('[aria-label="Điểm trước"]');
+  await check("document.querySelector('.md-featured-site').dataset.selectedPlace==='performing' && document.querySelector('[data-place-zone=\"upper\"]').getAttribute('aria-pressed')==='true' && document.querySelector('.md-site-strip').scrollLeft>0", 'previous arrow wraps across areas and reveals the matching thumbnail');
+  await click('[aria-label="Điểm tiếp theo"]');
+  await check("document.querySelector('.md-featured-site').dataset.selectedPlace==='entrance' && document.querySelector('[data-place-zone=\"landscape\"]').getAttribute('aria-pressed')==='true'", 'next arrow wraps to the heritage map');
+  const ids=await evaluate("[...document.querySelectorAll('.md-site-strip button')].map(button=>button.dataset.placeId)");
+  const explore='[data-action="explore-khmer-place"]';
+  for (const id of ids) {
+    await click('.md-site-strip [data-place-id="'+id+'"]');
+    const title=await evaluate("document.querySelector('.md-featured-title h3').textContent");
+    await evaluate(`document.querySelector(${JSON.stringify(explore)}).focus();document.querySelector(${JSON.stringify(explore)}).click()`);
+    await wait("document.querySelector('.md-khmer-place-dialog')?.open",id+' details');
+    await check(`document.querySelector('#md-dialog-title').textContent===${JSON.stringify(title)} && document.querySelector('.md-site-paragraphs').children.length===3 && document.querySelector('.md-site-highlight-grid').children.length===3 && document.querySelectorAll('[data-related-place]').length===3 && document.activeElement.closest('dialog')!==null`,id+' has expanded content, observation prompts, related places and dialog focus');
+    const count=await evaluate("document.querySelectorAll('.md-site-thumbnails button').length");
+    assert.ok(count>=3);
+    for(let n=1;n<=count;n++) {
+      await click('.md-site-thumbnails button:nth-child('+n+')');
+      await wait("document.querySelector('.md-site-main-image').complete && document.querySelector('.md-site-main-image').naturalWidth>0",id+' photograph '+n);
+      await check("document.querySelector('.md-site-photo-caption strong').textContent.length>5 && document.querySelector('.md-site-photo-caption a').href.startsWith('https://')",id+' photo '+n+' has a caption and source');
+    }
+    await click('[aria-label="Ảnh tiếp theo của điểm đến"]');
+    await check("document.querySelector('.md-site-thumbnails button:first-child').getAttribute('aria-pressed')==='true'",id+' gallery wraps forward');
+    await click('[aria-label="Ảnh trước của điểm đến"]');
+    await check("document.querySelector('.md-site-thumbnails button:last-child').getAttribute('aria-pressed')==='true'",id+' gallery wraps backwards');
+    if(['memorial','performing','daily-life'].includes(id)) await shot('khmer-place-'+id);
+    await escape();await wait("!document.querySelector('dialog')",id+' closes');
+    await check(`document.activeElement===document.querySelector(${JSON.stringify(explore)})`,id+' restores focus to the detail action');
+  }
+  await click('.md-site-strip [data-place-id="archaeology"]');await click(explore);
+  await check("document.querySelector('.md-site-paragraphs').textContent.includes('Bảo tàng tỉnh Vĩnh Long') && document.querySelector('.md-site-paragraphs').textContent.includes('không khẳng định')", 'archaeology distinguishes regional treasure custody from this museum display');
+  await click('[data-related-place="manuscripts"]');await wait("!document.querySelector('dialog')",'related topic selected');
+  await check("document.querySelector('.md-featured-site').dataset.selectedPlace==='manuscripts'",'related place returns to its synchronized introduction');
+  await click('.md-view-all');await wait("document.querySelector('.md-dialog-places')?.open",'place directory');
+  await check("document.querySelectorAll('.md-place-directory-results button').length===16",'directory lists all points');
+  await click('[data-directory-zone="upper"]');
+  await check("document.querySelectorAll('.md-place-directory-results button').length===7",'directory area filter selects seven upstairs topics');
+  const enterQuery=async query=>evaluate(`const input=document.querySelector('.md-search-field input');const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set;setter.call(input,${JSON.stringify(query)});input.dispatchEvent(new Event('input',{bubbles:true}));`);
+  await enterQuery('ngu am');
+  await wait("document.querySelectorAll('.md-place-directory-results button').length===1",'accent-insensitive Vietnamese search');
+  await check("document.querySelector('.md-place-directory-results button').dataset.directoryPlace==='performing'",'unaccented query finds Pinpeat performing arts');
+  await enterQuery('khongco123');
+  await check("document.querySelector('.md-place-empty') && document.querySelectorAll('.md-place-directory-results button').length===0",'directory handles an empty search');
+  await enterQuery('pinpeat');await wait("document.querySelectorAll('.md-place-directory-results button').length===1",'English keyword search');
+  await click('[data-directory-place="performing"]');await wait("!document.querySelector('dialog')",'directory selected point');
+  await check("document.querySelector('.md-featured-site').dataset.selectedPlace==='performing'",'directory selection updates area, feature and strip');
+  await section('overview');await section('map');
+  await check("document.querySelector('.md-featured-site').dataset.selectedPlace==='performing'",'selected place survives screen navigation');
+  await click(explore);
+  for (const [width,height] of [[1920,1080],[1440,600],[768,1024],[390,844],[320,568],[844,390]]) {
+    await viewport(width,height);await sleep(150);
+    await check("const r=document.querySelector('.md-dialog-site').getBoundingClientRect(),content=document.querySelector('.md-site-explorer');Math.abs(r.left-(innerWidth-r.right))<1 && r.left>=11 && r.top>=0 && r.bottom<=innerHeight+1 && content.scrollWidth<=content.clientWidth+1",width+'x'+height+' Khmer explorer is centred without overflow');
+    if(width>=1024)await check("Math.abs(document.querySelector('.md-dialog-site').getBoundingClientRect().left-100)<1",width+'px explorer retains 100px side margins');
+    await evaluate("const content=document.querySelector('.md-site-explorer');content.scrollTop=content.scrollHeight");
+    await check("const r=document.querySelector('.md-dialog-close').getBoundingClientRect();r.top>=0 && r.bottom<=innerHeight && document.querySelector('.md-dialog-close').contains(document.elementFromPoint(r.left+r.width/2,r.top+r.height/2))",width+'px close control remains reachable while reading');
+    await evaluate("document.querySelector('.md-site-explorer').scrollTop=0");await shot('khmer-place-dialog-'+width);
+  }
+  await escape();
+  for (const [width,height] of [[1440,600],[390,844],[320,568],[844,390],[667,375]]) {
+    await viewport(width,height);await section('map');
+    for(const id of ids) {
+      await click('.md-site-strip [data-place-id="'+id+'"]');
+      await check("const panel=document.querySelector('.md-featured-site').getBoundingClientRect(),cta=document.querySelector('[data-action=\"explore-khmer-place\"]').getBoundingClientRect(),tags=document.querySelector('.md-featured-tags').getBoundingClientRect(),copy=document.querySelector(innerWidth<1000?'.md-site-preview':'.md-site-long-description').getBoundingClientRect();cta.bottom<=panel.bottom+1&&copy.bottom<=tags.top+1&&tags.bottom<=cta.top+1",width+'x'+height+' '+id+' has readable copy and separate, reachable controls');
+    }
+  }
+  for (const [width,height] of [[1920,1080],[1440,600],[1024,768],[768,1024],[390,844],[320,568],[844,390],[667,375]]) {
+    await viewport(width,height);await section('map');
+    for(const zone of ['landscape','grounds','ground','upper']) {
+      await click('[data-place-zone="'+zone+'"]');await sleep(100);
+      await check("const section=document.querySelector('.md-section:not([hidden])'),s=section.getBoundingClientRect(),panel=document.querySelector('.md-featured-site').getBoundingClientRect(),action=document.querySelector('[data-action=\"explore-khmer-place\"]').getBoundingClientRect();section.scrollHeight<=section.clientHeight+1&&section.scrollWidth<=section.clientWidth+1&&action.bottom<=panel.bottom+1&&action.right<=panel.right+1&&s.top>=0&&s.bottom<=innerHeight",width+'x'+height+' '+zone+' fits one full screen and keeps its detail action');
+      await check("[...document.querySelectorAll('.md-places-topic,.md-places-geo-pin')].every(node=>{const r=node.getBoundingClientRect(),p=node.closest('.md-map-stage').getBoundingClientRect(),track=node.closest('.md-places-topic-plan');return r.top>=p.top-1&&r.bottom<=p.bottom+1&&(track&&getComputedStyle(track).overflowX==='auto'||r.left>=p.left-1&&r.right<=p.right+1)})",width+'x'+height+' '+zone+' keeps markers within the stage or its horizontal topic track');
+      if (width<1000 && zone!=='landscape') {
+        await evaluate("const track=document.querySelector('.md-places-topic-plan');track.scrollLeft=track.scrollWidth");
+        await check("const track=document.querySelector('.md-places-topic-plan'),last=track.lastElementChild.getBoundingClientRect(),r=track.getBoundingClientRect();last.right<=r.right+1 && last.left>=r.left-1",width+'px '+zone+' last topic remains reachable by horizontal scrolling');
+      }
+    }
+    await shot('khmer-places-fit-'+width+'x'+height);
+  }
+  await viewport(1440,960);await click('.md-site-strip [data-place-id="entrance"]');await section('map');await shot('desktop-map');
+}
+
 async function main() {
   fs.mkdirSync(profile, { recursive: true }); fs.mkdirSync(path.join(root, 'preview'), { recursive: true });
   chrome = spawn(process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', ['--headless=new', '--no-first-run', '--no-default-browser-check', '--disable-background-networking', '--remote-debugging-port=0', `--user-data-dir=${profile}`, 'about:blank'], { windowsHide: true, stdio: 'ignore' });
@@ -376,6 +475,7 @@ async function main() {
   if (process.argv.includes('--khmer-overview-only')) { await khmerOverviewChecks(); assert.deepEqual(missing, []); assert.deepEqual(exceptions, []); return; }
   if (process.argv.includes('--gallery-only')) { await galleryStripChecks(); assert.deepEqual(missing, []); assert.deepEqual(exceptions, []); return; }
   if (process.argv.includes('--timeline-only')) { await timelineChecks(); assert.deepEqual(missing, []); assert.deepEqual(exceptions, []); return; }
+  if (process.argv.includes('--places-only')) { await khmerPlacesChecks(); assert.deepEqual(missing, []); assert.deepEqual(exceptions, []); return; }
   if (process.argv.includes('--capture-only')) {
     for (const name of ['overview', 'map', 'timeline', 'tour', 'exhibitions']) { await section(name); await shot('desktop-' + name); }
     return;
@@ -464,54 +564,7 @@ async function main() {
   assert.equal(await evaluate("document.querySelector('.md-hero-art').src"), initialHeroPhoto);
   await click('.md-chapter-dock button:nth-child(2)');
   await check("!document.getElementById('museo-map').hidden && document.getElementById('museo-hero').hidden", 'chapter dock selects the entire map screen');
-  await click('.md-map-pin:nth-child(2)');
-  await check("document.querySelector('.md-featured-title h3').innerText==='Lascaux' && document.querySelector('.md-site-strip button:nth-child(2)').getAttribute('aria-pressed')==='true'", 'map markers synchronize the featured site and site strip');
-  const exploreButton = '.md-featured-content .md-button';
-  await evaluate(`document.querySelector(${JSON.stringify(exploreButton)}).focus();document.querySelector(${JSON.stringify(exploreButton)}).click()`);
-  await wait("document.querySelector('.md-dialog-site')?.open", 'site explorer opens');
-  await check("document.activeElement.closest('dialog') && document.querySelector('#md-dialog-title').innerText==='Lascaux'", 'site explorer shows the selected location and receives focus');
-  await check("const rect=document.querySelector('.md-dialog-site').getBoundingClientRect();Math.abs(rect.left-100)<1 && Math.abs(innerWidth-rect.right-100)<1 && Math.abs(rect.top-(innerHeight-rect.bottom))<1", 'site explorer is centered with 100px desktop side margins');
-  await check("document.querySelectorAll('.md-site-thumbnails button').length===4 && document.querySelectorAll('.md-site-paragraphs p').length===3 && document.querySelectorAll('.md-site-highlight-grid section').length===3", 'site explorer includes a photo gallery and expanded location content');
-  await wait("document.querySelector('.md-site-main-image').complete && document.querySelector('.md-site-main-image').naturalWidth>0", 'site explorer photograph loads');
-  await shot('explore-site-lascaux');
-  const firstSitePhoto = await evaluate("document.querySelector('.md-site-main-image').src");
-  await click('[aria-label="Next site photo"]');
-  assert.notEqual(await evaluate("document.querySelector('.md-site-main-image').src"), firstSitePhoto);
-  await check("document.querySelector('.md-site-thumbnails button:nth-child(2)').getAttribute('aria-pressed')==='true' && document.querySelector('.md-site-photo-caption strong').innerText.includes('antlered')", 'site gallery arrow synchronizes photograph, caption and thumbnail');
-  await click('[aria-label="Previous site photo"]');
-  assert.equal(await evaluate("document.querySelector('.md-site-main-image').src"), firstSitePhoto);
-  await click('[aria-label="Previous site photo"]');
-  await check("document.querySelector('.md-site-thumbnails button:last-child').getAttribute('aria-pressed')==='true'", 'site gallery previous arrow wraps to the last photograph');
-  await click('.md-site-thumbnails button:nth-child(3)');
-  await check("document.querySelector('.md-site-main-image').src.includes('detail-lascaux-painting') && document.querySelector('.md-site-photo-caption a').href.includes('commons.wikimedia.org')", 'site thumbnails select the image and show its source attribution');
-  await escape(); await wait("!document.querySelector('dialog')", 'site explorer closes on Escape');
-  await check(`document.activeElement===document.querySelector(${JSON.stringify(exploreButton)})`, 'site explorer restores focus to Explore Site');
-  for (const [index, name] of ['Chauvet Cave', 'Lascaux', 'Altamira', 'Olduvai Gorge', 'Blombos Cave'].entries()) {
-    await click('.md-site-strip button:nth-child(' + (index + 1) + ')');
-    await click(exploreButton); await wait("document.querySelector('.md-dialog-site')?.open", name + ' details open');
-    assert.equal(await evaluate("document.querySelector('#md-dialog-title').innerText"), name);
-    for (let photo = 1; photo <= 4; photo++) {
-      await click('.md-site-thumbnails button:nth-child(' + photo + ')');
-      await wait("document.querySelector('.md-site-main-image').complete && document.querySelector('.md-site-main-image').naturalWidth>0", name + ' photo ' + photo + ' loads');
-    }
-    await click('.md-site-thumbnails button:first-child');
-    await shot('explore-site-' + name.toLowerCase().replaceAll(' ', '-'));
-    await click('.md-dialog-close'); await wait("!document.querySelector('dialog')", name + ' details close');
-  }
-  console.log('PASS all five site explorers and all 20 gallery images');
-  await click('.md-site-strip button:nth-child(2)'); await click(exploreButton);
-  for (const width of [1920, 1807, 768, 390, 320]) {
-    await viewport(width, 960); await sleep(150);
-    await check("const rect=document.querySelector('.md-dialog-site').getBoundingClientRect(),content=document.querySelector('.md-site-explorer');Math.abs(rect.left-(innerWidth-rect.right))<1 && rect.left>=11 && content.scrollWidth<=content.clientWidth+1", width + 'px site dialog is centered without horizontal overflow');
-    if (width >= 1024) await check("Math.abs(document.querySelector('.md-dialog-site').getBoundingClientRect().left-100)<1", width + 'px site dialog keeps 100px side margins');
-    await evaluate("document.querySelector('.md-site-explorer').scrollTop=0");
-    await shot('explore-site-' + width);
-    await evaluate("const content=document.querySelector('.md-site-explorer');content.scrollTop=content.scrollHeight");
-    await check("const rect=document.querySelector('.md-dialog-close').getBoundingClientRect();rect.top>=0 && rect.bottom<=innerHeight", width + 'px close button remains visible while content scrolls');
-  }
-  await click('.md-site-footer button'); await wait("!document.querySelector('dialog')", 'Back to Map closes the explorer');
-  await viewport(1440);
-  await click('.md-site-strip button:first-child'); await section('map'); await shot('desktop-map');
+  await khmerPlacesChecks();
   await section('overview'); await click('.md-chamber-caption button:last-child');
   await check("document.querySelector('.md-chamber-caption strong').innerText==='ĐỜI SỐNG THƯỜNG NHẬT'", 'museum gallery synchronizes image and caption');
   await click('.md-chamber-caption button:first-child'); await shot('desktop-overview');
@@ -611,8 +664,8 @@ async function main() {
   await check("document.querySelectorAll('.md-exhibition-card').length===2", 'Environment filter shows its two exhibitions');
   await click('.md-filters>button:first-child'); await shot('desktop-exhibitions');
   await section('map'); await click('.md-view-all'); await wait("document.querySelector('dialog')?.open", 'search opens');
-  await evaluate("const input=document.querySelector('.md-search-field input');const set=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set;set.call(input,'Chauvet');input.dispatchEvent(new Event('input',{bubbles:true}));");
-  await wait("document.querySelectorAll('.md-search-results>button').length===1", 'search filters the museum content');
+  await evaluate("const input=document.querySelector('.md-search-field input');const set=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set;set.call(input,'ngu am');input.dispatchEvent(new Event('input',{bubbles:true}));");
+  await wait("document.querySelectorAll('.md-place-directory-results>button').length===1", 'directory search filters Khmer cultural topics');
   await escape();
   for (const width of [390, 320, 768]) {
     await viewport(width, 844); await section('hero'); await shot('hero-' + width);

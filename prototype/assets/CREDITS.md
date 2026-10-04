@@ -45,3 +45,20 @@ Lời nội dung được biên soạn từ kịch bản trong `tai-lieu-de-tai/
 | `khmer-visitors.jpg` | Khách tham quan các mô hình và hiện vật, ảnh số 5 trong cùng bài. |
 
 Nội dung section dựa trên tài liệu `btvhkm.docx` do người dùng cung cấp; các liên kết nguồn đối chiếu, chú thích và bản dịch được lưu trong `src/features/museo-detail/khmerOverview.ts`. Bản đồ thu nhỏ tái sử dụng các tile Esri đã có trong dự án, đặt ghim theo tọa độ bảo tàng trong danh sách địa điểm.
+
+## Ảnh section Không gian di sản Bảo tàng Văn hóa Khmer
+
+Các ảnh mới giữ nguyên byte và watermark nguồn, lưu trong `src/assets/museo/`. Chú thích, tên tác giả và liên kết bài nguồn nằm trong `khmerPlaces.ts`, hiển thị bên dưới từng ảnh trong cửa sổ chi tiết. Các trang không cung cấp giấy phép mở.
+
+| Tệp | Nội dung / tác giả / nguồn |
+| --- | --- |
+| `khmer-facade-2023.jpg`, `khmer-roof.jpg`, `khmer-exhibition.jpg` | Mặt tiền, mái và không gian tín ngưỡng. Hoàng Giám, [VietNamNet, 18/10/2023](https://vietnamnet.vn/800-hien-vat-tu-lieu-co-truyen-cua-dong-bao-khmer-o-tra-vinh-2203450.html), ảnh 1–3. |
+| `khmer-hall.jpg`, `khmer-village.jpg`, `khmer-clothing.jpg` | Mô hình Chhay-dăm (tên tệp hall là tên kỹ thuật), phum sóc và trang phục. Cùng bài, ảnh 4–6. |
+| `khmer-preaching-chair.jpg`, `khmer-duke.jpg`, `khmer-ngo-model.jpg` | Ghế thuyết pháp, sân khấu Dù kê và mô hình Ghe Ngo trong nhà. Cùng bài, ảnh 7–9. |
+| `khmer-farm-tools.jpg`, `khmer-kitchen.jpg`, `khmer-fishing.jpg` | Nông cụ, gian bếp và ngư cụ. Cùng bài, ảnh 10–12. |
+| `khmer-sandstone.jpg`, `khmer-buddha.jpg`, `khmer-mask.jpg`, `khmer-ensemble.jpg` | Hiện vật sa thạch Lưu Nghiệp Anh, tượng Phật, mặt nạ và dàn ngũ âm. Cùng bài, ảnh 13–16. |
+| `khmer-memorial.png`, `khmer-memorial-khmer.png`, `khmer-memorial-vietnamese.png` | Tháp Maha Sơn Thông và hai mặt văn bia. Huỳnh Như, [Bảo tàng Vĩnh Long, 22/12/2025](https://baotangvinhlong.vn/su-kien-noi-bat/thap-tuong-niem-cu-maha-son-thong-vi-lao-thanh-cach-mang-nguoi-khmer-587169), ảnh `mst2.png`, `mst3.png`, `mst4.png` từ storage-vnportal.vnpt.vn. |
+
+Ảnh `khmer-temple-model.jpg` tái sử dụng từ tư liệu 2014 đã ghi nguồn ở trên. Ảnh `ao-ba-om/pond.webp`, `roots.webp` và `ang-pagoda.webp` tái sử dụng theo mục Ao Bà Om. Không dùng ảnh mô hình chùa làm ảnh kinh lá buông, ảnh Ghe Ngo thu nhỏ làm ảnh ghe thật, hoặc ảnh cây bên ao làm ảnh sân bảo tàng.
+
+Nội dung được biên soạn từ bản tổng hợp người dùng gửi ngày 04/10/2026 và đối chiếu các bài nguồn. Bản đồ quần thể dùng tọa độ có sẵn của ba địa điểm; các sơ đồ còn lại là sơ đồ chủ đề, không suy ra mặt bằng khảo sát từ tư liệu văn bản.

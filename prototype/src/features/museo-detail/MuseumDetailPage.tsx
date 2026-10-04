@@ -27,8 +27,14 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { artwork, eras, exhibitions, scenes, sites } from "./data";
-import { SiteExplorer } from "./SiteExplorer";
+import { artwork, eras, exhibitions, scenes } from "./data";
+import { KhmerMuseumPlaces } from "./KhmerMuseumPlaces";
+import { KhmerPlaceExplorer, KhmerPlaceDirectory } from "./KhmerPlaceExplorer";
+import {
+  khmerPlaces,
+  khmerPlacePhotos,
+  normalizePlaceQuery,
+} from "./khmerPlaces";
 import { TourPhotoDrawer } from "./TourPhotoDrawer";
 import { TourGalleryStrip } from "./TourGalleryStrip";
 import { KhmerMuseumOverview, KhmerOverviewStory } from "./KhmerMuseumOverview";
@@ -41,12 +47,20 @@ import {
 import "./museo.css";
 import "./screen-layout.css";
 import "./khmer-overview.css";
+import "./khmer-places.css";
 
 type Section = MuseumSection;
 type Modal = {
-  kind: "search" | "visit" | "tour" | "story" | "site" | "overview";
+  kind:
+    | "search"
+    | "visit"
+    | "tour"
+    | "story"
+    | "place"
+    | "place-index"
+    | "overview";
   overviewTopic?: KhmerOverviewTopic;
-  siteIndex?: number;
+  placeId?: string;
   title?: string;
   text?: string;
   photo?: string;
@@ -125,26 +139,28 @@ function MuseumDialog({
     return () => window.clearInterval(interval);
   }, [playing]);
   const results = [
-    ...sites.map((site) => ({
-      name: site.name,
-      description: site.region,
+    ...khmerPlaces.map((place) => ({
+      name: place.title[lang],
+      description: place.short[lang],
       section: "map" as Section,
-      photo: site.photo,
+      photo: khmerPlacePhotos[place.gallery[0]].src,
+      item: place.id,
     })),
     ...exhibitions.map((item) => ({
       name: item.title,
       description: item.description,
       section: "exhibitions" as Section,
-      photo: item.photo,
+      photo: artwork(item.photo),
+      item: item.title,
     })),
   ].filter((item) =>
-    `${item.name} ${item.description}`
-      .toLowerCase()
-      .includes(query.toLowerCase()),
+    normalizePlaceQuery(`${item.name} ${item.description}`).includes(
+      normalizePlaceQuery(query),
+    ),
   );
   return (
     <dialog
-      className={`md-dialog${modal.kind === "tour" ? " md-dialog-tour" : ""}${modal.kind === "site" ? " md-dialog-site" : ""}${modal.kind === "overview" ? " md-dialog-overview" : ""}`}
+      className={`md-dialog${modal.kind === "tour" ? " md-dialog-tour" : ""}${modal.kind === "place" ? " md-dialog-site md-khmer-place-dialog" : ""}${modal.kind === "place-index" ? " md-dialog-site md-dialog-places" : ""}${modal.kind === "overview" ? " md-dialog-overview" : ""}`}
       ref={dialog}
       aria-labelledby="md-dialog-title"
       onCancel={close}
@@ -157,7 +173,8 @@ function MuseumDialog({
           className="md-dialog-close"
           type="button"
           aria-label={
-            modal.kind === "overview" && lang === "vi"
+            ["overview", "place", "place-index"].includes(modal.kind) &&
+            lang === "vi"
               ? "Đóng thông tin bảo tàng"
               : "Close dialog"
           }
@@ -165,8 +182,25 @@ function MuseumDialog({
         >
           <X />
         </button>
-        {modal.kind === "site" && (
-          <SiteExplorer site={sites[modal.siteIndex ?? 0]} close={close} />
+        {modal.kind === "place" && (
+          <KhmerPlaceExplorer
+            placeId={modal.placeId ?? "entrance"}
+            lang={lang}
+            close={close}
+            onSelect={(id) => {
+              close();
+              navigate("map", id);
+            }}
+          />
+        )}
+        {modal.kind === "place-index" && (
+          <KhmerPlaceDirectory
+            lang={lang}
+            onSelect={(id) => {
+              close();
+              navigate("map", id);
+            }}
+          />
         )}
         {modal.kind === "overview" && (
           <KhmerOverviewStory
@@ -176,15 +210,27 @@ function MuseumDialog({
         )}
         {modal.kind === "search" && (
           <>
-            <span className="md-eyebrow">DISCOVER MUSEO</span>
-            <h2 id="md-dialog-title">Search the museum</h2>
+            <span className="md-eyebrow">
+              {lang === "vi" ? "KHÁM PHÁ BẢO TÀNG" : "EXPLORE THE MUSEUM"}
+            </span>
+            <h2 id="md-dialog-title">
+              {lang === "vi" ? "Tìm trong bảo tàng" : "Search the museum"}
+            </h2>
             <label className="md-search-field">
               <Search />
               <input
                 autoFocus
                 type="search"
-                aria-label="Search sites and exhibitions"
-                placeholder="Sites, art, exhibitions…"
+                aria-label={
+                  lang === "vi"
+                    ? "Tìm điểm đến và trưng bày"
+                    : "Search places and exhibitions"
+                }
+                placeholder={
+                  lang === "vi"
+                    ? "Điểm đến, chủ đề, trưng bày…"
+                    : "Places, topics, exhibitions…"
+                }
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
               />
@@ -197,10 +243,10 @@ function MuseumDialog({
                     type="button"
                     onClick={() => {
                       close();
-                      navigate(result.section, result.name);
+                      navigate(result.section, result.item);
                     }}
                   >
-                    <img src={artwork(result.photo)} alt="" />
+                    <img src={result.photo} alt="" />
                     <span>
                       <strong>{result.name}</strong>
                       <small>{result.description}</small>
@@ -209,7 +255,11 @@ function MuseumDialog({
                   </button>
                 ))
               ) : (
-                <p>No results. Try “Chauvet”, “art” or “tools”.</p>
+                <p>
+                  {lang === "vi"
+                    ? "Chưa có kết quả. Thử tìm “Chùa Âng”, “ngũ âm” hoặc “hiện vật”."
+                    : "No results. Try “Ang Pagoda”, “Pinpeat” or “objects”."}
+                </p>
               )}
             </div>
           </>
@@ -365,7 +415,7 @@ export function MuseumDetailPage({
 }: Props) {
   const viewport = useRef<HTMLDivElement>(null);
   const [heroSlide, setHeroSlide] = useState(0);
-  const [selectedSite, setSelectedSite] = useState(0);
+  const [selectedPlaceId, setSelectedPlaceId] = useState("entrance");
   const [selectedEra, setSelectedEra] = useState(0);
   const [selectedScene, setSelectedScene] = useState(0);
   const [filter, setFilter] = useState("All");
@@ -382,8 +432,10 @@ export function MuseumDetailPage({
   const changed = () => onContentChange?.();
   const navigate = (section: Section, item?: string) => {
     if (item && section === "map") {
-      const index = sites.findIndex((site) => site.name === item);
-      if (index >= 0) setSelectedSite(index);
+      const place = khmerPlaces.find(
+        (point) => point.id === item || point.title[lang] === item,
+      );
+      if (place) setSelectedPlaceId(place.id);
     }
     if (item && section === "exhibitions") setFilter("All");
     showSection(section);
@@ -392,7 +444,6 @@ export function MuseumDetailPage({
     changed();
     setModal(value);
   };
-  const site = sites[selectedSite];
   const era = eras[selectedEra];
   const filteredExhibitions = exhibitions.filter(
     (item) => filter === "All" || item.category === filter,
@@ -599,174 +650,17 @@ export function MuseumDetailPage({
             onContentChange={changed}
           />
 
-          <section
-            className="md-section md-map-section md-framed"
-            id="museo-map"
-            hidden={activeSection !== "map"}
-            tabIndex={-1}
-            aria-labelledby="md-map-title"
-          >
-            <div className="md-frame">
-              <div className="md-map-body">
-                <div className="md-map-stage">
-                  <img
-                    className="md-world-map"
-                    src={artwork("world-map")}
-                    alt="Map of prehistoric sites across the world"
-                    loading="lazy"
-                  />
-                  <div className="md-map-copy">
-                    <span className="md-eyebrow">EXPLORE</span>
-                    <h2 className="md-display" id="md-map-title">
-                      INTERACTIVE
-                      <br />
-                      MAP
-                    </h2>
-                    <p className="md-eyebrow">EXPLORE EARLY HUMAN SITES</p>
-                    <p className="md-mono">
-                      Discover key archaeological sites around the world. <br />
-                      Explore artifacts, cave art and fossil evidence that{" "}
-                      <br />
-                      reveal the story of early humans.
-                    </p>
-                  </div>
-                  <div
-                    className="md-map-pins"
-                    aria-label="Choose an archaeological site"
-                  >
-                    {sites.map((item, index) => (
-                      <button
-                        key={item.name}
-                        type="button"
-                        className={`md-map-pin${selectedSite === index ? " is-selected" : ""}`}
-                        style={{ left: `${item.x}%`, top: `${item.y}%` }}
-                        aria-label={`Explore ${item.name}`}
-                        aria-pressed={selectedSite === index}
-                        onClick={() => {
-                          changed();
-                          setSelectedSite(index);
-                        }}
-                      >
-                        <span />
-                        <span className="md-map-pin-tooltip">{item.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <article className="md-featured-site">
-                  <img
-                    className="md-featured-photo"
-                    src={artwork(site.featured)}
-                    alt={`Prehistoric artwork at ${site.name}`}
-                    loading="lazy"
-                  />
-                  <div className="md-featured-top">
-                    <span className="md-eyebrow">FEATURED SITE</span>
-                    <div>
-                      <RoundButton
-                        label="Previous featured site"
-                        onClick={() => {
-                          changed();
-                          setSelectedSite(
-                            (selectedSite + sites.length - 1) % sites.length,
-                          );
-                        }}
-                      >
-                        <ChevronLeft />
-                      </RoundButton>
-                      <RoundButton
-                        label="Next featured site"
-                        filled
-                        onClick={() => {
-                          changed();
-                          setSelectedSite((selectedSite + 1) % sites.length);
-                        }}
-                      >
-                        <ChevronRight />
-                      </RoundButton>
-                    </div>
-                  </div>
-                  <div className="md-featured-content">
-                    <div className="md-featured-title">
-                      <div>
-                        <h3>{site.name}</h3>
-                        <span className="md-eyebrow">{site.region}</span>
-                      </div>
-                      <small>
-                        {site.age}
-                        <br />
-                        YEARS AGO
-                      </small>
-                    </div>
-                    <p className="md-mono md-site-long-description">
-                      {site.description}
-                    </p>
-                    <p className="md-mono md-site-preview">{site.preview}</p>
-                    <div className="md-featured-tags">
-                      <span>
-                        <Hand />
-                        CAVE ART
-                      </span>
-                      <span>
-                        <Mountain />
-                        PALEOLITHIC
-                      </span>
-                      <span>
-                        <Sparkles />
-                        ANIMAL FIGURES
-                      </span>
-                    </div>
-                    <button
-                      className="md-button"
-                      type="button"
-                      onClick={() =>
-                        openModal({ kind: "site", siteIndex: selectedSite })
-                      }
-                    >
-                      EXPLORE SITE <ArrowRight />
-                    </button>
-                  </div>
-                </article>
-              </div>
-              <div className="md-notable-sites">
-                <h3 className="md-eyebrow">
-                  NOTABLE
-                  <br />
-                  SITES
-                </h3>
-                <div className="md-site-strip">
-                  {sites.map((item, index) => (
-                    <button
-                      key={item.name}
-                      className={index === selectedSite ? "is-selected" : ""}
-                      type="button"
-                      aria-pressed={index === selectedSite}
-                      onClick={() => {
-                        changed();
-                        setSelectedSite(index);
-                      }}
-                    >
-                      <img src={artwork(item.photo)} alt="" loading="lazy" />
-                      <strong>{item.name}</strong>
-                      <small>
-                        {item.country.toUpperCase()} <i>·</i> {item.period}
-                      </small>
-                    </button>
-                  ))}
-                </div>
-                <button
-                  className="md-view-all"
-                  type="button"
-                  onClick={() => openModal({ kind: "search" })}
-                >
-                  VIEW ALL <ArrowRight />
-                  <span className="md-round">
-                    <ChevronRight />
-                  </span>
-                </button>
-              </div>
-            </div>
-          </section>
+          <KhmerMuseumPlaces
+            lang={lang}
+            active={activeSection === "map"}
+            selectedId={selectedPlaceId}
+            onSelect={(id) => {
+              changed();
+              setSelectedPlaceId(id);
+            }}
+            onExplore={(placeId) => openModal({ kind: "place", placeId })}
+            onDirectory={() => openModal({ kind: "place-index" })}
+          />
 
           <section
             className="md-section md-timeline md-framed"
