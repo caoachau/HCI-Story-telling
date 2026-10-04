@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { HeritageSite } from '../data/heritageSites';
 import { soundscape, narrateStory, stopNarration } from '../services/soundscape';
 import { formatCoordinates } from '../utils/geoCoordinates';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
+import { BaDongEditorial } from './BaDongEditorial';
+import { ConChimZipDetail } from './ConChimZipDetail';
+import { AoBaOmEditorial } from './AoBaOmEditorial';
+
+const MuseumDetailPage = lazy(() => import('../features/museo-detail/MuseumDetailPage').then(module => ({ default: module.MuseumDetailPage })));
 import {
   Volume2,
   VolumeX,
@@ -78,6 +83,12 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
     setCurrentSubtitle('');
   }, [site]);
 
+  useEffect(() => {
+    stopNarration();
+    setIsNarrating(false);
+    setCurrentSubtitle('');
+  }, [lang]);
+
   // Ambient Soundscape toggle
   const handleToggleSoundscape = () => {
     const playing = soundscape.toggle(site.soundscapeType);
@@ -92,8 +103,11 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
       setCurrentSubtitle('');
     } else {
       const chapter = site.chapters[selectedChapterIdx];
-      const textToRead =
-        lang === 'vi'
+      const textToRead = site.id === 'bien-ba-dong' || site.id === 'con-chim' || site.id === 'ao-ba-om'
+        ? site.chapters.map((item) => lang === 'vi'
+          ? `${item.title}. ${item.summary}. ${item.details}`
+          : `${item.englishTitle}. ${item.englishSummary}. ${item.englishDetails}`).join(' ')
+        : lang === 'vi'
           ? `${chapter.title}. ${chapter.summary}. ${chapter.details}`
           : `${chapter.englishTitle}. ${chapter.englishSummary}. ${chapter.englishDetails}`;
 
@@ -117,6 +131,77 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
   };
 
   const coords = formatCoordinates(site.lat, site.lng);
+
+  if (site.id === 'bao-tang-khmer') {
+    return <Suspense fallback={<div className="flex h-full items-center justify-center bg-[#100f0c] text-stone-300" role="status">{lang === 'vi' ? 'Đang mở bảo tàng…' : 'Loading museum…'}</div>}>
+      <MuseumDetailPage
+        lang={lang}
+        onClose={onClose}
+        isExpanded={isExpanded}
+        isSidebarWide={isSidebarWide}
+        onToggleExpanded={onToggleExpanded}
+        onToggleSidebarWide={onToggleSidebarWide}
+        onOpenQRCode={onOpenQRCode}
+        onContentChange={onContentChange}
+      />
+    </Suspense>;
+  }
+
+  if (site.id === 'ao-ba-om') {
+    return <AoBaOmEditorial
+      site={site}
+      onOpenArtifactModal={onOpenArtifactModal}
+      lang={lang}
+      onToggleLang={onToggleLang}
+      isExpanded={isExpanded}
+      isSidebarWide={isSidebarWide}
+      onToggleExpanded={onToggleExpanded}
+      onToggleSidebarWide={onToggleSidebarWide}
+      onClose={onClose}
+      onOpenQRCode={onOpenQRCode}
+      onOpenPanorama360={onOpenPanorama360}
+      onToggleSoundscape={handleToggleSoundscape}
+      isSoundscapePlaying={isSoundscapePlaying}
+      onToggleNarration={handleToggleNarration}
+      isNarrating={isNarrating}
+      subtitle={currentSubtitle}
+      onContentChange={onContentChange}
+    />;
+  }
+
+  if (site.id === 'bien-ba-dong') {
+    return <BaDongEditorial
+      site={site}
+      lang={lang}
+      isExpanded={isExpanded}
+      isSidebarWide={isSidebarWide}
+      onToggleExpanded={onToggleExpanded}
+      onToggleSidebarWide={onToggleSidebarWide}
+      onClose={onClose}
+      onOpenQRCode={onOpenQRCode}
+      onOpenPanorama360={onOpenPanorama360}
+      onOpenArtifactModal={onOpenArtifactModal}
+      onToggleSoundscape={handleToggleSoundscape}
+      isSoundscapePlaying={isSoundscapePlaying}
+      onToggleNarration={handleToggleNarration}
+      isNarrating={isNarrating}
+      onContentChange={onContentChange}
+    />;
+  }
+
+  if (site.id === 'con-chim') {
+    return <ConChimZipDetail
+      lang={lang}
+      isExpanded={isExpanded}
+      isSidebarWide={isSidebarWide}
+      onToggleExpanded={onToggleExpanded}
+      onToggleSidebarWide={onToggleSidebarWide}
+      onClose={onClose}
+      onOpenQRCode={onOpenQRCode}
+      onOpenPanorama360={onOpenPanorama360}
+      onContentChange={onContentChange}
+    />;
+  }
 
   return (
     <div className={`relative w-full h-full flex flex-col bg-[#11141c]/95 text-stone-200 overflow-visible shadow-2xl backdrop-blur-xl ${isExpanded ? 'border-0' : 'border-l border-white/10'}`}>

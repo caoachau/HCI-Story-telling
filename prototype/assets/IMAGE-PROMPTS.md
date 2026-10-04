@@ -1,6 +1,6 @@
 # Xử lý ảnh nền Fly-to
 
-Công cụ: **imagegen tích hợp**, chế độ chỉnh sửa ảnh; không dùng CLI/API riêng. Giữ nguyên các tệp tham khảo gốc. Ảnh kết quả được sao chép vào thư mục `prototype/assets` để prototype hoạt động offline.
+Công cụ lúc tạo ảnh: **imagegen tích hợp**, chế độ chỉnh sửa ảnh. Prompt dưới đây ghi lại quá trình xử lý ban đầu. Khi dọn dự án, các tệp tham khảo và ảnh không dùng đã được xóa; `ao-ba-om-aerial.webp` là bản WebP lossless của PNG kết quả còn được ứng dụng sử dụng.
 
 ## `tra-vinh-aerial.png`
 

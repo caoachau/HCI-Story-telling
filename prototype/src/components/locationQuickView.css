@@ -1,0 +1,319 @@
+.heritage-story-panel[data-location-view="quick"] {
+  top: 16px;
+  right: 16px;
+  bottom: auto;
+  width: min(var(--story-panel-width), calc(100% - 32px));
+  height: min(640px, calc(100% - 32px));
+  overflow: hidden;
+  border-radius: 20px;
+}
+.lqv-root {
+  container: location-quick / inline-size;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid #c7ae7940;
+  border-radius: inherit;
+  background: #11151c;
+  color: #f4efe6;
+  font-family: var(--font-sans);
+  box-shadow: 0 18px 60px #0006;
+}
+.lqv-root button {
+  cursor: pointer;
+}
+.lqv-toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px 10px 18px;
+  border-bottom: 1px solid #c7ae791c;
+}
+.lqv-toolbar > span {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 1.1px;
+  color: #ceb58a;
+}
+.lqv-toolbar > div {
+  display: flex;
+  flex-shrink: 0;
+  gap: 4px;
+}
+.lqv-toolbar button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #c7ae7926;
+  border-radius: 50%;
+  color: #d4c8b2;
+  background: #ffffff04;
+}
+.lqv-toolbar button:hover {
+  color: #fff0d2;
+  border-color: #c7ae7966;
+  background: #c7ae7912;
+}
+.lqv-toolbar button svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 1.65;
+}
+.lqv-scroll {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #b8965b70 transparent;
+}
+.lqv-photo {
+  position: relative;
+  height: clamp(130px, 36cqw, 210px);
+  overflow: hidden;
+  background: linear-gradient(145deg, #343021, #14181d);
+}
+.lqv-photo > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.lqv-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 35%, #11151c8c);
+  pointer-events: none;
+}
+.lqv-category {
+  position: absolute;
+  bottom: 14px;
+  left: 18px;
+  z-index: 1;
+  border: 1px solid #e1c99736;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 11px;
+  color: #f1dfbb;
+  background: #11151cbf;
+}
+.lqv-photo-fallback {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #c7ae79;
+}
+.lqv-photo-fallback svg {
+  width: 42px;
+  height: 42px;
+  stroke-width: 1.25;
+}
+.lqv-photo-fallback span {
+  font-size: 12px;
+}
+.lqv-content {
+  padding: 18px;
+  user-select: text;
+}
+.lqv-content h2 {
+  margin: 0;
+  font-size: clamp(22px, 6cqw, 28px);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  overflow-wrap: anywhere;
+}
+.lqv-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b9b4a8;
+}
+.lqv-address svg {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  margin-top: 2px;
+  color: #c8a970;
+}
+.lqv-summary {
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #d9d4ca;
+}
+.lqv-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 18px 0 0;
+  padding: 16px 0;
+  border-block: 1px solid #c7ae7926;
+}
+.lqv-facts dt {
+  font-size: 11px;
+  color: #aba595;
+}
+.lqv-facts dd {
+  margin: 5px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #efdab4;
+}
+.lqv-highlights {
+  margin-top: 18px;
+}
+.lqv-highlights h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 650;
+  color: #e8dfcf;
+}
+.lqv-highlights ul {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+.lqv-highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+.lqv-highlights li svg {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  margin-top: 3px;
+  color: #b99a65;
+}
+.lqv-highlights p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #bfc0bb;
+}
+.lqv-footer {
+  flex: 0 0 auto;
+  padding: 12px 18px 16px;
+  border-top: 1px solid #c7ae7926;
+  background: #14181f;
+}
+.lqv-footer button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 16px;
+  border: 1px solid #e8b05760;
+  border-radius: 12px;
+  background: #a56920;
+  color: #fff3dc;
+  font-size: 14px;
+  font-weight: 650;
+}
+.lqv-footer button:hover {
+  background: #bb7a26;
+}
+.lqv-footer button svg {
+  width: 19px;
+  height: 19px;
+}
+.heritage-location-detail {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  color: inherit;
+  background: #100f0c;
+}
+.heritage-location-detail[hidden] {
+  display: none;
+}
+.heritage-utility-dialog {
+  position: fixed;
+  inset: 0;
+  width: 100dvw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.heritage-utility-dialog > div {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.heritage-utility-dialog[data-location-overlay="qr"] > div {
+  align-items: safe center;
+}
+.heritage-utility-dialog::backdrop {
+  background: #0009;
+}
+@container location-quick (min-width: 600px) {
+  .lqv-layout {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    min-height: 100%;
+  }
+  .lqv-photo {
+    position: sticky;
+    top: 0;
+    height: 100%;
+    min-height: 300px;
+  }
+  .lqv-content {
+    padding: 24px;
+  }
+}
+@media (max-width: 767px) {
+  .lqv-toolbar .lqv-width-toggle {
+    display: none;
+  }
+}
+@media (max-width: 639px) {
+  .heritage-story-panel[data-location-view="quick"] {
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+    height: min(580px, 82%);
+  }
+  .lqv-toolbar {
+    padding-left: 14px;
+  }
+  .lqv-content {
+    padding: 14px;
+  }
+  .lqv-footer {
+    padding: 10px 14px 12px;
+  }
+}

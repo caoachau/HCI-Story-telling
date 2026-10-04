@@ -16,6 +16,7 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({ site, lang, onClose })
       <div className="w-full max-w-md bg-[#121622] border border-amber-500/40 rounded-3xl p-6 md:p-8 shadow-2xl relative space-y-6">
         <button
           onClick={onClose}
+          aria-label={lang === 'vi' ? 'Đóng mã QR' : 'Close QR code'}
           className="absolute top-5 right-5 p-2 rounded-xl bg-white/5 hover:bg-white/10 text-stone-400 hover:text-white transition-all"
         >
           <X className="w-5 h-5" />

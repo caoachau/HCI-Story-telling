@@ -1,4 +1,7 @@
-@import "tailwindcss";
+@import "tailwindcss" source("./");
+@source "../index.html";
+@source "../ao-ba-om.html";
+@source "../con-chim.html";
 
 @layer base {
   :root {

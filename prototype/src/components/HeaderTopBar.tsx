@@ -14,6 +14,7 @@ import {
   CloudRain,
   CloudLightning,
   MoonStar,
+  Sparkles,
 } from 'lucide-react';
 import type { LocalWeather } from '../services/localWeather';
 import { weatherDescription } from '../services/localWeather';
@@ -35,6 +36,7 @@ interface HeaderTopBarProps {
   isReduceMotion?: boolean;
   onToggleReduceMotion?: () => void;
   weather?: LocalWeather | null;
+  onOpenMuseumKiosk?: () => void;
 }
 
 export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
@@ -54,6 +56,7 @@ export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
   isReduceMotion,
   onToggleReduceMotion,
   weather,
+  onOpenMuseumKiosk,
 }) => {
   const categories = [
     { id: 'all', label: lang === 'vi' ? 'Tất Cả' : 'All Sites' },
@@ -161,6 +164,18 @@ export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
         >
           {lang === 'vi' ? 'VI' : 'EN'}
         </button>
+
+        {/* 5-Part Museum Kiosk Display Button */}
+        {onOpenMuseumKiosk && (
+          <button
+            onClick={onOpenMuseumKiosk}
+            className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-600/80 via-amber-500/80 to-amber-600/80 hover:from-amber-500 hover:to-amber-400 text-black font-semibold border border-amber-300/40 text-xs font-mono transition-all flex items-center gap-1.5 shadow-md shadow-amber-900/30 min-h-[40px] cursor-pointer"
+            title={lang === 'vi' ? 'Mở Màn hình Kiosk Di sản 5 Phần (Bảo tàng số)' : 'Open 5-Part Digital Storytelling Kiosk'}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-black animate-spin-slow" />
+            <span className="hidden sm:inline">{lang === 'vi' ? 'Kiosk Di Sản 5 Phần' : '5-Part Kiosk'}</span>
+          </button>
+        )}
 
         {/* About Project Modal */}
         <button

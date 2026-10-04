@@ -1,0 +1,71 @@
+/* Preserve the established forest palette, photo masks and full-screen stories.
+   DESIGN_VARIANCE 7 / MOTION_INTENSITY 7 / VISUAL_DENSITY 4.
+   Animate compositor properties; release finite effects once they finish. */
+.cc-page{--cc-motion-ease:cubic-bezier(.16,1,.3,1)}
+.cc-page[data-motion-ready] :is(.cc-hero h1,.cc-hero-description,.cc-hero-copy>.cc-button,.cc-chapter,.cc-history-row,.cc-experience-card,.cc-gallery-caption h3){animation:none}
+.cc-page[data-motion-ready] .cc-screen-viewport>.is-current-screen{animation:none}
+.cc-page[data-motion-ready] [data-reveal]{transition:none}
+.cc-hero h1>.cc-hero-title-line{display:block}
+.cc-motion-words{font:inherit;letter-spacing:inherit;line-height:inherit;color:inherit}
+.cc-motion-word-window{display:inline-block;vertical-align:bottom;overflow:clip;padding:0 .025em .12em;margin:0 -.025em -.12em;line-height:inherit}
+.cc-motion-word{display:inline-block;transform-origin:50% 100%;font:inherit;letter-spacing:inherit;line-height:inherit}
+
+/* The stable mask clips two decoded photographs during a directional dissolve. */
+.cc-image-sequence{position:absolute;inset:0;display:block;overflow:hidden;isolation:isolate}
+.cc-image-sequence>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:none;animation:none;transform:none}
+.cc-image-sequence>img.cc-sequence-current{opacity:1;z-index:1}
+.cc-image-sequence>img.cc-sequence-previous{opacity:0;z-index:0}
+.cc-image-contain>img{object-fit:contain}
+.cc-image-error{position:absolute;inset:auto 14px 16px;z-index:2;padding:10px 14px;background:var(--cc-card);color:var(--cc-text);font-size:11px;line-height:1.6;border-radius:10px}
+.cc-hero-arch .cc-image-sequence{scale:1.02;translate:var(--cc-depth-x,0px) var(--cc-depth-y,0px)}
+.cc-hero-orbit-left{translate:calc(var(--cc-depth-x,0px) * -1.7) calc(var(--cc-depth-y,0px) * -1.4)}
+.cc-hero-orbit-right{translate:calc(var(--cc-depth-x,0px) * -1.1) calc(var(--cc-depth-y,0px) * -1.8)}
+.cc-scene-tabs .cc-scene-playback{width:36px;min-height:36px;padding:0;justify-content:center;align-self:center;border-left:1px solid rgba(244,251,239,.25);border-radius:0 50% 50% 0}
+.cc-hero-arch::after{z-index:2}
+
+.cc-gallery-photo-copy{display:contents}
+.cc-gallery-spotlight,.cc-lightbox-image{touch-action:pan-y;user-select:none}
+.cc-gallery-spotlight .cc-image-sequence{transition:scale .75s var(--cc-motion-ease)}
+.cc-lightbox-image{height:min(60dvh,560px)}
+.cc-modal,.cc-modal-window{animation:none}
+.cc-modal[data-closing]{pointer-events:none}
+.cc-history-photo{overflow:hidden}
+.cc-iris-petal{transform-box:fill-box;transform-origin:center}
+.cc-image-expand{z-index:3;transition:transform .35s var(--cc-motion-ease),background .25s}
+
+@media(prefers-reduced-motion:no-preference){
+  .cc-page:not(.reduce-motion) .cc-gallery-photo-copy .cc-motion-word{animation:cc-photo-word .7s var(--cc-motion-ease) both;animation-delay:calc(var(--cc-word-index,0) * 28ms)}
+  .cc-gallery-photo-copy>p,.cc-gallery-photo-copy>.cc-text-button{animation:cc-photo-copy .7s .12s var(--cc-motion-ease) both}
+  .cc-gallery-photo-copy>.cc-text-button{animation-delay:.2s}
+  .cc-page[data-motion-ready] .cc-gallery-thumbnails button{animation:cc-thumbnail-in .65s var(--cc-motion-ease) both;animation-delay:calc(var(--cc-thumb-index,0) * 45ms)}
+  .cc-lightbox-photo-copy>*{animation:cc-photo-copy .55s var(--cc-motion-ease) both}
+  .cc-lightbox-photo-copy>p{animation-delay:.06s}
+  .cc-lightbox-photo-copy>a{animation-delay:.12s}
+  .cc-button:active,.cc-icon-button:active{scale:.95;transition:scale .15s var(--cc-motion-ease)}
+  .cc-button>svg{transition:transform .35s var(--cc-motion-ease)}
+  .cc-button:hover>svg{transform:translateX(3px)}
+  .cc-favorite-button.is-active>svg{animation:cc-heart-feedback .45s var(--cc-motion-ease)}
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .cc-gallery-spotlight:hover .cc-image-sequence{scale:1.035}
+  .cc-gallery-spotlight:hover .cc-image-expand{transform:translateY(-3px) scale(1.06)}
+  .cc-iris-mobile button img{transition:transform .75s var(--cc-motion-ease)}
+  .cc-iris-mobile button:hover img{transform:scale(1.045)}
+}
+@keyframes cc-photo-word{from{opacity:0;transform:translateY(65%)}to{opacity:1;transform:translateY(0)}}
+@keyframes cc-photo-copy{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cc-thumbnail-in{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes cc-heart-feedback{0%{transform:scale(.8)}45%{transform:scale(1.22)}100%{transform:scale(1)}}
+
+@media(max-width:767px){
+  .cc-gallery-photo-copy>h3{grid-column:1;grid-row:2}
+  .cc-gallery-photo-copy>p{grid-column:1/-1;grid-row:3}
+  .cc-gallery-photo-copy>.cc-text-button{grid-column:1;grid-row:4;font-size:10px;min-height:34px}
+  .cc-scene-tabs{gap:0}
+  .cc-scene-tabs button{padding-inline:8px}
+  .cc-scene-tabs .cc-scene-playback{width:28px;min-width:28px;min-height:34px}
+}
+.reduce-motion .cc-motion-word,.reduce-motion .cc-image-sequence,.reduce-motion .cc-hero-orbit{translate:none;scale:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .cc-motion-word,.cc-image-sequence,.cc-hero-orbit{translate:none;scale:1;transform:none}
+}

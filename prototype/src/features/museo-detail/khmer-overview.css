@@ -1,0 +1,184 @@
+/* Content-specific treatment; the established overview grid and screen sizes
+   continue to be owned by screen-layout.css. */
+.md-overview--khmer .md-entrance-art {
+  object-position: center 52%;
+}
+.md-overview--khmer .md-overview-top::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    #11110d 6%,
+    #11110de8 27%,
+    #11110d4a 62%,
+    #11110d12
+  );
+}
+.md-overview--khmer .md-overview-copy > p.md-eyebrow {
+  white-space: normal;
+}
+.md-overview--khmer .md-overview-copy h2 {
+  line-height: 1.02;
+  margin-top: max(12px, 1cqh);
+}
+@container museum (max-width: 599px) {
+  .md-overview--khmer .md-overview-top::after {
+    background:
+      linear-gradient(180deg, #11110dc4, #11110d80 64%, #11110d08),
+      linear-gradient(90deg, #11110de6 6%, #11110d65 75%, transparent);
+  }
+}
+.md-overview--khmer .md-intro-link .md-play-disc svg {
+  width: 46%;
+  height: 46%;
+  margin-left: 0;
+  fill: none;
+}
+.md-overview--khmer .md-chamber-caption > span {
+  min-width: 0;
+}
+.md-overview--khmer .md-chamber-caption > div {
+  flex-shrink: 0;
+}
+.md-overview--khmer .md-chamber-caption small {
+  line-height: 1.45;
+}
+.md-overview--khmer .md-overview-bottom > div,
+.md-overview--khmer .md-remarkable-row > span,
+.md-overview--khmer .md-visit-row > span {
+  min-width: 0;
+}
+.md-khmer-location {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  color: #f2dfbd;
+}
+.md-khmer-map-tiles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(340px, 150%);
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  filter: grayscale(1) sepia(0.3) brightness(0.52);
+  opacity: 0.8;
+  z-index: -1;
+}
+.md-khmer-map-tiles img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.md-khmer-location::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(#14130f8f, #14130f05 46%, #14130fe8);
+  z-index: -1;
+}
+.md-khmer-map-title,
+.md-khmer-map-label,
+.md-khmer-map-credit {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  line-height: 1.4;
+}
+.md-khmer-map-title {
+  top: 9px;
+  font-size: clamp(10px, 0.8cqw, 15px);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.md-khmer-map-label {
+  bottom: 18px;
+  font-size: clamp(9px, 0.7cqw, 13px);
+  color: #d9c7a9;
+}
+.md-khmer-map-credit {
+  bottom: 3px;
+  font-size: 7px;
+  color: #b6a587;
+}
+.md-khmer-map-pin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(22px, 2.2cqw, 38px);
+  height: clamp(22px, 2.2cqw, 38px);
+  transform: translate(-50%, -100%);
+  fill: #b96931;
+  stroke: #ffe0ac;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 2px 6px #0009);
+}
+.md-khmer-location:hover {
+  box-shadow: inset 0 0 0 1px #e6c78b70;
+}
+.md-khmer-story .md-story-photo {
+  margin-bottom: 8px;
+}
+.md-dialog-overview .md-dialog-close {
+  position: sticky;
+  float: right;
+  top: 14px;
+  margin: -18px -18px -36px 0;
+}
+.md-dialog .md-khmer-photo-credit {
+  margin-bottom: 22px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #ac9477;
+}
+.md-khmer-story-prose {
+  display: grid;
+  gap: 18px;
+}
+.md-khmer-story-prose > section {
+  padding-top: 18px;
+  border-top: 1px solid #b6997040;
+}
+.md-dialog .md-khmer-story-prose h3 {
+  font-size: 16px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  color: #ead0aa;
+}
+.md-khmer-story-sources {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid #b6997040;
+}
+.md-khmer-story-sources > strong {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #bba17e;
+}
+.md-khmer-story-sources > a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #d9c6a8;
+}
+.md-khmer-story-sources > a:hover {
+  color: #fff0d2;
+}
+.md-khmer-story-sources svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}

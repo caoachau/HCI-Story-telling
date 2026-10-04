@@ -1,0 +1,423 @@
+/* ══════════════════════════════════════════════════════════════
+   CINEMATIC KIOSK MOTION SYSTEM
+   Ao Ba Om Heritage · Interactive Museum Kiosk
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Film Grain Overlay ─── */
+.kiosk-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* ─── Neon Mist Ambient Glow ─── */
+.kiosk-neon-mist {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.kiosk-neon-mist::before {
+  content: '';
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  top: -200px;
+  left: -200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%);
+  animation: kiosk-mist-float 18s ease-in-out infinite alternate;
+}
+
+.kiosk-neon-mist::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  bottom: -150px;
+  right: -150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.04) 0%, transparent 70%);
+  animation: kiosk-mist-float-2 22s ease-in-out infinite alternate;
+}
+
+@keyframes kiosk-mist-float {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(120px, 80px) scale(1.15); }
+  100% { transform: translate(-60px, 140px) scale(0.95); }
+}
+
+@keyframes kiosk-mist-float-2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-100px, -60px) scale(1.1); }
+  100% { transform: translate(80px, -120px) scale(1.2); }
+}
+
+/* ─── Section Overlap Transition Styling ─── */
+.kiosk-section {
+  position: relative;
+  will-change: transform;
+  transform-origin: center top;
+}
+
+.kiosk-section + .kiosk-section {
+  border-radius: 32px 32px 0 0;
+  margin-top: -24px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.kiosk-section:nth-child(2) + .kiosk-section { z-index: 2; }
+.kiosk-section:nth-child(3) + .kiosk-section { z-index: 3; }
+.kiosk-section:nth-child(4) + .kiosk-section { z-index: 4; }
+
+/* ─── Line Mask Typography ─── */
+.line-mask {
+  overflow: hidden;
+  display: block;
+}
+
+.line-mask > * {
+  display: block;
+  will-change: transform, opacity;
+}
+
+/* ─── Oversized Brutalist Heading ─── */
+.kiosk-heading-oversized {
+  font-size: clamp(3.2rem, 8vw, 7.5rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: #f4efe6;
+  text-transform: none;
+}
+
+.kiosk-heading-oversized .heading-accent {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24, #fde68a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── Premium Image Reveal Container ─── */
+.kiosk-image-reveal {
+  overflow: hidden;
+  border-radius: 20px;
+  will-change: clip-path;
+}
+
+.kiosk-image-reveal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+/* ─── Cursor Spotlight (follows pointer on hero) ─── */
+.kiosk-spotlight {
+  --spot-x: 50%;
+  --spot-y: 50%;
+  position: relative;
+}
+
+.kiosk-spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--spot-x) var(--spot-y),
+    rgba(245, 158, 11, 0.06),
+    transparent 50%
+  );
+  pointer-events: none;
+  z-index: 1;
+  transition: background 0.15s ease;
+}
+
+/* ─── Soft Gradient Section Backgrounds ─── */
+.kiosk-bg-gradient-warm {
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(180, 83, 9, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(120, 53, 15, 0.06) 0%, transparent 50%),
+    #07090e;
+}
+
+.kiosk-bg-gradient-cool {
+  background:
+    radial-gradient(ellipse at 70% 30%, rgba(56, 189, 248, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 70%, rgba(168, 85, 247, 0.03) 0%, transparent 50%),
+    #0c0e14;
+}
+
+.kiosk-bg-gradient-golden {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 100%, rgba(120, 53, 15, 0.08) 0%, transparent 50%),
+    #0e1017;
+}
+
+/* ─── Marquee / Slow Ticker ─── */
+.kiosk-marquee {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  gap: 4rem;
+}
+
+.kiosk-marquee-track {
+  display: flex;
+  gap: 4rem;
+  animation: kiosk-marquee-scroll 30s linear infinite;
+}
+
+@keyframes kiosk-marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ─── Floating Ambient Orbs ─── */
+.kiosk-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.08;
+  pointer-events: none;
+  animation: kiosk-orb-drift 20s ease-in-out infinite alternate;
+}
+
+.kiosk-orb--warm {
+  background: radial-gradient(circle, #f59e0b, transparent);
+}
+
+.kiosk-orb--cool {
+  background: radial-gradient(circle, #38bdf8, transparent);
+  animation-duration: 25s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes kiosk-orb-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 30px) scale(0.95); }
+  100% { transform: translate(15px, 15px) scale(1.02); }
+}
+
+/* ─── Interactive Motion: Magnetic Button ─── */
+.kiosk-magnetic-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 2rem;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.35s ease;
+  will-change: transform;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+
+.kiosk-magnetic-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.kiosk-magnetic-btn:hover::before { opacity: 1; }
+
+.kiosk-magnetic-btn--primary {
+  background: linear-gradient(135deg, #d97706, #f59e0b, #fbbf24);
+  color: #0c0e14;
+  border-color: transparent;
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.kiosk-magnetic-btn--primary:hover {
+  box-shadow: 0 12px 48px rgba(245, 158, 11, 0.35), 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.kiosk-magnetic-btn--ghost {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f4efe6;
+  backdrop-filter: blur(12px);
+}
+
+.kiosk-magnetic-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* ─── Card Perspective Tilt ─── */
+.kiosk-tilt-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  perspective: 800px;
+}
+
+/* ─── Section Label / Brutalist Tag ─── */
+.kiosk-section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.25rem 0.75rem 0.25rem 0.375rem;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 9999px;
+  background: rgba(245, 158, 11, 0.08);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fbbf24;
+}
+
+.kiosk-section-tag .tag-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
+  animation: kiosk-tag-pulse 2s ease-in-out infinite;
+}
+
+@keyframes kiosk-tag-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 12px rgba(245, 158, 11, 0.6); }
+  50% { opacity: 0.5; box-shadow: 0 0 6px rgba(245, 158, 11, 0.3); }
+}
+
+/* ─── Divider with glow ─── */
+.kiosk-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.3), rgba(255, 255, 255, 0.1), transparent);
+}
+
+/* ─── Humanized Illustration Cards ─── */
+.kiosk-illustration-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  backdrop-filter: blur(20px);
+  transition: border-color 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kiosk-illustration-frame:hover {
+  border-color: rgba(245, 158, 11, 0.25);
+  transform: translateY(-4px);
+}
+
+.kiosk-illustration-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(7, 9, 14, 0.85));
+  pointer-events: none;
+}
+
+/* ─── Glassmorphism Panel (used sparingly) ─── */
+.kiosk-glass {
+  background: rgba(12, 14, 20, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+}
+
+/* ─── Header Bar Cinematic ─── */
+.kiosk-header-bar {
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  background: linear-gradient(180deg, rgba(7, 9, 14, 0.92), rgba(7, 9, 14, 0.85));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Scroll Progress Bar ─── */
+.kiosk-scroll-progress {
+  position: fixed;
+  width: 100%;
+  transform: scaleX(0);
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #d97706, #fbbf24, #fde68a);
+  z-index: 9990;
+  transform-origin: left;
+  will-change: transform;
+}
+
+/* ─── Back to Top FAB ─── */
+.kiosk-fab-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 50;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  color: #0c0e14;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  border: none;
+}
+
+.kiosk-fab-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 48px rgba(245, 158, 11, 0.4), 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.kiosk-fab-top:active {
+  transform: scale(0.95);
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .kiosk-neon-mist::before,
+  .kiosk-neon-mist::after,
+  .kiosk-orb,
+  .kiosk-marquee-track,
+  .kiosk-section-tag .tag-dot {
+    animation: none !important;
+  }
+
+  .kiosk-section + .kiosk-section {
+    border-radius: 0;
+    margin-top: 0;
+    box-shadow: none;
+  }
+
+  .kiosk-grain { display: none; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

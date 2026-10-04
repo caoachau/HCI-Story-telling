@@ -1,0 +1,6 @@
+.cc-zip-detail{background:#f4f7ef;color:#203c30}
+.cc-zip-loading-close{position:absolute;top:8px;right:8px;display:grid;place-items:center;width:36px;height:36px;border-radius:50%}
+.cc-zip-loading-close:hover{background:#dce9d8}
+.cc-zip-loading-close:focus-visible{outline:3px solid #2c6049;outline-offset:1px}
+.cc-zip-detail [role=status]{background:#f4f7ef;color:#203c30}
+@media(prefers-color-scheme:dark){.cc-zip-detail,.cc-zip-detail [role=status]{background:#13271e;color:#e5efdf}.cc-zip-loading-close:hover{background:#2d4835}.cc-zip-loading-close:focus-visible{outline-color:#b3d19b}}

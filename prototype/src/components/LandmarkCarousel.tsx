@@ -186,7 +186,7 @@ export const LandmarkCarousel: React.FC<LandmarkCarouselProps> = ({
 
   return (
     <nav
-      className={`landmark-carousel absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-auto ${isCollapsed ? 'is-collapsed' : ''} ${isStoryExpanded ? 'z-[80]' : isStoryOpen ? 'z-[50]' : 'z-20'}`}
+      className={`landmark-carousel absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-auto ${isCollapsed ? 'is-collapsed' : ''} ${isStoryExpanded ? 'z-[80]' : isStoryOpen ? 'z-30' : 'z-20'}`}
       aria-label={lang === 'vi' ? 'Chọn cột mốc di sản' : 'Choose a heritage site'}
     >
       <div className="landmark-carousel-header">

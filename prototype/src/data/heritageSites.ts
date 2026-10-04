@@ -1,3 +1,10 @@
+import conChimCyclingPhoto from '../assets/con-chim/cycling-2025.webp';
+import conChimFarmingPhoto from '../assets/con-chim/con-chim-2019.webp';
+import conChimMealPhoto from '../assets/con-chim/islet-meal.webp';
+import aoPondPhoto from '../assets/ao-ba-om/pond.webp';
+import aoRootsPhoto from '../assets/ao-ba-om/roots.webp';
+import aoFestivalPhoto from '../assets/ao-ba-om/festival-2024.webp';
+
 export interface Artisan {
   name: string;
   age: number;
@@ -132,23 +139,23 @@ export const HERITAGE_SITES: HeritageSite[] = [
     establishedCentury: 'Thế kỷ X – XII',
     tagline: 'Hồ thiêng phẳng lặng ngàn năm soi bóng đại ngàn sao dầu và huyền tích Ok Om Bok',
     soundscapeType: 'temple_bell',
-    heroImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ao%20B%C3%A0%20Om,%20Tr%C3%A0%20Vinh.jpg',
+    heroImage: aoPondPhoto,
     heroImageCaption: 'Mặt nước hồ Ao Bà Om trong xanh bao quanh bởi hàng trăm cây sao, dầu cổ thụ với bộ rễ trồi lên mặt đất kỳ vĩ',
     gallery: [
       {
-        url: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ao%20B%C3%A0%20Om,%20Tr%C3%A0%20Vinh.jpg',
+        url: aoPondPhoto,
         caption: 'Hồ nước hình chữ nhật phẳng lặng với rặng cây dầu sao hàng trăm năm tuổi',
-        credit: 'Wikimedia Commons / Ao Bà Om Trà Vinh'
+        credit: 'Huỳnh Biển / Trung tâm Xúc tiến Du lịch Vĩnh Long'
       },
       {
-        url: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ao%20B%C3%A0%20Om.jpg',
+        url: aoRootsPhoto,
         caption: 'Gốc cây cổ thụ rễ trồi tạo hình tự nhiên độc nhất vô nhị',
-        credit: 'Wikimedia Commons / Cây Cổ Thụ Ao Bà Om'
+        credit: 'Huỳnh Biển / Trung tâm Xúc tiến Du lịch Vĩnh Long'
       },
       {
-        url: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Không gian tĩnh mịch linh thiêng nơi đồng bào Khmer tụ hội trong đêm rằm Ok Om Bok',
-        credit: 'Tư liệu Di sản Văn hóa Nam Bộ'
+        url: aoFestivalPhoto,
+        caption: 'Tái hiện lễ cúng trăng tại lễ hội Ok Om Bok năm 2024',
+        credit: 'Ngân Linh / Cổng TTĐT Trà Vinh'
       }
     ],
     chapters: [
@@ -722,30 +729,30 @@ export const HERITAGE_SITES: HeritageSite[] = [
     englishName: 'Con Chim Community Ecotourism Islet',
     category: 'Danh thắng & Sinh thái',
     region: 'Đồng bằng Sông Cửu Long',
-    province: 'Xã Hòa Minh, Huyện Châu Thành, Trà Vinh',
+    province: 'Xã Hòa Minh, tỉnh Vĩnh Long (Trà Vinh cũ)',
     lat: 9.9202712,
     lng: 106.4232557,
     elevationMeters: 2,
-    establishedCentury: 'Thế kỷ XIX – Mô hình 2019',
+    establishedCentury: 'Du lịch cộng đồng từ năm 2019',
     tagline: 'Ốc đảo thuận thiên giữa sông Cổ Chiên, giải thưởng du lịch cộng đồng ASEAN 2025',
     soundscapeType: 'mountain_stream',
-    heroImage: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80',
-    heroImageCaption: 'Cù lao xanh Cồn Chim bồng bềnh giữa dòng sông Cổ Chiên với triết lý sống "thuận thiên" độc đáo',
+    heroImage: conChimCyclingPhoto,
+    heroImageCaption: 'Du khách đạp xe giữa ruộng vườn tại điểm du lịch cộng đồng Cồn Chim. Ảnh: Báo Sài Gòn Giải Phóng',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Đường làng Cồn Chim rợp bóng dừa xanh ngát và những khóm hoa mười giờ rực rỡ',
-        credit: 'Tư liệu Du lịch Cộng đồng Cồn Chim'
+        url: conChimCyclingPhoto,
+        caption: 'Du khách đạp xe trên con đường làng giữa ruộng vườn Cồn Chim',
+        credit: 'Báo Sài Gòn Giải Phóng'
       },
       {
-        url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Cảnh quan sông nước Cổ Chiên hữu tình nơi đón những chuyến phà đưa khách trải nghiệm',
-        credit: 'Tư liệu Châu Thành Trà Vinh'
+        url: conChimFarmingPhoto,
+        caption: 'Du khách tham quan mô hình canh tác tại Cồn Chim năm 2019',
+        credit: 'Phúc Sơn / TTXVN · Cổng TTĐT Bộ VHTTDL'
       },
       {
-        url: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ao%20B%C3%A0%20Om.jpg',
-        caption: 'Bếp quê Nam Bộ với các loại bánh dân gian làm bằng cối đá thủ công',
-        credit: 'Du lịch Thuận Thiên Cồn Chim'
+        url: conChimMealPhoto,
+        caption: 'Du khách dùng bữa trong không gian bếp quê tại Cồn Chim',
+        credit: 'Báo Người Lao Động'
       }
     ],
     chapters: [
@@ -845,23 +852,23 @@ export const HERITAGE_SITES: HeritageSite[] = [
     establishedCentury: 'Khai phá thế kỷ XX',
     tagline: 'Bãi biển cát bồi ba đụn hoang sơ, rừng phi lao bạt ngàn và cánh đồng điện gió vươn khơi',
     soundscapeType: 'mountain_stream',
-    heroImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
-    heroImageCaption: 'Bãi biển Ba Động trải dài thoai thoải với rừng phi lao chắn sóng ngút ngàn và những tuabin điện gió hiện đại',
+    heroImage: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Bi%E1%BB%83n_Ba_%C4%90%E1%BB%99ng%2C_Tr%C3%A0_Vinh.jpg',
+    heroImageCaption: 'Biển Ba Động, Trà Vinh · Baoothersks / Wikimedia Commons · CC BY 4.0',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Bờ cát mịn phù sa thoai thoải hướng ra biển Đông mênh mông',
-        credit: 'Tư liệu Biển Ba Động Duyên Hải'
+        url: 'https://upload.wikimedia.org/wikipedia/commons/9/95/Bi%E1%BB%83n_Ba_%C4%90%E1%BB%99ng%2C_Tr%C3%A0_Vinh.jpg',
+        caption: 'Bờ biển Ba Động, Trà Vinh',
+        credit: 'Baoothersks / Wikimedia Commons · CC BY 4.0'
       },
       {
-        url: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ao%20B%C3%A0%20Om.jpg',
-        caption: 'Rừng phi lao rì rào trong gió biển sớm tạo nên bản hòa âm thiên nhiên hoang sơ',
-        credit: 'Tư liệu Du lịch Trà Vinh'
+        url: 'https://vietnamtourism.vn/imguploads/tourist/2014/TraVinh/BienBaDong/60Bienbadong01.jpg',
+        caption: 'Tư liệu cảnh quan biển Ba Động',
+        credit: 'Cục Du lịch Quốc gia Việt Nam'
       },
       {
-        url: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Cánh đồng phong điện Duyên Hải với những cánh quạt trắng khổng lồ quay đều trên mặt biển',
-        credit: 'Tư liệu Năng Lượng Tái Tạo Trà Vinh'
+        url: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Điện gió · ảnh minh họa, không chụp tại Ba Động',
+        credit: 'Unsplash · ảnh minh họa'
       }
     ],
     chapters: [
@@ -1031,4 +1038,3 @@ export const HERITAGE_ROUTES: HeritageRoute[] = [
     color: '#0284c7',
   },
 ];
-

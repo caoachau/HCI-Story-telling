@@ -11,6 +11,8 @@ npm start
 
 Mở http://127.0.0.1:3000. Tạo bản dựng bằng `npm run build`; xem trước bằng `npm run preview`.
 
+Trang chi tiết **Bảo tàng văn hóa Khmer** dựng theo mẫu MUSEO/Chauvet được mở từ địa điểm trên bản đồ hoặc xem riêng tại http://127.0.0.1:3000/bao-tang-khmer.html. Sáu section giữ thứ tự và hình ảnh của mẫu, kèm bản đồ chọn điểm, timeline, gallery và bộ lọc triển lãm. Chi tiết và kiểm tra tại [museo-detail.md](docs/museo-detail.md).
+
 Bản đồ và ảnh từ các dịch vụ bên ngoài cần kết nối Internet. Không cần khóa API để chạy ứng dụng. ZIP có metadata nhắc đến Gemini nhưng không chứa màn hình AI hoặc endpoint gọi Gemini, vì vậy tính năng đó chưa có trong bản tích hợp.
 
 Chế độ Esri dùng [World Imagery Wayback, bản phát hành 2025-12-18](https://www.arcgis.com/home/item.html?id=929ed51e5c11448c8ff82ef637bf42d6) để tránh dải mây và mép ghép lớn quanh Cồn Chim trong nguồn World Imagery hiện hành. Ngày này là ngày phát hành bản đồ, không phải ngày chụp ảnh. Nguồn hiển thị và tải trước tile dùng chung cấu hình trong `src/services/esriImagery.ts`; zoom Esri giới hạn ở mức 17. Khi chọn phiên bản khác, cần đối chiếu ảnh tại các cột mốc và nhiều mức zoom trước khi cập nhật.
@@ -56,5 +58,7 @@ Worker MapLibre 6 được đóng gói qua truy vấn Vite `?worker&url` trướ
 - Sau 75 giây không hoạt động, bản đồ vào chế độ thu hút khách.
 
 ## Ghi chú biên tập
+
+Chi tiết dọn file và tối ưu ảnh, cuộn, vòng đời hiệu ứng nằm trong [cleanup-performance.md](docs/cleanup-performance.md). Kiểm tra file nguồn dư bằng `npm run audit:unused`; lệnh này chỉ báo cáo và không xóa dữ liệu.
 
 Nội dung và số liệu trong dữ liệu dự án chưa được xác minh độc lập trong lần tích hợp này. Hãy đối chiếu hồ sơ hiện vật, tiểu sử, số liệu cộng đồng, ảnh và trích dẫn với cộng đồng và nguồn địa phương trước khi coi là dữ kiện đã kiểm chứng hoặc phát hành chính thức. Nguồn ảnh prototype trước đây được ghi tại `assets/CREDITS.md`.

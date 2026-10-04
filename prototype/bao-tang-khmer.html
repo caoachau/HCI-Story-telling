@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#100f0c" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/museo-mark.svg" />
+    <link rel="preload" as="image" href="/src/assets/museo/hero-skull.jpg" />
+    <link rel="preload" as="image" href="/src/assets/museo/rock-texture.jpg" fetchpriority="high" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff"
+      href="/src/assets/museo/montserrat-black.woff"
+      crossorigin
+    />
+    <title>MUSEO | Bảo tàng văn hóa Khmer</title>
+    <meta
+      name="description"
+      content="Ancient prehistory, Chauvet Cave, an interactive archaeological map, human evolution, a virtual gallery and exhibitions."
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript
+      >Enable JavaScript to explore the museum, its interactive map and
+      exhibitions.</noscript
+    >
+    <script type="module" src="/src/features/museo-detail/main.tsx"></script>
+  </body>
+</html>

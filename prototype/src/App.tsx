@@ -3,6 +3,8 @@ import { HERITAGE_SITES, HeritageSite } from './data/heritageSites';
 import { LandmarkCarousel } from './components/LandmarkCarousel';
 import { HeaderTopBar } from './components/HeaderTopBar';
 import { LandmarkDrawer } from './components/LandmarkDrawer';
+import { LocationQuickView } from './components/LocationQuickView';
+import { LocationUtilityDialog } from './components/LocationUtilityDialog';
 import type { CameraManager, CameraChapterView } from './services/cameraManager';
 import { soundscape } from './services/soundscape';
 import { BookOpen, X, Clock3 } from 'lucide-react';
@@ -16,6 +18,7 @@ const Panorama360Modal = lazy(() => import('./components/Panorama360Modal').then
 const QRCodeModal = lazy(() => import('./components/QRCodeModal').then((module) => ({ default: module.QRCodeModal })));
 const SearchModal = lazy(() => import('./components/SearchModal').then((module) => ({ default: module.SearchModal })));
 const AttractModeOverlay = lazy(() => import('./components/AttractModeOverlay').then((module) => ({ default: module.AttractModeOverlay })));
+const AoBaOmMuseumKiosk = lazy(() => import('./features/ao-ba-om-detail/AoBaOmMuseumKiosk').then((module) => ({ default: module.AoBaOmMuseumKiosk })));
 
 export default function App() {
   const [selectedSite, setSelectedSite] = useState<HeritageSite>(HERITAGE_SITES[0]);
@@ -34,6 +37,7 @@ export default function App() {
   const [isReduceMotion, setIsReduceMotion] = useState<boolean>(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [isStoryExpanded, setIsStoryExpanded] = useState<boolean>(false);
+  const [hasOpenedStoryDetail, setHasOpenedStoryDetail] = useState(false);
   const [isStoryWide, setIsStoryWide] = useState<boolean>(false);
   const [isLandmarkCarouselCollapsed, setIsLandmarkCarouselCollapsed] = useState(false);
   const [isListDrawerOpen, setIsListDrawerOpen] = useState<boolean>(false);
@@ -45,8 +49,16 @@ export default function App() {
   const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [contentEpoch, setContentEpoch] = useState(0);
   const [weather, setWeather] = useState<LocalWeather | null>(null);
+  const [isMuseumKioskOpen, setIsMuseumKioskOpen] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('kiosk') === 'ao-ba-om' || window.location.hash === '#kiosk';
+    }
+    return false;
+  });
 
   const cameraManagerRef = useRef<CameraManager | null>(null);
+  const storyDetailRef = useRef<HTMLDivElement>(null);
   const idleTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -166,6 +178,15 @@ export default function App() {
     setIsSoundPlaying(playing);
   };
 
+  useEffect(() => {
+    if (!isSidebarOpen || !hasOpenedStoryDetail) return;
+    if (isSidebarOpen && isStoryExpanded) {
+      storyDetailRef.current?.focus({ preventScroll: true });
+    } else {
+      document.querySelector<HTMLButtonElement>('[data-action="show-location-details"]')?.focus({ preventScroll: true });
+    }
+  }, [isSidebarOpen, isStoryExpanded, hasOpenedStoryDetail]);
+
   // Site selection handler
   const handleSelectSite = (site: HeritageSite) => {
     if (hasUserSelectedSite && selectedSite.id === site.id) {
@@ -178,6 +199,7 @@ export default function App() {
     setSelectedSite(site);
     setHasUserSelectedSite(true);
     setIsStoryExpanded(false);
+    setHasOpenedStoryDetail(false);
     setIsStoryWide(false);
     // Close sidebar during flight so user experiences unobstructed cinematic flight
     setIsSidebarOpen(false);
@@ -194,6 +216,7 @@ export default function App() {
       return;
     }
     setSelectedSite(site);
+    if (selectedSite.id !== site.id) setHasOpenedStoryDetail(false);
     setHasUserSelectedSite(true);
     setIsSidebarOpen(true);
     setIsStoryExpanded(false);
@@ -205,6 +228,7 @@ export default function App() {
 
   // Home button action: resets to overview of all landmarks
   const handleHomeClick = () => {
+    setHasOpenedStoryDetail(false);
     setHasUserSelectedSite(false);
     setIsSidebarOpen(false);
     setIsStoryExpanded(false);
@@ -214,6 +238,7 @@ export default function App() {
 
   // Back button action: exits focused site back to full map
   const handleBackClick = () => {
+    setHasOpenedStoryDetail(false);
     setHasUserSelectedSite(false);
     setIsSidebarOpen(false);
     setIsStoryExpanded(false);
@@ -227,7 +252,7 @@ export default function App() {
   };
 
   return (
-    <div className={`heritage-app flex flex-col w-screen h-screen overflow-hidden bg-[#0c0e14] text-[#f4efe6] select-none${isLargeText ? ' access-large-text' : ''}${isHighContrast ? ' access-high-contrast' : ''}`}>
+    <div className={`heritage-app flex flex-col w-screen h-screen overflow-hidden bg-[#0c0e14] text-[#f4efe6] select-none${isLargeText ? ' access-large-text' : ''}${isHighContrast ? ' access-high-contrast' : ''}${isReduceMotion ? ' access-reduce-motion' : ''}`}>
       {/* 1. Header Top Bar */}
       <HeaderTopBar
         onHomeClick={handleHomeClick}
@@ -246,6 +271,7 @@ export default function App() {
         isReduceMotion={isReduceMotion}
         onToggleReduceMotion={() => setIsReduceMotion(!isReduceMotion)}
         weather={weather}
+        onOpenMuseumKiosk={() => setIsMuseumKioskOpen(true)}
       />
 
       {/* 2. Main Full-Bleed Map Viewport Area */}
@@ -312,9 +338,43 @@ export default function App() {
         </div>
         {/* Overlay the story without changing the map's size or camera center. */}
         {isSidebarOpen && (
-          <aside className={isStoryExpanded
+          <aside data-location-view={isStoryExpanded ? 'detail' : 'quick'} className={isStoryExpanded
             ? 'fixed inset-0 z-[70] shadow-2xl'
             : 'heritage-story-panel absolute inset-y-0 right-0 z-40 shadow-2xl transition-transform duration-300 ease-in-out animate-in slide-in-from-right'}>
+            <div hidden={isStoryExpanded} className="h-full">
+              <LocationQuickView
+                key={selectedSite.id}
+                site={selectedSite}
+                lang={lang}
+                isWide={isStoryWide}
+                onViewDetails={() => {
+                  setHasOpenedStoryDetail(true);
+                  setIsStoryExpanded(true);
+                  setContentEpoch((epoch) => epoch + 1);
+                }}
+                onClose={() => {
+                  setIsSidebarOpen(false);
+                  setIsStoryExpanded(false);
+                  setIsStoryWide(false);
+                  setHasOpenedStoryDetail(false);
+                }}
+                onToggleWidth={() => setIsStoryWide((wide) => !wide)}
+                onOpenQRCode={() => setIsQRCodeOpen(true)}
+              />
+            </div>
+            {hasOpenedStoryDetail && <div
+              ref={storyDetailRef}
+              className="heritage-location-detail"
+              hidden={!isStoryExpanded}
+              tabIndex={-1}
+              role="region"
+              aria-label={lang === 'vi' ? `Chi tiết ${selectedSite.name}` : `${selectedSite.englishName} details`}
+              onKeyDown={(event) => {
+                if (event.key !== 'Escape' || document.querySelector('dialog[open]') || isArtifactModalOpen || isPanoramaOpen || isQRCodeOpen) return;
+                event.preventDefault();
+                setIsStoryExpanded(false);
+              }}
+            >
             <Suspense fallback={<div className="flex h-full items-center justify-center bg-[#11141c] text-sm text-stone-400" role="status">{lang === 'vi' ? 'Đang mở diễn giải…' : 'Loading story…'}</div>}>
             <StorytellingPanel
               site={selectedSite}
@@ -325,23 +385,24 @@ export default function App() {
                 setIsSidebarOpen(false);
                 setIsStoryExpanded(false);
                 setIsStoryWide(false);
+                setHasOpenedStoryDetail(false);
               }}
               onOpenPanorama360={() => setIsPanoramaOpen(true)}
               onOpenQRCode={() => setIsQRCodeOpen(true)}
               isExpanded={isStoryExpanded}
               onToggleExpanded={() => setIsStoryExpanded((expanded) => !expanded)}
               isSidebarWide={isStoryWide}
-              onToggleSidebarWide={() => setIsStoryWide((wide) => !wide)}
               onSelectChapterCamera={handleChapterCameraChange}
               onContentChange={() => setContentEpoch((epoch) => epoch + 1)}
             />
             </Suspense>
+            </div>}
           </aside>
         )}
       </div>
 
       {/* 3. Bottom Landmark Dock Carousel (Floating, compact, collapsible) */}
-      <LandmarkCarousel
+      {!(isSidebarOpen && isStoryExpanded) && <LandmarkCarousel
         selectedSite={selectedSite}
         onSelectSite={handleSelectSite}
         lang={lang}
@@ -349,7 +410,7 @@ export default function App() {
         isStoryExpanded={isStoryExpanded}
         isCollapsed={isLandmarkCarouselCollapsed}
         onToggleCollapsed={() => setIsLandmarkCarouselCollapsed((collapsed) => !collapsed)}
-      />
+      />}
 
       {/* 4. Slide-Over Landmark Directory Drawer (7 Sites) */}
       <LandmarkDrawer
@@ -363,6 +424,7 @@ export default function App() {
 
       {/* 5. 3D Artifact Interactive Inspector Modal */}
       {isArtifactModalOpen && (
+        <LocationUtilityDialog kind="artifact" label={lang === 'vi' ? 'Khám phá hiện vật 3D' : 'Explore 3D artifact'} onClose={() => setIsArtifactModalOpen(false)}>
         <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 text-sm text-stone-300" role="status">{lang === 'vi' ? 'Đang mở hiện vật 3D…' : 'Loading 3D artifact…'}</div>}>
         <Artifact3DModal
           artifact={selectedSite.artifact}
@@ -370,6 +432,7 @@ export default function App() {
           onClose={() => setIsArtifactModalOpen(false)}
         />
         </Suspense>
+        </LocationUtilityDialog>
       )}
 
       {/* 6. About Curatorial Project Modal */}
@@ -393,6 +456,7 @@ export default function App() {
 
       {/* 8. 360Â° Panorama Immersive View Modal */}
       {isPanoramaOpen && (
+        <LocationUtilityDialog kind="panorama" label={lang === 'vi' ? 'Toàn cảnh 360°' : '360° panorama'} onClose={() => setIsPanoramaOpen(false)}>
         <Suspense fallback={null}>
         <Panorama360Modal
           lang={lang}
@@ -402,10 +466,12 @@ export default function App() {
           onClose={() => setIsPanoramaOpen(false)}
         />
         </Suspense>
+        </LocationUtilityDialog>
       )}
 
       {/* 9. QR Code Modal (Continue on Mobile) */}
       {isQRCodeOpen && (
+        <LocationUtilityDialog kind="qr" label={lang === 'vi' ? 'Mã QR địa điểm' : 'Location QR code'} onClose={() => setIsQRCodeOpen(false)}>
         <Suspense fallback={null}>
         <QRCodeModal
           site={selectedSite}
@@ -413,6 +479,7 @@ export default function App() {
           onClose={() => setIsQRCodeOpen(false)}
         />
         </Suspense>
+        </LocationUtilityDialog>
       )}
 
       {/* 10. Museum Attract Mode Overlay */}
@@ -436,6 +503,18 @@ export default function App() {
             <p className="mb-6 text-sm leading-relaxed text-stone-300">{lang === 'vi' ? 'Bản đồ đã trở về toàn cảnh. Bạn có thể bắt đầu hành trình mới bất cứ lúc nào.' : 'The map has returned to the overview. You can begin a new journey at any time.'}</p>
             <button onClick={() => setIsSessionExpired(false)} className="min-h-11 rounded-xl bg-amber-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-500">{lang === 'vi' ? 'Tiếp tục khám phá' : 'Continue exploring'}</button>
           </div>
+        </div>
+      )}
+
+      {/* 11. Fullscreen Museum Kiosk Display (5 Parts) */}
+      {isMuseumKioskOpen && (
+        <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#07090e] animate-in fade-in duration-300">
+          <Suspense fallback={<div className="flex h-screen items-center justify-center bg-[#07090e] text-sm text-stone-300" role="status">{lang === 'vi' ? 'Đang mở màn hình tương tác Kiosk di sản 5 phần…' : 'Loading 5-part museum kiosk…'}</div>}>
+            <AoBaOmMuseumKiosk
+              initialLang={lang}
+              onClose={() => setIsMuseumKioskOpen(false)}
+            />
+          </Suspense>
         </div>
       )}
     </div>

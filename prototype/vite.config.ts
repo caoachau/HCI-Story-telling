@@ -9,4 +9,14 @@ const projectDir = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: { alias: { '@': resolve(projectDir, '.') } },
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(projectDir, 'index.html'),
+        conChim: resolve(projectDir, 'con-chim.html'),
+        aoBaOm: resolve(projectDir, 'ao-ba-om.html'),
+        baoTangKhmer: resolve(projectDir, 'bao-tang-khmer.html'),
+      },
+    },
+  },
 });
