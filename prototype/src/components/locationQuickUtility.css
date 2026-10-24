@@ -1,0 +1,46 @@
+.heritage-location-detail {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  color: inherit;
+  background: #100f0c;
+}
+.heritage-location-detail[hidden] {
+  display: none;
+}
+.heritage-location-detail[data-detail-prepared="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+.heritage-utility-dialog {
+  position: fixed;
+  inset: 0;
+  width: 100dvw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.heritage-utility-dialog > div {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.heritage-utility-dialog[data-location-overlay="qr"] > div {
+  align-items: safe center;
+}
+.heritage-utility-dialog::backdrop {
+  background: #0009;
+}

@@ -1,0 +1,324 @@
+/* Preserve the existing six-card composition and its full-screen container. */
+.md-khmer-legacy .md-exhibitions-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 2.2cqh 3.1cqw 2.4cqh;
+}
+.md-khmer-legacy .md-exhibitions-content > h2 {
+  font-size: clamp(28px, min(3.3cqw, 6cqh), 68px);
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+.md-khmer-legacy .md-exhibitions-content > p:not(.md-sr-only) {
+  font-size: clamp(13px, min(1.2cqw, 2.4cqh), 24px);
+  line-height: 1.5;
+  margin-top: 1cqh;
+  flex-shrink: 0;
+  max-width: 85ch;
+}
+.md-khmer-legacy .md-filters {
+  margin: 2cqh 0;
+  gap: 10px;
+}
+.md-khmer-legacy .md-filters button {
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.md-khmer-legacy .md-exhibition-grid {
+  flex: 1;
+  min-height: 0;
+  grid-auto-rows: minmax(0, 1fr);
+}
+.md-khmer-legacy .md-exhibition-card {
+  overflow: hidden;
+  min-height: 0;
+  min-width: 0;
+}
+.md-khmer-legacy .md-exhibition-card.is-current {
+  border-color: #dabd93;
+}
+.md-khmer-legacy .md-exhibition-card > img {
+  object-position: center;
+}
+.md-khmer-legacy .md-exhibition-card h3 {
+  white-space: normal;
+  line-height: 1.25;
+  font-size: clamp(17px, min(1.52cqw, 2.7cqh), 30px);
+}
+.md-khmer-legacy .md-exhibition-card p {
+  font-size: clamp(12px, min(1.05cqw, 2cqh), 20px);
+  line-height: 1.4;
+  width: 100%;
+  max-width: none;
+  padding-right: 35px;
+}
+.md-khmer-legacy .md-exhibition-grid[data-count="1"] h3 {
+  font-size: clamp(28px, min(3cqw, 6cqh), 58px);
+}
+.md-khmer-legacy .md-exhibition-grid[data-count="1"] p {
+  font-size: clamp(14px, min(1.18cqw, 2.3cqh), 24px);
+  padding-right: 0;
+}
+.md-khmer-legacy .md-exhibition-detail {
+  color: #c8bfae;
+}
+.md-khmer-legacy .md-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.md-dialog-legacy .md-dialog-content {
+  padding-top: 34px;
+}
+.md-legacy-reading > .md-eyebrow {
+  display: block;
+  margin: 0 30px 12px 0;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+.md-dialog-legacy .md-culture-gallery .md-story-photo {
+  height: min(380px, 42vh);
+}
+.md-dialog-legacy .md-khmer-story-prose h3 {
+  font-size: 23px;
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+.md-dialog-legacy #md-dialog-title:focus {
+  outline: none;
+}
+.md-dialog-legacy .md-legacy-lead {
+  color: #ded4c2;
+  font-size: 17px;
+  line-height: 1.75;
+  margin: 18px 0 24px;
+}
+.md-legacy-contents {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 24px;
+  padding: 20px 0;
+  border-block: 1px solid #9a785647;
+}
+.md-legacy-contents a {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e3c199;
+}
+.md-legacy-contents small {
+  color: #c4a379;
+  font-family: "Space Mono", monospace;
+}
+.md-legacy-contents a > span {
+  flex: 1;
+}
+.md-legacy-contents svg {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+}
+.md-legacy-chapter {
+  margin-top: 32px;
+}
+.md-dialog-legacy .md-legacy-chapter p {
+  font-size: 16px;
+  line-height: 1.8;
+  margin: 14px 0;
+}
+.md-legacy-chapter h3 {
+  font-size: 23px;
+  line-height: 1.4;
+  margin-bottom: 14px;
+  color: #eee5d4;
+  scroll-margin-top: 72px;
+}
+.md-legacy-network {
+  padding: 24px 0 8px;
+  margin-top: 24px;
+  border-top: 1px solid #9a785647;
+}
+.md-legacy-network h3 {
+  font-size: 23px;
+}
+.md-legacy-network ul {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.md-legacy-network li {
+  border-left: 2px solid #a57c4d;
+  padding-left: 12px;
+}
+.md-legacy-network strong {
+  font-size: 16px;
+  color: #e3c199;
+}
+.md-legacy-network span {
+  display: block;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #c8bfae;
+  margin-top: 6px;
+}
+.md-legacy-next {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 24px;
+}
+.md-root .md-legacy-next button {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 14px;
+}
+.md-legacy-next button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.md-legacy-next svg {
+  width: 17px;
+  height: 17px;
+}
+.md-legacy-next > span {
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+  color: #c8bfae;
+  white-space: nowrap;
+}
+@container museum (max-width: 999px) {
+  .md-khmer-legacy .md-exhibitions-content {
+    padding: 2cqh 4cqw;
+  }
+  .md-khmer-legacy .md-exhibitions-content > h2 {
+    font-size: clamp(22px, min(5.5cqw, 5.5cqh), 42px);
+    line-height: 1.2;
+  }
+  .md-khmer-legacy .md-exhibitions-content > p:not(.md-sr-only) {
+    font-size: clamp(11px, 2.6cqw, 15px);
+    line-height: 1.45;
+  }
+  .md-khmer-legacy .md-filters {
+    margin: 1.5cqh 0;
+    gap: 6px;
+  }
+  .md-khmer-legacy .md-filters button {
+    min-width: auto;
+    padding: 8px 10px !important;
+    font-size: 9px !important;
+  }
+  .md-khmer-legacy .md-exhibition-card > div {
+    padding: 32px 8px 9px;
+  }
+  .md-khmer-legacy .md-exhibition-card h3 {
+    font-size: clamp(12px, min(2.8cqw, 3cqh), 19px);
+    line-height: 1.3;
+  }
+  .md-khmer-legacy .md-exhibition-card p {
+    font-size: clamp(10px, min(2.5cqw, 2.6cqh), 14px);
+    padding-right: 18px;
+  }
+  .md-khmer-legacy .md-exhibition-grid[data-count="1"] h3 {
+    font-size: clamp(24px, 6cqw, 38px);
+  }
+  .md-khmer-legacy .md-exhibition-grid[data-count="1"] p {
+    font-size: clamp(12px, 2.8cqw, 16px);
+    padding-right: 25px;
+  }
+  .md-khmer-legacy .md-exhibition-grid[data-count="2"] .md-exhibition-detail {
+    display: none;
+  }
+}
+@container museum (max-height: 470px) and (min-width: 600px) {
+  .md-khmer-legacy .md-exhibitions-content {
+    padding-top: 2cqh;
+  }
+  .md-khmer-legacy .md-exhibitions-content > h2 {
+    font-size: clamp(20px, 5cqh, 28px);
+  }
+  .md-khmer-legacy .md-exhibitions-content > p:not(.md-sr-only) {
+    font-size: 11px;
+    margin-top: 3px;
+  }
+  .md-khmer-legacy .md-exhibition-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .md-khmer-legacy .md-exhibition-grid[data-count="1"] {
+    grid-template-columns: 1fr;
+  }
+  .md-khmer-legacy .md-exhibition-grid[data-count="2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .md-khmer-legacy .md-exhibition-card > div {
+    padding: 16px 8px 6px;
+  }
+  .md-khmer-legacy .md-exhibition-card h3 {
+    font-size: 12px;
+  }
+  .md-khmer-legacy .md-exhibition-card p {
+    font-size: 10px;
+    line-height: 1.25;
+    margin-top: 3px;
+  }
+  .md-khmer-legacy .md-exhibition-grid[data-count="1"] .md-exhibition-detail {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .md-dialog-legacy .md-culture-gallery .md-story-photo {
+    height: clamp(150px, 30vh, 220px);
+  }
+  .md-dialog-legacy .md-culture-gallery figcaption {
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  .md-dialog-legacy .md-legacy-lead {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .md-legacy-contents {
+    grid-template-columns: 1fr;
+  }
+  .md-dialog-legacy .md-khmer-story-prose h3,
+  .md-legacy-network h3 {
+    font-size: 21px;
+  }
+  .md-legacy-network ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .md-root .md-legacy-next button {
+    font-size: 12px;
+  }
+}
+@container museum (max-width: 400px) {
+  .md-khmer-legacy
+    .md-exhibition-grid[data-count="6"]
+    .md-exhibition-card
+    > div {
+    padding-top: 16px;
+  }
+  .md-khmer-legacy .md-exhibition-card p {
+    line-height: 1.25;
+  }
+  .md-khmer-legacy .md-filters {
+    gap: 4px;
+  }
+  .md-khmer-legacy .md-filters button {
+    padding-inline: 6px !important;
+  }
+}

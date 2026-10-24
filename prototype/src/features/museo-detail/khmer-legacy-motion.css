@@ -1,0 +1,290 @@
+.md-khmer-legacy {
+  position: relative;
+  isolation: isolate;
+}
+.md-section.md-khmer-legacy {
+  overflow: clip;
+}
+.md-khmer-legacy .md-exhibitions-content {
+  position: relative;
+  z-index: 1;
+}
+.md-legacy-texture {
+  position: absolute;
+  width: 65%;
+  height: 100%;
+  right: 0;
+  top: 0;
+  object-fit: cover;
+  opacity: 0.045;
+  filter: blur(2px);
+  mask-image: linear-gradient(90deg, transparent, #000 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+.md-legacy-light-sweep {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 45% 45%, #d9ad6b, transparent 55%);
+  opacity: 0.02;
+  z-index: 0;
+  pointer-events: none;
+}
+.md-khmer-legacy .md-exhibitions-content > h2 {
+  position: relative;
+}
+.md-legacy-title-part {
+  display: inline-block;
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+  vertical-align: bottom;
+}
+.md-legacy-title-part > span {
+  display: block;
+}
+.md-legacy-title-rule {
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: clamp(80px, 7cqw, 120px);
+  height: 1px;
+  background: #be9c6a;
+  transform-origin: left;
+}
+.md-khmer-legacy .md-filters {
+  position: relative;
+  isolation: isolate;
+}
+.md-khmer-legacy .md-filters button {
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+  transition:
+    color 0.3s,
+    border-color 0.24s;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.md-khmer-legacy .md-filters button.is-selected {
+  transition-delay: 0.1s;
+}
+.md-khmer-legacy .md-filters small {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+@container museum (max-width: 400px) {
+  .md-khmer-legacy .md-filters small {
+    display: none;
+  }
+  .md-khmer-legacy .md-filters button {
+    gap: 0;
+  }
+}
+.md-legacy-filter-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 30px;
+  background: #e8d8b7;
+  z-index: 0;
+  pointer-events: none;
+}
+.md-khmer-legacy .md-exhibition-grid {
+  position: relative;
+  isolation: isolate;
+}
+.md-khmer-legacy .md-exhibition-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    280px at var(--legacy-spot-x, 50%) var(--legacy-spot-y, 50%),
+    #e8bd77,
+    transparent 80%
+  );
+  opacity: var(--legacy-spot-opacity, 0);
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+.md-khmer-legacy .md-exhibition-card {
+  z-index: 1;
+  transition:
+    opacity 0.35s,
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.26s;
+}
+.md-khmer-legacy:is(
+    [data-legacy-motion="opening"],
+    [data-legacy-motion="rearranging"]
+  )
+  .md-exhibition-card {
+  transition: border-color 0.26s;
+}
+.md-khmer-legacy .md-exhibition-card > img {
+  transition:
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.35s;
+  transform-origin: 50% 45%;
+}
+.md-khmer-legacy .md-exhibition-card h3,
+.md-khmer-legacy .md-exhibition-card p,
+.md-khmer-legacy .md-small-arrow,
+.md-khmer-legacy .md-small-arrow svg {
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.35s,
+    background 0.35s;
+}
+.md-legacy-card-trace {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 3;
+}
+.md-legacy-card-trace rect {
+  fill: none;
+  stroke: #ddbb81;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 400;
+}
+.md-legacy-memory-tag {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  background: #17130de8;
+  border: 1px solid #c1a07255;
+  border-radius: 20px;
+  padding: 4px 7px;
+  font-size: clamp(8px, 0.65cqw, 12px);
+  color: #e1c498;
+  letter-spacing: 0.035em;
+  z-index: 2;
+}
+.md-legacy-exit-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+.md-legacy-exit-layer .md-legacy-card-ghost {
+  position: absolute;
+  pointer-events: none;
+}
+@media (min-width: 1000px) and (hover: hover) and (pointer: fine) {
+  .md-khmer-legacy:not([data-obscured="true"])
+    .md-exhibition-card:is(:hover, :focus-visible) {
+    transform: translateY(-5px);
+    border-color: #d9b781bb !important;
+  }
+  .md-khmer-legacy:not([data-obscured="true"])
+    .md-exhibition-card:is(:hover, :focus-visible)
+    > img {
+    transform: translate(var(--legacy-image-x, 0), var(--legacy-image-y, -4px))
+      scale(1.045);
+    filter: brightness(0.96);
+  }
+  .md-khmer-legacy .md-exhibition-card[data-legacy-id="architecture"] > img {
+    transform-origin: 50% 24%;
+  }
+  .md-khmer-legacy
+    .md-exhibition-card[data-legacy-id="artistry"]:is(:hover, :focus-visible)
+    > img {
+    transform: translate(var(--legacy-image-x, 0), var(--legacy-image-y, 0))
+      scale(1.06);
+  }
+  .md-khmer-legacy:not([data-obscured="true"])
+    .md-exhibition-card:is(:hover, :focus-visible)
+    h3 {
+    transform: translateX(5px);
+  }
+  .md-khmer-legacy:not([data-obscured="true"])
+    .md-exhibition-card:is(:hover, :focus-visible)
+    p {
+    color: #e3dbc9;
+  }
+  .md-khmer-legacy:not([data-obscured="true"])
+    .md-exhibition-card:is(:hover, :focus-visible)
+    .md-small-arrow {
+    transform: scale(1.08);
+    background: #a8814225;
+  }
+  .md-khmer-legacy:not([data-obscured="true"])
+    .md-exhibition-card:is(:hover, :focus-visible)
+    .md-small-arrow
+    svg {
+    transform: translateX(4px);
+  }
+  .md-khmer-legacy:not([data-obscured="true"])
+    .md-exhibition-card:is(:hover, :focus-visible)
+    .md-legacy-card-trace {
+    opacity: 0.7;
+  }
+  .md-khmer-legacy
+    .md-exhibition-card:is(:hover, :focus-visible)
+    .md-legacy-card-trace
+    rect {
+    animation: md-legacy-gold-trace 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .md-khmer-legacy:not([data-obscured="true"])
+    .md-exhibition-grid:has(.md-exhibition-card:is(:hover, :focus-visible))
+    .md-exhibition-card:not(:hover, :focus-visible) {
+    opacity: 0.68;
+  }
+}
+@keyframes md-legacy-gold-trace {
+  from {
+    stroke-dashoffset: 400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.md-root:has(.md-khmer-legacy:not([hidden]))
+  .md-screen-dot:not([aria-current])
+  > span {
+  background: #a88b5d75;
+}
+.md-root:has(.md-khmer-legacy:not([hidden])) .md-screen-indicator {
+  box-shadow: 0 0 12px #c59b4d35;
+}
+.md-root:has(.md-khmer-legacy:not([hidden])) .md-screen-previous svg {
+  transition: transform 0.26s;
+}
+.md-root:has(.md-khmer-legacy:not([hidden])) .md-screen-previous:hover svg {
+  transform: translateX(-4px);
+}
+.md-khmer-legacy[data-reduced-motion="true"] *,
+.md-khmer-legacy[data-reduced-motion="true"] *::before,
+.md-khmer-legacy[data-reduced-motion="true"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+.md-khmer-legacy[data-reduced-motion="true"] .md-exhibition-card,
+.md-khmer-legacy[data-reduced-motion="true"]
+  .md-exhibition-card
+  :is(img, h3, p, svg),
+.md-khmer-legacy[data-reduced-motion="true"] .md-small-arrow {
+  transform: none !important;
+  opacity: 1 !important;
+}
+.md-khmer-legacy[data-reduced-motion="true"] .md-legacy-card-trace,
+.md-khmer-legacy[data-reduced-motion="true"] .md-legacy-light-sweep {
+  display: none;
+}
+@container museum (max-width:400px) {
+  .md-khmer-legacy .md-filters button {
+    gap: 4px;
+  }
+  .md-legacy-memory-tag {
+    top: 5px;
+    right: 5px;
+    padding: 3px 5px;
+    font-size: 8px;
+  }
+}

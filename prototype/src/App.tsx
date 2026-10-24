@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
+import React, { lazy, Suspense, use, useState, useEffect, useRef } from 'react';
 import { HERITAGE_SITES, HeritageSite } from './data/heritageSites';
 import { LandmarkCarousel } from './components/LandmarkCarousel';
 import { HeaderTopBar } from './components/HeaderTopBar';
@@ -11,7 +11,11 @@ import { BookOpen, X, Clock3 } from 'lucide-react';
 import { fetchLocalWeather, type LocalWeather } from './services/localWeather';
 
 const Earth3DViewer = lazy(() => import('./components/Earth3DViewer').then((module) => ({ default: module.Earth3DViewer })));
-const StorytellingPanel = lazy(() => import('./components/StorytellingPanel').then((module) => ({ default: module.StorytellingPanel })));
+import { loadStorytellingPanel, peekStorytellingPanel } from './utils/museumPreload';
+function StorytellingPanel(props: React.ComponentProps<typeof import('./components/StorytellingPanel').StorytellingPanel>) {
+  const module = peekStorytellingPanel() ?? use(loadStorytellingPanel());
+  return <module.StorytellingPanel {...props} />;
+}
 const Artifact3DModal = lazy(() => import('./components/Artifact3DModal').then((module) => ({ default: module.Artifact3DModal })));
 const AboutProjectModal = lazy(() => import('./components/AboutProjectModal').then((module) => ({ default: module.AboutProjectModal })));
 const Panorama360Modal = lazy(() => import('./components/Panorama360Modal').then((module) => ({ default: module.Panorama360Modal })));
@@ -38,6 +42,8 @@ export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [isStoryExpanded, setIsStoryExpanded] = useState<boolean>(false);
   const [hasOpenedStoryDetail, setHasOpenedStoryDetail] = useState(false);
+  const [hasPreparedMuseumDetail, setHasPreparedMuseumDetail] = useState(false);
+  useEffect(() => { setHasPreparedMuseumDetail(false); }, [selectedSite.id, isSidebarOpen]);
   const [isStoryWide, setIsStoryWide] = useState<boolean>(false);
   const [isLandmarkCarouselCollapsed, setIsLandmarkCarouselCollapsed] = useState(false);
   const [isListDrawerOpen, setIsListDrawerOpen] = useState<boolean>(false);
@@ -201,8 +207,7 @@ export default function App() {
     setIsStoryExpanded(false);
     setHasOpenedStoryDetail(false);
     setIsStoryWide(false);
-    // Close sidebar during flight so user experiences unobstructed cinematic flight
-    setIsSidebarOpen(false);
+    // Keep the reading panel open while another destination takes focus.
     if (isSoundPlaying) {
       soundscape.playSoundscape(site.soundscapeType);
     }
@@ -291,6 +296,7 @@ export default function App() {
             activeCategoryFilter={selectedCategory}
             onOpenStorytelling={() => setIsSidebarOpen(true)}
             isStorytellingOpen={isSidebarOpen}
+            isOccluded={isSidebarOpen && isStoryExpanded}
             onMapStoryFocus={handleMapStoryFocus}
             onHomeClick={handleHomeClick}
             hasUserSelectedSite={hasUserSelectedSite}
@@ -337,16 +343,16 @@ export default function App() {
           )}
         </div>
         {/* Overlay the story without changing the map's size or camera center. */}
+        {isSidebarOpen && !isStoryExpanded && <div className="lqv-map-shade" aria-hidden="true" />}
         {isSidebarOpen && (
           <aside data-location-view={isStoryExpanded ? 'detail' : 'quick'} className={isStoryExpanded
             ? 'fixed inset-0 z-[70] shadow-2xl'
             : 'heritage-story-panel absolute inset-y-0 right-0 z-40 shadow-2xl transition-transform duration-300 ease-in-out animate-in slide-in-from-right'}>
             <div hidden={isStoryExpanded} className="h-full">
               <LocationQuickView
-                key={selectedSite.id}
                 site={selectedSite}
                 lang={lang}
-                isWide={isStoryWide}
+                onPrepareDetails={() => setHasPreparedMuseumDetail(true)}
                 onViewDetails={() => {
                   setHasOpenedStoryDetail(true);
                   setIsStoryExpanded(true);
@@ -358,14 +364,16 @@ export default function App() {
                   setIsStoryWide(false);
                   setHasOpenedStoryDetail(false);
                 }}
-                onToggleWidth={() => setIsStoryWide((wide) => !wide)}
                 onOpenQRCode={() => setIsQRCodeOpen(true)}
               />
             </div>
-            {hasOpenedStoryDetail && <div
+            {(hasOpenedStoryDetail || (selectedSite.id === 'bao-tang-khmer' && hasPreparedMuseumDetail)) && <div
               ref={storyDetailRef}
               className="heritage-location-detail"
-              hidden={!isStoryExpanded}
+              data-detail-prepared={!hasOpenedStoryDetail || undefined}
+              hidden={hasOpenedStoryDetail && !isStoryExpanded}
+              inert={!isStoryExpanded}
+              aria-hidden={!isStoryExpanded}
               tabIndex={-1}
               role="region"
               aria-label={lang === 'vi' ? `Chi tiết ${selectedSite.name}` : `${selectedSite.englishName} details`}

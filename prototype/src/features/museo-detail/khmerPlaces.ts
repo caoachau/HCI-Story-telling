@@ -5,8 +5,8 @@ const t = (vi: string, en: string): Copy => ({ vi, en });
 export const khmerPlaceSources = {
   archive: {
     title: t(
-      "B?o t?ng V?n h?a d?n t?c Khmer ? B?o t?ng L?ch s? Qu?c gia, 2014",
-      "Khmer Cultural Museum ? National Museum of History, 2014",
+      "Bảo tàng Văn hóa Dân tộc Khmer · Bảo tàng Lịch sử Quốc gia, 2014",
+      "Khmer Cultural Museum · National Museum of History, 2014",
     ),
     url: "https://baotanglichsu.vn/VI/Articles/3096/16337/bao-tang-van-hoa-dan-toc-khmer-tinh-tra-vinh.html",
   },

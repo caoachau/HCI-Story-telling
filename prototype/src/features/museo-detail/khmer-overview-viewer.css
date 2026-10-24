@@ -1,0 +1,675 @@
+/* A focused exhibition room above the existing full-screen overview. */
+.md-dialog.md-overview-viewer {
+  --overview-inset: 100px;
+  --overview-backdrop-opacity: 0;
+  --overview-backdrop-blur: 0px;
+  position: fixed;
+  inset: var(--overview-inset);
+  width: calc(100vw - var(--overview-inset) * 2);
+  height: calc(100dvh - var(--overview-inset) * 2);
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  overflow: visible;
+  color: #eee5d2;
+  font-family: Arial, sans-serif;
+  box-shadow: none;
+}
+.md-dialog.md-overview-viewer::backdrop {
+  background: transparent;
+  backdrop-filter: none;
+}
+.md-overview-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at center,
+    rgb(6 6 4 / var(--overview-backdrop-opacity)) 35%,
+    rgb(0 0 0 / var(--overview-backdrop-opacity)) 100%
+  );
+  backdrop-filter: blur(var(--overview-backdrop-blur));
+}
+.md-root:has(.md-overview-viewer[open]) > .md-scroll {
+  opacity: var(--overview-background-opacity, 1);
+  pointer-events: none;
+}
+.md-root:has(.md-overview-viewer[open])
+  > :is(.md-screen-nav, .md-host-controls) {
+  opacity: 0.08;
+  pointer-events: none;
+}
+.md-overview-panel {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgb(214 176 109 / 0.28);
+  border-radius: inherit;
+  background: linear-gradient(135deg, #14120d, #090907);
+  box-shadow: 0 24px 100px #0009;
+  transform-origin: center;
+}
+.md-overview-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 28px 16px;
+}
+.md-overview-viewer .md-overview-viewer-eyebrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  color: #c8a87e;
+  font-family: "Museo Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.md-overview-viewer-eyebrow > span {
+  color: #a28f73;
+  letter-spacing: 1px;
+}
+.md-dialog.md-overview-viewer .md-overview-close {
+  position: static;
+  float: none;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  margin: 0;
+  border: 1px solid #ba96664a;
+  background: #15120d !important;
+  color: #ede0c6;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.md-overview-close svg {
+  transition: transform 0.25s;
+}
+.md-overview-close:hover {
+  border-color: #c9a06f !important;
+  background: #322417 !important;
+}
+.md-overview-close:hover svg {
+  transform: rotate(90deg);
+}
+.md-overview-viewer-body {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  min-height: 0;
+  padding: 0 28px 20px;
+  gap: clamp(24px, 3vw, 52px);
+}
+.md-overview-visual {
+  display: grid;
+  grid-template-rows: minmax(160px, 1fr) auto auto auto;
+  min-height: 0;
+  min-width: 0;
+}
+.md-overview-visual-stage {
+  container-type: size;
+  position: relative;
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-radius: 12px;
+  background: #070706;
+  scrollbar-width: thin;
+  scrollbar-color: #806342 #14120d;
+}
+.md-khmer-story .md-overview-main-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+}
+.md-overview-visual-stage.is-zoomed .md-overview-main-image {
+  width: 200%;
+  height: 200%;
+}
+.md-overview-visual-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 10px;
+  color: #c9af89;
+  font:
+    11px "Museo Mono",
+    monospace;
+}
+.md-overview-visual-controls .md-round {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-color: #ac8a5e45;
+}
+.md-overview-visual-controls .md-round svg {
+  width: 17px;
+  height: 17px;
+}
+.md-overview-visual-controls .md-overview-zoom {
+  margin-left: auto;
+}
+.md-overview-gallery-caption {
+  padding: 12px 0 14px;
+  min-width: 0;
+}
+.md-overview-gallery-caption > strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  color: #e5d5bb;
+  line-height: 1.4;
+}
+.md-overview-viewer .md-overview-gallery-caption > p {
+  color: #bfb09b;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 6px 0 7px;
+}
+.md-overview-viewer .md-khmer-photo-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #bda17b;
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.md-overview-gallery-caption a svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+.md-overview-thumbnails {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+.md-overview-thumbnails > button {
+  position: relative;
+  width: min(20%, 138px);
+  min-width: 0;
+  height: clamp(52px, 6vw, 80px);
+  padding: 3px;
+  border: 1px solid #ac8a5e35;
+  border-radius: 7px;
+  background: #18140f;
+  overflow: hidden;
+  transition:
+    border-color 0.2s,
+    opacity 0.2s;
+}
+.md-overview-thumbnails > button[aria-pressed="true"] {
+  border-color: #d4b784;
+}
+.md-overview-thumbnails > button:not([aria-pressed="true"]) {
+  opacity: 0.64;
+}
+.md-overview-thumbnails > button:hover {
+  opacity: 1;
+  border-color: #c5a06e;
+}
+.md-overview-thumbnails img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 3px;
+}
+.md-overview-thumbnail-number {
+  position: absolute;
+  bottom: 6px;
+  left: 8px;
+  font:
+    10px "Museo Mono",
+    monospace;
+  color: #fff2d5;
+  text-shadow: 0 1px 4px #000;
+}
+.md-overview-map-thumbnail {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #c9aa7d;
+  font-size: 10px;
+}
+.md-overview-map-thumbnail svg {
+  width: 20px;
+  height: 20px;
+}
+.md-overview-reading {
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 2px 16px 18px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #806342 #14120d;
+}
+.md-dialog.md-overview-viewer .md-overview-title-mask {
+  overflow: hidden;
+  margin: 0 0 18px;
+  padding: 0.08em 0;
+  font-family: "Museo Display", Arial, sans-serif;
+  font-size: clamp(36px, 3.1vw, 64px);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: #eee5d2;
+  text-wrap: balance;
+}
+.md-overview-title-mask > span {
+  display: block;
+}
+.md-dialog.md-overview-viewer .md-overview-lead {
+  font-size: clamp(16px, 1.05vw, 20px);
+  line-height: 1.6;
+  color: #dfd0b8;
+  margin: 0 0 24px;
+}
+.md-overview-metadata {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 28px;
+  padding: 20px 0;
+  border-top: 1px solid #bc9c6e35;
+  border-bottom: 1px solid #bc9c6e25;
+}
+.md-overview-metadata > div {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 14px;
+}
+.md-overview-metadata dt {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #b79a75;
+}
+.md-overview-metadata dd {
+  margin: 0;
+  color: #d3c3ab;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.md-overview-viewer .md-khmer-story-prose {
+  gap: 20px;
+}
+.md-overview-viewer .md-khmer-story-prose p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #c6bcac;
+  margin: 0;
+}
+.md-overview-viewer .md-khmer-story-sources > a {
+  font-size: 12px;
+}
+.md-overview-viewer-nav {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  padding: 18px 28px;
+  border-top: 1px solid #bc9c6e25;
+}
+.md-overview-viewer-nav > button {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 16px;
+  text-align: left;
+  color: #dac7a7;
+  transition: color 0.2s;
+}
+.md-overview-viewer-nav > button:last-child {
+  text-align: right;
+  justify-content: flex-end;
+}
+.md-overview-viewer-nav > button:hover {
+  color: #fff0d2;
+}
+.md-overview-viewer-nav > button svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.md-overview-viewer-nav > button > span {
+  min-width: 0;
+}
+.md-overview-viewer-nav small {
+  display: block;
+  font-size: 10px;
+  color: #b39873;
+  margin-bottom: 5px;
+}
+.md-overview-viewer-nav strong {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.md-overview-topic-count {
+  font:
+    12px "Museo Mono",
+    monospace;
+  color: #e4c591;
+}
+.md-overview-topic-count > span {
+  color: #9d8a70;
+}
+.md-overview-flight {
+  position: absolute;
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+  box-shadow: 0 12px 40px #0005;
+}
+.md-overview-flight img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.md-overview-photo-error {
+  position: absolute;
+  inset: 20px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: #14120d;
+}
+.md-overview-map {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #151811;
+}
+.md-overview-map-plane {
+  width: min(100cqw, 100cqh);
+  height: min(100cqw, 100cqh);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.md-overview-map-tiles {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  filter: saturate(0.65) brightness(0.7);
+}
+.md-overview-map-tiles img {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: cover;
+}
+.md-overview-map-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  color: #d9b779;
+  display: flex;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+}
+.md-overview-map-marker > svg {
+  width: 25px;
+  height: 25px;
+  fill: #241a0d;
+  filter: drop-shadow(0 2px 3px #000);
+}
+.md-overview-map-marker > span {
+  position: absolute;
+  left: 34px;
+  padding: 6px 9px;
+  border: 1px solid #b49b6d50;
+  border-radius: 4px;
+  background: #0e100cdd;
+  font-size: clamp(10px, 1vw, 13px);
+  white-space: nowrap;
+  color: #eddfc7;
+}
+.md-overview-map-marker.is-selected > svg {
+  color: #ffcd77;
+  fill: #5b381a;
+}
+.md-overview-map-marker[data-overview-place="pagoda"] > span {
+  left: auto;
+  right: 34px;
+}
+.md-overview-map-marker[data-overview-place="pond"] > span {
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+}
+.md-overview-map-marker.is-selected > span {
+  border-color: #e5bd79;
+}
+.md-overview-map-attribution {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  font-size: 11px;
+  color: #dacbb2;
+}
+@media (max-width: 1599px) {
+  .md-dialog.md-overview-viewer {
+    --overview-inset: 64px;
+  }
+}
+@media (max-width: 1199px) {
+  .md-dialog.md-overview-viewer {
+    --overview-inset: 32px;
+  }
+  .md-overview-viewer-body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+  }
+  .md-overview-metadata > div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .md-overview-metadata {
+    gap: 12px;
+  }
+}
+@media (max-height: 700px) {
+  .md-dialog.md-overview-viewer {
+    --overview-inset: 32px;
+  }
+  .md-overview-viewer-header {
+    padding-top: 14px;
+    padding-bottom: 12px;
+  }
+  .md-overview-viewer-nav {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .md-overview-gallery-caption {
+    padding: 8px 0 10px;
+  }
+  .md-overview-thumbnails > button {
+    height: 52px;
+  }
+  .md-overview-viewer .md-overview-gallery-caption > p {
+    font-size: 11px;
+  }
+}
+@media (max-width: 767px), (max-height: 480px) {
+  .md-dialog.md-overview-viewer {
+    --overview-inset: 12px;
+    border-radius: 14px;
+  }
+}
+@media (max-width: 767px) {
+  .md-overview-viewer-header {
+    padding: 14px 16px 12px;
+    gap: 12px;
+  }
+  .md-overview-viewer .md-overview-viewer-eyebrow {
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    gap: 5px 12px;
+  }
+  .md-overview-viewer-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 16px 24px;
+  }
+  .md-overview-visual {
+    flex-shrink: 0;
+    grid-template-rows: clamp(190px, 34dvh, 320px) auto auto auto;
+  }
+  .md-overview-reading {
+    overflow: visible;
+    min-height: auto;
+    padding: 0;
+  }
+  .md-dialog.md-overview-viewer .md-overview-title-mask {
+    font-size: clamp(30px, 6vw, 44px);
+  }
+  .md-dialog.md-overview-viewer .md-overview-lead {
+    font-size: 16px;
+  }
+  .md-overview-viewer .md-khmer-story-prose p {
+    font-size: 14px;
+  }
+  .md-overview-metadata > div {
+    grid-template-columns: 95px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .md-overview-thumbnails {
+    gap: 6px;
+  }
+  .md-overview-thumbnails > button {
+    flex: 1;
+    width: auto;
+    height: 52px;
+  }
+  .md-overview-thumbnail-number {
+    font-size: 8px;
+    left: 6px;
+    bottom: 5px;
+  }
+  .md-overview-map-thumbnail {
+    font-size: 9px;
+    gap: 3px;
+  }
+  .md-overview-gallery-caption > strong {
+    font-size: 14px;
+  }
+  .md-overview-viewer-nav {
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .md-overview-viewer-nav > button {
+    gap: 8px;
+  }
+  .md-overview-viewer-nav strong {
+    display: none;
+  }
+  .md-overview-viewer-nav small {
+    font-size: 11px;
+    margin: 0;
+  }
+  .md-overview-viewer-nav > button svg {
+    width: 16px;
+    height: 16px;
+  }
+  .md-overview-topic-count {
+    font-size: 10px;
+  }
+  .md-overview-topic-count > span {
+    font-size: 9px;
+  }
+  .md-overview-map-marker > span {
+    left: 28px;
+    padding: 4px 6px;
+    font-size: 9px;
+  }
+  .md-overview-map-marker[data-overview-place="pagoda"] > span {
+    left: auto;
+    right: 28px;
+  }
+}
+@media (min-width: 768px) and (max-height: 480px) {
+  .md-overview-map-marker > span {
+    font-size: 10px;
+    line-height: 1.3;
+    padding: 4px 7px;
+  }
+  .md-overview-viewer-header {
+    padding: 10px 18px;
+  }
+  .md-overview-viewer-body {
+    padding: 0 18px 10px;
+    gap: 20px;
+  }
+  .md-overview-visual {
+    overflow-y: auto;
+    grid-template-rows: minmax(130px, 1fr) auto auto auto;
+  }
+  .md-overview-gallery-caption > strong {
+    font-size: 13px;
+  }
+  .md-overview-viewer .md-overview-gallery-caption > p {
+    display: none;
+  }
+  .md-overview-thumbnails > button {
+    height: 40px;
+  }
+  .md-overview-visual-controls {
+    padding-top: 6px;
+  }
+  .md-overview-visual-controls .md-round {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+  }
+  .md-overview-viewer-nav {
+    padding: 10px 18px;
+  }
+  .md-overview-viewer-nav strong {
+    font-size: 11px;
+  }
+}
+.md-overview-viewer[data-motion-reduced="true"] *,
+.access-reduce-motion .md-overview-viewer * {
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-overview-viewer * {
+    transition: none !important;
+  }
+}

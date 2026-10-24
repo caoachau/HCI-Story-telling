@@ -1,0 +1,39 @@
+import React, { type RefObject } from 'react';
+import { ArrowLeft, ArrowRight, BookOpen, ChevronLeft, ChevronRight, Clock, ExternalLink, Eye, HelpCircle, Users } from 'lucide-react';
+import { COMMUNITY_TOPICS, EXPERIENCE_OPTIONS, HISTORY_STOPS, type OpenStory } from '../data/sectionContent';
+import { STORY_LAYERS } from '../data/storyLayers';
+import { DiscoveryImage } from './DiscoveryImage';
+import { PHOTOS } from '../data/conChimData';
+
+interface SectionProps { headingRef:RefObject<HTMLHeadingElement|null>; selected:number; onSelect:(index:number)=>void; onChoose:OpenStory; }
+
+export function ConChimHistory({headingRef,selected,onSelect,onChoose}:SectionProps) {
+  const stop=HISTORY_STOPS[selected];
+  return <section className="ccs-history ccs-section-page" aria-labelledby="cck-history-title" data-content-section="history">
+    <header className="ccs-section-heading"><div className="ccs-history-banner"><DiscoveryImage photo={PHOTOS[0]} retry={false}/></div><div className="ccs-heading-copy"><p className="cck-kicker">03 / 05 · Chuyện của cồn</p><h1 id="cck-history-title" ref={headingRef} tabIndex={-1}>Những ngày đầu<br/>đón khách.</h1><p>Từ sinh kế trên cồn đến những chuyến ghé thăm. Chọn một mốc để tự khám phá.</p></div><aside className="ccs-history-date"><span>Ngày ra mắt</span><strong>09.09</strong><b>2019</b><small>Điểm du lịch cộng đồng Cồn Chim</small></aside></header>
+    <nav className="ccs-timeline" aria-label="Các mốc trong câu chuyện Cồn Chim">{HISTORY_STOPS.map((item,index)=><button type="button" key={item.id} aria-pressed={selected===index} onClick={()=>onSelect(index)}><DiscoveryImage photo={item.photo} retry={false}/><span><strong>{item.date}</strong><small>{item.title}</small></span><ArrowRight/></button>)}</nav>
+    <div className="ccs-history-detail" data-history-stop={stop.id}>
+      <figure><DiscoveryImage key={stop.photo.id} photo={stop.photo} eager/><figcaption>{stop.photo.caption}<a href={stop.photo.source} target="_blank" rel="noopener noreferrer">Ảnh: {stop.photo.credit}<ExternalLink size={14}/></a></figcaption></figure>
+      <div className="ccs-history-copy" aria-live="polite"><div key={stop.id} className="ccs-history-prose" tabIndex={0} aria-label="Nội dung mốc lịch sử"><p className="cck-kicker">{stop.kind}</p><h2>{stop.title}</h2><p className="ccs-history-lead">{stop.shortDesc}</p><p>{stop.detailDesc}</p><ul>{stop.highlights.map(item=><li key={item}>{item}</li>)}</ul><a className="ccs-source" href={stop.source.url} target="_blank" rel="noopener noreferrer">{stop.source.publisher} · {stop.source.published}<ExternalLink/></a></div><aside className="ccs-history-reading"><p className="cck-kicker">Câu chuyện phía sau</p><div className="ccs-actions"><button type="button" className="cck-primary" onClick={()=>onChoose(stop.storyId)}><BookOpen/><span>Đọc hoặc nghe câu chuyện<small>Ý chính trước · Tự chọn phần đọc thêm</small></span><ArrowRight/></button><button type="button" className="cck-outline" onClick={()=>onChoose(stop.storyId,'questions')}><HelpCircle/><span>Hỏi sâu về mốc này<small>Mở từng câu hỏi và kiểm tra nguồn</small></span><ArrowRight/></button></div><div className="ccs-history-pagination"><button type="button" className="cck-outline" disabled={selected===0} onClick={()=>onSelect(selected-1)} aria-label="Mốc trước"><ArrowLeft/></button><span>{selected+1} / {HISTORY_STOPS.length}</span><button type="button" className="cck-outline" disabled={selected===HISTORY_STOPS.length-1} onClick={()=>onSelect(selected+1)} aria-label="Mốc tiếp"><ArrowRight/></button></div></aside></div>
+    </div>
+  </section>;
+}
+
+export function ConChimCommunity({headingRef,selected,onSelect,onChoose}:SectionProps) {
+  const topic=COMMUNITY_TOPICS[selected];
+  return <section className="ccs-community ccs-section-page" aria-labelledby="cck-community-title" data-content-section="community">
+    <div className="ccs-community-art"><DiscoveryImage key={topic.id} photo={topic.photo} eager retry={false}/></div><div className="ccs-community-shade" aria-hidden="true"/>
+    <div className="ccs-community-copy"><header><p className="cck-kicker">04 / 05 · Những người làm nên Cồn Chim</p><h1 id="cck-community-title" ref={headingRef} tabIndex={-1}>Đời sống &<br/>con người.</h1><p>Gặp Cồn Chim qua những mái nhà, bữa cơm và lối đi thường ngày.</p></header><div className="ccs-actions"><button type="button" className="cck-primary" onClick={()=>onChoose(topic.id)}><BookOpen/>Đọc hoặc nghe chủ đề</button><button type="button" className="cck-outline" onClick={()=>onChoose(topic.id,'questions')}><HelpCircle/>Hỏi sâu</button><button type="button" className="cck-outline" onClick={()=>onChoose(topic.id,'observe')}><Eye/>Quan sát ảnh</button></div><div className="ccs-community-story" aria-live="polite"><p className="cck-kicker">{String(selected+1).padStart(2,'0')} / 03 · {topic.place}</p><h2>{topic.title}</h2><p>{topic.teaser}</p><p className="ccs-observation">{STORY_LAYERS[topic.id].observe}</p><a className="ccs-source" href={topic.photo.source} target="_blank" rel="noopener noreferrer">Ảnh: {topic.photo.credit}<ExternalLink/></a></div></div>
+    <div className="ccs-community-controls" aria-label="Đổi chủ đề đời sống"><button type="button" aria-label="Chủ đề đời sống trước" onClick={()=>onSelect((selected+COMMUNITY_TOPICS.length-1)%COMMUNITY_TOPICS.length)}><ChevronLeft/></button><span>{selected+1} / {COMMUNITY_TOPICS.length}</span><button type="button" aria-label="Chủ đề đời sống tiếp theo" onClick={()=>onSelect((selected+1)%COMMUNITY_TOPICS.length)}><ChevronRight/></button></div>
+    <nav className="ccs-community-topics" aria-label="Chọn chủ đề về con người">{COMMUNITY_TOPICS.map((item,index)=><button type="button" key={item.id} aria-pressed={selected===index} onClick={()=>onSelect(index)}><DiscoveryImage photo={item.photo} retry={false}/><span><strong>{item.place}</strong><small>{item.title}</small></span><ArrowRight/></button>)}</nav>
+  </section>;
+}
+
+export function ConChimExperiences({headingRef,selected,onSelect,onChoose}:SectionProps) {
+  const option=EXPERIENCE_OPTIONS[selected];
+  return <section className="ccs-experiences ccs-section-page" aria-labelledby="cck-experiences-title" data-content-section="experiences">
+    <header className="ccs-section-heading"><p className="cck-kicker">05 / 05 · Quan sát, hỏi chuyện, thử một việc</p><h1 id="cck-experiences-title" ref={headingRef} tabIndex={-1}>Trải nghiệm Cồn Chim.</h1><p>Bắt đầu từ một điều gần gũi. Chọn hoạt động để xem trước cách tham gia.</p></header>
+    <div className="ccs-experience-grid" aria-label="Chọn một trải nghiệm">{EXPERIENCE_OPTIONS.map((item,index)=><button type="button" key={item.id} aria-pressed={selected===index} onClick={()=>onSelect(index)}><DiscoveryImage photo={item.story.photo} retry={false}/><span className="ccs-experience-card-copy"><strong>{item.title}</strong><span>{item.description}</span><small>{selected===index?'Đang xem':'Chọn để xem trước'}<ArrowRight/></small></span></button>)}</div>
+    <div className="ccs-experience-detail" data-experience-id={option.id}><div aria-live="polite"><span className="cck-kicker"><Users/>Bạn có thể nhận được gì?</span><h2>{option.title}</h2><p>{option.result}</p></div><div><p className="ccs-experience-time"><Clock/>Xem trước khoảng 2 phút · Tự chọn từng phần</p><div className="ccs-actions"><button type="button" className="cck-primary" onClick={()=>onChoose(option.story.id,option.mode)}>{option.mode==='activity'?<ArrowRight/>:<Eye/>}{option.action}</button><button type="button" className="cck-outline" onClick={()=>onChoose(option.story.id,'questions')}><HelpCircle/>Tôi muốn hỏi thêm</button></div><p className="ccs-host-note">Hỏi người phụ trách đón khách về hộ hướng dẫn, thời gian phù hợp và phần có thể tham gia. Chỉ bắt đầu khi chủ nhà đồng ý.</p></div></div>
+  </section>;
+}

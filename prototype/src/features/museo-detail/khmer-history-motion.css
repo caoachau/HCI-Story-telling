@@ -1,0 +1,345 @@
+/* A historical spread: navigation above, one archival composition below. */
+.md-khmer-history > .md-frame {
+  grid-template-rows: 30% 19% minmax(0, 1fr);
+}
+.md-khmer-history .md-evolution-art {
+  opacity: 0.48;
+  mask-image:
+    linear-gradient(90deg, transparent, #000 24%),
+    linear-gradient(0deg, transparent, #000 40%);
+}
+.md-khmer-history .md-evolution-note {
+  width: 15cqw;
+  color: #c9b798;
+  letter-spacing: 0.13em;
+}
+.md-khmer-history .md-evolution-note > span,
+.md-khmer-history .md-evolution-note > small {
+  display: block;
+}
+.md-khmer-history .md-evolution-note > strong {
+  display: block;
+  font-size: min(5.5cqw, 7.5cqh);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+  color: #ead7b5;
+  margin-block: 0.8cqh;
+}
+.md-khmer-history .md-evolution-note > small {
+  padding-top: 1.2cqh;
+  margin-top: 1.2cqh;
+  border-top: 1px solid #b8945d40;
+  font-size: 0.85em;
+  letter-spacing: 0.06em;
+}
+.md-khmer-history .md-era-track {
+  isolation: isolate;
+}
+.md-khmer-history .md-era-track::before,
+.md-khmer-history .md-era-photo::after {
+  display: none;
+}
+.md-khmer-history .md-era-track > button:not(.md-round) {
+  align-self: center;
+  z-index: 1;
+}
+.md-khmer-history .md-era-photo {
+  height: min(80px, 8cqh);
+  border-radius: 5px;
+  margin-bottom: 6px;
+  opacity: 0.5;
+  transform: scale(0.94);
+  transition:
+    opacity 0.45s,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.45s,
+    box-shadow 0.45s;
+}
+.md-khmer-history .md-era-photo img {
+  height: 100%;
+  border-radius: 4px;
+}
+.md-khmer-history .is-past .md-era-photo {
+  opacity: 0.7;
+}
+.md-khmer-history .is-selected .md-era-photo {
+  opacity: 1;
+  transform: translateY(-7px) scale(1);
+  border-color: #d8b67e;
+  box-shadow:
+    0 4px 20px #0005,
+    0 0 0 3px #c19a5c0c;
+}
+.md-khmer-history .md-era-track strong {
+  transition:
+    color 0.4s,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #c7bdad;
+}
+.md-khmer-history .md-era-track .is-selected strong {
+  color: #f2e3cb;
+  transform: scale(1.1);
+}
+.md-history-dot {
+  display: block;
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  margin: 0 auto 7px;
+  border: 1px solid #856f50;
+  border-radius: 50%;
+  background: #16130e;
+  transition:
+    background 0.45s,
+    box-shadow 0.5s,
+    transform 0.5s;
+}
+.is-past .md-history-dot {
+  background: #b99869;
+}
+.is-selected .md-history-dot {
+  transform: scale(1.4);
+  border-color: #e2bd80;
+  background: #e2bd80;
+  box-shadow:
+    0 0 0 4px #d7a55a18,
+    0 0 16px #d7a55a55;
+}
+.md-history-rail {
+  position: absolute;
+  height: 1px;
+  background: #b9986940;
+  pointer-events: none;
+  z-index: 0;
+}
+.md-history-progress {
+  display: block;
+  position: absolute;
+  inset-block: 0;
+  width: 0;
+  background: linear-gradient(90deg, #b2946380, #e4bb7a);
+  box-shadow: 0 0 8px #b8945d25;
+}
+.md-history-title-mask,
+.md-history-year-mask {
+  position: relative;
+  overflow: hidden;
+  padding-block: 0.13em;
+}
+.md-history-title-current,
+.md-history-year-current {
+  display: block;
+}
+.md-history-title-previous,
+.md-history-year-previous {
+  position: absolute;
+  top: 0.13em;
+  left: 0;
+  display: block;
+  pointer-events: none;
+}
+.md-history-image-previous {
+  pointer-events: none;
+}
+.md-khmer-history .md-era-facts > div {
+  position: relative;
+  border-top: 1px solid #b9986940;
+  padding-top: 6px;
+}
+.md-history-fact-number {
+  color: #a58a63;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+}
+.md-khmer-history .md-era-facts small {
+  order: 1;
+  font-size: clamp(10px, min(0.9cqw, 1.8cqh), 17px);
+  color: #e6d2b1;
+  margin-top: 0;
+}
+.md-khmer-history .md-era-facts strong {
+  order: 2;
+  color: #bcb0a0;
+}
+.md-history-story-number {
+  display: block;
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: #b79869;
+  margin-bottom: 5px;
+}
+.md-khmer-history .md-era-highlights button {
+  position: relative;
+}
+.md-khmer-history .md-era-highlights button::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: #d0ad77;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.md-khmer-history .md-era-highlights img,
+.md-khmer-history .md-era-highlights strong {
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s;
+}
+.md-khmer-history .md-era-highlights button:is(:hover, :focus-visible) img {
+  transform: scale(1.045);
+}
+.md-khmer-history .md-era-highlights button:is(:hover, :focus-visible) strong {
+  transform: translateX(6px);
+  color: #e5c699;
+}
+.md-khmer-history .md-era-highlights button:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
+.md-khmer-history .md-era-highlights .md-small-arrow {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 0;
+  color: #c9ab7d;
+}
+.md-khmer-history .md-era-highlights .md-small-arrow svg {
+  width: 15px;
+  height: 15px;
+}
+.md-history-announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@container museum (min-width: 1000px) {
+  .md-khmer-history .md-evolution-copy h2 {
+    font-size: min(3.8cqw, 4.9cqh);
+  }
+  .md-khmer-history .md-era-detail {
+    grid-template-columns: minmax(0, 78fr) minmax(0, 22fr);
+    gap: 1.4cqw;
+    border: 0;
+    border-top: 1px solid #b9986940;
+    border-radius: 0;
+    padding: 1.5cqh 0 0;
+    margin-inline: 3.6cqw;
+  }
+  .md-khmer-history .md-era-story::before {
+    background: linear-gradient(90deg, #10100d 37%, transparent 48%);
+  }
+  .md-khmer-history .md-era-scene {
+    width: 61.5%;
+    mask-image: none;
+    border-radius: 3px;
+  }
+  .md-khmer-history .md-era-detail-copy {
+    width: 38.5%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0.7cqh 1.8cqw 0.7cqh 0;
+  }
+  .md-khmer-history .md-era-detail-copy h3 {
+    font-size: min(2.65cqw, 4.2cqh);
+    line-height: 1.15;
+  }
+  .md-khmer-history .md-era-detail-copy > .md-mono {
+    width: 100%;
+    max-width: none;
+    font-size: clamp(11px, min(0.88cqw, 1.6cqh), 17px);
+    line-height: 1.6;
+  }
+  .md-khmer-history .md-era-detail-copy > .md-eyebrow {
+    letter-spacing: 0.12em;
+  }
+  .md-khmer-history .md-era-facts {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.1cqh 1.3cqw;
+    margin-top: auto;
+    padding-top: 1.6cqh;
+  }
+  .md-khmer-history .md-africa-caption {
+    right: 1.2cqw;
+    bottom: 1.2cqh;
+    max-width: 54%;
+    background: #15120cbb !important;
+  }
+  .md-khmer-history .md-era-highlights button {
+    grid-template-columns: min(4.3cqw, 6.8cqh) minmax(0, 1fr) 16px;
+    gap: 0.75cqw;
+  }
+  .md-khmer-history .md-era-highlights img {
+    width: 100%;
+    height: min(6.2cqw, 9cqh);
+    border-radius: 2px;
+  }
+  .md-khmer-history .md-era-highlights strong {
+    font-size: clamp(10px, 0.78cqw, 15px);
+  }
+  .md-khmer-history .md-era-highlights small {
+    font-size: clamp(10px, 0.72cqw, 14px);
+    -webkit-line-clamp: 2;
+    margin-top: 5px;
+  }
+}
+@container museum (max-width: 999px) {
+  .md-khmer-history > .md-frame {
+    grid-template-rows: 32% 18% minmax(0, 1fr);
+  }
+  .md-khmer-history .md-era-photo {
+    height: min(64px, 7.2cqh);
+    margin-bottom: 3px;
+  }
+  .md-khmer-history .md-history-dot {
+    width: 5px;
+    height: 5px;
+    margin-bottom: 3px;
+  }
+  .md-khmer-history .is-selected .md-era-photo {
+    transform: translateY(-3px) scale(1);
+  }
+  .md-khmer-history .md-era-facts small {
+    font-size: 9px;
+  }
+  .md-khmer-history .md-history-fact-number {
+    font-size: 7px;
+    margin-bottom: 2px;
+  }
+  .md-khmer-history .md-history-story-number {
+    font-size: 8px;
+    margin-bottom: 3px;
+  }
+}
+@container museum (max-height: 620px) {
+  .md-khmer-history .md-era-facts > div {
+    padding-top: 3px;
+  }
+  .md-khmer-history .md-history-fact-number {
+    display: none;
+  }
+}
+@container museum ((max-width: 999px) and (max-height: 620px)) {
+  .md-khmer-history .md-era-track small {
+    display: none;
+  }
+  .md-khmer-history .md-era-photo {
+    height: min(44px, 6.5cqh);
+  }
+}
+.md-khmer-history[data-reduced-motion="true"] *,
+.md-khmer-history[data-reduced-motion="true"] *::after {
+  transition: none !important;
+}
+.md-khmer-history[data-reduced-motion="true"] .md-era-highlights button:is(:hover,:focus-visible) :is(img,strong) {
+  transform: none !important;
+}

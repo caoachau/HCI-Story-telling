@@ -19,9 +19,6 @@ import {
   khmerOverviewFacts,
   khmerOverviewGallery,
   khmerOverviewHighlights,
-  khmerOverviewPhotoCredits,
-  khmerOverviewSources,
-  khmerOverviewStories,
   khmerOverviewVisitReasons,
   type KhmerOverviewTopic,
 } from "./khmerOverview";
@@ -45,7 +42,7 @@ function MuseumLocation({
 }: {
   lang: Language;
   active: boolean;
-  onRead: () => void;
+  onRead: (origin: HTMLElement) => void;
 }) {
   // Same coordinates as the museum landmark. Cached imagery shares the host's
   // Web Mercator projection; the marker sits at the actual map centre.
@@ -62,7 +59,7 @@ function MuseumLocation({
       type="button"
       data-overview-topic="location"
       aria-label={khmerOverview.locationAction[lang]}
-      onClick={onRead}
+      onClick={(event) => onRead(event.currentTarget)}
     >
       <span
         className="md-khmer-map-tiles"
@@ -100,7 +97,7 @@ export function KhmerMuseumOverview({
 }: {
   lang: Language;
   active: boolean;
-  onRead: (topic: KhmerOverviewTopic) => void;
+  onRead: (topic: KhmerOverviewTopic, origin: HTMLElement) => void;
   onContentChange: () => void;
 }) {
   const [photoIndex, setPhotoIndex] = useState(0);
@@ -154,7 +151,7 @@ export function KhmerMuseumOverview({
               className="md-button md-button-primary"
               type="button"
               data-overview-topic="collections"
-              onClick={() => onRead("collections")}
+              onClick={(event) => onRead("collections", event.currentTarget)}
             >
               {khmerOverview.explore[lang]} <ArrowRight />
             </button>
@@ -162,7 +159,7 @@ export function KhmerMuseumOverview({
               className="md-intro-link"
               type="button"
               data-overview-topic="introduction"
-              onClick={() => onRead("introduction")}
+              onClick={(event) => onRead("introduction", event.currentTarget)}
             >
               <span className="md-play-disc">
                 <BookOpen />
@@ -177,7 +174,10 @@ export function KhmerMuseumOverview({
         <aside className="md-unesco-note">
           <strong>{khmerOverview.noteTitle[lang]}</strong>
           <p>{khmerOverview.note[lang]}</p>
-          <button type="button" onClick={() => onRead("introduction")}>
+          <button
+            type="button"
+            onClick={(event) => onRead("introduction", event.currentTarget)}
+          >
             {khmerOverview.noteAction[lang]} <ArrowRight />
           </button>
         </aside>
@@ -205,7 +205,7 @@ export function KhmerMuseumOverview({
         <MuseumLocation
           lang={lang}
           active={active}
-          onRead={() => onRead("location")}
+          onRead={(origin) => onRead("location", origin)}
         />
       </div>
       <div className="md-overview-bottom">
@@ -219,7 +219,7 @@ export function KhmerMuseumOverview({
                 key={item.id}
                 type="button"
                 data-overview-topic={item.id}
-                onClick={() => onRead(item.id)}
+                onClick={(event) => onRead(item.id, event.currentTarget)}
               >
                 <img src={artwork(item.photo)} alt="" loading="lazy" />
                 <Icon aria-hidden="true" />
@@ -289,7 +289,7 @@ export function KhmerMuseumOverview({
                 key={item.id}
                 type="button"
                 data-overview-topic={item.id}
-                onClick={() => onRead(item.id)}
+                onClick={(event) => onRead(item.id, event.currentTarget)}
               >
                 <img src={artwork(item.photo)} alt="" loading="lazy" />
                 <Icon aria-hidden="true" />
@@ -303,58 +303,5 @@ export function KhmerMuseumOverview({
         </div>
       </div>
     </section>
-  );
-}
-
-export function KhmerOverviewStory({
-  topic,
-  lang,
-}: {
-  topic: KhmerOverviewTopic;
-  lang: Language;
-}) {
-  const story = khmerOverviewStories[topic];
-  const photoAlt =
-    khmerOverviewGallery.find((photo) => photo.photo === story.photo)?.alt[
-      lang
-    ] ?? khmerOverview.fullName[lang];
-  return (
-    <article className="md-khmer-story" lang={lang} data-overview-story={topic}>
-      <img
-        className="md-story-photo"
-        src={artwork(story.photo)}
-        alt={photoAlt}
-      />
-      <p className="md-khmer-photo-credit">
-        {khmerOverviewPhotoCredits[story.photo][lang]}
-      </p>
-      <span className="md-eyebrow">{khmerOverview.eyebrow[lang]}</span>
-      <h2 id="md-dialog-title">{story.title[lang]}</h2>
-      <div className="md-khmer-story-prose">
-        {story.paragraphs.map((paragraph, index) => (
-          <p key={index}>{paragraph[lang]}</p>
-        ))}
-        {story.sections?.map((section, index) => (
-          <section key={index}>
-            <h3>{section.title[lang]}</h3>
-            <p>{section.text[lang]}</p>
-          </section>
-        ))}
-      </div>
-      <footer className="md-khmer-story-sources">
-        <strong>{lang === "vi" ? "TÌM HIỂU THÊM" : "FURTHER READING"}</strong>
-        {story.sources.map((source) => (
-          <a
-            key={source}
-            href={khmerOverviewSources[source].url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {khmerOverviewSources[source].title}
-            <ArrowRight />
-          </a>
-        ))}
-      </footer>
-    </article>
   );
 }

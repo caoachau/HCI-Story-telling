@@ -85,6 +85,9 @@
     transform: none;
   }
 }
+[data-map-occluded="true"] * {
+  animation-play-state: paused !important;
+}
 .story-tab-strip {
   touch-action: pan-x;
   overscroll-behavior-x: contain;

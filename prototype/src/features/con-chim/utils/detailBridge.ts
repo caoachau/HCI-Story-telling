@@ -58,7 +58,7 @@ export function installDetailBridge() {
       modal.querySelector<HTMLButtonElement>('button')?.click();
     }
     if (event.key === 'Tab') {
-      const items = [...modal.querySelectorAll<HTMLElement>('button, a[href], input, textarea, select, [tabindex="0"]')].filter(el => !el.hasAttribute('disabled') && el.getClientRects().length);
+      const items = [...modal.querySelectorAll<HTMLElement>('button, a[href], input, textarea, select, summary, [tabindex="0"]')].filter(el => !el.hasAttribute('disabled') && el.getClientRects().length);
       const first = items[0], last = items.at(-1);
       const outside = !items.includes(document.activeElement as HTMLElement);
       if (event.shiftKey && (document.activeElement === first || outside)) { event.preventDefault(); last?.focus(); }

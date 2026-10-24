@@ -1,4 +1,5 @@
 import cycling from '../../../assets/con-chim/cycling-2025.webp';
+import cyclingOriginal from '../../../assets/con-chim/cycling-2025-original.jpg';
 import pond from '../../../assets/con-chim/community-pond.webp';
 import meal from '../../../assets/con-chim/islet-meal.webp';
 import arrival from '../../../assets/con-chim/village-visit.webp';
@@ -17,9 +18,9 @@ export const sources = {
   award: 'https://www.sggp.org.vn/tra-vinh-du-lich-cong-dong-con-chim-duoc-nhan-giai-thuong-du-lich-asean-2025-post780369.html',
   village: 'https://baodongnai.com.vn/dong-nai-cuoi-tuan/202304/con-chim-oc-dao-xanh-giua-dong-co-chien-cua-tra-vinh-3164132/',
 };
-export interface Photo { id: string; title: string; image: string; category: string; caption: string; credit: string; source: string; position?: string; }
+export interface Photo { id: string; title: string; image: string; thumbnail?: string; category: string; caption: string; credit: string; source: string; position?: string; }
 export const PHOTOS: Photo[] = [
-  { id:'cycling', title:'Một vòng cồn, một trời xanh', image:cycling, category:'Thiên nhiên', caption:'Lối nhỏ đưa người và xe qua ruộng vườn, ao nước và những mái nhà dưới bóng dừa.', credit:'Báo Sài Gòn Giải Phóng', source:sources.award },
+  { id:'cycling', title:'Một vòng cồn, một trời xanh', image:cyclingOriginal, thumbnail:cycling, category:'Thiên nhiên', caption:'Lối nhỏ đưa người và xe qua ruộng vườn, ao nước và những mái nhà dưới bóng dừa.', credit:'Hữu Phúc / Báo Sài Gòn Giải Phóng', source:sources.award },
   { id:'pond', title:'Ngồi bên con nước', image:pond, category:'Thiên nhiên', caption:'Một góc không gian xanh và sinh hoạt cộng đồng trên Cồn Chim.', credit:'Báo Dân tộc và Phát triển', source:'https://dantoctongiao.baodantoc.vn/xay-dung-nong-thon-moi-o-tra-vinh-tao-be-do-cho-san-pham-du-lich-xanh-1733295277220.htm' },
   { id:'meal', title:'Bữa cơm người quê', image:meal, category:'Ẩm thực', caption:'Bên mâm cơm chung, câu chuyện của người dân cũng trở thành một phần chuyến đi.', credit:'Báo Người Lao Động', source:'https://nld.com.vn/du-lich-xanh/trai-nghiem-mien-tay-hoang-so-o-con-chim-20220218214201686.htm' },
   { id:'cooking', title:'Thử tay đổ bánh xèo', image:cooking, category:'Ẩm thực', caption:'Cùng người dân tìm hiểu món bánh dân gian và những hương vị của gian bếp quê.', credit:'Báo Đồng Nai', source:sources.village, position:'72% center' },

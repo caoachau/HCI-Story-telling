@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState, useEffect } from 'react';
+import React, { Suspense, use, useState, useEffect } from 'react';
 import { HeritageSite } from '../data/heritageSites';
 import { soundscape, narrateStory, stopNarration } from '../services/soundscape';
 import { formatCoordinates } from '../utils/geoCoordinates';
@@ -7,7 +7,11 @@ import { BaDongEditorial } from './BaDongEditorial';
 import { ConChimZipDetail } from './ConChimZipDetail';
 import { AoBaOmEditorial } from './AoBaOmEditorial';
 
-const MuseumDetailPage = lazy(() => import('../features/museo-detail/MuseumDetailPage').then(module => ({ default: module.MuseumDetailPage })));
+import { loadMuseumDetail, peekMuseumDetail } from '../utils/museumPreload';
+function MuseumDetailPage(props: React.ComponentProps<typeof import('../features/museo-detail/MuseumDetailPage').MuseumDetailPage>) {
+  const module = peekMuseumDetail() ?? use(loadMuseumDetail());
+  return <module.MuseumDetailPage {...props} />;
+}
 import {
   Volume2,
   VolumeX,

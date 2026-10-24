@@ -1,0 +1,255 @@
+/* Four spatial chapters over the existing full-screen heritage composition. */
+.md-khmer-places .md-map-body {
+  position: relative;
+}
+.md-places-scene,
+.md-places-scene-ghost {
+  position: absolute;
+  inset: 0;
+}
+.md-places-scene-ghost {
+  pointer-events: none;
+  z-index: 1;
+}
+.md-places-scene-ghost button {
+  pointer-events: none;
+}
+.md-khmer-places .md-map-copy {
+  z-index: 2;
+  pointer-events: none;
+}
+.md-places-spatial-link {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+.md-places-spatial-link path {
+  fill: none;
+  stroke: #c39664;
+  stroke-width: 1;
+  opacity: 0.32;
+  vector-effect: non-scaling-stroke;
+}
+.md-khmer-places .md-featured-site {
+  z-index: 3;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+.md-khmer-places[data-hotspot-preview] .md-featured-site {
+  border-color: #cfa46b88;
+  box-shadow:
+    inset 0 0 32px #ac743017,
+    0 0 24px #ad793514;
+}
+.md-khmer-places .md-featured-title h3 {
+  overflow: hidden;
+  padding: 0.08em 0;
+}
+.md-featured-title h3 > span {
+  display: block;
+}
+.md-khmer-places .md-featured-photo {
+  transform-origin: center;
+}
+.md-memory-point {
+  position: relative;
+  isolation: isolate;
+}
+.md-memory-point > i {
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.md-memory-halo {
+  inset: -12%;
+  background: radial-gradient(circle, #cf935440, transparent 70%);
+  opacity: 0.45;
+  transition: opacity 0.3s;
+}
+.md-memory-pulse {
+  inset: 12%;
+  border: 1px solid #d8ab7248;
+  animation: md-memory-breathe 2.7s ease-in-out infinite;
+}
+.md-memory-core {
+  width: 8px;
+  height: 8px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #e6cba2;
+  box-shadow: 0 0 12px #d59a6355;
+}
+.md-khmer-places .md-places-geo-pin > .md-memory-point {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.md-places-geo-pin .md-memory-point::before {
+  display: none;
+}
+.md-places-topic > .md-memory-point {
+  overflow: visible;
+}
+.md-places-topic .md-memory-core {
+  width: 4px;
+  height: 4px;
+  top: 82%;
+  opacity: 0.45;
+}
+.md-places-topic .md-memory-pulse {
+  inset: -8%;
+}
+.md-places-topic .md-memory-point > svg {
+  position: relative;
+  z-index: 1;
+}
+.md-khmer-places :is(.md-places-topic, .md-places-geo-pin) strong {
+  transition:
+    color 0.25s,
+    opacity 0.25s;
+}
+.md-khmer-places
+  :is(.md-places-topic, .md-places-geo-pin):not(.is-selected)
+  strong {
+  opacity: 0.72;
+}
+.md-khmer-places
+  :is(.md-places-topic, .md-places-geo-pin):is(
+    :hover,
+    :focus-visible,
+    .is-selected
+  )
+  strong {
+  opacity: 1;
+  color: #f2dfbf;
+}
+.md-khmer-places
+  :is(.md-places-topic, .md-places-geo-pin):is(
+    :hover,
+    :focus-visible,
+    .is-selected
+  )
+  .md-memory-halo {
+  opacity: 1;
+}
+.md-khmer-places
+  :is(.md-places-topic, .md-places-geo-pin).is-selected
+  .md-memory-pulse {
+  border-color: #d9b37c9c;
+  animation-duration: 2.3s;
+}
+.md-khmer-places .md-places-geo-pin.is-selected .md-memory-core {
+  width: 10px;
+  height: 10px;
+  background: #fff0d0;
+  box-shadow: 0 0 16px #e4a26580;
+}
+.md-places-zones button {
+  position: relative;
+  overflow: hidden;
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    color 0.25s;
+}
+.md-places-zones button::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 3px;
+  height: 1px;
+  background: #e3b778;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s;
+}
+.md-places-zones button[aria-pressed="true"]::after {
+  transform: scaleX(1);
+}
+.md-khmer-places .md-places-zones button[aria-pressed="true"] {
+  background: linear-gradient(110deg, #7c4529, #442b1b);
+}
+.md-khmer-places .md-site-strip > button {
+  position: relative;
+  transition:
+    border-color 0.25s,
+    background 0.25s;
+  overflow: hidden;
+}
+.md-khmer-places .md-site-strip img {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.md-khmer-places .md-site-strip > button:hover img {
+  transform: scale(1.035);
+}
+.md-khmer-places .md-site-strip > button:is(:hover, :focus-visible) strong {
+  color: #f4ddba;
+}
+.md-khmer-places .md-site-strip > button::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 1px;
+  height: 1px;
+  background: #d6ad75;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s;
+}
+.md-khmer-places .md-site-strip > button.is-selected::after {
+  transform: scaleX(1);
+}
+.md-khmer-places .md-places-plan-photo {
+  opacity: 0.22;
+}
+@keyframes md-memory-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.28;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.65;
+  }
+}
+.md-khmer-places[hidden] .md-memory-pulse,
+.md-root:has(dialog[open]) .md-khmer-places .md-memory-pulse {
+  animation-play-state: paused;
+}
+.md-khmer-places[data-reduced-motion="true"] *,
+.access-reduce-motion .md-khmer-places * {
+  animation: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-khmer-places * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+@container museum (width < 1000px) {
+  .md-memory-core {
+    width: 6px;
+    height: 6px;
+  }
+  .md-khmer-places .md-places-geo-pin.is-selected .md-memory-core {
+    width: 8px;
+    height: 8px;
+  }
+  .md-places-spatial-link path {
+    opacity: 0.2;
+  }
+}

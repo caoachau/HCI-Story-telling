@@ -1,0 +1,381 @@
+.md-khmer-history .md-evolution-top::after {
+  display: none;
+}
+.md-khmer-history .md-evolution-top::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #10100df2, #10100d20 66%, #10100d70);
+  pointer-events: none;
+  z-index: 0;
+}
+.md-khmer-history .md-evolution-note {
+  z-index: 1;
+}
+.md-khmer-history .md-evolution-art {
+  object-fit: cover;
+  object-position: center 48%;
+  opacity: 0.8;
+  z-index: -1;
+}
+.md-khmer-history .md-evolution-copy h2 {
+  line-height: 1.07;
+  letter-spacing: -0.04em;
+}
+.md-khmer-history .md-evolution-copy h2 > span {
+  display: block;
+}
+.md-khmer-history .md-evolution-copy > .md-mono {
+  max-width: 48ch;
+}
+.md-khmer-history .md-era-photo img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.md-khmer-history .md-era-photo {
+  overflow: visible;
+}
+.md-khmer-history .md-era-detail-copy h3 {
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+.md-khmer-history .md-era-story::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #10100d, #10100da8 38%, transparent 64%);
+  pointer-events: none;
+  z-index: 0;
+}
+.md-khmer-history .md-era-kicker {
+  letter-spacing: 0.15em;
+}
+.md-khmer-history .md-era-preview button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #e3bc85;
+  font-size: inherit;
+  text-decoration: underline;
+  padding: 0;
+}
+.md-khmer-history .md-era-preview button svg {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+.md-khmer-history .md-era-facts strong {
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+.md-khmer-history .md-era-facts small {
+  line-height: 1.4;
+}
+.md-khmer-history .md-africa-caption {
+  text-align: left;
+  padding: 7px 10px !important;
+  border-radius: 6px;
+  background: #17130dbf !important;
+  max-width: 30%;
+}
+.md-khmer-history .md-africa-caption small {
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+}
+.md-khmer-history .md-era-highlights strong {
+  line-height: 1.4;
+}
+.md-khmer-history .md-era-highlights small {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.md-khmer-history .md-era-highlights time {
+  color: #d3b187;
+}
+.md-khmer-history button:focus-visible,
+.md-history-reading button:focus-visible {
+  outline: 2px solid #efd5ab;
+  outline-offset: 3px;
+}
+.md-dialog-history .md-story-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(48dvh, 480px);
+  object-fit: contain;
+  background: #0c0b09;
+  border-radius: 8px;
+  margin: 0;
+}
+.md-history-gallery figure {
+  margin: 0;
+}
+.md-history-gallery figcaption {
+  display: grid;
+  gap: 5px;
+  margin: 12px 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #b9a58a;
+}
+.md-history-gallery figcaption a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #e1bf91;
+  width: fit-content;
+}
+.md-history-gallery figcaption svg {
+  width: 12px;
+  height: 12px;
+}
+.md-history-photo-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.md-history-photo-strip button {
+  border: 1px solid #b8945d40 !important;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 4px !important;
+  opacity: 0.65;
+}
+.md-history-photo-strip button[aria-pressed="true"] {
+  border-color: #e2bc83 !important;
+  opacity: 1;
+}
+.md-history-photo-strip img {
+  width: 100%;
+  height: clamp(64px, 12vw, 110px);
+  object-fit: cover;
+  display: block;
+  border-radius: 3px;
+}
+.md-dialog .md-history-reading-date {
+  margin: -8px 0 22px;
+  color: #cfaa76;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.md-dialog-history .md-khmer-story-prose p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+}
+.md-history-chronology {
+  list-style: none;
+  margin: 8px 0 0 7px;
+  padding: 0 0 0 24px;
+  border-left: 1px solid #b8945d60;
+  display: grid;
+  gap: 22px;
+}
+.md-history-chronology li {
+  position: relative;
+}
+.md-history-chronology li::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #bf7442;
+  box-shadow: 0 0 0 4px #bf74421a;
+}
+.md-history-chronology time {
+  color: #d4ae7b;
+  font-size: 11px;
+}
+.md-dialog .md-history-chronology h3 {
+  font-size: 17px;
+  margin: 6px 0;
+}
+@container museum (min-width: 1000px) {
+  .md-khmer-history .md-evolution-copy h2 {
+    font-size: min(4.1cqw, 5.7cqh);
+  }
+  .md-khmer-history .md-era-detail-copy > .md-era-description {
+    max-width: 41ch;
+  }
+  .md-khmer-history .md-era-track .md-era-photo {
+    width: min(14cqw, 17cqh);
+    margin-inline: auto;
+  }
+}
+@container museum (max-width: 999px) {
+  .md-khmer-history .md-era-facts {
+    padding-top: 0.6cqh;
+  }
+  .md-khmer-history .md-evolution-top::before {
+    background: linear-gradient(90deg, #10100df2, #10100dc7 66%, #10100d50);
+  }
+  .md-khmer-history .md-evolution-copy h2 {
+    font-size: min(9cqw, 5.2cqh);
+  }
+  .md-khmer-history .md-era-highlights-heading {
+    letter-spacing: 0;
+  }
+  .md-khmer-history .md-era-highlights-heading small {
+    font-size: 9px;
+  }
+  .md-khmer-history .md-africa-caption {
+    max-width: 46%;
+    padding: 5px 7px !important;
+  }
+  .md-khmer-history .md-africa-caption strong {
+    font-size: 8px;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .md-khmer-history .md-africa-caption small {
+    font-size: 7px;
+    line-height: 1.2;
+    margin-top: 2px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .md-khmer-history .md-africa-caption > svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  .md-khmer-history .md-africa-caption > span {
+    min-width: 0;
+  }
+}
+@media (max-width: 599px) {
+  .md-khmer-history .md-era-highlights small {
+    -webkit-line-clamp: 2;
+  }
+  .md-khmer-history .md-era-track strong {
+    font-size: 10px;
+  }
+  .md-history-photo-strip {
+    gap: 6px;
+  }
+  .md-dialog-history .md-khmer-story-prose p {
+    font-size: 14px;
+  }
+}
+@container museum ((min-width: 1000px) and (max-height: 620px)) {
+  .md-khmer-history .md-era-detail-copy > .md-era-description {
+    display: none;
+  }
+  .md-khmer-history .md-era-detail-copy > .md-era-preview {
+    display: block;
+    max-width: 41ch;
+    line-height: 1.4;
+  }
+  .md-khmer-history .md-era-preview button {
+    color: #e3bc85;
+    font-size: inherit;
+    text-decoration: underline;
+    padding: 0;
+  }
+  .md-khmer-history .md-era-preview button svg {
+    width: 11px;
+    height: 11px;
+    vertical-align: middle;
+  }
+}
+@container museum ((min-width: 600px) and (max-width: 999px) and (max-height: 450px) and (min-aspect-ratio: 1.5 / 1)) {
+  .md-khmer-history .md-evolution-copy {
+    padding-block: 0.5cqh;
+  }
+  .md-khmer-history .md-evolution-copy h2 {
+    font-size: 4.6cqh;
+    margin: 2px 0;
+  }
+  .md-khmer-history .md-evolution-copy .md-mono {
+    font-size: 10px;
+    line-height: 1.3;
+    max-width: 55ch;
+  }
+  .md-khmer-history .md-evolution-copy .md-play-link {
+    margin-top: 2px;
+  }
+  .md-khmer-history .md-evolution-copy .md-play-link > span {
+    width: 20px;
+    height: 20px;
+  }
+  .md-khmer-history .md-era-track {
+    padding-bottom: 3px;
+    overflow-y: hidden;
+  }
+  .md-khmer-history .md-era-photo {
+    height: 30px;
+    margin-bottom: 2px;
+  }
+  .md-khmer-history .md-era-photo img {
+    height: 28px;
+  }
+  .md-khmer-history .md-era-track .is-selected .md-era-photo::after {
+    top: 29px;
+    width: 4px;
+    height: 4px;
+  }
+  .md-khmer-history .md-era-track strong {
+    font-size: 9px;
+  }
+  .md-khmer-history .md-era-track button > span:not(.md-era-photo) {
+    font-size: 8px;
+  }
+  .md-khmer-history .md-era-track small {
+    display: none;
+  }
+  .md-khmer-history .md-era-detail-copy > .md-era-description,
+  .md-khmer-history .md-era-kicker {
+    display: none;
+  }
+  .md-khmer-history .md-era-detail-copy > .md-era-preview {
+    display: block;
+    font-size: 10px;
+    line-height: 1.3;
+    margin-top: 3px;
+  }
+  .md-khmer-history .md-era-pagination {
+    margin-bottom: 2px;
+  }
+  .md-khmer-history .md-era-pagination .md-round {
+    width: 20px;
+    height: 20px;
+  }
+  .md-khmer-history .md-era-detail-copy h3 {
+    font-size: 16px;
+  }
+  .md-khmer-history .md-era-detail-copy > .md-eyebrow {
+    margin-top: 2px;
+  }
+  .md-khmer-history .md-era-facts {
+    padding-top: 2px;
+  }
+  .md-khmer-history .md-era-facts svg {
+    width: 16px;
+    height: 16px;
+    padding: 2px;
+  }
+  .md-khmer-history .md-era-highlights img {
+    height: 28px;
+  }
+  .md-khmer-history .md-era-highlights strong {
+    font-size: 9px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .md-khmer-history .md-era-highlights small {
+    -webkit-line-clamp: 1;
+    margin-top: 2px;
+  }
+}

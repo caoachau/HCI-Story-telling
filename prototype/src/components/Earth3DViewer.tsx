@@ -54,6 +54,7 @@ interface Earth3DViewerProps {
   activeCategoryFilter?: string;
   onOpenStorytelling?: () => void;
   isStorytellingOpen?: boolean;
+  isOccluded?: boolean;
   onMapStoryFocus?: (site: HeritageSite | null) => void;
   onHomeClick?: () => void;
   hasUserSelectedSite?: boolean;
@@ -172,6 +173,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
   activeCategoryFilter = 'all',
   onOpenStorytelling,
   isStorytellingOpen = false,
+  isOccluded = false,
   onMapStoryFocus,
   onHomeClick,
   hasUserSelectedSite = false,
@@ -184,6 +186,8 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
   const mapRef = useRef<maplibregl.Map | null>(null);
   const markersMapRef = useRef<Map<string, maplibregl.Marker>>(new Map());
   const cameraManagerRef = useRef<CameraManager>(new CameraManager());
+  const resumeOrbitRef = useRef<string | null>(null);
+  const tilePrefetchRef = useRef<AbortController | null>(null);
 
   // UI state
   const [currentBasemap, setCurrentBasemap] = useState<BasemapType>('satellite');
@@ -213,8 +217,8 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
 
   const onOpenStorytellingRef = useRef(onOpenStorytelling);
   onOpenStorytellingRef.current = onOpenStorytelling;
-  const storyContextRef = useRef({ isOpen: isStorytellingOpen, hasSelection: hasUserSelectedSite, category: activeCategoryFilter, onFocus: onMapStoryFocus });
-  storyContextRef.current = { isOpen: isStorytellingOpen, hasSelection: hasUserSelectedSite, category: activeCategoryFilter, onFocus: onMapStoryFocus };
+  const storyContextRef = useRef({ isOpen: isStorytellingOpen, occluded: isOccluded, hasSelection: hasUserSelectedSite, category: activeCategoryFilter, onFocus: onMapStoryFocus });
+  storyContextRef.current = { isOpen: isStorytellingOpen, occluded: isOccluded, hasSelection: hasUserSelectedSite, category: activeCategoryFilter, onFocus: onMapStoryFocus };
   const mapFocusedSiteIdRef = useRef<string | null>(null);
 
   const currentBasemapRef = useRef<BasemapType>(currentBasemap);
@@ -354,7 +358,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
   const syncStoryFocusWithMap = useCallback(() => {
     const map = mapRef.current;
     const context = storyContextRef.current;
-    if (!map || !context.onFocus) return;
+    if (!map || !context.onFocus || context.occluded) return;
 
     const closeStory = () => {
       if (!context.isOpen) return;
@@ -713,6 +717,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
       ? 'esri'
       : 'google';
     const prefetchController = new AbortController();
+    tilePrefetchRef.current = prefetchController;
     const zoomLevels = mapType === 'google' ? [16, 17, 18] : [15, 16, 17];
     void prefetchAreaTiles(selectedSite.lng, selectedSite.lat, mapType, zoomLevels, true, prefetchController.signal);
 
@@ -733,7 +738,22 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
 
   // 6. Auto-Tour Interval
   useEffect(() => {
-    if (!isAutoTouring) return;
+    if (!isMapLoaded) return;
+    const manager = cameraManagerRef.current;
+    if (isOccluded) {
+      resumeOrbitRef.current = manager.getState() === 'orbiting' ? selectedSiteRef.current.id : null;
+      tilePrefetchRef.current?.abort();
+      cancelSliderAnimation();
+      manager.cancelCurrentFlight();
+    } else if (resumeOrbitRef.current) {
+      const id = resumeOrbitRef.current;
+      resumeOrbitRef.current = null;
+      if (id === selectedSiteRef.current.id) manager.startOrbit(selectedSiteRef.current);
+    }
+  }, [isOccluded, isMapLoaded, cancelSliderAnimation]);
+
+  useEffect(() => {
+    if (!isAutoTouring || isOccluded) return;
 
     const interval = setInterval(() => {
       const currentIndex = HERITAGE_SITES.findIndex((s) => s.id === selectedSiteRef.current.id);
@@ -742,7 +762,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
     }, 18000);
 
     return () => clearInterval(interval);
-  }, [isAutoTouring, onSelectSite]);
+  }, [isAutoTouring, onSelectSite, isOccluded]);
 
   // Home Flight Action
   const handleFlyToOverview = () => {
@@ -830,7 +850,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
   const maritimeContext = getMaritimeContext(telemetry.lng, telemetry.lat, telemetry.zoom);
 
   return (
-    <div className="relative w-full h-full overflow-hidden select-none bg-[#090b10]">
+    <div className="relative w-full h-full overflow-hidden select-none bg-[#090b10]" data-map-occluded={isOccluded} inert={isOccluded} style={{ opacity: isOccluded ? 0 : undefined }}>
       {/* Real MapLibre GL Map Viewport Container */}
       <div ref={mapContainerRef} className="w-full h-full" />
 
@@ -855,7 +875,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
       )}
 
       {/* Top Left: Satellite imagery selector */}
-      <div className="absolute top-5 left-5 z-20">
+      <div className="map-basemap-selector absolute top-5 left-5 z-20">
         <div className="flex items-center gap-1 rounded-2xl border border-white/10 bg-[#0e121b]/95 p-1 shadow-2xl backdrop-blur-md">
           <button
             onClick={() => setCurrentBasemap('google-sat')}
@@ -904,7 +924,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
         </div>
       </div>
       {/* Top Right: kiosk actions */}
-      <div className="absolute top-5 right-[calc(var(--story-controls-offset)+6rem)] z-20 flex items-center gap-2">
+      <div className="map-top-actions absolute top-5 right-[calc(var(--story-controls-offset)+6rem)] z-20 flex items-center gap-2">
         <button
           onClick={() => {
             cameraManagerRef.current.stopOrbit();

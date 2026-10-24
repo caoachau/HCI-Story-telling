@@ -1,5 +1,7 @@
 # Chuyển động trang chi tiết Cồn Chim
 
+> Tài liệu lịch sử của giao diện cuộn tuần tự. Bản KT01 thay bằng điều hướng trực tiếp, chuyển động nhẹ và media theo yêu cầu. Xem [thiết kế và kiểm tra KT01](con-chim-kt01.md).
+
 > Trang hiện tại được đối chiếu lại theo lịch sử chat: một header, bán cung theo ảnh người dùng, mỗi section là một màn hình. Các hiệu ứng hoạt động bên trong bố cục này.
 
 ## Hướng thiết kế và khảo sát

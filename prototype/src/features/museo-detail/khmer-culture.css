@@ -1,0 +1,589 @@
+/* Preserve the full-screen gallery composition while giving cultural stories room. */
+.md-khmer-culture .md-tour-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      #0d0d0bf7 4%,
+      #0d0d0bd4 30%,
+      #0d0d0b45 58%,
+      #0d0d0b12
+    ),
+    linear-gradient(0deg, #0d0d0b 6%, #0d0d0b9c 26%, transparent 65%);
+  z-index: 0;
+  pointer-events: none;
+}
+.md-khmer-culture .md-tour-art.is-alternate {
+  width: 100%;
+  height: 100%;
+  object-position: 65% 45%;
+  mask-image: none;
+}
+.md-khmer-culture .md-tour-copy {
+  z-index: 1;
+  width: 48cqw;
+  background: none;
+  margin-top: 4cqh;
+}
+.md-khmer-culture .md-tour-copy > .md-eyebrow {
+  font-size: clamp(9px, 0.78cqw, 14px);
+  letter-spacing: 0.15em;
+  color: #d5b78e;
+}
+.md-khmer-culture .md-tour-copy h2 {
+  font-size: clamp(38px, min(5.4cqw, 7.5cqh), 92px);
+  line-height: 1.04;
+  margin-top: 1.4cqh;
+  letter-spacing: -0.045em;
+}
+.md-khmer-culture .md-tour-copy h2 span {
+  display: block;
+}
+.md-khmer-culture .md-tour-location {
+  font-size: clamp(11px, 1.05cqw, 19px);
+  margin-top: 1.6cqh !important;
+}
+.md-khmer-culture .md-tour-copy > .md-culture-intro {
+  font-size: clamp(12px, 1cqw, 18px);
+  line-height: 1.5;
+  margin-top: 1.6cqh;
+  width: 36cqw;
+}
+.md-culture-groups {
+  display: flex;
+  gap: 6px;
+  margin-top: 2.5cqh;
+}
+.md-root .md-culture-groups button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #b1946b70;
+  border-radius: 24px;
+  padding: 9px 15px;
+  font-size: clamp(11px, 0.87cqw, 16px);
+  background: #10100dc9;
+  white-space: nowrap;
+}
+.md-root .md-culture-groups button[aria-pressed="true"] {
+  background: #e8d8bc;
+  border-color: #e8d8bc;
+  color: #241b11;
+}
+.md-culture-groups small {
+  font-size: 0.8em;
+  opacity: 0.75;
+}
+.md-khmer-culture .md-tour-ctas {
+  margin-top: 2cqh;
+  gap: 12px;
+}
+.md-khmer-culture .md-tour-ctas .md-button {
+  min-height: clamp(36px, 5cqh, 50px);
+  padding: 9px 18px !important;
+  font-size: clamp(10px, 0.77cqw, 14px) !important;
+  white-space: nowrap;
+  gap: 10px;
+}
+.md-khmer-culture .md-tour-ctas .md-button:first-child {
+  min-width: 0;
+}
+.md-khmer-culture .md-tour-ctas svg {
+  width: 17px;
+  height: 17px;
+}
+.md-culture-photo-credit {
+  position: absolute;
+  top: 3cqh;
+  right: 3cqw;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 37cqw;
+  padding: 7px 10px;
+  background: #0d0d0bd6;
+  border-radius: 6px;
+  font-size: clamp(10px, 0.75cqw, 13px);
+  color: #dfd4c0;
+}
+.md-culture-photo-credit svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.md-culture-photo-credit > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.md-khmer-culture .md-tour-scene-caption {
+  z-index: 1;
+  width: 50cqw;
+  bottom: 26cqh;
+  padding-top: 1.2cqh;
+}
+.md-culture-caption-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.md-culture-caption-top > div {
+  display: flex;
+  gap: 8px;
+}
+.md-khmer-culture .md-culture-caption-top .md-round {
+  width: 32px;
+  height: 32px;
+  padding: 6px !important;
+}
+.md-khmer-culture .md-tour-scene-caption h3 {
+  font-size: clamp(21px, min(2.4cqw, 3.5cqh), 40px);
+  margin-top: 0.9cqh;
+}
+.md-khmer-culture .md-tour-scene-caption p {
+  font-size: clamp(12px, 0.98cqw, 17px);
+  line-height: 1.5;
+  margin-top: 0.8cqh;
+  max-width: 46cqw;
+}
+.md-culture-context {
+  display: block;
+  font-size: clamp(9px, 0.68cqw, 12px);
+  letter-spacing: 0.1em;
+  color: #d5b78e;
+  margin-top: 1cqh;
+}
+.md-khmer-culture .md-gallery-strip {
+  z-index: 1;
+}
+.md-khmer-culture .md-gallery-strip button {
+  position: relative;
+}
+.md-khmer-culture .md-gallery-strip button > span {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  padding: 18px 9px 8px;
+  background: linear-gradient(transparent, #0d0d0bed);
+  text-align: left;
+  line-height: 1.3;
+  font-size: clamp(11px, 0.95cqw, 16px);
+  font-weight: 600;
+  pointer-events: none;
+}
+.md-dialog-culture .md-dialog-content {
+  padding-top: 34px;
+}
+.md-culture-reading > .md-eyebrow {
+  margin-top: 24px;
+}
+.md-culture-reading-context {
+  color: #d5b78e;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  margin: 12px 0 24px;
+}
+.md-culture-gallery figure {
+  margin: 0;
+}
+.md-culture-gallery .md-story-photo {
+  object-fit: contain;
+  background: #080806;
+  max-height: 49vh;
+  height: 380px;
+}
+.md-culture-gallery figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #c8bfae;
+}
+.md-culture-gallery figcaption a {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  align-self: flex-start;
+  color: #e3c199;
+}
+.md-culture-gallery figcaption svg {
+  width: 14px;
+  height: 14px;
+}
+.md-culture-story-photos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.md-root .md-culture-story-photos button {
+  padding: 3px;
+  border: 1px solid #80684b;
+  border-radius: 6px;
+}
+.md-culture-story-photos button[aria-pressed="true"] {
+  border-color: #e0c5a1;
+  box-shadow: inset 0 0 0 1px #e0c5a1;
+}
+.md-culture-story-photos img {
+  width: 100%;
+  height: clamp(65px, 13vh, 120px);
+  object-fit: cover;
+  border-radius: 3px;
+}
+.md-culture-question {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 20px 0;
+  margin-top: 16px;
+  border-top: 1px solid #9a785647;
+  color: #d5b78e;
+}
+.md-culture-question > svg {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+.md-culture-question strong,
+.md-culture-related h3 {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+.md-culture-question p {
+  margin-top: 7px;
+  color: #dfd4c0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.md-culture-related {
+  padding-top: 24px;
+}
+.md-root .md-culture-related button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 0;
+  text-align: left;
+  border-bottom: 1px solid #9a785638;
+  font-size: 15px;
+}
+.md-culture-related svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+.md-culture-search {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 26px 0;
+  font-size: 13px;
+}
+.md-culture-search input {
+  width: 100%;
+  padding: 13px 16px;
+  background: #0d0d0b;
+  border: 1px solid #9f8058;
+  border-radius: 7px;
+  color: #eee5d4;
+  font-size: 16px;
+}
+.md-culture-search input::placeholder {
+  color: #b9b2a6;
+}
+.md-culture-directory-group {
+  margin-top: 30px;
+}
+.md-culture-directory-group > h3 {
+  font-size: 22px;
+}
+.md-culture-directory-group > h3 small {
+  font-size: 14px;
+  color: #d5b78e;
+}
+.md-culture-directory-group > p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #b9b2a6;
+  margin: 8px 0 14px;
+}
+.md-culture-directory-group > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 20px;
+}
+.md-root .md-culture-directory-group button {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) 16px;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #9a785647;
+  text-align: left;
+}
+.md-culture-directory-group img {
+  width: 88px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.md-culture-directory-group strong {
+  font-size: 14px;
+  line-height: 1.4;
+}
+.md-culture-directory-group small {
+  display: block;
+  font-size: 10px;
+  line-height: 1.4;
+  margin-top: 6px;
+  color: #c8bfae;
+}
+.md-culture-directory-group svg {
+  width: 16px;
+  height: 16px;
+}
+@container museum (max-width: 999px) {
+  .md-khmer-culture .md-tour-frame::before {
+    background:
+      linear-gradient(
+        0deg,
+        #0d0d0b 2%,
+        #0d0d0bc7 24%,
+        #0d0d0b50 49%,
+        #0d0d0bdc 78%
+      ),
+      linear-gradient(90deg, #0d0d0b67, transparent);
+  }
+  .md-khmer-culture .md-tour-copy {
+    width: auto;
+    margin: 3cqh 5cqw 0;
+  }
+  .md-khmer-culture .md-tour-copy > .md-eyebrow {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .md-khmer-culture .md-tour-copy h2 {
+    font-size: clamp(32px, min(10cqw, 7cqh), 52px);
+    margin-top: 1.5cqh;
+  }
+  .md-khmer-culture .md-tour-location {
+    font-size: 11px;
+    margin-top: 1cqh !important;
+  }
+  .md-khmer-culture .md-tour-copy > .md-culture-intro {
+    width: min(100%, 430px);
+    font-size: 11px;
+    line-height: 1.5;
+    margin-top: 1.4cqh;
+  }
+  .md-culture-groups {
+    gap: 5px;
+    margin-top: 1.8cqh;
+  }
+  .md-root .md-culture-groups button {
+    gap: 5px;
+    padding: 7px 11px;
+    font-size: 11px;
+  }
+  .md-khmer-culture .md-tour-ctas {
+    margin-top: 1.4cqh;
+    gap: 8px;
+  }
+  .md-khmer-culture .md-tour-ctas .md-button {
+    padding: 8px 11px !important;
+    font-size: 9px !important;
+    min-height: 34px;
+    gap: 6px;
+  }
+  .md-khmer-culture .md-tour-ctas svg {
+    width: 14px;
+    height: 14px;
+  }
+  .md-culture-photo-credit {
+    top: 51cqh;
+    left: 5cqw;
+    right: auto;
+    max-width: calc(90cqw - 56px);
+    font-size: 9px;
+    padding: 5px 8px;
+  }
+  .md-culture-photo-credit svg {
+    width: 12px;
+    height: 12px;
+  }
+  .md-khmer-culture .md-tour-scene-caption {
+    width: 90cqw;
+    bottom: 25cqh;
+  }
+  .md-khmer-culture .md-tour-scene-caption h3 {
+    font-size: clamp(19px, 5.2cqw, 30px);
+    margin-top: 5px;
+  }
+  .md-khmer-culture .md-tour-scene-caption p {
+    font-size: 11px;
+    max-width: none;
+    line-height: 1.4;
+    margin-top: 6px;
+  }
+  .md-khmer-culture .md-culture-caption-top .md-round {
+    width: 28px;
+    height: 28px;
+  }
+  .md-culture-context {
+    font-size: 8px;
+    letter-spacing: 0.06em;
+    margin-top: 7px;
+  }
+  .md-khmer-culture .md-gallery-strip button > span {
+    font-size: 11px;
+    padding: 16px 6px 6px;
+  }
+}
+@container museum (min-width: 1000px) and (max-height: 650px) {
+  .md-khmer-culture .md-tour-copy {
+    margin-top: 3cqh;
+  }
+  .md-khmer-culture .md-tour-copy h2 {
+    font-size: 6.5cqh;
+  }
+  .md-khmer-culture .md-tour-location,
+  .md-khmer-culture .md-tour-copy > .md-culture-intro {
+    margin-top: 1cqh !important;
+  }
+  .md-culture-groups {
+    margin-top: 1.2cqh;
+  }
+  .md-root .md-culture-groups button {
+    padding: 6px 12px;
+  }
+  .md-khmer-culture .md-tour-ctas {
+    margin-top: 1.3cqh;
+  }
+  .md-khmer-culture .md-tour-scene-caption h3 {
+    font-size: 3.2cqh;
+  }
+  .md-khmer-culture .md-tour-scene-caption p {
+    font-size: 12px;
+  }
+}
+@container museum (max-width: 999px) and (max-height: 520px) and (min-aspect-ratio: 1.5) {
+  .md-khmer-culture .md-tour-copy {
+    margin-top: 2cqh;
+  }
+  .md-khmer-culture .md-tour-copy h2 {
+    font-size: 25px;
+    line-height: 1.06;
+  }
+  .md-khmer-culture .md-tour-copy h2 span {
+    display: inline;
+  }
+  .md-khmer-culture .md-tour-copy h2 span + span::before {
+    content: " ";
+  }
+  .md-khmer-culture .md-tour-copy > .md-culture-intro {
+    display: none;
+  }
+  .md-khmer-culture .md-tour-location {
+    font-size: 10px;
+    margin-top: 5px !important;
+  }
+  .md-culture-groups {
+    margin-top: 8px;
+  }
+  .md-root .md-culture-groups button {
+    padding: 6px 10px;
+  }
+  .md-khmer-culture .md-tour-ctas {
+    margin-top: 7px;
+  }
+  .md-khmer-culture .md-tour-ctas .md-button {
+    min-height: 30px;
+  }
+  .md-khmer-culture .md-tour-scene-caption {
+    left: 48cqw;
+    top: 7cqh;
+    bottom: auto;
+    width: 43cqw;
+  }
+  .md-khmer-culture .md-tour-copy {
+    width: 40cqw;
+  }
+  .md-khmer-culture .md-tour-scene-caption h3 {
+    font-size: 20px;
+  }
+  .md-khmer-culture .md-tour-scene-caption p {
+    font-size: 10px;
+  }
+  .md-culture-photo-credit {
+    top: 59cqh;
+    font-size: 8px;
+  }
+  .md-khmer-culture .md-tour-gallery-toggle {
+    top: 39cqh;
+    width: 36px;
+    height: 36px;
+  }
+  .md-khmer-culture .md-tour-photo-panel {
+    top: 25cqh;
+    width: 60cqw;
+  }
+  .md-khmer-culture .md-tour-photo-card img {
+    height: 14cqh;
+  }
+}
+@container museum (max-width: 599px) and (max-height: 620px) {
+  .md-khmer-culture .md-tour-copy {
+    margin-top: 2cqh;
+  }
+  .md-khmer-culture .md-tour-copy h2 {
+    font-size: clamp(25px, 7.4cqw, 32px);
+    line-height: 1.12;
+    margin-top: 9px;
+  }
+  .md-khmer-culture .md-tour-copy h2 span {
+    display: inline;
+  }
+  .md-khmer-culture .md-tour-copy h2 span + span::before {
+    content: " ";
+  }
+  .md-khmer-culture .md-tour-copy > .md-culture-intro {
+    display: none;
+  }
+  .md-culture-groups {
+    margin-top: 10px;
+  }
+  .md-khmer-culture .md-tour-ctas {
+    margin-top: 9px;
+    flex-wrap: nowrap;
+  }
+  .md-khmer-culture .md-tour-ctas .md-button {
+    padding: 7px 9px !important;
+    min-height: 32px;
+  }
+  .md-culture-photo-credit {
+    top: 45cqh;
+  }
+}
+@media (max-width: 700px) {
+  .md-culture-gallery .md-story-photo {
+    height: 250px;
+  }
+  .md-culture-directory-group > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .md-culture-gallery figcaption {
+    font-size: 12px;
+  }
+  .md-culture-question {
+    gap: 10px;
+  }
+}

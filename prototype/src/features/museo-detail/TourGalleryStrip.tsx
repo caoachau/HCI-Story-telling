@@ -1,13 +1,40 @@
-import { useRef, type PointerEvent } from "react";
-import { artwork, scenes } from "./data";
+import { useEffect, useRef, type PointerEvent } from "react";
+import type { TourPhotoItem } from "./TourPhotoDrawer";
 
 export function TourGalleryStrip({
   selectedScene,
   onSelect,
+  items,
+  lang,
+  active,
+  onPreview,
 }: {
   selectedScene: number;
-  onSelect: (index: number) => void;
+  onSelect: (index: number, origin?: HTMLButtonElement) => void;
+  onPreview?: (index?: number) => void;
+  items: TourPhotoItem[];
+  lang: "vi" | "en";
+  active: boolean;
 }) {
+  const track = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const element = track.current;
+    if (!active || !element) return;
+    const reveal = () => {
+      const card = element.children[selectedScene] as HTMLElement;
+      if (!card) return;
+      const box = card.getBoundingClientRect();
+      const frame = element.getBoundingClientRect();
+      if (box.left < frame.left)
+        element.scrollLeft += box.left - frame.left - 4;
+      if (box.right > frame.right)
+        element.scrollLeft += box.right - frame.right + 4;
+    };
+    reveal();
+    const observer = new ResizeObserver(reveal);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [active, items, selectedScene]);
   const drag = useRef<{
     pointerId: number;
     startX: number;
@@ -25,11 +52,35 @@ export function TourGalleryStrip({
 
   return (
     <div
+      ref={track}
       className="md-gallery-strip"
       role="region"
-      aria-label="Cave gallery. Drag or swipe horizontally to browse photos."
+      aria-label={
+        lang === "vi"
+          ? "Ảnh di sản. Nắm kéo hoặc vuốt ngang để xem các chủ đề."
+          : "Heritage gallery. Drag or swipe horizontally to browse topics."
+      }
       tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.target !== event.currentTarget) return;
+        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+          event.preventDefault();
+          const photo = event.currentTarget.firstElementChild;
+          if (!photo) return;
+          const step =
+            photo.getBoundingClientRect().width +
+            parseFloat(getComputedStyle(event.currentTarget).columnGap);
+          event.currentTarget.scrollBy({
+            left: step * (event.key === "ArrowLeft" ? -1 : 1),
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+              .matches
+              ? "instant"
+              : "smooth",
+          });
+        }
+      }}
       onPointerDown={(event) => {
+        onPreview?.();
         drag.current =
           event.pointerType === "mouse" && event.button === 0
             ? {
@@ -73,21 +124,22 @@ export function TourGalleryStrip({
         }
       }}
     >
-      {scenes.map((scene, index) => (
+      {items.map((scene, index) => (
         <button
-          key={scene.name}
+          key={scene.id}
           type="button"
           className={selectedScene === index ? "is-selected" : ""}
-          aria-label={`View ${scene.name}`}
+          data-culture-photo={scene.id}
+          aria-label={`${lang === "vi" ? "Xem" : "View"} ${scene.name}`}
           aria-pressed={selectedScene === index}
-          onClick={() => onSelect(index)}
+          onClick={(event) => onSelect(index, event.currentTarget)}
+          onMouseEnter={() => onPreview?.(index)}
+          onMouseLeave={() => onPreview?.()}
+          onFocus={() => onPreview?.(index)}
+          onBlur={() => onPreview?.()}
         >
-          <img
-            src={artwork(scene.photo)}
-            alt={scene.name}
-            loading="lazy"
-            draggable={false}
-          />
+          <img src={scene.photo} alt="" loading="lazy" draggable={false} />
+          <span>{scene.name}</span>
         </button>
       ))}
     </div>

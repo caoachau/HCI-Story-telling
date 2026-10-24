@@ -1,0 +1,320 @@
+.md-khmer-culture .md-tour-frame::before {
+  display: none;
+}
+.md-culture-camera {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  transform-origin: 65% 45%;
+}
+.md-culture-camera::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s;
+}
+.md-khmer-culture[data-culture-preview] .md-culture-camera::after {
+  opacity: 0.06;
+}
+.md-khmer-culture .md-culture-camera .md-tour-art {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: auto;
+  mask-image: none;
+}
+.md-culture-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      #0d0d0bf7 4%,
+      #0d0d0bd4 30%,
+      #0d0d0b45 58%,
+      #0d0d0b12
+    ),
+    linear-gradient(0deg, #0d0d0b 6%, #0d0d0b9c 26%, transparent 65%);
+}
+.md-culture-image-previous,
+.md-culture-preview-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% 45%;
+  pointer-events: none;
+}
+.md-culture-image-flight {
+  position: absolute;
+  object-fit: cover;
+  object-position: 65% 45%;
+  pointer-events: none;
+}
+.md-culture-light {
+  position: absolute;
+  inset: 12% 20% 12% 32%;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, #e8b865, transparent 64%);
+  opacity: 0.025;
+  animation: md-culture-breath 8s ease-in-out infinite;
+}
+@keyframes md-culture-breath {
+  0%,
+  100% {
+    opacity: 0.025;
+    transform: translateX(-6px);
+  }
+  50% {
+    opacity: 0.06;
+    transform: translateX(6px);
+  }
+}
+.md-khmer-culture:is(
+    [hidden],
+    [data-obscured="true"],
+    [data-culture-motion="opening"],
+    [data-culture-motion="changing"]
+  )
+  .md-culture-light {
+  animation-play-state: paused;
+}
+.md-khmer-culture .md-culture-title-line {
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+}
+.md-khmer-culture .md-tour-copy h2 .md-culture-title-text {
+  display: block;
+}
+.md-culture-story-mask {
+  position: relative;
+  overflow: clip;
+  overflow-clip-margin: 0.13em;
+}
+.md-culture-story-current {
+  display: block;
+}
+.md-culture-index-mask,
+.md-culture-total-mask {
+  display: inline-block;
+  vertical-align: bottom;
+  position: relative;
+  overflow: hidden;
+  min-width: 2.3ch;
+}
+.md-culture-index-current,
+.md-culture-total-current {
+  display: block;
+}
+.md-culture-story-previous,
+.md-culture-index-previous,
+.md-culture-total-previous {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+.md-culture-groups {
+  position: relative;
+  isolation: isolate;
+}
+.md-khmer-culture .md-culture-groups button {
+  position: relative;
+  z-index: 1;
+  transition:
+    color 0.45s,
+    border-color 0.28s;
+  background: transparent;
+}
+.md-khmer-culture .md-culture-groups button[aria-pressed="true"] {
+  background: transparent;
+}
+.md-culture-lens-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #e8d8bc;
+  border-radius: 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+.md-khmer-culture .md-gallery-strip {
+  padding-top: max(9px, 0.5cqw);
+}
+.md-khmer-culture .md-gallery-strip button {
+  opacity: 0.82;
+  transition:
+    border-color 0.28s,
+    opacity 0.28s,
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.md-khmer-culture .md-gallery-strip button.is-selected {
+  opacity: 1;
+  transform: translateY(-5px);
+}
+.md-khmer-culture .md-gallery-strip button.is-selected::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: var(--culture-position, 8.33%);
+  height: 2px;
+  background: #e0be85;
+  transition: width 0.45s;
+}
+.md-khmer-culture .md-gallery-strip button img,
+.md-khmer-culture .md-gallery-strip button > span {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.md-khmer-culture
+  .md-gallery-strip:not([data-dragging])
+  button:is(:hover, :focus-visible) {
+  opacity: 1;
+  border-color: #d5b78ecc !important;
+}
+.md-khmer-culture
+  .md-gallery-strip:not([data-dragging])
+  button:is(:hover, :focus-visible)
+  img {
+  transform: scale(1.05);
+}
+.md-khmer-culture
+  .md-gallery-strip:not([data-dragging])
+  button:is(:hover, :focus-visible)
+  > span {
+  transform: translateY(-3px);
+}
+.md-culture-rail-progress {
+  position: absolute;
+  left: 3.7cqw;
+  right: 3.7cqw;
+  bottom: 1.5cqh;
+  height: 1px;
+  background: #b9986930;
+  pointer-events: none;
+}
+.md-culture-rail-progress i {
+  display: block;
+  height: 100%;
+  background: #c5a473;
+  transition: width 0.2s;
+}
+.md-khmer-culture .md-culture-caption-top .md-round,
+.md-khmer-culture .md-tour-next-preview {
+  transition:
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.28s,
+    border-color 0.28s;
+}
+.md-khmer-culture .md-culture-caption-top .md-round svg {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.md-khmer-culture .md-culture-caption-top .md-round:is(:hover, :focus-visible) {
+  transform: scale(1.08);
+  background: #ab81532e;
+  border-color: #ceb080;
+}
+.md-khmer-culture
+  .md-culture-caption-top
+  .md-round:first-child:is(:hover, :focus-visible)
+  svg {
+  transform: translateX(-3px);
+}
+.md-khmer-culture
+  .md-culture-caption-top
+  .md-round:last-child:is(:hover, :focus-visible)
+  svg {
+  transform: translateX(3px);
+}
+.md-khmer-culture .md-tour-ctas .md-button {
+  transition:
+    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.28s,
+    background 0.28s;
+}
+.md-khmer-culture .md-tour-ctas .md-button svg {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.md-khmer-culture .md-tour-ctas .md-button-primary:is(:hover, :focus-visible) {
+  transform: scale(1.025);
+}
+.md-khmer-culture
+  .md-tour-ctas
+  .md-button-primary:is(:hover, :focus-visible)
+  svg:first-child {
+  transform: rotate(-3deg);
+}
+.md-khmer-culture
+  .md-tour-ctas
+  .md-button:not(.md-button-primary):is(:hover, :focus-visible) {
+  border-color: #e1c69d;
+}
+.md-khmer-culture
+  .md-tour-ctas
+  .md-button:not(.md-button-primary):is(:hover, :focus-visible)
+  svg:first-child {
+  transform: translateY(-2px) rotate(3deg);
+}
+@media (hover: hover) and (pointer: fine) {
+  .md-khmer-culture .md-tour-next-preview:hover {
+    transform: translateX(-12px);
+  }
+}
+.md-khmer-culture[data-reduced-motion="true"] *,
+.md-khmer-culture[data-reduced-motion="true"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+.md-khmer-culture[data-reduced-motion="true"] .md-culture-light {
+  display: none;
+}
+.md-khmer-culture[data-reduced-motion="true"] .md-gallery-strip button:is(:hover,:focus-visible) :is(img,span),
+.md-khmer-culture[data-reduced-motion="true"] .md-culture-caption-top .md-round:is(:hover,:focus-visible),
+.md-khmer-culture[data-reduced-motion="true"] .md-culture-caption-top .md-round:is(:hover,:focus-visible) svg,
+.md-khmer-culture[data-reduced-motion="true"] .md-tour-ctas .md-button:is(:hover,:focus-visible),
+.md-khmer-culture[data-reduced-motion="true"] .md-tour-ctas .md-button:is(:hover,:focus-visible) svg,
+.md-khmer-culture[data-reduced-motion="true"] .md-tour-next-preview:hover {
+  transform: none !important;
+}
+@container museum (max-width: 999px) {
+  .md-culture-curtain {
+    background:
+      linear-gradient(
+        0deg,
+        #0d0d0b 2%,
+        #0d0d0bc7 24%,
+        #0d0d0b50 49%,
+        #0d0d0bdc 78%
+      ),
+      linear-gradient(90deg, #0d0d0b67, transparent);
+  }
+}
+@container museum ((max-width: 999px) and (max-height: 520px) and (min-aspect-ratio: 1.5)) or ((max-width: 599px) and (max-height: 620px)) {
+  .md-khmer-culture .md-tour-copy h2 > .md-culture-title-line {
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  .md-khmer-culture
+    .md-tour-copy
+    h2
+    > .md-culture-title-line
+    + .md-culture-title-line {
+    margin-left: 0.2em;
+  }
+  .md-khmer-culture
+    .md-tour-copy
+    h2
+    > .md-culture-title-line
+    + .md-culture-title-line::before {
+    content: none;
+  }
+}

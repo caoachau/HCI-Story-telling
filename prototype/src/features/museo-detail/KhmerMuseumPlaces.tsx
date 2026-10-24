@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { usePlaceExplorerMotion } from "./usePlaceExplorerMotion";
 import {
   ArrowRight,
   BookOpen,
@@ -54,11 +55,13 @@ function HeritageMap({
   lang,
   selected,
   onSelect,
+  onPreview,
 }: {
   active: boolean;
   lang: PlaceLanguage;
   selected: string;
-  onSelect: (id: string) => void;
+  onSelect: (id: string, origin: HTMLElement) => void;
+  onPreview: (id?: string) => void;
 }) {
   return (
     <div
@@ -99,9 +102,17 @@ function HeritageMap({
                 data-longitude={place.coordinates![1]}
                 aria-label={place.title[lang]}
                 aria-pressed={selected === place.id}
-                onClick={() => onSelect(place.id)}
+                onClick={(event) => onSelect(place.id, event.currentTarget)}
+                onPointerEnter={() => onPreview(place.id)}
+                onPointerLeave={() => onPreview()}
+                onFocus={() => onPreview(place.id)}
+                onBlur={() => onPreview()}
               >
-                <span />
+                <span className="md-memory-point" aria-hidden="true">
+                  <i className="md-memory-halo" />
+                  <i className="md-memory-core" />
+                  <i className="md-memory-pulse" />
+                </span>
                 <strong>
                   {place.id === "entrance"
                     ? lang === "vi"
@@ -125,11 +136,13 @@ function TopicPlan({
   lang,
   selected,
   onSelect,
+  onPreview,
 }: {
   places: KhmerPlace[];
   lang: PlaceLanguage;
   selected: string;
-  onSelect: (id: string) => void;
+  onSelect: (id: string, origin: HTMLElement) => void;
+  onPreview: (id?: string) => void;
 }) {
   return (
     <div
@@ -144,8 +157,13 @@ function TopicPlan({
       <img
         className="md-places-plan-photo"
         src={
-          khmerPlacePhotos[places[0].zone === "upper" ? "exhibition" : "facade"]
-            .src
+          khmerPlacePhotos[
+            places[0].zone === "upper"
+              ? "exhibition"
+              : places[0].zone === "ground"
+                ? "village"
+                : "roof"
+          ].src
         }
         alt=""
         loading="lazy"
@@ -174,10 +192,17 @@ function TopicPlan({
             data-place-id={place.id}
             aria-label={place.title[lang]}
             aria-pressed={selected === place.id}
-            onClick={() => onSelect(place.id)}
+            onClick={(event) => onSelect(place.id, event.currentTarget)}
+            onPointerEnter={() => onPreview(place.id)}
+            onPointerLeave={() => onPreview()}
+            onFocus={() => onPreview(place.id)}
+            onBlur={() => onPreview()}
           >
-            <span>
-              <Icon />
+            <span className="md-memory-point" aria-hidden="true">
+              <i className="md-memory-halo" />
+              <i className="md-memory-core" />
+              <i className="md-memory-pulse" />
+              <Icon aria-hidden="true" />
             </span>
             <strong>{place.title[lang]}</strong>
           </button>
@@ -199,13 +224,29 @@ export function KhmerMuseumPlaces({
   active: boolean;
   selectedId: string;
   onSelect: (id: string) => void;
-  onExplore: (id: string) => void;
+  onExplore: (id: string, origin: HTMLElement) => void;
   onDirectory: () => void;
 }) {
   const strip = useRef<HTMLDivElement>(null);
+  const root = useRef<HTMLElement>(null);
   const place = findKhmerPlace(selectedId);
   const zone = khmerPlaceZones.find((item) => item.id === place.zone)!;
   const index = khmerPlaces.indexOf(place);
+  const chapterPlaces = khmerPlaces.filter((item) => item.zone === place.zone);
+  const { prepareChange, preview, reduced } = usePlaceExplorerMotion(
+    root,
+    selectedId,
+    place.zone,
+    active,
+  );
+  function select(id: string) {
+    prepareChange(findKhmerPlace(id).zone);
+    onSelect(id);
+  }
+  function explore(id: string, origin: HTMLElement) {
+    select(id);
+    onExplore(id, origin);
+  }
   const vi = lang === "vi";
   useEffect(() => {
     if (!active) return;
@@ -223,37 +264,61 @@ export function KhmerMuseumPlaces({
           cardRect.left -
           trackRect.left -
           (trackRect.width - cardRect.width) / 2,
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "instant"
-          : "smooth",
+        behavior: reduced ? "instant" : "smooth",
       });
-  }, [active, selectedId]);
+    const plan = root.current?.querySelector<HTMLElement>(
+      ".md-places-topic-plan",
+    );
+    const point = plan?.querySelector<HTMLElement>(
+      `[data-place-id="${selectedId}"]`,
+    );
+    if (plan && point && getComputedStyle(plan).overflowX === "auto") {
+      const p = point.getBoundingClientRect(),
+        r = plan.getBoundingClientRect();
+      if (p.left < r.left || p.right > r.right)
+        plan.scrollTo({
+          left: plan.scrollLeft + p.left - r.left - (r.width - p.width) / 2,
+          behavior: reduced ? "instant" : "smooth",
+        });
+    }
+  }, [active, selectedId, reduced]);
   return (
     <section
       className={`md-section md-map-section md-framed md-khmer-places md-places-zone-${place.zone}`}
       id="museo-map"
+      ref={root}
+      data-reduced-motion={reduced}
       hidden={!active}
       tabIndex={-1}
       aria-labelledby="md-map-title"
     >
       <div className="md-frame">
         <div className="md-map-body">
+          <svg className="md-places-spatial-link" aria-hidden="true">
+            <path />
+          </svg>
           <div className="md-map-stage">
-            {place.zone === "landscape" ? (
-              <HeritageMap
-                active={active}
-                lang={lang}
-                selected={place.id}
-                onSelect={onSelect}
-              />
-            ) : (
-              <TopicPlan
-                places={khmerPlaces.filter((item) => item.zone === place.zone)}
-                lang={lang}
-                selected={place.id}
-                onSelect={onSelect}
-              />
-            )}
+            <div className="md-places-scene">
+              {place.zone === "landscape" ? (
+                <HeritageMap
+                  active={active}
+                  lang={lang}
+                  selected={place.id}
+                  onSelect={explore}
+                  onPreview={preview}
+                />
+              ) : (
+                <TopicPlan
+                  places={khmerPlaces.filter(
+                    (item) => item.zone === place.zone,
+                  )}
+                  lang={lang}
+                  selected={place.id}
+                  onSelect={explore}
+                  onPreview={preview}
+                />
+              )}
+            </div>
             <div className="md-map-copy">
               <span className="md-eyebrow">
                 {vi ? "KHÁM PHÁ BẢO TÀNG" : "EXPLORE THE MUSEUM"}
@@ -302,7 +367,7 @@ export function KhmerMuseumPlaces({
                     type="button"
                     aria-pressed={item.id === place.zone}
                     onClick={() =>
-                      onSelect(
+                      select(
                         khmerPlaces.find((point) => point.zone === item.id)!.id,
                       )
                     }
@@ -336,7 +401,7 @@ export function KhmerMuseumPlaces({
                   type="button"
                   aria-label={vi ? "Điểm trước" : "Previous place"}
                   onClick={() =>
-                    onSelect(
+                    select(
                       khmerPlaces[
                         (index + khmerPlaces.length - 1) % khmerPlaces.length
                       ].id,
@@ -350,7 +415,7 @@ export function KhmerMuseumPlaces({
                   type="button"
                   aria-label={vi ? "Điểm tiếp theo" : "Next place"}
                   onClick={() =>
-                    onSelect(khmerPlaces[(index + 1) % khmerPlaces.length].id)
+                    select(khmerPlaces[(index + 1) % khmerPlaces.length].id)
                   }
                 >
                   <ChevronRight />
@@ -364,7 +429,9 @@ export function KhmerMuseumPlaces({
             >
               <div className="md-featured-title">
                 <div>
-                  <h3>{place.title[lang]}</h3>
+                  <h3>
+                    <span>{place.title[lang]}</span>
+                  </h3>
                   <span className="md-eyebrow">
                     {zone.title[lang]} ·{" "}
                     {vi ? "Văn hóa Khmer" : "Khmer culture"}
@@ -375,14 +442,14 @@ export function KhmerMuseumPlaces({
                 </small>
               </div>
               <p className="md-mono md-site-long-description">
-                {place.description[lang]}
+                {place.short[lang]}
               </p>
               <p className="md-mono md-site-preview">{place.short[lang]}</p>
               <div className="md-place-observe">
                 <span className="md-eyebrow">
                   {vi ? "GỢI Ý QUAN SÁT" : "LOOK CLOSER"}
                 </span>
-                <p>{place.highlights[0].text[lang]}</p>
+                <p>{place.highlights[0].title[lang]}</p>
               </div>
               <div className="md-featured-tags">
                 {place.tags.map((tag, tagIndex) => {
@@ -404,7 +471,7 @@ export function KhmerMuseumPlaces({
                 className="md-button"
                 type="button"
                 data-action="explore-khmer-place"
-                onClick={() => onExplore(place.id)}
+                onClick={(event) => onExplore(place.id, event.currentTarget)}
               >
                 {vi ? "XEM CHI TIẾT" : "EXPLORE PLACE"}
                 <ArrowRight />
@@ -435,18 +502,18 @@ export function KhmerMuseumPlaces({
             role="group"
             aria-label={
               vi
-                ? "16 điểm khám phá · cuộn ngang để xem thêm"
-                : "16 exploration points · scroll horizontally for more"
+                ? `${chapterPlaces.length} điểm trong ${zone.title[lang]} · cuộn ngang để xem thêm`
+                : `${chapterPlaces.length} places in ${zone.title[lang]} · scroll horizontally for more`
             }
           >
-            {khmerPlaces.map((item) => (
+            {chapterPlaces.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 data-place-id={item.id}
                 className={item.id === place.id ? "is-selected" : ""}
                 aria-pressed={item.id === place.id}
-                onClick={() => onSelect(item.id)}
+                onClick={(event) => explore(item.id, event.currentTarget)}
               >
                 <img
                   src={khmerPlacePhotos[item.gallery[0]].src}

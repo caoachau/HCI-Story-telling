@@ -1,16 +1,28 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowUpRight,
   Landmark,
   MapPin,
-  PanelRightClose,
-  PanelRightOpen,
+  Navigation,
   QrCode,
-  Sparkles,
+  ArrowRight,
   X,
 } from "lucide-react";
 import type { HeritageSite } from "../data/heritageSites";
 import "./locationQuickView.css";
+import {
+  cancelMuseumOpening,
+  prepareMuseumOpening,
+} from "../utils/museumOpening";
+import { preloadMuseumDetail } from "../utils/museumPreload";
+import { quickLocationContent } from "../data/locationQuickContent";
+import { QuickLocationGallery } from "./QuickLocationGallery";
+import { useLocationQuickMotion } from "./useLocationQuickMotion";
+import { useQuickPageMotion } from "./useQuickPageMotion";
+import {
+  QuickLocationReader,
+  type QuickReaderBlock,
+} from "./QuickLocationReader";
 
 const englishCategories: Record<HeritageSite["category"], string> = {
   "Di sản kiến trúc": "Architecture",
@@ -18,55 +30,172 @@ const englishCategories: Record<HeritageSite["category"], string> = {
   "Làng nghề truyền thống": "Traditional crafts",
   "Không gian diễn xướng": "Performing arts",
 };
-
+type Topic = "overview" | "highlights" | "visit";
 interface Props {
   site: HeritageSite;
   lang: "vi" | "en";
-  isWide: boolean;
   onViewDetails: () => void;
+  onPrepareDetails?: () => void;
   onClose: () => void;
-  onToggleWidth: () => void;
   onOpenQRCode: () => void;
 }
-
 export function LocationQuickView({
   site,
   lang,
-  isWide,
   onViewDetails,
+  onPrepareDetails,
   onClose,
-  onToggleWidth,
   onOpenQRCode,
 }: Props) {
-  const [imageFailed, setImageFailed] = useState(false);
   const rootRef = useRef<HTMLElement>(null);
-  const vi = lang === "vi";
-  const name = vi ? site.name : site.englishName;
-  const highlights = site.chapters.slice(0, 3);
-  const summary = vi
-    ? site.chapters[0]?.summary || site.tagline
-    : site.chapters[0]?.englishSummary || site.englishName;
-
+  const [topic, setTopic] = useState<Topic>("overview");
+  useLayoutEffect(() => setTopic("overview"), [site.id]);
+  const prepareRef = useRef(onPrepareDetails);
+  prepareRef.current = onPrepareDetails;
+  const warmDetails = () => {
+    if (site.id !== "bao-tang-khmer") return;
+    const root = rootRef.current;
+    void preloadMuseumDetail()
+      .then(() => {
+        if (
+          root?.isConnected &&
+          root.dataset.siteId === "bao-tang-khmer" &&
+          !root.closest("[hidden]") &&
+          !["entering-detail", "closing"].includes(
+            root.dataset.quickMotion ?? "",
+          )
+        )
+          prepareRef.current?.();
+      })
+      .catch(() => {});
+  };
+  const { reduced, requestClose } = useLocationQuickMotion(
+    rootRef,
+    onClose,
+    site.id,
+  );
+  useQuickPageMotion(rootRef, topic, 0, reduced, site.id);
+  const vi = lang === "vi",
+    name = vi ? site.name : site.englishName;
+  const content = useMemo(() => quickLocationContent(site, lang), [site, lang]);
+  const topics: { id: Topic; label: string }[] = [
+    { id: "overview", label: vi ? "Tổng quan" : "Overview" },
+    { id: "highlights", label: vi ? "Điểm nổi bật" : "Highlights" },
+    { id: "visit", label: vi ? "Tham quan" : "Visiting" },
+  ];
+  const blocks: Record<Topic, QuickReaderBlock[]> = {
+    overview: [
+      { id: "introduction", text: content.summary, className: "lqv-summary" },
+      {
+        id: "facts",
+        node: (
+          <>
+            <dl className="lqv-facts">
+              <div>
+                <dt>{content.periodLabel}</dt>
+                <dd>{content.period}</dd>
+              </div>
+              <div>
+                <dt>{vi ? "Khu vực" : "Region"}</dt>
+                <dd>{content.region}</dd>
+              </div>
+            </dl>
+          </>
+        ),
+      },
+      {
+        id: "exploration",
+        node: (
+          <>
+            <div className="lqv-explore-hints">
+              <span>{vi ? "GỢI Ý KHÁM PHÁ" : "EXPLORE THIS PLACE"}</span>
+              <p>{content.exploration}</p>
+            </div>
+          </>
+        ),
+      },
+    ],
+    highlights: content.highlights.map((item, index) => ({
+      id: `highlight-${index}`,
+      heading: item.title,
+      text: item.summary,
+      className: "lqv-highlight-story",
+    })),
+    visit: [
+      {
+        id: "guidance",
+        heading: vi ? "Gợi ý cho chuyến tham quan" : "Before you visit",
+        text: content.visit,
+        className: "lqv-visit-description",
+      },
+      ...(content.periodNote
+        ? [
+            {
+              id: "dates",
+              text: content.periodNote,
+              className: "lqv-period-note",
+            },
+          ]
+        : []),
+      {
+        id: "map",
+        node: (
+          <a
+            className="lqv-map-link"
+            href={`https://www.google.com/maps/search/?api=1&query=${site.lat},${site.lng}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Navigation aria-hidden="true" />
+            <span>
+              {vi ? "Xem vị trí trên bản đồ" : "Open location on a map"}
+            </span>
+            <ArrowUpRight aria-hidden="true" />
+          </a>
+        ),
+      },
+    ],
+  };
   useEffect(() => {
-    rootRef.current?.focus({ preventScroll: true });
-  }, []);
-
+    if (site.id !== "bao-tang-khmer") return;
+    const root = rootRef.current;
+    const timer = window.setTimeout(() => {
+      if (
+        root?.isConnected &&
+        root.dataset.siteId === "bao-tang-khmer" &&
+        !root.closest("[hidden]")
+      )
+        warmDetails();
+    }, 1050);
+    return () => {
+      clearTimeout(timer);
+      cancelMuseumOpening(root);
+    };
+  }, [site.id]);
   return (
     <section
       ref={rootRef}
       tabIndex={-1}
+      role="dialog"
+      aria-modal="false"
       className="lqv-root"
       data-site-id={site.id}
+      data-reduced-motion={reduced}
+      data-quick-topic={topic}
+      lang={lang}
       aria-labelledby="location-quick-title"
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           event.stopPropagation();
-          onClose();
+          requestClose();
         }
       }}
     >
       <header className="lqv-toolbar">
-        <span>{vi ? "THÔNG TIN ĐỊA ĐIỂM" : "LOCATION OVERVIEW"}</span>
+        <span>
+          <Landmark aria-hidden="true" />
+          {vi ? "THÔNG TIN ĐỊA ĐIỂM" : "LOCATION VIEWER"}
+        </span>
         <div>
           <button
             type="button"
@@ -78,20 +207,8 @@ export function LocationQuickView({
           </button>
           <button
             type="button"
-            className="lqv-width-toggle"
-            onClick={onToggleWidth}
-            aria-label={
-              vi ? "Đổi độ rộng thông tin nhanh" : "Change overview width"
-            }
-            aria-pressed={isWide}
-            title={vi ? "Đổi độ rộng" : "Change width"}
-          >
-            {isWide ? <PanelRightClose /> : <PanelRightOpen />}
-          </button>
-          <button
-            type="button"
             className="lqv-close"
-            onClick={onClose}
+            onClick={requestClose}
             aria-label={
               vi ? "Đóng thông tin địa điểm" : "Close location overview"
             }
@@ -101,74 +218,118 @@ export function LocationQuickView({
           </button>
         </div>
       </header>
-      <div
-        className="lqv-scroll"
-        tabIndex={0}
-        aria-label={vi ? "Thông tin nhanh" : "Quick information"}
-      >
-        <div className="lqv-layout">
-          <div className="lqv-photo">
-            {imageFailed ? (
-              <div className="lqv-photo-fallback" role="img" aria-label={name}>
-                <Landmark />
-                <span>
-                  {vi ? site.category : englishCategories[site.category]}
-                </span>
-              </div>
-            ) : (
-              <img
-                src={site.heroImage}
-                alt={name}
-                onError={() => setImageFailed(true)}
-              />
-            )}
-            <span className="lqv-category">
-              {vi ? site.category : englishCategories[site.category]}
-            </span>
-          </div>
-          <div className="lqv-content">
-            <h2 id="location-quick-title">{name}</h2>
-            <p className="lqv-address">
-              <MapPin />
-              {site.province}
-            </p>
-            <p className="lqv-summary">{summary}</p>
-            <dl className="lqv-facts">
-              <div>
-                <dt>{vi ? "Dấu mốc" : "Heritage period"}</dt>
-                <dd>{site.establishedCentury}</dd>
-              </div>
-              <div>
-                <dt>{vi ? "Khu vực" : "Region"}</dt>
-                <dd>{site.region}</dd>
-              </div>
-            </dl>
-            {highlights.length > 0 && (
-              <div className="lqv-highlights">
-                <h3>{vi ? "Điểm nổi bật" : "Highlights"}</h3>
-                <ul>
-                  {highlights.map((chapter) => (
-                    <li key={chapter.title}>
-                      <Sparkles />
-                      <p>{vi ? chapter.title : chapter.englishTitle}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+      <div className="lqv-scroll lqv-layout">
+        <div className="lqv-title-block">
+          <p className="lqv-category">
+            {vi ? site.category : englishCategories[site.category]}
+          </p>
+          <h2 id="location-quick-title">{name}</h2>
+          <p className="lqv-address">
+            <MapPin aria-hidden="true" />
+            {site.province}
+          </p>
+        </div>
+        <QuickLocationGallery
+          key={site.id}
+          photos={content.photos}
+          lang={lang}
+          reduced={reduced}
+        />
+        <nav
+          className="lqv-tabs"
+          role="tablist"
+          aria-label={
+            vi ? "Mục thông tin địa điểm" : "Location information sections"
+          }
+          onKeyDown={(event) => {
+            const index = topics.findIndex((item) => item.id === topic);
+            const next =
+              event.key === "Home"
+                ? 0
+                : event.key === "End"
+                  ? topics.length - 1
+                  : event.key === "ArrowRight"
+                    ? (index + 1) % topics.length
+                    : event.key === "ArrowLeft"
+                      ? (index + topics.length - 1) % topics.length
+                      : -1;
+            if (next < 0) return;
+            event.preventDefault();
+            setTopic(topics[next].id);
+            rootRef.current
+              ?.querySelector<HTMLButtonElement>(
+                `[data-quick-tab=${topics[next].id}]`,
+              )
+              ?.focus({ preventScroll: true });
+          }}
+        >
+          <i className="lqv-tab-indicator" aria-hidden="true" />
+          {topics.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              role="tab"
+              id={`lqv-tab-${item.id}`}
+              data-quick-tab={item.id}
+              aria-selected={topic === item.id}
+              aria-pressed={topic === item.id}
+              aria-controls={`lqv-panel-${item.id}`}
+              tabIndex={topic === item.id ? 0 : -1}
+              onClick={() => setTopic(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+        <div className="lqv-information">
+          <div className="lqv-pages lqv-content">
+            {topics.map((item) => (
+              <section
+                key={item.id}
+                id={`lqv-panel-${item.id}`}
+                className={`lqv-page lqv-${item.id}`}
+                role="tabpanel"
+                aria-labelledby={`lqv-tab-${item.id}`}
+                data-quick-section={item.id}
+                hidden={topic !== item.id}
+                tabIndex={0}
+              >
+                <QuickLocationReader
+                  key={`${site.id}-${lang}-${item.id}`}
+                  blocks={blocks[item.id]}
+                  active={topic === item.id}
+                  lang={lang}
+                  reduced={reduced}
+                />
+              </section>
+            ))}
           </div>
         </div>
+        <footer className="lqv-footer">
+          <button
+            type="button"
+            data-action="show-location-details"
+            onPointerEnter={warmDetails}
+            onFocus={warmDetails}
+            onClick={(event) => {
+              if (site.id === "bao-tang-khmer")
+                void prepareMuseumOpening(
+                  rootRef.current!,
+                  event.currentTarget
+                    .closest(".lqv-root")
+                    ?.querySelector<HTMLImageElement>(".lqv-photo>img") ?? null,
+                  onViewDetails,
+                );
+              else onViewDetails();
+            }}
+          >
+            <span>
+              {vi ? "XEM CÂU CHUYỆN ĐẦY ĐỦ" : "EXPLORE THE FULL STORY"}
+            </span>
+            <ArrowRight aria-hidden="true" />
+          </button>
+        </footer>
       </div>
-      <footer className="lqv-footer">
-        <button
-          type="button"
-          data-action="show-location-details"
-          onClick={onViewDetails}
-        >
-          {vi ? "Xem chi tiết" : "View details"}
-          <ArrowUpRight />
-        </button>
-      </footer>
     </section>
   );
 }
