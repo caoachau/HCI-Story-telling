@@ -51,10 +51,6 @@ export function useKhmerIntroMotion(
       opacity: "0",
       transform: "translate3d(0,18px,0)",
     });
-    stage(".md-chapter-dock", {
-      opacity: "0",
-      transform: "translate3d(0,32px,0) scale(.96)",
-    });
     stage(".md-hero-arrows,.md-hero-bottom", { opacity: "0" });
     const baseline = starts.map(({ node }) => {
       const original = node.getAttribute("style");
@@ -184,18 +180,6 @@ export function useKhmerIntroMotion(
               clearProps: "transform,opacity",
             },
             bridge ? 0.7 : 1.12 * factor,
-          );
-          timeline.fromTo(
-            ".md-chapter-dock",
-            { opacity: 0, y: 32, scale: 0.96 },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: bridge ? 0.36 : 0.52 * factor,
-              clearProps: "transform,opacity",
-            },
-            bridge ? 0.78 : 1.34 * factor,
           );
           timeline.fromTo(
             ".md-hero-arrows,.md-hero-bottom",
@@ -433,51 +417,6 @@ export function useKhmerIntroMotion(
       root,
     );
     return () => media.revert();
-  }, [ref, visible, reduced, interactive]);
-
-  useLayoutEffect(() => {
-    const root = ref.current,
-      dock = root?.querySelector<HTMLElement>(".md-chapter-dock");
-    if (!root || !dock || !visible || !interactive) return;
-    const ctx = gsap.context(() => {}, root);
-    const indicator = dock.querySelector<HTMLElement>(".md-dock-glow")!;
-    const move = (button: HTMLButtonElement) =>
-      ctx.add(() => {
-        gsap.to(indicator, {
-          x: button.offsetLeft,
-          width: button.offsetWidth,
-          opacity: 1,
-          duration: reduced ? 0 : 0.55,
-          ease: museumEase,
-          overwrite: true,
-        });
-      });
-    const select = (event: Event) => {
-      const button =
-        event.target instanceof Element ? event.target.closest("button") : null;
-      if (button && dock.contains(button)) move(button);
-    };
-    const reset = () => {
-      const button =
-        dock.querySelector<HTMLButtonElement>("[data-dock-selected=true]") ??
-        dock.querySelector<HTMLButtonElement>("button")!;
-      move(button);
-    };
-    const resize = new ResizeObserver(reset);
-    resize.observe(dock);
-    reset();
-    dock.addEventListener("pointerover", select);
-    dock.addEventListener("focusin", select);
-    dock.addEventListener("pointerleave", reset);
-    dock.addEventListener("focusout", reset);
-    return () => {
-      resize.disconnect();
-      dock.removeEventListener("pointerover", select);
-      dock.removeEventListener("focusin", select);
-      dock.removeEventListener("pointerleave", reset);
-      dock.removeEventListener("focusout", reset);
-      ctx.revert();
-    };
   }, [ref, visible, reduced, interactive]);
 
   return { reduced, finishOpening: () => opening.current?.progress(1) };

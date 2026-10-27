@@ -1,5 +1,6 @@
 import { GOOGLE_TILE_CACHE } from './googleTileCache.generated';
 import { addProtocol } from 'maplibre-gl';
+import { getGoogleTileParams } from './googleTileUrl';
 
 export const GOOGLE_IMAGERY = {
   tileUrls: [0, 1, 2, 3].map((server) => `https://mt${server}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}`),
@@ -43,9 +44,8 @@ export function registerGoogleTileFallback(): void {
 }
 
 export function resolveGoogleTileUrl(url: string): string {
-  if (!/^https:\/\/mt[0-3]\.google\.com\/vt\?/.test(url)) return url;
-  const params = new URL(url).searchParams;
-  if (params.get('lyrs') !== 's') return url;
+  const params = getGoogleTileParams(url);
+  if (params?.get('lyrs') !== 's') return url;
   const key = `${params.get('z')}/${params.get('y')}/${params.get('x')}`;
   if (cachedTiles.has(key)) return localTileUrl(key);
   if (parentTiles.has(key)) return `${fallbackPrefix}${key}`;

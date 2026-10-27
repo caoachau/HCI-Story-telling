@@ -1,0 +1,16 @@
+{
+  "mode": "Built-in image_gen, edit with local reference, transparent_background=true",
+  "purpose": "Illustrative foreground layers for the new history section; never documentary event photographs.",
+  "assets": [
+    {
+      "output": "src/assets/den-tho-bac/temple-cutout-v2.png",
+      "reference": "src/assets/den-tho-bac/temple.jpg",
+      "prompt": "Use case: background removal / precise photographic cutout. Edit target: the supplied actual photograph of Den tho Bac Ho in Long Duc, Vietnam. Create a clean transparent-background foreground cutout for an editorial museum website. Keep the EXACT central yellow temple building with red tiled roof, its two red flags, the visitors/students already visible in front, and a small natural portion of its courtyard at the bottom. Remove the sky, all background foliage, and the tall palm trees that surround/obscure the building. Follow the actual roof silhouette precisely with crisp natural edges; preserve the original building's exact shape, colors, doorway, roof tiers, flags and original people, no new details or people. Keep the same camera perspective, arrangement, lighting, realistic photographic appearance. Isolate the actual photographed subjects, do not reconstruct hidden portions, do not add historical or war scenes, no illustration, no text, no border, no fake shadows. Broad horizontal composition, center temple and people, ample actual transparent alpha all around upper and side silhouette; base of courtyard may run along bottom. Output a genuine transparent PNG."
+    },
+    {
+      "output": "src/assets/den-tho-bac/stilt-cutout-v2.png",
+      "reference": "src/assets/den-tho-bac/stilt-house.jpg",
+      "prompt": "Use case: background removal. Edit target: supplied actual photograph of the wooden stilt-house replica at Long Duc, Vietnam. Make a clean photographic cutout on genuine transparent alpha. Preserve the actual wooden stilt house with its red-brown tiled roof, the front balcony and green beams, the visible staircase at right, the concrete supports and just a very small patch of ground and plants directly under the structure. Remove all sky, surrounding trees and background foliage, including the tall foreground tree trunk; do not reconstruct the portions that are hidden. Keep the original camera perspective, building proportions, material, colors, roof outline, lighting and people if retained; add no people, no architectural elements, no artifacts, no text. This is a foreground element for an editorial museum history screen, NOT a new historical scene. Precise crisp natural silhouette along the roof and staircase, no white or grey rectangle, no haze or gradient, no added shadows. Fit the whole actual photographed structure in a horizontal canvas with some transparent breathing room around sides and above."
+    }
+  ]
+}

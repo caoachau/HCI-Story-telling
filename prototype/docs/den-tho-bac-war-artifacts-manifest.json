@@ -1,0 +1,30 @@
+{
+  "supplied": "2026-10-27",
+  "credit": "Cảnh Kỳ / Báo Tiền Phong",
+  "article": "https://tienphong.vn/ve-tham-den-tho-bac-post1839811.tpo",
+  "articleDate": "2026-05-01",
+  "processing": "Original AVIF files copied without edits; watermark retained",
+  "photos": [
+    {
+      "file": "bac-23.avif",
+      "width": 1390,
+      "height": 965,
+      "bytes": 238832,
+      "sha256": "1ec18bd7b6d132062c4b1744d5a26ccea97eebf7cdd163aef89c5fb823233305"
+    },
+    {
+      "file": "bac-24.avif",
+      "width": 1390,
+      "height": 1853,
+      "bytes": 315649,
+      "sha256": "4e98f985d0efb1d22ab118ff24d02c97641c764316da0bdf8a7c94fb6a8addd3"
+    },
+    {
+      "file": "bac-25.avif",
+      "width": 1390,
+      "height": 1036,
+      "bytes": 340437,
+      "sha256": "ef7ee0fcef8d17ed3ef35359c930943fa1ba080c8f8731e594897a23480db1c4"
+    }
+  ]
+}

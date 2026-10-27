@@ -7,7 +7,7 @@ import { LocationQuickView } from './components/LocationQuickView';
 import { LocationUtilityDialog } from './components/LocationUtilityDialog';
 import type { CameraManager, CameraChapterView } from './services/cameraManager';
 import { soundscape } from './services/soundscape';
-import { BookOpen, X, Clock3 } from 'lucide-react';
+import { X, Clock3 } from 'lucide-react';
 import { fetchLocalWeather, type LocalWeather } from './services/localWeather';
 
 const Earth3DViewer = lazy(() => import('./components/Earth3DViewer').then((module) => ({ default: module.Earth3DViewer })));
@@ -22,7 +22,6 @@ const Panorama360Modal = lazy(() => import('./components/Panorama360Modal').then
 const QRCodeModal = lazy(() => import('./components/QRCodeModal').then((module) => ({ default: module.QRCodeModal })));
 const SearchModal = lazy(() => import('./components/SearchModal').then((module) => ({ default: module.SearchModal })));
 const AttractModeOverlay = lazy(() => import('./components/AttractModeOverlay').then((module) => ({ default: module.AttractModeOverlay })));
-const AoBaOmMuseumKiosk = lazy(() => import('./features/ao-ba-om-detail/AoBaOmMuseumKiosk').then((module) => ({ default: module.AoBaOmMuseumKiosk })));
 
 export default function App() {
   const [selectedSite, setSelectedSite] = useState<HeritageSite>(HERITAGE_SITES[0]);
@@ -55,13 +54,6 @@ export default function App() {
   const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [contentEpoch, setContentEpoch] = useState(0);
   const [weather, setWeather] = useState<LocalWeather | null>(null);
-  const [isMuseumKioskOpen, setIsMuseumKioskOpen] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('kiosk') === 'ao-ba-om' || window.location.hash === '#kiosk';
-    }
-    return false;
-  });
 
   const cameraManagerRef = useRef<CameraManager | null>(null);
   const storyDetailRef = useRef<HTMLDivElement>(null);
@@ -127,10 +119,10 @@ export default function App() {
     return () => document.removeEventListener('fullscreenchange', handleFsChange);
   }, []);
 
-  // Keep the kiosk's five-minute content limit: time is tied to the open
-  // interpretation panel, not to pointer or keyboard activity.
+  // Reclaim the quick view after five minutes. A full-screen interpretation
+  // remains open so a visitor's reading or slideshow is never cut short.
   useEffect(() => {
-    if (!hasUserSelectedSite || !isSidebarOpen) return;
+    if (!hasUserSelectedSite || !isSidebarOpen || (hasOpenedStoryDetail && isStoryExpanded)) return;
     const timer = window.setTimeout(() => {
       soundscape.stopSoundscape();
       setIsSoundPlaying(false);
@@ -144,7 +136,7 @@ export default function App() {
       cameraManagerRef.current?.flyToOverview();
     }, 5 * 60 * 1000);
     return () => window.clearTimeout(timer);
-  }, [hasUserSelectedSite, isSidebarOpen, selectedSite.id, contentEpoch]);
+  }, [hasUserSelectedSite, isSidebarOpen, selectedSite.id, contentEpoch, hasOpenedStoryDetail, isStoryExpanded]);
 
   // Museum Kiosk Attract Mode Idle Detection (75s inactivity)
   const resetIdleTimer = () => {
@@ -258,7 +250,8 @@ export default function App() {
 
   return (
     <div className={`heritage-app flex flex-col w-screen h-screen overflow-hidden bg-[#0c0e14] text-[#f4efe6] select-none${isLargeText ? ' access-large-text' : ''}${isHighContrast ? ' access-high-contrast' : ''}${isReduceMotion ? ' access-reduce-motion' : ''}`}>
-      {/* 1. Header Top Bar */}
+      {/* Full-bleed map: only the controls move when a story opens. */}
+      <div className="heritage-map-viewport relative flex-1 flex overflow-hidden" data-story-open={isSidebarOpen} data-story-wide={isStoryWide} data-story-expanded={isStoryExpanded} data-landmarks-collapsed={isLandmarkCarouselCollapsed}>
       <HeaderTopBar
         onHomeClick={handleHomeClick}
         onBackClick={handleBackClick}
@@ -273,14 +266,9 @@ export default function App() {
         onOpenAbout={() => setIsAboutOpen(true)}
         hasActiveSelection={hasUserSelectedSite}
         onOpenSearch={() => setIsSearchOpen(true)}
-        isReduceMotion={isReduceMotion}
-        onToggleReduceMotion={() => setIsReduceMotion(!isReduceMotion)}
         weather={weather}
-        onOpenMuseumKiosk={() => setIsMuseumKioskOpen(true)}
       />
 
-      {/* 2. Main Full-Bleed Map Viewport Area */}
-      <div className="heritage-map-viewport relative flex-1 flex overflow-hidden" data-story-open={isSidebarOpen} data-story-wide={isStoryWide} data-landmarks-collapsed={isLandmarkCarouselCollapsed}>
         {/* Left & Center: 3D Topographic Table / 2D Map */}
         <div className="relative flex-1 h-full overflow-visible">
         <Suspense fallback={<div className="flex h-full items-center justify-center bg-[#10141d] text-sm text-stone-400" role="status">{lang === 'vi' ? 'Đang tải bản đồ di sản…' : 'Loading heritage map…'}</div>}>
@@ -297,6 +285,8 @@ export default function App() {
             onOpenStorytelling={() => setIsSidebarOpen(true)}
             isStorytellingOpen={isSidebarOpen}
             isOccluded={isSidebarOpen && isStoryExpanded}
+            isLandmarksCollapsed={isLandmarkCarouselCollapsed}
+            onToggleLandmarksCollapsed={() => setIsLandmarkCarouselCollapsed((collapsed) => !collapsed)}
             onMapStoryFocus={handleMapStoryFocus}
             onHomeClick={handleHomeClick}
             hasUserSelectedSite={hasUserSelectedSite}
@@ -310,17 +300,6 @@ export default function App() {
           </Suspense>
 
           {/* Story panel and accessibility controls */}
-          {!isSidebarOpen && (
-            <button
-              onClick={() => setIsSidebarOpen(true)}
-              className="absolute top-20 right-[calc(var(--story-controls-offset)+1.5rem)] z-20 px-3 py-2 bg-[#10141d]/90 hover:bg-[#18202d] border border-white/10 hover:border-amber-500/50 rounded-xl text-stone-200 hover:text-amber-300 shadow-xl transition-all flex items-center gap-2 text-xs font-mono cursor-pointer"
-              title={lang === 'vi' ? 'Mở bảng diễn giải di sản' : 'Open heritage story'}
-              aria-label={lang === 'vi' ? 'Mở diễn giải di sản' : 'Open heritage interpretation'}
-            >
-              <BookOpen className="h-4 w-4 text-amber-400" />
-              <span className="hidden sm:inline">{lang === 'vi' ? 'Diễn giải di sản' : 'Heritage story'}</span>
-            </button>
-          )}
 
           {isAccessibilityOpen && (
             <section className="accessibility-popover z-30 rounded-2xl border border-amber-500/30 bg-[#10141d]/95 p-4 shadow-2xl backdrop-blur" aria-label={lang === 'vi' ? 'Tùy chỉnh trợ năng' : 'Accessibility settings'}>
@@ -343,11 +322,10 @@ export default function App() {
           )}
         </div>
         {/* Overlay the story without changing the map's size or camera center. */}
-        {isSidebarOpen && !isStoryExpanded && <div className="lqv-map-shade" aria-hidden="true" />}
         {isSidebarOpen && (
           <aside data-location-view={isStoryExpanded ? 'detail' : 'quick'} className={isStoryExpanded
             ? 'fixed inset-0 z-[70] shadow-2xl'
-            : 'heritage-story-panel absolute inset-y-0 right-0 z-40 shadow-2xl transition-transform duration-300 ease-in-out animate-in slide-in-from-right'}>
+            : 'heritage-story-panel absolute inset-y-0 right-0 z-40 shadow-2xl'}>
             <div hidden={isStoryExpanded} className="h-full">
               <LocationQuickView
                 site={selectedSite}
@@ -407,8 +385,6 @@ export default function App() {
             </div>}
           </aside>
         )}
-      </div>
-
       {/* 3. Bottom Landmark Dock Carousel (Floating, compact, collapsible) */}
       {!(isSidebarOpen && isStoryExpanded) && <LandmarkCarousel
         selectedSite={selectedSite}
@@ -417,8 +393,8 @@ export default function App() {
         isStoryOpen={isSidebarOpen}
         isStoryExpanded={isStoryExpanded}
         isCollapsed={isLandmarkCarouselCollapsed}
-        onToggleCollapsed={() => setIsLandmarkCarouselCollapsed((collapsed) => !collapsed)}
       />}
+      </div>
 
       {/* 4. Slide-Over Landmark Directory Drawer (7 Sites) */}
       <LandmarkDrawer
@@ -514,17 +490,6 @@ export default function App() {
         </div>
       )}
 
-      {/* 11. Fullscreen Museum Kiosk Display (5 Parts) */}
-      {isMuseumKioskOpen && (
-        <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#07090e] animate-in fade-in duration-300">
-          <Suspense fallback={<div className="flex h-screen items-center justify-center bg-[#07090e] text-sm text-stone-300" role="status">{lang === 'vi' ? 'Đang mở màn hình tương tác Kiosk di sản 5 phần…' : 'Loading 5-part museum kiosk…'}</div>}>
-            <AoBaOmMuseumKiosk
-              initialLang={lang}
-              onClose={() => setIsMuseumKioskOpen(false)}
-            />
-          </Suspense>
-        </div>
-      )}
     </div>
   );
 }

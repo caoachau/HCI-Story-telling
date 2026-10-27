@@ -5,6 +5,7 @@ import { formatCoordinates } from '../utils/geoCoordinates';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
 import { BaDongEditorial } from './BaDongEditorial';
 import { ConChimZipDetail } from './ConChimZipDetail';
+import { DenThoBacDetail } from './DenThoBacDetail';
 import { AoBaOmEditorial } from './AoBaOmEditorial';
 
 import { loadMuseumDetail, peekMuseumDetail } from '../utils/museumPreload';
@@ -189,6 +190,17 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
       isSoundscapePlaying={isSoundscapePlaying}
       onToggleNarration={handleToggleNarration}
       isNarrating={isNarrating}
+      onContentChange={onContentChange}
+    />;
+  }
+
+  if (site.id === 'den-tho-bac') {
+    return <DenThoBacDetail
+      isExpanded={isExpanded}
+      isSidebarWide={isSidebarWide}
+      onToggleExpanded={onToggleExpanded}
+      onToggleSidebarWide={onToggleSidebarWide}
+      onClose={onClose}
       onContentChange={onContentChange}
     />;
   }

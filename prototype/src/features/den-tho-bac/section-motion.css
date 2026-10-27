@@ -1,0 +1,34 @@
+/* Each chapter uses one short, finite entrance, never an idle animation. */
+.db-history-source-note {font-size:calc(15 * var(--u));line-height:1.7;color:#535f62;}
+@media(prefers-reduced-motion:no-preference) {
+  .db-kiosk main>section {animation:none;}
+  .db-overview .db-intro-copy {animation:db-chapter-lift .55s ease-out both;}
+  .db-overview .db-intro-art .db-picture {animation:db-chapter-focus .8s ease-out both;}
+  .db-overview-strip>button {animation:db-chapter-lift .5s .12s ease-out both;}
+  .db-history-stage {animation:db-chapter-dissolve .5s ease-out both;}
+  .db-atlas .db-atlas-panel {animation:db-chapter-from-right .55s ease-out both;}
+  .db-people .db-people-photo .db-picture {animation:db-chapter-from-left .6s ease-out both;}
+  .db-person-copy {animation:db-chapter-from-right .5s ease-out both;}
+  .db-activities .db-date-card {animation:db-chapter-lift .55s ease-out both;}
+  .db-activities .db-date-card-1 {animation-delay:.08s;}
+  .db-activities .db-date-card-2 {animation-delay:.16s;}
+  .db-activities .db-date-card-3 {animation-delay:.24s;}
+  .db-values .db-value-tile {animation:db-chapter-focus .65s ease-out both;}
+  .db-values .db-value-tile-1 {animation-delay:.09s;}
+  .db-values .db-value-tile-2 {animation-delay:.18s;}
+  .db-value-tile .db-picture {transition:transform .35s ease;}
+  .db-value-tile[aria-pressed=true] .db-picture {transform:scale(1.025);}
+  .db-person-tabs button,.db-date-invitation button {transition:background .2s,color .2s,transform .2s;}
+  .db-date-invitation button:hover {transform:translateX(calc(4 * var(--u)));}
+  @keyframes db-chapter-lift {from{opacity:0;transform:translateY(calc(18 * var(--u)));}to{opacity:1;transform:translateY(0);}}
+  @keyframes db-chapter-focus {from{opacity:.3;transform:scale(1.035);}to{opacity:1;transform:scale(1);}}
+  @keyframes db-chapter-dissolve {from{opacity:.25;}to{opacity:1;}}
+  @keyframes db-chapter-from-left {from{opacity:0;transform:translateX(calc(-20 * var(--u)));}to{opacity:1;transform:translateX(0);}}
+  @keyframes db-chapter-from-right {from{opacity:0;transform:translateX(calc(20 * var(--u)));}to{opacity:1;transform:translateX(0);}}
+}
+/* OS preference and the host's accessibility switch override every entrance. */
+@media(prefers-reduced-motion:reduce) {
+  .db-history-art-layer--out {display:none;}
+}
+.reduce-motion .db-history-art-layer--out {display:none;}
+@media(max-width:900px) {.db-history-source-note {font-size:14px;}}

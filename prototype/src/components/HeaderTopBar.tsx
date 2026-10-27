@@ -1,21 +1,5 @@
-import React from 'react';
-import {
-  Expand,
-  Shrink,
-  Home,
-  ArrowLeft,
-  Volume2,
-  VolumeX,
-  Info,
-  Search,
-  Sun,
-  CloudSun,
-  Cloud,
-  CloudRain,
-  CloudLightning,
-  MoonStar,
-  Sparkles,
-} from 'lucide-react';
+import React, { useLayoutEffect, useRef } from 'react';
+import { Expand, Shrink, Home, ArrowLeft, Volume2, VolumeX, Info, Search, Sun, CloudSun, Cloud, CloudRain, CloudLightning, MoonStar } from 'lucide-react';
 import type { LocalWeather } from '../services/localWeather';
 import { weatherDescription } from '../services/localWeather';
 
@@ -33,167 +17,88 @@ interface HeaderTopBarProps {
   onOpenAbout: () => void;
   hasActiveSelection: boolean;
   onOpenSearch?: () => void;
-  isReduceMotion?: boolean;
-  onToggleReduceMotion?: () => void;
   weather?: LocalWeather | null;
-  onOpenMuseumKiosk?: () => void;
 }
 
 export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
-  onHomeClick,
-  onBackClick,
-  selectedCategory,
-  onSelectCategory,
-  isSoundPlaying,
-  onToggleSound,
-  lang,
-  onToggleLang,
-  isKioskFullscreen,
-  onToggleFullscreen,
-  onOpenAbout,
-  hasActiveSelection,
-  onOpenSearch,
-  isReduceMotion,
-  onToggleReduceMotion,
-  weather,
-  onOpenMuseumKiosk,
+  onHomeClick, onBackClick, selectedCategory, onSelectCategory, isSoundPlaying,
+  onToggleSound, lang, onToggleLang, isKioskFullscreen, onToggleFullscreen,
+  onOpenAbout, hasActiveSelection, onOpenSearch, weather,
 }) => {
+  const headerRef = useRef<HTMLElement>(null);
+  // Measure the available map space, without changing the map canvas or camera.
+  useLayoutEffect(() => {
+    const header = headerRef.current, viewport = header?.parentElement;
+    const tools = header?.querySelector<HTMLElement>('.heritage-header-tools');
+    if (!header || !viewport || !tools) return;
+    const measure = () => {
+      const width = header.clientWidth;
+      viewport.dataset.mapChromeLayout = width >= 1120 ? 'wide' : width >= 620 ? 'compact' : 'narrow';
+      viewport.style.setProperty('--map-header-bottom', `${header.offsetTop + header.offsetHeight}px`);
+      viewport.style.setProperty('--map-tools-width', `${tools.getBoundingClientRect().width}px`);
+      viewport.style.setProperty('--map-tools-bottom', `${header.offsetTop + tools.offsetTop + tools.offsetHeight}px`);
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(header);
+    observer.observe(tools);
+    measure();
+    return () => {
+      observer.disconnect();
+      delete viewport.dataset.mapChromeLayout;
+      viewport.style.removeProperty('--map-header-bottom');
+      viewport.style.removeProperty('--map-tools-width');
+      viewport.style.removeProperty('--map-tools-bottom');
+    };
+  }, []);
+
   const categories = [
-    { id: 'all', label: lang === 'vi' ? 'Tất Cả' : 'All Sites' },
-    { id: 'khmer', label: lang === 'vi' ? 'Văn Hóa Khmer' : 'Khmer Culture' },
-    { id: 'eco', label: lang === 'vi' ? 'Du Lịch Cộng Đồng' : 'Community Tourism' },
-    { id: 'history', label: lang === 'vi' ? 'Di Tích Lịch Sử' : 'Historical Sites' },
+    { id: 'all', label: lang === 'vi' ? 'Tất cả' : 'All sites' },
+    { id: 'khmer', label: lang === 'vi' ? 'Văn hóa Khmer' : 'Khmer culture' },
+    { id: 'eco', label: lang === 'vi' ? 'Du lịch cộng đồng' : 'Community tourism' },
+    { id: 'history', label: lang === 'vi' ? 'Di tích lịch sử' : 'Historic sites' },
   ];
+  const soundLabel = isSoundPlaying
+    ? (lang === 'vi' ? 'Tắt âm thanh di sản' : 'Turn heritage audio off')
+    : (lang === 'vi' ? 'Bật âm thanh không gian di sản' : 'Turn ambient heritage audio on');
+  const homeLabel = lang === 'vi' ? 'Về toàn cảnh di sản' : 'Return to overview';
+  const backLabel = lang === 'vi' ? 'Quay lại toàn cảnh' : 'Back to map';
+  const searchLabel = lang === 'vi' ? 'Tìm kiếm di sản' : 'Search sites';
+  const aboutLabel = lang === 'vi' ? 'Thông tin dự án' : 'About the project';
+  const fullLabel = lang === 'vi' ? 'Toàn màn hình' : 'Toggle fullscreen';
 
   return (
-    <header className="w-full h-16 bg-[#0a0c11]/95 backdrop-blur-md border-b border-white/10 px-4 md:px-6 flex items-center justify-between z-40 select-none">
-      {/* Zone 1: Brand & Core Navigation Controls (Home, Back) */}
-      <div className="flex items-center gap-3 md:gap-4 shrink-0">
-        {/* Home Button */}
-        <button
-          onClick={onHomeClick}
-          className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-stone-300 hover:text-amber-300 transition-colors border border-white/10 flex items-center justify-center min-w-[40px] min-h-[40px]"
-          title={lang === 'vi' ? 'Về toàn cảnh di sản' : 'Return to Overview'}
-        >
-          <Home className="w-4 h-4" />
-        </button>
-
-        {/* Back Button */}
-        <button
-          onClick={onBackClick}
-          disabled={!hasActiveSelection}
-          className={`p-2.5 rounded-xl transition-colors border flex items-center justify-center min-w-[40px] min-h-[40px] ${
-            hasActiveSelection
-              ? 'bg-amber-950/40 border-amber-500/40 text-amber-300 hover:bg-amber-900/50'
-              : 'bg-white/5 border-white/5 text-stone-600 cursor-not-allowed'
-          }`}
-          title={lang === 'vi' ? 'Quay lại toàn cảnh' : 'Back to map'}
-        >
-          <ArrowLeft className="w-4 h-4" />
-        </button>
-
-        <div className="h-6 w-[1px] bg-white/10 hidden sm:block" />
-
-        {/* Brand Single Text Element Wordmark */}
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            onHomeClick();
-          }}
-          className="text-base md:text-lg font-serif font-bold tracking-tight text-amber-100 hover:text-amber-200 transition-colors whitespace-nowrap truncate max-w-[200px] md:max-w-none"
-        >
-          {lang === 'vi' ? 'Diễn Giải Di Sản Du Lịch Cộng Đồng' : 'Community Heritage Interpretation'}
-        </a>
-      </div>
-
-      {/* Zone 2: Curatorial category filter and local weather */}
-      <div className="hidden lg:flex items-center gap-3">
-        {/* Category Filters */}
-        <div className="bg-[#121620] p-1 rounded-xl border border-white/10 flex items-center shadow-inner">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => onSelectCategory(cat.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
-                selectedCategory === cat.id
-                  ? 'bg-amber-950/70 text-amber-300 border border-amber-500/40 shadow-sm'
-                  : 'text-stone-400 hover:text-stone-200'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+    <header ref={headerRef} className="heritage-header">
+      <div className="heritage-header-row">
+        <div className="heritage-brand-group">
+          <button type="button" className="map-icon-button" onClick={onHomeClick} title={homeLabel} aria-label={homeLabel}><Home aria-hidden="true" /></button>
+          <button type="button" className="map-icon-button heritage-back" onClick={onBackClick} disabled={!hasActiveSelection} title={backLabel} aria-label={backLabel}><ArrowLeft aria-hidden="true" /></button>
+          <a className="heritage-wordmark" href="#" onClick={event => { event.preventDefault(); onHomeClick(); }}>
+            <strong>{lang === 'vi' ? 'Ký ức bản địa' : 'Local memories'}</strong>
+            <span>{lang === 'vi' ? 'Di sản Trà Vinh' : 'Trà Vinh heritage'}</span>
+          </a>
         </div>
-        <WeatherPill lang={lang} weather={weather} />
-      </div>
-
-      {/* Zone 3: Functional Interactive Actions (Sound, List Drawer, Lang, Kiosk) */}
-      <div className="flex items-center gap-2 md:gap-2.5 shrink-0">
-        {/* Search Modal Trigger */}
-        {onOpenSearch && (
-          <button
-            onClick={onOpenSearch}
-            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-stone-300 hover:text-amber-300 transition-colors border border-white/10 flex items-center justify-center min-w-[40px] min-h-[40px]"
-            title={lang === 'vi' ? 'Tìm kiếm di sản' : 'Search Sites'}
-          >
-            <Search className="w-4 h-4" />
-          </button>
-        )}
-
-        {/* Ambient Soundscape Toggle */}
-        <button
-          onClick={onToggleSound}
-          className={`p-2.5 rounded-xl transition-all border min-w-[40px] min-h-[40px] flex items-center justify-center ${
-            isSoundPlaying
-              ? 'bg-amber-500/20 border-amber-500/60 text-amber-300 animate-pulse'
-              : 'bg-white/5 hover:bg-white/10 border-white/10 text-stone-400 hover:text-stone-200'
-          }`}
-          title={isSoundPlaying
-            ? (lang === 'vi' ? 'Tắt âm thanh di sản' : 'Turn heritage audio off')
-            : (lang === 'vi' ? 'Bật âm thanh không gian di sản' : 'Turn ambient heritage audio on')}
-        >
-          {isSoundPlaying ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-        </button>
-
-        {/* Language Switch */}
-        <button
-          onClick={onToggleLang}
-          className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-stone-300 hover:text-amber-300 text-xs font-mono font-semibold transition-all min-h-[40px] flex items-center justify-center"
-          title={lang === 'vi' ? 'Chuyển sang English' : 'Switch to Vietnamese'}
-        >
-          {lang === 'vi' ? 'VI' : 'EN'}
-        </button>
-
-        {/* 5-Part Museum Kiosk Display Button */}
-        {onOpenMuseumKiosk && (
-          <button
-            onClick={onOpenMuseumKiosk}
-            className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-600/80 via-amber-500/80 to-amber-600/80 hover:from-amber-500 hover:to-amber-400 text-black font-semibold border border-amber-300/40 text-xs font-mono transition-all flex items-center gap-1.5 shadow-md shadow-amber-900/30 min-h-[40px] cursor-pointer"
-            title={lang === 'vi' ? 'Mở Màn hình Kiosk Di sản 5 Phần (Bảo tàng số)' : 'Open 5-Part Digital Storytelling Kiosk'}
-          >
-            <Sparkles className="w-3.5 h-3.5 text-black animate-spin-slow" />
-            <span className="hidden sm:inline">{lang === 'vi' ? 'Kiosk Di Sản 5 Phần' : '5-Part Kiosk'}</span>
-          </button>
-        )}
-
-        {/* About Project Modal */}
-        <button
-          onClick={onOpenAbout}
-          className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-stone-300 hover:text-amber-300 transition-colors min-w-[40px] min-h-[40px] hidden sm:flex items-center justify-center"
-          title={lang === 'vi' ? 'Thông tin đề tài nghiên cứu diễn giải di sản' : 'About the heritage interpretation project'}
-        >
-          <Info className="w-4 h-4" />
-        </button>
-
-        {/* Kiosk Fullscreen Toggle */}
-        <button
-          onClick={onToggleFullscreen}
-          className="p-2.5 rounded-xl bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/30 text-amber-300 transition-colors min-w-[40px] min-h-[40px] flex items-center justify-center"
-          title={lang === 'vi' ? 'Toàn màn hình kiosk triển lãm' : 'Toggle exhibition kiosk fullscreen'}
-        >
-          {isKioskFullscreen ? <Shrink className="w-4 h-4" /> : <Expand className="w-4 h-4" />}
-        </button>
+        <nav className="heritage-category-tabs" aria-label={lang === 'vi' ? 'Lọc chủ đề di sản' : 'Filter heritage themes'}>
+          {categories.map(category => (
+            <button key={category.id} type="button" data-category={category.id} aria-pressed={selectedCategory === category.id}
+              onClick={() => onSelectCategory(category.id)}>{category.label}</button>
+          ))}
+        </nav>
+        <div className="heritage-header-tools">
+          <WeatherPill lang={lang} weather={weather} />
+          <div className="heritage-utility-actions" role="group" aria-label={lang === 'vi' ? 'Tiện ích' : 'Utilities'}>
+            {onOpenSearch && <button type="button" className="map-icon-button" onClick={onOpenSearch} title={searchLabel} aria-label={searchLabel}><Search aria-hidden="true" /></button>}
+            <button type="button" className="map-icon-button" onClick={onToggleSound} title={soundLabel} aria-label={soundLabel} aria-pressed={isSoundPlaying}>
+              {isSoundPlaying ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
+            </button>
+            <button type="button" className="map-icon-button heritage-language" onClick={onToggleLang}
+              title={lang === 'vi' ? 'Chuyển sang English' : 'Chuyển sang tiếng Việt'}
+              aria-label={lang === 'vi' ? 'Chuyển sang English' : 'Switch to Vietnamese'}>{lang === 'vi' ? 'VI' : 'EN'}</button>
+            <button type="button" className="map-icon-button" onClick={onOpenAbout} title={aboutLabel} aria-label={aboutLabel}><Info aria-hidden="true" /></button>
+            <button type="button" className="map-icon-button" onClick={onToggleFullscreen} title={fullLabel} aria-label={fullLabel} aria-pressed={isKioskFullscreen}>
+              {isKioskFullscreen ? <Shrink aria-hidden="true" /> : <Expand aria-hidden="true" />}
+            </button>
+          </div>
+        </div>
       </div>
     </header>
   );
@@ -201,28 +106,15 @@ export const HeaderTopBar: React.FC<HeaderTopBarProps> = ({
 
 function WeatherPill({ lang, weather }: { lang: 'vi' | 'en'; weather?: LocalWeather | null }) {
   const code = weather?.weatherCode ?? 0;
-  const WeatherIcon = !weather
-    ? CloudSun
-    : code >= 95
-      ? CloudLightning
-      : code >= 51
-        ? CloudRain
-        : code >= 3
-          ? Cloud
-          : weather.isDay
-            ? (code <= 1 ? Sun : CloudSun)
-            : MoonStar;
+  const WeatherIcon = !weather ? CloudSun : code >= 95 ? CloudLightning : code >= 51 ? CloudRain
+    : code >= 3 ? Cloud : weather.isDay ? (code <= 1 ? Sun : CloudSun) : MoonStar;
   const temperature = weather ? `${weather.temperature}°` : '—';
-  const description = weatherDescription(code, lang);
-
+  const place = lang === 'vi' ? 'Trà Vinh, Việt Nam' : 'Trà Vinh, Vietnam';
+  const label = weather ? `${temperature} · ${weatherDescription(code, lang)} · ${place}`
+    : `${place} · ${lang === 'vi' ? 'Chưa có dữ liệu thời tiết' : 'Weather unavailable'}`;
   return (
-    <div
-      className="flex min-h-[40px] items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 text-xs text-stone-200 shadow-inner"
-      title={`${description} · ${lang === 'vi' ? 'Trà Vinh, Việt Nam' : 'Trà Vinh, Vietnam'}`}
-      aria-label={`${temperature} · ${lang === 'vi' ? 'Trà Vinh, Việt Nam' : 'Trà Vinh, Vietnam'}`}
-    >
-      <WeatherIcon className="h-4 w-4 text-amber-300" aria-hidden="true" />
-      <span className="whitespace-nowrap font-medium">{temperature} | {lang === 'vi' ? 'Trà Vinh, Việt Nam' : 'Trà Vinh, Vietnam'}</span>
+    <div className="heritage-weather" title={label} aria-label={label}>
+      <WeatherIcon aria-hidden="true" /><strong>{temperature}</strong><span>{place}</span>
     </div>
   );
 }

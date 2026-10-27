@@ -37,7 +37,7 @@
   opacity: var(--place-background-opacity, 1);
   pointer-events: none;
 }
-.md-root:has(.md-place-viewer[open]) > :is(.md-screen-nav, .md-host-controls) {
+.md-root:has(.md-place-viewer[open]) > :is(.md-footer, .md-host-controls) {
   opacity: 0.08;
   pointer-events: none;
 }

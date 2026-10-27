@@ -284,7 +284,7 @@ export function useLegacyMosaicMotion(
         );
         const footer = element
           .closest(".md-root")
-          ?.querySelector(".md-screen-dot[data-section=exhibitions] span");
+          ?.querySelector(".md-footer>button[data-section=exhibitions]");
         if (footer)
           tl.fromTo(
             footer,

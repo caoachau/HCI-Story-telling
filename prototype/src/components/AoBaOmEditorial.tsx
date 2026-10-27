@@ -23,7 +23,6 @@ import {
   Plus,
   QrCode,
   Shrink,
-  Sparkles,
   Trees,
   Volume2,
   VolumeX,
@@ -444,30 +443,6 @@ export function AoBaOmEditorial({
                     ? "Nghe thuyết minh"
                     : "Listen to the story"}
               </button>
-            </div>
-
-            {/* 5-Part Digital Storytelling Museum Kiosk Access Banner */}
-            <div style={{ marginTop: '1.25rem', padding: '1rem', background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.2), rgba(0,0,0,0.6))', border: '1px solid rgba(245, 158, 11, 0.4)', borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)' }}>
-              <div>
-                <span style={{ fontSize: '0.65rem', fontFamily: 'monospace', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#f59e0b', fontWeight: 'bold', display: 'block', marginBottom: '0.2rem' }}>
-                  {vi ? "MÀN HÌNH TƯƠNG TÁC BẢO TÀNG" : "INTERACTIVE KIOSK DISPLAY"}
-                </span>
-                <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#fef3c7', lineHeight: '1.3', display: 'block' }}>
-                  {vi ? "Kiosk Kể Chuyện Số Di Sản 5 Phần" : "5-Part Digital Heritage Storytelling Kiosk"}
-                </span>
-                <span style={{ fontSize: '0.72rem', color: '#d6d3d1', display: 'block', marginTop: '0.2rem' }}>
-                  {vi ? "Bản đồ phân khu · Dòng thời gian · Triển lãm lễ hội · Dấu ấn di sản" : "Zoned map · Linear timeline · Exhibition · Enduring values"}
-                </span>
-              </div>
-              <a
-                href="/ao-ba-om.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ padding: '0.6rem 0.9rem', background: '#f59e0b', color: '#000', fontWeight: 'bold', borderRadius: '0.75rem', fontSize: '0.75rem', textTransform: 'uppercase', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.4rem', whiteSpace: 'nowrap', boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)' }}
-              >
-                <Sparkles size={14} />
-                {vi ? "Mở Kiosk" : "Launch"}
-              </a>
             </div>
           </div>
           <figure className="ao-hero-visual">

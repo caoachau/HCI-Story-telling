@@ -1,0 +1,89 @@
+/* Four photographic programme columns follow hd lam lai.png. Native HTML
+   provides all copy and actions; the supplied photographs have no blur.
+   DESIGN_VARIANCE 5 / MOTION_INTENSITY 3 / VISUAL_DENSITY 5. */
+.db-kiosk[data-section=activities]>main {background:#121512;}
+.db-kiosk main>.db-activities-exhibition {--activity-line:#ffffff70;display:flex;flex-direction:column;gap:0;padding:calc(40 * var(--u)) calc(44 * var(--u)) var(--navigation-height);background:#121512;color:#fff;}
+.db-activities-exhibition .db-section-heading {flex:none;align-items:flex-end;gap:calc(70 * var(--u));padding-bottom:calc(24 * var(--u));border-color:var(--activity-line);}
+.db-activities-exhibition .db-eyebrow {color:#fff;font-size:calc(11 * var(--u));}
+.db-activities-exhibition .db-section-heading h1 {font-size:calc(54 * var(--u));line-height:1.15;margin-top:calc(14 * var(--u));}
+.db-activities-exhibition .db-section-heading h1 span {color:#ff3434;}
+.db-activities-exhibition .db-section-heading>p {width:calc(385 * var(--u));max-width:43ch;font-size:calc(14 * var(--u));line-height:1.65;color:#f3f2e9;}
+.db-activities-exhibition .db-calendar {gap:calc(8 * var(--u));min-height:0;}
+.db-activities-exhibition .db-date-card {position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;gap:calc(30 * var(--u));padding:calc(32 * var(--u)) calc(28 * var(--u)) calc(24 * var(--u));border:0;border-radius:0;background:#1c241c;}
+.db-activities-exhibition .db-date-card::after {content:'';position:absolute;z-index:2;inset:calc(32 * var(--u)) 0 calc(24 * var(--u)) auto;border-right:1px dashed #ffffff55;pointer-events:none;}
+.db-activities-exhibition .db-date-card:last-child::after {display:none;}
+.db-activities-exhibition .db-date-card:first-child {padding-left:0;}
+.db-activities-exhibition .db-date-card:last-child {padding-right:0;}
+.db-activities-exhibition .db-activity-photo {position:absolute;z-index:-2;inset:0;height:100%;background:#1c241c;}
+.db-activities-exhibition .db-activity-photo img {object-fit:cover;filter:none;}
+.db-activities-exhibition [data-activity=birthday]>.db-activity-photo {top:calc(170 * var(--u));height:calc(100% - 170 * var(--u));}
+.db-activities-exhibition [data-activity=remembrance]>.db-activity-photo {top:calc(225 * var(--u));height:calc(100% - 225 * var(--u));}
+.db-activities-exhibition [data-activity=birthday]>.db-activity-photo,.db-activities-exhibition [data-activity=remembrance]>.db-activity-photo {mask-image:linear-gradient(180deg,transparent,#000 calc(65 * var(--u)));}
+.db-activities-exhibition .db-date-card::before {content:'';position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(9,13,10,.9) 0%,rgba(9,13,10,.72) 28%,rgba(9,13,10,.12) 55%,rgba(9,13,10,.08) 73%,rgba(9,13,10,.88) 100%);pointer-events:none;}
+.db-activity-copy {position:relative;}
+.db-activities-exhibition .db-date-tag {max-width:100%;padding:calc(5 * var(--u)) calc(8 * var(--u));background:#c81c19;font-size:calc(9 * var(--u));letter-spacing:0;font-weight:700;}
+.db-activities-exhibition .db-date-card h2 {max-width:none;font-size:calc(25 * var(--u));line-height:1.35;letter-spacing:-.035em;margin-top:calc(16 * var(--u));}
+.db-activities-exhibition .db-activity-copy>p {max-width:37ch;margin-top:calc(14 * var(--u));font-size:calc(16 * var(--u));line-height:1.65;color:#f8f8ef;}
+.db-activities-exhibition .db-date-invitation {border-color:var(--activity-line);margin-top:calc(22 * var(--u));padding-top:calc(15 * var(--u));gap:calc(12 * var(--u));}
+.db-activities-exhibition .db-date-invitation>span {font-size:calc(13 * var(--u));font-weight:600;line-height:1.5;}
+.db-activities-exhibition .db-date-invitation button {width:max(44px,calc(52 * var(--u)));height:max(44px,calc(52 * var(--u)));flex:none;border:1px solid #fff;color:#fff;background:transparent;font-size:calc(23 * var(--u));}
+.db-activities-exhibition .db-date-invitation button:hover {background:#c81c19;border-color:#c81c19;}
+.db-activities-exhibition .db-date-number {position:relative;flex:none;gap:calc(12 * var(--u));padding-top:0;margin:0;}
+.db-activities-exhibition .db-date-number strong {font-size:calc(132 * var(--u));color:#f8f6e9;letter-spacing:-.055em;line-height:.95;}
+.db-activities-exhibition .db-date-number>span {font-size:calc(10 * var(--u));line-height:1.5;padding-bottom:calc(6 * var(--u));color:#fff;}
+.db-activities-exhibition .db-visit-note {flex:none;min-height:calc(72 * var(--u));gap:calc(20 * var(--u));padding:calc(10 * var(--u)) 0;border-color:var(--activity-line);}
+.db-activities-exhibition .db-visit-note>svg {color:#ff3434;font-size:calc(27 * var(--u));}
+.db-activities-exhibition .db-visit-note>p {font-size:calc(12 * var(--u));color:#f3f2e9;}
+.db-activities-exhibition .db-visit-note>.db-text-button {color:#fff;min-height:44px;font-size:calc(13 * var(--u));}
+.db-activities-exhibition button:focus-visible {outline-color:#fff;}
+.db-activity-photo .db-image-status {color:#fff;background:#1c241c;z-index:3;}
+/* Error recovery belongs above the reading gradient, with the story intact. */
+.db-activities-exhibition .db-date-card>.db-activity-photo[data-image-state=error] {z-index:1;top:48%;bottom:calc(165 * var(--u));height:auto;}
+@media(prefers-reduced-motion:no-preference) {
+  .db-activities-exhibition .db-date-card {animation:db-activity-reveal .65s ease-out both;}
+  .db-activities-exhibition .db-date-card-1 {animation-delay:.07s;}
+  .db-activities-exhibition .db-date-card-2 {animation-delay:.14s;}
+  .db-activities-exhibition .db-date-card-3 {animation-delay:.21s;}
+  .db-activities-exhibition .db-date-invitation button {transition:background .2s,border-color .2s;}
+  .db-activities-exhibition .db-date-invitation button:hover {transform:none;}
+  .db-activities-exhibition .db-date-invitation svg {transition:transform .2s ease;}
+  .db-activities-exhibition .db-date-invitation button:hover svg {transform:translateX(3px);}
+  @keyframes db-activity-reveal {from{opacity:0;transform:translateY(calc(16 * var(--u)));}to{opacity:1;transform:none;}}
+}
+@media(min-width:901px) and (max-width:1450px) {
+  .db-activities-exhibition .db-date-card {padding-inline:calc(22 * var(--u));}
+  .db-activities-exhibition .db-date-card h2 {font-size:calc(24 * var(--u));}
+  .db-activities-exhibition .db-activity-copy>p {font-size:calc(15 * var(--u));}
+  .db-activities-exhibition .db-date-invitation>span {font-size:calc(12 * var(--u));}
+}
+@media(max-width:900px) {
+  .db-kiosk main>.db-activities-exhibition {padding:90px 24px calc(24px + var(--navigation-height));}
+  .db-activities-exhibition .db-section-heading {padding-bottom:24px;}
+  .db-activities-exhibition .db-section-heading>div {max-width:none;}
+  .db-activities-exhibition .db-section-heading h1 {font-size:38px;}
+  .db-activities-exhibition .db-section-heading>p {width:auto;max-width:55ch;font-size:14px;margin-top:16px;padding:0;}
+  .db-activities-exhibition .db-calendar {grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+  .db-activities-exhibition .db-date-card {min-height:650px;padding:24px 20px;gap:28px;}
+  .db-activities-exhibition .db-date-card:first-child,.db-activities-exhibition .db-date-card:last-child {padding:24px 20px;}
+  .db-activities-exhibition .db-date-card::after {display:none;}
+  .db-activities-exhibition .db-date-tag {font-size:8px;}
+  .db-activities-exhibition .db-date-card h2 {font-size:24px;margin-top:16px;}
+  .db-activities-exhibition .db-activity-copy>p {font-size:15px;margin-top:14px;}
+  .db-activities-exhibition .db-date-invitation {margin-top:20px;padding-top:16px;}
+  .db-activities-exhibition .db-date-invitation>span {font-size:12px;}
+  .db-activities-exhibition .db-date-number strong {font-size:112px;}
+  .db-activities-exhibition .db-visit-note {padding:20px 0 0;margin-top:24px;}
+  .db-activities-exhibition .db-visit-note>p {font-size:13px;}
+  .db-activities-exhibition .db-visit-note>.db-text-button {font-size:13px;}
+}
+@media(max-width:550px) {
+  .db-kiosk main>.db-activities-exhibition {padding-inline:20px;}
+  .db-activities-exhibition .db-section-heading h1 {font-size:32px;}
+  .db-activities-exhibition .db-calendar {grid-template-columns:minmax(0,1fr);gap:18px;}
+  .db-activities-exhibition .db-date-card {min-height:670px;}
+  .db-activities-exhibition .db-date-card h2 {font-size:25px;}
+  .db-activities-exhibition .db-activity-copy>p {font-size:16px;}
+  .db-activities-exhibition .db-visit-note {display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;align-items:start;}
+  .db-activities-exhibition .db-visit-note>p {margin:0;}
+  .db-activities-exhibition .db-visit-note>.db-text-button {grid-column:2;justify-self:start;white-space:normal;text-align:left;}
+}

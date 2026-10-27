@@ -3,6 +3,7 @@ import { GOOGLE_DETAILS_VI_CACHE } from './googleDetailsViCache.generated';
 import { GOOGLE_DETAILS_EN_CACHE } from './googleDetailsEnCache.generated';
 import { lngLatToTile, prefetchTile } from './tilePreloader';
 import { setupMaritimeLabels } from './maritimeLabels';
+import { getGoogleTileParams } from './googleTileUrl';
 
 type MapLanguage = 'vi' | 'en';
 
@@ -27,9 +28,8 @@ export function getMapDetailsTileUrls(lang: MapLanguage): string[] {
 
 /** Both basemaps use the same transparent roads/POI overlay and local pack. */
 export function resolveMapDetailsTileUrl(url: string): string {
-  if (!/^https:\/\/mt[0-3]\.google\.com\/vt\?/.test(url)) return url;
-  const params = new URL(url).searchParams;
-  if (params.get('lyrs') !== 'h') return url;
+  const params = getGoogleTileParams(url);
+  if (params?.get('lyrs') !== 'h') return url;
   const lang = params.get('hl');
   if (lang !== 'vi' && lang !== 'en') return url;
   const key = `${params.get('z')}/${params.get('y')}/${params.get('x')}`;

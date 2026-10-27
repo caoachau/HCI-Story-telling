@@ -1,0 +1,24 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { MemorialDetailPage } from './MemorialDetailPage';
+import './memorial.css';
+import './history.css';
+import './space-points.css';
+import './section-motion.css';
+import './overview-slideshow.css';
+import './people-portrait.css';
+import './detail-navigation.css';
+import './people-shared.css';
+import './people-witness.css';
+import './activities.css';
+import './values-book.css';
+import './detail-tools.css';
+import './memorial-motion.css';
+import './reader-gallery.css';
+import './exhibition-room.css';
+import './war-artifacts.css';
+import './grounds.css';
+import './boat.css';
+import './remaining-spaces.css';
+
+createRoot(document.getElementById('root')!).render(<React.StrictMode><MemorialDetailPage/></React.StrictMode>);

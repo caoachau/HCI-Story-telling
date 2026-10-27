@@ -54,119 +54,50 @@ module.exports = async function quickWindowChecks(api, motion = false) {
     45000,
   );
   if (motion) {
-    await click(".landmark-carousel-card[data-site-id=bao-tang-khmer]");
-    await wait(
-      "document.querySelector('.lqv-root')?.dataset.quickMotion==='opening'",
-      "side entrance",
-      45000,
+    await open("bao-tang-khmer");
+    await check(
+      "document.querySelector('.heritage-story-panel').getAnimations().length===0&&document.querySelector('.lqv-root').getAnimations().length===0&&document.querySelector('.lqv-hero').getAnimations({subtree:true}).length===0",
+      "window and hero appear without entrance or image animation",
     );
     await check(
-      "document.querySelector('.lqv-root').getAnimations().some(a=>a.playState==='running'&&a.effect.getKeyframes()[0].transform.includes('70px'))",
-      "panel enters from the right edge",
+      "getComputedStyle(document.querySelector('.lqv-footer button')).backgroundColor==='rgb(242, 199, 127)'&&getComputedStyle(document.querySelector('.lqv-tabs [aria-selected=true]')).color==='rgb(242, 199, 127)'&&getComputedStyle(document.querySelector('.lqv-address svg')).color==='rgb(242, 199, 127)'",
+      "CTA, selected tab and address use the marker gold",
     );
-    await wait(ready, "entrance settles");
-    await wait(imageReady, "hero photograph");
-    await shot("side-panel-desktop");
-    await evaluate(
-      "window.__sidePanel=document.querySelector('.lqv-root');void 0",
+    await evaluate("document.fonts.ready");await sleep(300);
+    await evaluate("window.__sidePanel=document.querySelector('.lqv-root');window.__photoBox=document.querySelector('.lqv-photo>img').getBoundingClientRect().toJSON();void 0");
+    const hover=await evaluate("const r=document.querySelector('.lqv-photo').getBoundingClientRect();({x:r.left+r.width*.7,y:r.top+r.height*.7})");
+    await cdp("Input.dispatchMouseEvent",{type:"mouseMoved",...hover});await sleep(180);
+    await cdp("Input.dispatchMouseEvent",{type:"mouseMoved",x:hover.x-65,y:hover.y-45});await sleep(180);
+    await check(
+      "(()=>{const i=document.querySelector('.lqv-photo>img'),r=i.getBoundingClientRect(),s=getComputedStyle(i);return ['x','y','width','height'].every(k=>Math.abs(r[k]-window.__photoBox[k])<.1)&&(s.transform==='none'||new DOMMatrixReadOnly(s.transform).isIdentity)&&s.translate==='none'&&i.getAnimations().length===0&&!document.querySelector('.lqv-photo-light')})()",
+      "hover cannot pan, zoom, fade or light the photograph",
     );
-    await click(".landmark-carousel-card[data-site-id=chua-ang]");
-    await wait(
-      "document.querySelector('.lqv-root')?.dataset.quickMotion==='changing-site'",
-      "site content transition",
+    await shot("side-panel-gold-static-desktop");
+    await open("chua-ang");
+    await check(
+      "document.querySelector('.lqv-root')===window.__sidePanel&&document.querySelector('.heritage-story-panel').getAnimations().length===0&&document.querySelector('.lqv-root').getAnimations().length===0&&document.querySelector('.lqv-hero').getAnimations({subtree:true}).length===0&&!document.querySelector('[data-quick-site-ghost],[data-quick-map-pulse]')",
+      "destination replacement retains a static panel without photo ghosts or pulses",
     );
     await check(
-      "document.querySelector('.lqv-root')===window.__sidePanel&&document.querySelector('.lqv-root').getAnimations().every(a=>a.playState!=='running')&&document.querySelector('[data-quick-site-ghost]')!==null",
-      "choosing another destination retains the panel and animates only its content",
-    );
-    await wait(ready, "replacement settles");
-    await wait(imageReady, "replacement photograph");
-    await check(
-      "!document.querySelector('[data-quick-site-ghost]')&&!document.querySelector('[data-quick-map-pulse]')",
-      "site transition removes its decorative snapshots and pulse",
+      "[...document.querySelectorAll('.heritage-marker__model,.heritage-marker__image,.heritage-marker__ripple')].every(el=>el.getAnimations().length===0)",
+      "map photograph markers never float or pulse",
     );
     await click("[data-quick-tab=highlights]");
     await check(
-      "document.querySelector('.lqv-tab-indicator').getAnimations().some(a=>a.playState==='running')&&document.querySelector('[data-quick-page-ghost]')!==null",
-      "tabs animate only their indicator and information",
+      "document.querySelector('.lqv-tab-indicator').getAnimations().some(a=>a.playState==='running')&&document.querySelector('[data-quick-page-ghost]')!==null&&document.querySelector('.lqv-hero').getAnimations({subtree:true}).length===0",
+      "clicking a tab animates its indicator and reading content only",
     );
-    await wait(
-      "document.querySelector('.lqv-root').dataset.quickPageMotion==='idle'",
-      "tab settles",
-    );
+    await wait("document.querySelector('.lqv-root').dataset.quickPageMotion==='idle'","tab settles");
     await click(".lqv-highlights .lqv-page-navigation button:last-child");
-    await check(
-      "document.querySelector('.lqv-highlights .lqv-reader-outgoing')!==null",
-      "reading pages transition without moving the title or gallery",
-    );
-    await wait(
-      "!document.querySelector('.lqv-reader-outgoing')",
-      "reading transition settles",
-    );
-    await click('[data-quick-thumbnail="1"]');
-    await wait(imageReady, "crossfade photograph");
-    await check(
-      "document.querySelector('.lqv-photo-previous')!==null&&document.querySelector('.lqv-photo>img').getAnimations().some(a=>a.playState==='running')",
-      "gallery crossfades above its outgoing photograph",
-    );
-    await cdp("Emulation.setEmulatedMedia", {
-      features: [{ name: "prefers-reduced-motion", value: "reduce" }],
-    });
-    await wait(
-      "document.querySelector('.lqv-root').dataset.reducedMotion==='true'",
-      "live reduced motion",
-    );
-    await check(
-      "document.querySelector('.lqv-root').getAnimations({subtree:true}).every(a=>a.playState!=='running')&&!document.querySelector('[data-quick-site-ghost]')",
-      "live reduced motion stops every panel effect",
-    );
-    await cdp("Emulation.setEmulatedMedia", {
-      features: [{ name: "prefers-reduced-motion", value: "no-preference" }],
-    });
-    await click(".landmark-carousel-card[data-site-id=bao-tang-khmer]");
-    await wait(
-      "document.querySelector('[data-quick-site-ghost]')!==null",
-      "replacement before motion cancellation",
-    );
-    await check(
-      "!document.querySelector('[data-quick-page-ghost]')&&document.querySelector('.lqv-root').dataset.quickTopic==='overview'",
-      "replacing a destination resets its tab without overlapping page transitions",
-    );
-    await cdp("Emulation.setEmulatedMedia", {
-      features: [{ name: "prefers-reduced-motion", value: "reduce" }],
-    });
-    await wait(
-      "document.querySelector('.lqv-root').dataset.reducedMotion==='true'",
-      "site replacement reduced motion",
-    );
-    await check(
-      "!document.querySelector('[data-quick-site-ghost]')&&!document.querySelector('[data-quick-map-pulse]')&&document.querySelector('.lqv-root').dataset.siteId==='bao-tang-khmer'",
-      "reducing motion during replacement removes old-site snapshots immediately",
-    );
-    await escape();
-    await wait("!document.querySelector('.lqv-root')", "reduced close");
-    await cdp("Emulation.setEmulatedMedia", {
-      features: [{ name: "prefers-reduced-motion", value: "no-preference" }],
-    });
+    await check("document.querySelector('.lqv-highlights .lqv-reader-outgoing')!==null","page button retains its reading transition");
+    await wait("!document.querySelector('.lqv-reader-outgoing')","reading settles");
+    await click('[data-quick-thumbnail="1"]');await wait(imageReady,"selected photograph");
+    await check("!document.querySelector('.lqv-photo-previous')&&document.querySelector('.lqv-photo>img').getAnimations().length===0&&document.querySelector('.lqv-visual').getAnimations().length===0","photo selection is immediate without a crossfade");
+    await cdp("Emulation.setEmulatedMedia",{features:[{name:"prefers-reduced-motion",value:"reduce"}]});
+    await wait("document.querySelector('.lqv-root').dataset.reducedMotion==='true'","live reduced motion");
+    await check("document.querySelector('.lqv-root').getAnimations({subtree:true}).every(a=>a.playState!=='running')","reduced motion stops control transitions");
+    await cdp("Emulation.setEmulatedMedia",{features:[{name:"prefers-reduced-motion",value:"no-preference"}]});
     await open("bao-tang-khmer");
-    await evaluate(
-      "document.querySelector('.heritage-app').classList.add('access-reduce-motion')",
-    );
-    await wait(
-      "document.querySelector('.lqv-root').dataset.reducedMotion==='true'",
-      "host reduced motion",
-    );
-    await check(
-      "document.querySelector('.lqv-root').getAnimations({subtree:true}).every(a=>a.playState!=='running')",
-      "host reduced motion keeps the side panel still",
-    );
-    await evaluate(
-      "document.querySelector('.heritage-app').classList.remove('access-reduce-motion')",
-    );
-    await wait(
-      "document.querySelector('.lqv-root').dataset.reducedMotion==='false'",
-      "normal motion restored",
-    );
     await viewport(390, 844);
     await sleep(200);
     const y = await evaluate(
@@ -227,11 +158,7 @@ module.exports = async function quickWindowChecks(api, motion = false) {
     );
     await shot("side-panel-mobile");
     await click(".lqv-close");
-    await check(
-      "document.querySelector('.lqv-root').dataset.quickMotion==='closing'",
-      "panel closes toward the right edge",
-    );
-    await wait("!document.querySelector('.lqv-root')", "animated close");
+    await wait("!document.querySelector('.lqv-root')", "immediate close");
     await check(
       "document.activeElement.dataset.siteId==='bao-tang-khmer'",
       "close restores keyboard focus",
@@ -253,8 +180,8 @@ module.exports = async function quickWindowChecks(api, motion = false) {
   ]) {
     await open(id);
     await check(
-      "document.querySelectorAll('[data-quick-tab]').length===3&&document.querySelector('.lqv-title-block').nextElementSibling.classList.contains('lqv-visual')&&document.querySelector('.lqv-visual').nextElementSibling.classList.contains('lqv-tabs')&&document.querySelectorAll('.lqv-toolbar button').length===2",
-      id + " uses title, gallery, tabs and a compact QR/close header",
+      "document.querySelectorAll('[data-quick-tab]').length===3&&document.querySelector('.lqv-hero .lqv-title-block')&&document.querySelector('.lqv-hero .lqv-visual')&&document.querySelector('.lqv-sheet .lqv-tabs')&&document.querySelectorAll('.lqv-toolbar button').length===2",
+      id + " uses a photo hero, reading sheet, tabs and a compact QR/close header",
     );
     const photos = await evaluate(
       "document.querySelectorAll('[data-quick-thumbnail]').length||1",
@@ -349,7 +276,7 @@ module.exports = async function quickWindowChecks(api, motion = false) {
   await click("[data-quick-tab=overview]");
   await sleep(100);
   await check(
-    "const r=document.querySelector('.lqv-root').getBoundingClientRect(),tools=document.querySelector('button[title=\"Phóng to\"]').parentElement.getBoundingClientRect();r.width>=420&&r.width<=560&&r.left>innerWidth*.67&&tools.right+12<=r.left&&r.top>document.querySelector('.heritage-app>header').getBoundingClientRect().bottom",
+    "const r=document.querySelector('.lqv-root').getBoundingClientRect(),tools=document.querySelector('button[title=\"Phóng to\"]').parentElement.getBoundingClientRect();r.width>=420&&r.width<=innerWidth*.33&&r.left>innerWidth*.65&&tools.right+12<=r.left&&r.top>document.querySelector('.heritage-app>header').getBoundingClientRect().bottom",
     "desktop leaves most of the map visible and never covers its header or navigation toolbar",
   );
   for (const [w, h] of [

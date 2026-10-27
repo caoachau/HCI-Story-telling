@@ -39,7 +39,7 @@
   pointer-events: none;
 }
 .md-root:has(.md-overview-viewer[open])
-  > :is(.md-screen-nav, .md-host-controls) {
+  > :is(.md-footer, .md-host-controls) {
   opacity: 0.08;
   pointer-events: none;
 }

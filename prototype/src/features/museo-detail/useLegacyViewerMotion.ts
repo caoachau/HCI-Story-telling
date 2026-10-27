@@ -198,7 +198,7 @@ export function useLegacyViewerMotion(
         card?.isConnected && !card.closest("[hidden]")
           ? card
           : root.querySelector<HTMLElement>(
-              ".md-screen-dot[aria-current=step]",
+              ".md-footer>button[aria-current=page]",
             );
       target?.focus({ preventScroll: true });
     };

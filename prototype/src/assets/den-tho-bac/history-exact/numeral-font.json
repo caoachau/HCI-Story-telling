@@ -1,0 +1,104 @@
+{
+  "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/robotoflex/RobotoFlex%5BGRAD%2CXOPQ%2CXTRA%2CYOPQ%2CYTAS%2CYTDE%2CYTFI%2CYTLC%2CYTUC%2Copsz%2Cslnt%2Cwdth%2Cwght%5D.ttf",
+  "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/robotoflex/OFL.txt",
+  "font": "Roboto Flex",
+  "weight": 750,
+  "opticalSize": 144,
+  "numericFeature": "pnum",
+  "unitsPerEm": 2048,
+  "runtime": "../../fonts/history-numerals-750.woff2",
+  "bytes": 4304,
+  "sha256": "02182552e7f531c373a6a733f2caa41f2b39c8369b8794573e27759dce87fe2a",
+  "axes": {
+    "wdth": [
+      25,
+      151
+    ]
+  },
+  "metrics": {
+    "1969": {
+      "widthAxis": 102.768304,
+      "sizePerHeight": 1.3680198685620508,
+      "xPerWidth": -0.020301388437305636,
+      "baselinePerHeight": 0.9859361943347593,
+      "inkBounds": [
+        83.89981648006378,
+        -21.054280470858966,
+        4216.613041447982,
+        1476
+      ]
+    },
+    "1970": {
+      "widthAxis": 95.722391,
+      "sizePerHeight": 1.3685387366786035,
+      "xPerWidth": -0.019824061114138043,
+      "baselinePerHeight": 0.986157694379725,
+      "inkBounds": [
+        78.12163465106161,
+        -20.71482607728394,
+        4018.8699102577757,
+        1475.7718608618272
+      ]
+    },
+    "1971": {
+      "widthAxis": 100.343441,
+      "sizePerHeight": 1.3689716325771808,
+      "xPerWidth": -0.022287986248384087,
+      "baselinePerHeight": 0.9859581918377004,
+      "inkBounds": [
+        82.2356945328382,
+        -21.006734129509663,
+        3771.922758064673,
+        1475.0067341295096
+      ]
+    },
+    "1972": {
+      "widthAxis": 103.160742,
+      "sizePerHeight": 1.3677863426328032,
+      "xPerWidth": -0.02061164310083813,
+      "baselinePerHeight": 0.9859334559516467,
+      "inkBounds": [
+        84.16913669801964,
+        -21.061975334229132,
+        4167.741527615126,
+        1476.2479013369166
+      ]
+    },
+    "1975": {
+      "widthAxis": 105.473518,
+      "sizePerHeight": 1.368787562042655,
+      "xPerWidth": -0.020697274787590588,
+      "baselinePerHeight": 0.9858928503930714,
+      "inkBounds": [
+        85.75633580102124,
+        -21.107323880029178,
+        4229.119975754139,
+        1475.107323880029
+      ]
+    },
+    "1989": {
+      "widthAxis": 102.597542,
+      "sizePerHeight": 1.3678833151814125,
+      "xPerWidth": -0.020487868816646892,
+      "baselinePerHeight": 0.985939834515544,
+      "inkBounds": [
+        83.78262666150712,
+        -21.050932190328776,
+        4173.159975340726,
+        1476.1527965709863
+      ]
+    },
+    "2012": {
+      "widthAxis": 104.085286,
+      "sizePerHeight": 1.3683922435215605,
+      "xPerWidth": -0.008451163682319445,
+      "baselinePerHeight": 0.9864186544356003,
+      "inkBounds": [
+        36.28943203253798,
+        -20.326478644975175,
+        4330.305427540774,
+        1476.3204145948368
+      ]
+    }
+  }
+}

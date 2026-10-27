@@ -1,0 +1,123 @@
+{
+  "reviewed": "2026-10-27",
+  "photos": [
+    {
+      "asset": "temple-canopy.jpg",
+      "url": "https://cly.1cdn.vn/2023/05/14/img_4430.jpg",
+      "page": "https://congly.vn/den-tho-bac-ho-bieu-tuong-tam-long-trung-kien-cua-dong-bao-tinh-tra-vinh-378335.html",
+      "credit": "Báo Công lý",
+      "publicationDate": "14/05/2023",
+      "size": [
+        2048,
+        1365
+      ],
+      "bytes": 700341,
+      "sha256": "569efc7f0436517d33d311f8320412108de13e72c2a1cd4586fa2f6d880edb0a",
+      "verification": "Lối vào nhà bao che; bên trong là ngôi đền nhỏ."
+    },
+    {
+      "asset": "temple-front.jpg",
+      "url": "https://cly.1cdn.vn/2023/05/14/z4344187344122_6140c52c995664cec93eb108bd4ee1e0.jpg",
+      "page": "https://congly.vn/den-tho-bac-ho-bieu-tuong-tam-long-trung-kien-cua-dong-bao-tinh-tra-vinh-378335.html",
+      "credit": "Báo Công lý",
+      "publicationDate": "14/05/2023",
+      "size": [
+        2048,
+        1536
+      ],
+      "bytes": 602519,
+      "sha256": "8be6d6b83c02e229056e7d91fe13c416895af4c215e90fc6190e01e7c34640c7",
+      "verification": "Ngôi đền được phục dựng trong nhà bao che."
+    },
+    {
+      "asset": "temple-altar.jpg",
+      "url": "https://cly.1cdn.vn/2023/05/14/z4344187092899_9bf2f2c193dbe34094bada975a4f9ddb.jpg",
+      "page": "https://congly.vn/den-tho-bac-ho-bieu-tuong-tam-long-trung-kien-cua-dong-bao-tinh-tra-vinh-378335.html",
+      "credit": "Báo Công lý",
+      "publicationDate": "14/05/2023",
+      "size": [
+        2048,
+        1536
+      ],
+      "bytes": 557510,
+      "sha256": "f87f12807b9c023ad6670fb56ccca663c46b5419ae8543b0894556d767ae4ff8",
+      "verification": "Bàn thờ Bác Hồ bên trong ngôi đền, không nhầm với tượng ở nhà trưng bày."
+    },
+    {
+      "asset": "pond-waterside.jpg",
+      "url": "https://cly.1cdn.vn/2023/05/14/img_4440.jpg",
+      "page": "https://congly.vn/den-tho-bac-ho-bieu-tuong-tam-long-trung-kien-cua-dong-bao-tinh-tra-vinh-378335.html",
+      "credit": "Báo Công lý",
+      "publicationDate": "14/05/2023",
+      "size": [
+        2048,
+        1365
+      ],
+      "bytes": 390681,
+      "sha256": "e2b2932f0103440784d6820ac496557f36e06a7a8020abf71e2868695e0d3f4b",
+      "verification": "Hồ và lối dạo thuộc công viên trong khu di tích."
+    },
+    {
+      "asset": "stilt-front.jpg",
+      "url": "https://cly.1cdn.vn/2023/05/14/img_4436.jpg",
+      "page": "https://congly.vn/den-tho-bac-ho-bieu-tuong-tam-long-trung-kien-cua-dong-bao-tinh-tra-vinh-378335.html",
+      "credit": "Báo Công lý",
+      "publicationDate": "14/05/2023",
+      "size": [
+        2048,
+        1365
+      ],
+      "bytes": 907749,
+      "sha256": "1d846a5e8b71c9a3a9ef8a9a5581a95510931bffaacbd27e55ebb8f0fd7b2e73",
+      "verification": "Mặt trước phiên bản nhà sàn tại Trà Vinh."
+    },
+    {
+      "asset": "stilt-side.jpg",
+      "url": "https://cdn2.tuoitre.vn/plo/image/Uploaded/nguyentham/2025_01_15/den-bac-anh-14-8134-486.jpg",
+      "page": "https://tuoitre.vn/plo/den-tho-bac-ho-tai-tra-vinh-bieu-tuong-long-biet-on-cua-mien-nam-post830292.html",
+      "credit": "Tuệ Anh – Quốc Vũ – Huỳnh Du / Pháp Luật TP.HCM",
+      "publicationDate": "30/01/2025",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 460726,
+      "sha256": "d83713f09c71b7d06b429d1194fd62f2c83bf557076b8cea818c0f527eb30449",
+      "verification": "Góc nghiêng phiên bản nhà sàn tại Trà Vinh."
+    },
+    {
+      "asset": "entrance-context.jpg",
+      "url": "https://cdn2.tuoitre.vn/plo/image/Uploaded/nguyentham/2025_01_15/den-bac-anh-16-5807-2072.jpg",
+      "page": "https://tuoitre.vn/plo/den-tho-bac-ho-tai-tra-vinh-bieu-tuong-long-biet-on-cua-mien-nam-post830292.html",
+      "credit": "Tuệ Anh – Quốc Vũ – Huỳnh Du / Pháp Luật TP.HCM",
+      "publicationDate": "30/01/2025",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 358934,
+      "sha256": "466d47bdb3fd2db85592b47a8ac459f4bf5c2954f1bb3814780782b9e48dce28",
+      "verification": "Cổng khu di tích, chỉ dùng làm ảnh bối cảnh cho nội dung chuẩn bị tham quan; không gán là nhà đón tiếp."
+    },
+    {
+      "asset": "aerial-context.jpg",
+      "url": "https://cdn2.tuoitre.vn/plo/image/Uploaded/nguyentham/2025_01_15/den-bac-anh-2-3256-1432.jpg",
+      "page": "https://tuoitre.vn/plo/den-tho-bac-ho-tai-tra-vinh-bieu-tuong-long-biet-on-cua-mien-nam-post830292.html",
+      "credit": "Tuệ Anh – Quốc Vũ – Huỳnh Du / Pháp Luật TP.HCM",
+      "publicationDate": "30/01/2025",
+      "size": [
+        3840,
+        2160
+      ],
+      "bytes": 1425918,
+      "sha256": "d66f47131eb9362597a56203ee1c5c4390876930962d7106a71ecc0baed2764e",
+      "verification": "Góc nhìn trên cao của khu di tích, chỉ dùng làm ảnh bối cảnh tổng thể."
+    }
+  ],
+  "existingContext": {
+    "asset": "src/assets/den-tho-bac/map-current-v2.webp",
+    "coordinates": "src/assets/den-tho-bac/map-current-coordinates.json",
+    "note": "Ảnh/sơ đồ do người dùng cung cấp; vị trí 03 và 08 hiển thị bằng lớp đánh dấu trong giao diện, không chỉnh sửa ảnh."
+  },
+  "receptionLimitation": "Chưa tìm được ảnh cận cảnh nhà đón tiếp có chú thích xác minh. Dùng ảnh cổng, ảnh toàn cảnh được ghi rõ là bối cảnh và sơ đồ định vị đúng mốc 03; không tráo ảnh công trình khác."
+}

@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import App from './App.tsx';
 import './index.css';
+import './map-interface.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

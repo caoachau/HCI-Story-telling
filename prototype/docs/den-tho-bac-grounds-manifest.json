@@ -1,0 +1,49 @@
+{
+  "supplied": "2026-10-27",
+  "sourceFolder": "F:\\1. Đang lam\\tmp\\New folder (2)",
+  "count": 5,
+  "credit": "Ảnh do người dùng cung cấp; chưa xác định tác giả của từng ảnh",
+  "processing": "Original bytes copied, JPEG files renamed without re-encoding",
+  "photos": [
+    {
+      "original": "denthobachotravinh1.jpg",
+      "asset": "01-lakeside.jpg",
+      "width": 1280,
+      "height": 720,
+      "bytes": 429852,
+      "sha256": "4aa7e9fc822f39a37e6c58d299df49820cd60f749f4e7b9f38f96e3ffaddc956"
+    },
+    {
+      "original": "images (2).jfif",
+      "asset": "02-tree-lined-walk.jpg",
+      "width": 600,
+      "height": 400,
+      "bytes": 56254,
+      "sha256": "cd69aefc3a061c39842896998b1f621e3811fc8bfde5c6348e1b90ca9a1a9aab"
+    },
+    {
+      "original": "images (1).jfif",
+      "asset": "03-shaded-path.jpg",
+      "width": 382,
+      "height": 509,
+      "bytes": 66083,
+      "sha256": "1b320aed18fd1722fb31ef46858a4df8ea31f4c4aac9f7a8164df1973cde53dd"
+    },
+    {
+      "original": "z7839576823596_bb0ccc2d448d61e8dbb4b9d1d678a11c-1956.webp",
+      "asset": "04-bamboo.webp",
+      "width": 2560,
+      "height": 1920,
+      "bytes": 1964758,
+      "sha256": "2d849393f6df044e9c15a7759a5a1a7d49473addfd659d983a189d5776dc1052"
+    },
+    {
+      "original": "images.jfif",
+      "asset": "05-building-reference.jpg",
+      "width": 192,
+      "height": 128,
+      "bytes": 7802,
+      "sha256": "97f95a05bb6437de5b6916f22c06dbe5d28144578f360f1cf0831f0ce8dfb666"
+    }
+  ]
+}

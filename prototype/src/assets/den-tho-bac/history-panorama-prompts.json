@@ -1,0 +1,26 @@
+{
+  "mode": "Built-in image_gen, compositing from project photos and user UI reference, transparent_background=true",
+  "purpose": "Illustrative panoramic foregrounds for the history screen, not documentary photographs of events in 1970/1971/1989/2012",
+  "assets": [
+    {
+      "output": "src/assets/den-tho-bac/history-temple-panorama-v4.png",
+      "web_output": "src/assets/den-tho-bac/history-temple-panorama-v4.webp",
+      "references": [
+        "temple.jpg",
+        "ceremony.jpg",
+        "user UI screenshot 163355, composition only"
+      ],
+      "prompt": "Use case: editorial compositing for a Vietnamese heritage touchscreen. Input 1: actual temple and visiting students, PRIMARY subject source. Input 2: a present-day commemorative group, supporting community photo fragments. Input 3: UI COMPOSITION reference only; borrow its dense cut-paper panoramic foreground running edge to edge under huge numerals, DO NOT copy its battle, soldiers, weapons, aircraft, numbers, text, or interface. Create ONLY a wide 16:9 transparent PNG FOREGROUND LAYER, not a completed UI. CRITICAL CANVAS: the ENTIRE upper 52% must be completely transparent alpha; the complete montage belongs in the LOWER 48%. At the far left keep the upper 68% fully transparent so a paragraph can sit there. Across the entire bottom edge, from x=0 to x=100%, assemble a rich connected horizontal collage: low cropped palm foliage and temple paving at left, cut-paper groups of the existing present-day visitors across the lower foreground, the recognisable yellow Long Duc temple with layered red tiled roof and its flags in the middle/right behind those visitors, and more people and plants continuing right off the edge. Several overlapping photographic fragments, organic crisp silhouette along the upper contour, foreground people partially cropped by the lower canvas edge, naturally dense like a printed exhibition collage, NOT a lone isolated miniature building and NOT a rectangular photograph. Slightly desaturated warm olive, stone, terracotta, restrained red; real photographic detail, matte archival print texture, bright natural light. Retain the identity of the actual temple design and source context; do not invent historical events or claim that these modern visitors were present in 1970. This is openly an editorial illustration. The montage's tallest point may reach 50% canvas height near center-right but never enter the upper half; no sky, no opaque background, no haze or gradient transparency, no text, no numerals, no UI controls. Genuine alpha transparency above and between cutout silhouettes. Wide 16:9 canvas, horizontal frieze occupying lower half only."
+    },
+    {
+      "output": "src/assets/den-tho-bac/history-stilt-panorama-v4.png",
+      "web_output": "src/assets/den-tho-bac/history-stilt-panorama-v4.webp",
+      "references": [
+        "stilt-house.jpg",
+        "temple.jpg",
+        "user UI screenshot 163355, composition only"
+      ],
+      "prompt": "Use case: editorial compositing for a Vietnamese heritage touchscreen. Input 1: actual wooden stilt-house replica in Long Duc, PRIMARY architectural source. Input 2: the site's yellow temple with visiting students, supporting people and foliage source. Input 3: UI COMPOSITION reference only. Borrow the dense cut-paper panorama across the bottom, NOT the battle content, soldiers, weapons, aircraft, numerals, quote or UI. Create ONLY one wide 16:9 transparent PNG foreground layer. CRITICAL: keep the ENTIRE UPPER 52% of the canvas totally transparent alpha. The rich panoramic montage occupies the LOWER 48%, running continuously from left edge to right edge along the bottom. Far left: keep the upper 68% transparent to leave room for text. Compose crisp cut-paper photographic fragments: overlapping low green foliage and red roof details at lower left, recognisable visitors from the source photos across the lower foreground, the actual distinctive red tiled roof, green beams, wooden balcony and stairs of the stilt-house replica in the middle/right, with small gardens, visitors and steps continuing off the right edge. Make the architecture recognisable; preserve its authentic style and perspective, but assemble an obvious editorial collage rather than a reconstructed historical photograph. Foreground people and vegetation can crop at the bottom and side edges. The tallest silhouette near middle/right should reach about 50% canvas height, everything else lower. This must feel broad and visually dense across the ENTIRE width, not one small floating building at center. Slightly desaturated warm olive/stone/terracotta palette, restrained reds, matte archival print texture, photographic details, bright natural light. No sky, no rectangular backdrop, no typography or numbers or UI controls, no white fill, no opaque pixels in upper half. Genuine transparent alpha between the silhouettes, a sharp natural contour rather than a faded rectangle. The image illustrates a present-day heritage visit; do not add a historical event or period costumes. Wide 16:9 transparent canvas."
+    }
+  ]
+}

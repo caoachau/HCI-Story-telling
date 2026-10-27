@@ -1,5 +1,7 @@
 # Chuyển động trang chi tiết Cồn Chim
 
+> Ghi ch?p l?ch s?. ??t d?n 27/10/2026 ?? x?a giao di?n C?n Chim c? v? ba b? test ch? d?nh cho giao di?n ??. Ki?m tra hi?n t?i d?ng `tests/con-chim-kt01-test.cjs`, `tests/con-chim-personas-test.cjs`; xem [b?o c?o d?n repo m?i](cleanup-2026-10-27.md). ?nh ki?m th? c? ???c d?n, c? th? t?o l?i b?ng c?c test t??ng ?ng c?n ???c duy tr?.
+
 > Tài liệu lịch sử của giao diện cuộn tuần tự. Bản KT01 thay bằng điều hướng trực tiếp, chuyển động nhẹ và media theo yêu cầu. Xem [thiết kế và kiểm tra KT01](con-chim-kt01.md).
 
 > Trang hiện tại được đối chiếu lại theo lịch sử chat: một header, bán cung theo ảnh người dùng, mỗi section là một màn hình. Các hiệu ứng hoạt động bên trong bố cục này.

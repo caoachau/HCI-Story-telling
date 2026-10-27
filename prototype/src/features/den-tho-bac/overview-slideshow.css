@@ -1,0 +1,107 @@
+/* One original photograph per scene, with a clear area for the story.
+   Reference coordinates: 1774 x 887. White/red typography, native touch
+   controls and one progress clock. Scene changes only fade.
+   DESIGN_VARIANCE 6 / MOTION_INTENSITY 4 / VISUAL_DENSITY 3. */
+.db-kiosk {grid-template-columns:minmax(0,1fr);}
+.db-kiosk>main,.db-topbar,.db-navigation {min-width:0;}
+.db-kiosk[data-section=overview] {--u:clamp(.75px,min(.056369786vw,.112739572dvh),2.5px);grid-template-rows:minmax(0,1fr);background:#111610;}
+.db-kiosk[data-section=overview]>main {height:100%;}
+.db-kiosk main>.db-overview-carousel {position:relative;display:block;width:100%;height:100%;min-height:0;padding:0;gap:0;overflow:hidden;background:#070a09;color:#fff;}
+.db-overview-sr {position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;}
+.db-overview-gallery,.db-overview-frame {position:absolute;inset:0;width:100%;height:100%;}
+.db-overview-frame {isolation:isolate;touch-action:manipulation;container-type:size;}
+.db-overview-image {position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.db-overview-artwork {position:absolute;inset:0;width:100%;height:100%;background-size:cover;background-position:center;background-repeat:no-repeat;transform:none;box-shadow:none;}
+.db-overview-artwork {filter:none;}
+/* One overscanned hero scrim: contrast blooms behind the copy and dissolves
+   in both directions. Only this independent gradient surface is blurred. */
+.db-overview-shade {--shade-blur:clamp(16px,calc(24 * var(--u)),40px);position:absolute;inset:calc(-2 * var(--shade-blur));pointer-events:none;background-image:radial-gradient(ellipse 53% 64% at 20% 43%,rgba(0,0,0,.57) 0%,rgba(0,0,0,.43) 28%,rgba(0,0,0,.19) 58%,transparent 88%),linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.025) 45%,rgba(0,0,0,.14) 100%);filter:blur(var(--shade-blur));}
+.db-overview-copy {position:absolute;left:5.919955%;top:10.5%;width:35%;max-width:calc(660 * var(--u));}
+.db-overview-story-label {display:flex;align-items:center;gap:calc(16 * var(--u));font-size:calc(14 * var(--u));font-weight:500;letter-spacing:.27em;line-height:1.5;text-transform:uppercase;}
+.db-overview-story-number {display:block;font:800 calc(106 * var(--u))/1 'Be Vietnam Pro',Arial,sans-serif;letter-spacing:-.05em;color:#fff;margin:calc(16 * var(--u)) 0 calc(8 * var(--u));}
+.db-overview-copy h2 {font:900 calc(72 * var(--u))/1.12 var(--display);letter-spacing:-.045em;text-transform:uppercase;text-shadow:0 1px 3px #0003;}
+.db-overview-copy h2>span {display:block;white-space:nowrap;}
+.db-overview-copy h2>span:last-child {color:#f80d09;}
+.db-overview-carousel[data-overview-index='2'] .db-overview-copy h2 {font-size:calc(52.5 * var(--u));line-height:1.16;}
+.db-overview-carousel[data-overview-index='1'] .db-overview-copy h2 {font-size:calc(66 * var(--u));}
+.db-overview-carousel[data-overview-index='1'] .db-overview-description {max-width:calc(460 * var(--u));}
+.db-overview-description {max-width:36ch;font-size:calc(21 * var(--u));line-height:1.55;color:#f5f6f1;margin-top:calc(24 * var(--u));}
+.db-overview-explore {display:inline-flex;align-items:center;gap:calc(20 * var(--u));min-height:max(48px,calc(60 * var(--u)));margin-top:calc(28 * var(--u));padding:calc(14 * var(--u)) calc(28 * var(--u));border:calc(1.5 * var(--u)) solid #fff;border-radius:999px;background:#050a0538;font-size:calc(15 * var(--u));font-weight:700;line-height:1.5;color:#fff;text-transform:uppercase;letter-spacing:0;white-space:nowrap;}
+.db-overview-explore svg {width:calc(24 * var(--u));height:calc(24 * var(--u));transition:translate .2s;}
+.db-overview-explore:hover:not(:disabled) {background:#fff;color:#1a301d;}
+.db-overview-explore:hover svg {translate:5px 0;}
+.db-overview-frame button:focus-visible {outline-color:#fff;outline-offset:5px;}
+.db-overview-image-tabs {position:absolute;left:6%;right:6%;bottom:calc(var(--navigation-height) + 25 * var(--u));display:grid;grid-template-columns:minmax(0,34.3fr) minmax(0,36.4fr) minmax(0,29.3fr);gap:0;}
+.db-overview-image-tabs>button {display:flex;flex-direction:column;align-items:flex-start;gap:calc(12 * var(--u));min-height:max(60px,calc(88 * var(--u)));text-align:left;padding:0;color:#fff;border-radius:0;}
+.db-overview-carousel[data-overview-index='2'] .db-overview-image-tabs>button:nth-child(3) {padding-left:var(--statue-tab-inset,0px);}
+.db-overview-carousel[data-overview-index='2'] .db-overview-image-tabs :is(b,.db-overview-tab-label) {text-shadow:0 2px 4px #000,0 0 10px #000b;}
+.db-overview-tab-heading {display:flex;align-items:baseline;gap:calc(24 * var(--u));width:100%;}
+.db-overview-tab-heading>b {font:700 calc(48 * var(--u))/1.1 'Be Vietnam Pro',Arial,sans-serif;letter-spacing:-.05em;}
+.db-overview-tab-label {font-size:calc(14 * var(--u));font-weight:700;text-transform:uppercase;line-height:1.4;color:#fff;}
+.db-overview-image-tabs>button[aria-pressed=true] .db-overview-tab-heading>b {color:#f80d09;}
+.db-overview-carousel:not([data-overview-index='2']) .db-overview-image-tabs>button[aria-pressed=true] .db-overview-tab-label {color:#f80d09;}
+.db-overview-track {position:relative;display:block;width:calc(212 * var(--u));max-width:62%;height:2px;background:#ffffff90;overflow:hidden;}
+.db-overview-track>i {position:absolute;inset:0;background:#f80d09;transform:scaleX(0);transform-origin:left;}
+.db-overview-image-tabs>button:not([aria-pressed=true]) .db-overview-track>i {visibility:hidden;}
+.db-overview-carousel[data-reduced-motion=true] .db-overview-image-tabs>button[aria-pressed=true] .db-overview-track {background:#f80d09;}
+@container (min-aspect-ratio:6/5) {
+  .db-overview-carousel[data-overview-index='2'] [data-overview-slide='1'] .db-overview-track {width:min(calc(212 * var(--u)),max(0px,calc(var(--statue-pedestal-left) - 36.184cqw - 95 * var(--u))));}
+}
+.db-overview-load {position:absolute;z-index:5;right:3%;top:calc(108 * var(--u));padding:calc(6 * var(--u)) calc(12 * var(--u));font-size:calc(11 * var(--u));background:#111b10e8;border-radius:4px;color:#fff;}
+.db-overview-load--error {inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:calc(16 * var(--u));font-size:calc(18 * var(--u));background:#0c130ef5;}
+.db-overview-load--error>button {display:flex;align-items:center;gap:12px;min-height:48px;padding:8px 20px;border:1px solid #fff;border-radius:999px;}
+@media(prefers-reduced-motion:no-preference) {
+  .db-overview-image--out {animation:db-overview-dissolve-out .9s ease both;}
+  .db-overview-image--in {animation:db-overview-dissolve-in .9s cubic-bezier(.2,.65,.2,1) both;}
+  .db-overview-image--in[data-scene=early-temple] {animation-name:db-overview-gate-in;}
+  .db-overview-image--in[data-scene=statue] {animation-name:db-overview-statue-in;}
+  .db-overview-copy {animation:db-overview-copy-in .65s ease-out both;}
+  @keyframes db-overview-dissolve-in {from{opacity:0;}to{opacity:1;}}
+  @keyframes db-overview-dissolve-out {to{opacity:0;}}
+  @keyframes db-overview-gate-in {from{opacity:0;}to{opacity:1;}}
+  @keyframes db-overview-statue-in {from{opacity:0;}to{opacity:1;}}
+  @keyframes db-overview-copy-in {from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+}
+@media(prefers-reduced-motion:reduce) {.db-overview-image--out {display:none;}}
+.reduce-motion .db-overview-image--out {display:none;}
+@media(min-width:901px) and (max-width:1450px) {
+  .db-overview-copy {top:9%;width:37%;}
+  .db-overview-copy h2 {font-size:calc(64 * var(--u));}
+  .db-overview-carousel[data-overview-index='2'] .db-overview-copy h2 {font-size:calc(53 * var(--u));}
+  .db-overview-story-number {font-size:calc(96 * var(--u));margin-top:calc(18 * var(--u));}
+  .db-overview-description {font-size:calc(20 * var(--u));margin-top:calc(20 * var(--u));}
+  .db-overview-explore {font-size:calc(14 * var(--u));min-height:48px;padding:calc(12 * var(--u)) calc(25 * var(--u));margin-top:calc(22 * var(--u));}
+}
+@media(max-width:900px) {
+  .db-kiosk[data-section=overview] {--u:1px;}
+  .db-overview-copy {left:6%;top:8%;width:70%;max-width:480px;}
+  .db-overview-story-label {font-size:10px;}
+  .db-overview-story-number {font-size:76px;margin-bottom:12px;}
+  .db-overview-copy h2 {font-size:34px;}
+  .db-overview-description {font-size:16px;max-width:30ch;margin-top:16px;}
+  .db-overview-explore {font-size:11px;gap:16px;margin-top:14px;padding:10px 22px;min-height:48px;}
+  .db-overview-image-tabs {left:6%;right:6%;bottom:100px;gap:20px;grid-template-columns:repeat(3,minmax(0,1fr));}
+  .db-overview-image-tabs>button {min-height:60px;gap:10px;}
+  .db-overview-tab-heading {gap:12px;}
+  .db-overview-tab-heading>b {font-size:34px;}
+  .db-overview-tab-label {font-size:10px;}
+  .db-overview-load {top:80px;font-size:11px;padding:5px 10px;}
+  .db-overview-load--error {font-size:14px;gap:10px;}
+}
+@media(max-width:600px) {
+  .db-overview-image-tabs {gap:12px;bottom:94px;}
+  .db-overview-tab-label {font-size:9px;}
+  .db-overview-track {width:40%;}
+}
+/* Compact screens present the full original photo above the copy. */
+@container (max-aspect-ratio:6/5) {
+  .db-overview-image[data-scene]>.db-overview-artwork {mask-image:none;}
+  .db-overview-carousel[data-overview-index='2'] .db-overview-shade {background-image:radial-gradient(ellipse 70% 50% at 20% 72%,rgba(0,0,0,.38),transparent 88%);}
+  .db-overview-copy {left:6%;top:calc(76px + min(30cqh,100cqw * var(--image-height) / var(--image-width)) + 16px);width:88%;max-width:none;}
+  .db-overview-story-label {display:inline-flex;font-size:10px;gap:8px;letter-spacing:.1em;}
+  .db-overview-story-number {display:inline-block;font-size:26px;line-height:1;margin:0 0 9px 12px;}
+  .db-overview-copy h2,.db-overview-carousel[data-overview-index='1'] .db-overview-copy h2,.db-overview-carousel[data-overview-index='2'] .db-overview-copy h2 {font-size:clamp(24px,3.8cqw,30px);line-height:1.18;margin-top:0;}
+  .db-overview-description {font-size:14px;line-height:1.6;max-width:65ch;margin-top:10px;}
+  .db-overview-explore {font-size:11px;margin-top:12px;min-height:44px;padding:8px 20px;gap:18px;}
+  .db-overview-explore svg {width:21px;height:21px;}
+}

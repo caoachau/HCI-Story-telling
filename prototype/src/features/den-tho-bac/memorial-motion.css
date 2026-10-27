@@ -1,0 +1,54 @@
+/* GSAP takes only the entrances listed here; map gestures, history photographs
+   and the glass leaf keep their existing animation owners. */
+[data-motion-owner=gsap].db-overview :is(.db-overview-image,.db-overview-copy),
+[data-motion-owner=gsap].db-history :is(.db-history-stage,.db-history-copy,.db-history-year),
+[data-motion-owner=gsap].db-people :is(.db-person-copy,.db-portrait-photo,.db-witness-photo,.db-portrait-archive,.db-portrait-story,.db-portrait-artwork,.db-witness-artwork),
+[data-motion-owner=gsap].db-atlas-panel>.db-space-list,
+[data-motion-owner=gsap].db-activities .db-date-card {animation:none;}
+.db-overview-copy h2>span {display:block;}
+.db-values-book .db-value-tab-indicator {transition-duration:.25s;}
+.db-kiosk :is(.db-button,.db-overview-explore,.db-value-book-action,.db-text-button,.db-person-tabs button,.db-date-invitation button) {transition:color .18s,background-color .18s,border-color .18s;}
+.db-kiosk :is(.db-button,.db-overview-explore,.db-value-book-action,.db-person-tabs button,.db-date-invitation button):active {box-shadow:inset 0 0 0 2px currentColor;}
+.db-date-number {position:relative;}
+.db-date-number::after {content:'';position:absolute;left:0;bottom:0;width:100%;height:2px;background:#e3262a;transform:scaleX(0);transform-origin:left;transition:transform .2s;}
+.db-date-card:focus-within .db-date-number::after,.db-date-card:active .db-date-number::after {transform:scaleX(1);}
+@media(hover:hover) and (pointer:fine) {
+  .db-date-card:hover .db-date-number::after {transform:scaleX(1);}
+  .db-kiosk :is(.db-overview-explore,.db-button,.db-value-book-action):hover>svg {transform:translateX(3px);transition:transform .18s;}
+}
+@media(prefers-reduced-motion:no-preference) {
+  .db-picture[data-image-state=ready]>img {animation:db-image-decoded .22s ease-out both;}
+  .db-values-book .db-picture[data-image-state=ready]>img {animation:none;}
+  @keyframes db-image-decoded {from{opacity:0}to{opacity:1}}
+}
+.db-reader[data-reader-phase] {animation:none;}
+.db-reader[data-reader-phase=closing] {pointer-events:none;}
+.db-reader[data-reader-phase=opening]::backdrop {animation:db-reader-backdrop-in .15s both;}
+.db-reader[data-reader-phase=closing]::backdrop {animation:db-reader-backdrop-out .16s both;}
+@keyframes db-reader-backdrop-in {from{opacity:0}to{opacity:1}}
+@keyframes db-reader-backdrop-out {from{opacity:1}to{opacity:0}}
+.db-reader-progress {height:3px;flex:0 0 3px;background:#deded8;overflow:hidden;}
+.db-reader-progress[hidden] {display:none;}
+.db-reader-progress>i {display:block;width:100%;height:100%;background:#e3262a;transform:scaleX(0);transform-origin:left;}
+.db-reader-photo {position:relative;}
+.db-photo-frame {position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .18s;}
+.db-photo-frame[data-frame-state=ready] {opacity:1;}
+.db-photo-frame canvas {display:block;width:100%;height:100%;}
+.db-reader-photo:has(.db-photo-frame[data-frame-state=ready])>.db-picture {opacity:0;}
+.db-photo-mode {font-size:inherit;min-height:44px;}
+.db-reader-photo-actions {display:flex;flex-wrap:wrap;gap:4px 18px;flex-shrink:0;}
+.db-reader-photo-actions>.db-text-button {min-height:48px;flex-shrink:0;}
+@media(max-width:900px) {.db-reader-photo-actions>.db-text-button {font-size:12px;}}
+@media(prefers-reduced-motion:no-preference) {
+  .db-reader .db-read-more[open]>p {animation:db-image-decoded .25s ease-out both;}
+}
+.reduce-motion .db-picture[data-image-state=ready]>img {animation:none;}
+.reduce-motion .db-date-number::after,.reduce-motion .db-photo-frame {transition:none;}
+.reduce-motion .db-reader::backdrop {animation:none;}
+.reduce-motion .db-reader .db-read-more[open]>p {animation:none;}
+.reduce-motion .db-values-book .db-value-tab-indicator {transition:none;}
+@media(prefers-reduced-motion:reduce) {
+  .db-date-number::after,.db-photo-frame {transition:none;}
+  .db-reader::backdrop {animation:none;}
+  .db-values-book .db-value-tab-indicator {transition:none;}
+}

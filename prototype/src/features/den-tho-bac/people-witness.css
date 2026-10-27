@@ -1,0 +1,68 @@
+/* giuden.png: narrow left introduction and a wide, complete witness photo.
+   The ambient backdrop is separate; the foreground photograph stays sharp. */
+.db-witness-backdrop {position:absolute;z-index:-2;inset:-6px;background-size:cover;background-position:center;filter:blur(3px);pointer-events:none;}
+.db-witness-backdrop::after {content:'';position:absolute;inset:0;background:linear-gradient(180deg,#020b087d,transparent 38%),linear-gradient(90deg,#030b09c9,#04100bb8),linear-gradient(0deg,#040b0bbd,transparent 75%);}
+.db-witness-copy {border-top:1px solid #ffffffb5;margin-top:calc(28 * var(--u));padding-top:calc(24 * var(--u));}
+.db-witness-kicker {font-size:calc(20 * var(--u));line-height:1.5;color:#f3f5ef;}
+.db-witness-kicker::after {content:'';display:block;width:calc(62 * var(--u));height:calc(3 * var(--u));margin-top:calc(14 * var(--u));background:#ff302b;}
+.db-witness-copy>h2 {font:900 calc(44 * var(--u))/1.15 var(--display);letter-spacing:-.04em;margin:calc(24 * var(--u)) 0 0;color:#fff;white-space:nowrap;}
+.db-witness-copy>h2>span {color:#ff302b;}
+.db-witness-role {font-size:calc(17 * var(--u));line-height:1.6;color:#eceee8;margin-top:calc(8 * var(--u));}
+.db-witness-copy>.db-witness-lead {font-size:calc(23 * var(--u));line-height:1.5;color:#f2f5ef;margin-top:calc(32 * var(--u));max-width:38ch;}
+.db-witness-copy>.db-witness-read {display:inline-flex;align-items:center;gap:calc(26 * var(--u));margin-top:calc(32 * var(--u));min-height:max(44px,calc(74 * var(--u)));padding:calc(15 * var(--u)) calc(30 * var(--u));border:calc(1.5 * var(--u)) solid #fff;border-radius:999px;background:transparent;color:#fff;font-size:calc(22 * var(--u));font-weight:600;white-space:nowrap;}
+.db-witness-read:hover {background:#fff;color:#173120;}
+.db-witness-read>svg {width:calc(26 * var(--u));height:calc(26 * var(--u));transition:translate .2s;}
+.db-witness-read:hover>svg {translate:4px 0;}
+.db-witness-copy>.db-witness-question {border-top:1px solid #ffffff90;margin-top:calc(36 * var(--u));padding-top:calc(26 * var(--u));font-size:calc(18 * var(--u));line-height:1.5;color:#f0f4ed;}
+.db-witness-feature {position:relative;grid-column:2/-1;display:flex;flex-direction:column;min-width:0;min-height:0;}
+.db-witness-feature:before {content:'';position:absolute;top:0;bottom:0;left:calc(-22 * var(--u));width:1px;background:#ffffff90;}
+.db-witness-photo {display:flex;flex-direction:column;flex:1;min-height:0;min-width:0;width:100%;max-width:none;margin-inline:0;padding-inline:0;}
+.db-witness-photo-stage {flex:1;min-height:0;display:block;width:100%;max-width:none;margin:0;padding:0;overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain;}
+.db-witness-artwork {position:relative;display:block;width:100%;max-width:none;height:auto;aspect-ratio:1212/569;margin:0;padding:0;flex:none;border:1px solid #ffffffbf;overflow:hidden;}
+.db-witness-artwork>.db-picture {width:100%;max-width:none;margin:0;padding:0;background:#12261b;}
+/* The picture region x405/y288/w1212/h569 excludes the badge baked into
+   the supplied 1672x941 layout, while preserving faces, hands and feet. */
+.db-witness-artwork>.db-picture>img {position:absolute;left:calc(-100% * 405 / 1212);top:calc(-100% * 288 / 569);display:block;width:100%;max-width:none;height:auto;margin:0;padding:0;object-fit:contain;transform:scale(calc(1672 / 1212));transform-origin:top left;filter:none;}
+.db-witness-artwork .db-image-status {color:#fff;}
+.db-witness-caption {display:flex;justify-content:space-between;flex-wrap:wrap;gap:calc(8 * var(--u)) calc(20 * var(--u));flex:none;padding-top:calc(12 * var(--u));font-size:calc(17 * var(--u));line-height:1.5;color:#e4e9e1;}
+@media(prefers-reduced-motion:no-preference) {
+  .db-witness-artwork {animation:db-witness-photo-in .65s ease-out both;}
+  .db-witness-copy {animation:db-witness-copy-in .5s ease-out both;}
+  @keyframes db-witness-photo-in {from{opacity:0;}to{opacity:1;}}
+  @keyframes db-witness-copy-in {from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+}
+@media(min-width:901px) and (max-height:800px) {
+  .db-kiosk main>.db-people-shell {padding-top:calc(32 * var(--u));gap:calc(24 * var(--u));}
+  .db-people-shell .db-people-heading {padding-bottom:calc(20 * var(--u));}
+  .db-people-shell .db-people-heading>h1 {font-size:calc(66 * var(--u));}
+  .db-people-tabs>button {min-height:max(44px,calc(64 * var(--u)));padding-block:calc(12 * var(--u));}
+  .db-witness-copy {margin-top:calc(18 * var(--u));padding-top:calc(18 * var(--u));}
+  .db-witness-kicker {font-size:calc(16 * var(--u));}
+  .db-witness-kicker::after {margin-top:calc(10 * var(--u));}
+  .db-witness-copy>h2 {font-size:calc(38 * var(--u));margin-top:calc(18 * var(--u));}
+  .db-witness-role {font-size:calc(14 * var(--u));}
+  .db-witness-copy>.db-witness-lead {font-size:calc(20 * var(--u));margin-top:calc(20 * var(--u));}
+  .db-witness-copy>.db-witness-read {font-size:calc(18 * var(--u));min-height:44px;margin-top:calc(20 * var(--u));padding-block:calc(10 * var(--u));}
+  .db-witness-copy>.db-witness-question {font-size:calc(16 * var(--u));margin-top:calc(22 * var(--u));padding-top:calc(18 * var(--u));}
+  .db-witness-caption {font-size:calc(14 * var(--u));}
+}
+@media(max-width:900px) {
+  .db-witness-copy {margin-top:22px;padding-top:22px;}
+  .db-witness-kicker {font-size:14px;}
+  .db-witness-kicker::after {margin-top:12px;width:46px;height:2px;}
+  .db-witness-copy>h2 {font-size:29px;margin-top:20px;white-space:normal;}
+  .db-witness-role {font-size:11px;margin-top:12px;}
+  .db-witness-copy>.db-witness-lead {font-size:16px;margin-top:18px;}
+  .db-witness-copy>.db-witness-read {font-size:14px;min-height:48px;margin-top:20px;padding:10px 22px;gap:18px;}
+  .db-witness-copy>.db-witness-question {font-size:14px;margin-top:24px;padding-top:18px;}
+  .db-witness-feature {align-self:start;}
+  .db-witness-feature:before {left:-14px;}
+  .db-witness-photo {flex:none;}
+  .db-witness-photo-stage {flex:none;width:100%;aspect-ratio:1212/569;overflow:visible;}
+  .db-witness-artwork {width:100%;}
+  .db-witness-caption {font-size:11px;padding-top:10px;gap:6px;}
+}
+@media(max-width:550px) {
+  .db-witness-feature {width:100%;}
+  .db-witness-feature:before {display:none;}
+}

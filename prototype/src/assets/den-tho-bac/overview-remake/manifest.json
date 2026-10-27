@@ -1,0 +1,140 @@
+{
+  "01-photo-original.jpg": {
+    "width": 2048,
+    "height": 1366,
+    "bytes": 651342,
+    "sha256": "a3e0477f74020d9b496d1c83eba4255d0723b2d99fbbc7da6e10f05edac2353b"
+  },
+  "01-photo.webp": {
+    "width": 2048,
+    "height": 1366,
+    "bytes": 813278,
+    "sha256": "2045bbe349a23cdacd67ceab894adc788937fa28f0307ec8a9b29cf5af06de80"
+  },
+  "01-reference.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 2746596,
+    "sha256": "ea0e65a6aa30da5c84bed30fd5ad85b2ebafd179db385f7aea8bafb9ae9dcd37"
+  },
+  "02-photo-original.jpeg": {
+    "width": 2048,
+    "height": 1536,
+    "bytes": 589041,
+    "sha256": "15d8f219b4bac1d8a68fb908954e108ec2f777ef7416b6f389a38279a1cf9b56"
+  },
+  "02-photo.webp": {
+    "width": 2048,
+    "height": 1536,
+    "bytes": 720220,
+    "sha256": "67a479c337f780b629afb1d29ef954ab1966eeb15b521cdf3bd6740eaaef5e15"
+  },
+  "02-reference-background-v2.png": {
+    "width": 1774,
+    "height": 887,
+    "bytes": 3052802,
+    "sha256": "46055009dd2b0a0a4a9aa7d1d353cc68de05fc91004f9cbec71d94b7fe213735"
+  },
+  "02-reference-background-v2.webp": {
+    "width": 1774,
+    "height": 887,
+    "bytes": 600402,
+    "sha256": "524e8c147acdf5c398ff4e462c08c188af684f228a8582306e0fa0259074a5f5"
+  },
+  "02-reference.png": {
+    "width": 1774,
+    "height": 887,
+    "bytes": 2481230,
+    "sha256": "414fca6f01574e72a77690d23a3852d42de9a3ea353d5fbbbe11d1f62da05614"
+  },
+  "03-photo-original.jpg": {
+    "width": 2560,
+    "height": 1919,
+    "bytes": 1818336,
+    "sha256": "f2e073a2d72b8350b580063f4900bb2cc0a6ed4cae25ad6fcea31dad23bcc4b6",
+    "runtime": true,
+    "processing": "Earlier camera photograph, retained for existing story-reader context; no longer the overview tab 03 background."
+  },
+  "03-photo-original-v2.jpg": {
+    "source": "User attachment.jfif",
+    "width": 1280,
+    "height": 960,
+    "bytes": 282067,
+    "sha256": "0002c03945d96f9c1f2f8d623c0a64b5924af354681e7192340c48b68f157cf7",
+    "processing": "Original bytes preserved; responsive crop at 50% horizontal, 72% vertical on landscape screens",
+    "runtime": false
+  },
+  "03-photo.webp": {
+    "width": 2560,
+    "height": 1919,
+    "bytes": 1189136,
+    "sha256": "00b116d9b72ad404f8660e29bc813c676db82bf07c9042a7d74ddf7025d673f2"
+  },
+  "03-reference-background-v2.png": {
+    "width": 1774,
+    "height": 887,
+    "bytes": 2440354,
+    "sha256": "a73b369cb96879e1986f3a9877a681b1b506f267d94f9cdc83a1a9cb1f7b48b7"
+  },
+  "03-reference-background-v2.webp": {
+    "width": 1774,
+    "height": 887,
+    "bytes": 368378,
+    "sha256": "8ff1b7e237044d3559e7a33c36f5b3d1f60bd7cabbcf5ae42f2452dbd592bca0"
+  },
+  "03-reference.png": {
+    "width": 1774,
+    "height": 887,
+    "bytes": 2243024,
+    "sha256": "ae794d631198fe4826431d5d60bf264949e32180c42e6cbe3dc56cc0cb3a63fd"
+  },
+  "01-reference-background-v3.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 3142127,
+    "sha256": "50a2a78599313a40792b5b7642f05007f649cd70c7b5063ea9d63b141b460957",
+    "source": "01-reference.png",
+    "processing": "Built-in imagegen edit; interface removal, repaired occluded background",
+    "prompt": "01-background-prompt.json"
+  },
+  "01-reference-background-v3.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 687088,
+    "sha256": "de553d81cc80df41fa7cc072b92635160e78f855d8ba947a2b311c24ff266692",
+    "source": "01-reference.png",
+    "processing": "Built-in imagegen edit; interface removal, repaired occluded background",
+    "prompt": "01-background-prompt.json",
+    "encoding": "WebP quality 95; source PNG retained"
+  },
+  "_active_overview_backgrounds": [
+    "01-photo-original.jpg",
+    "02-photo-original.jpeg",
+    "03-shrine-user.png"
+  ],
+  "02-photo-wide-original.jpg": {
+    "source": "Desktop/den-bac-anh-16-5807-2072.jpg",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 358934,
+    "sha256": "466d47bdb3fd2db85592b47a8ac459f4bf5c2954f1bb3814780782b9e48dce28",
+    "runtime": false
+  },
+  "03-photo-wide-original.jpg": {
+    "source": "Desktop/den-bac-anh-10-5713-3335.jpg",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 258030,
+    "sha256": "95b5d30c3fa6715621ccf7608890cc38c89f7c9bf0788cd211524d054c44bfcd",
+    "runtime": false
+  },
+  "03-shrine-user.png": {
+    "width": 1774,
+    "height": 887,
+    "bytes": 2461822,
+    "sha256": "d56f0cb7a007eb6d1602bf6a06982d9e2019c850b521bafa9d32ec0d39a1c727",
+    "source": "User-supplied Golden Ho Chi Minh Shrine Display.png, 2026-10-27",
+    "runtime": true,
+    "processing": "Original supplied PNG bytes. Uniform scale; preserve quotation y=80 and pedestal bottom y=790 above footer. Single image layer, no duplicate background or pixel edits."
+  }
+}

@@ -108,7 +108,6 @@ export function updateHeritageMarker(
   element.setAttribute('aria-label', `${fullName}. ${options.selected
     ? (options.lang === 'vi' ? 'Nhấn để đưa mốc về giữa bản đồ' : 'Press to recenter this landmark')
     : (options.lang === 'vi' ? 'Nhấn để khám phá địa điểm' : 'Press to explore this landmark')}`);
-  element.title = fullName;
   element.querySelector('.heritage-marker__name')!.textContent = markerLabels[site.id]?.[options.lang] ?? fullName;
   element.querySelector('.heritage-marker__status')!.textContent = options.lang === 'vi' ? 'Đang xem' : 'Viewing';
 }

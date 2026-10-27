@@ -1,0 +1,107 @@
+@font-face {font-family:'Memorial Condensed';src:url('../../assets/fonts/oswald-variable.ttf') format('truetype');font-weight:200 700;font-style:normal;font-display:swap;}
+/* A real four-page reading interface inspired by the supplied open-book views.
+   The sample footer is never rendered. The shared six-section footer remains. */
+.db-kiosk main>.db-values-book {--v:clamp(.75px,min(.059808612vw,.106269925dvh),2.5px);position:relative;isolation:isolate;display:flex;flex-direction:column;gap:0;align-items:center;padding:calc(48 * var(--v)) 0 calc(var(--navigation-height) + 26 * var(--v));overflow:hidden;background:#062b28;color:#f2eadf;}
+.db-value-room {position:absolute;z-index:-2;inset:0;background-size:cover;background-position:center;pointer-events:none;}
+.db-value-room::after {content:'';position:absolute;inset:0;background:linear-gradient(180deg,#04161470,#001b1aaa 52%,#001513a8);}
+.db-values-book>.db-value-section-title {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}
+.db-value-book {--book-controls:calc(82 * var(--v));position:relative;display:grid;grid-template-rows:minmax(0,1fr) var(--book-controls);flex:1;min-height:0;max-height:none;width:92.8%;margin:calc(24 * var(--v)) auto 0;border:0;border-radius:calc(26 * var(--v));background:transparent;box-shadow:none;}
+.db-value-book-surface {position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none;}
+/* Frame the supplied transparent book's inner bounds: x63/y65/w1764/h700.
+   The complete original RGBA asset remains intact; only decorative glass is
+   fitted to the larger reading area. Photograph proportions are unchanged. */
+.db-value-book-surface>img {position:absolute;left:calc(-100% * 63 / 1764);top:calc(-100% * 65 / 700);width:calc(100% * 1893 / 1764);height:calc(100% * 831 / 700);max-width:none;pointer-events:none;}
+.db-value-book-outline {position:absolute;inset:0;z-index:5;width:100%;height:100%;overflow:visible;fill:none;stroke:#fff0dc99;stroke-width:1.1;pointer-events:none;}
+.db-value-book-outline path {vector-effect:non-scaling-stroke;}
+/* Perspective belongs to the content stage, never to the fixed frame/controls.
+   No clip, opacity, filter or overflow on this 3D ancestor: those flatten faces. */
+.db-value-book-stage {position:relative;min-height:0;perspective:calc(4000 * var(--v));perspective-origin:50% 50%;transform-style:preserve-3d;}
+.db-value-spread {position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);height:100%;min-height:0;}
+.db-value-page {display:flex;min-width:0;min-height:0;}
+.db-value-page>.db-value-book-photo,.db-value-page>.db-value-book-copy {flex:1;}
+.db-value-book-photo {display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:0;min-width:0;padding:calc(44 * var(--v)) calc(44 * var(--v)) calc(22 * var(--v)) calc(36 * var(--v));}
+.db-value-photo-crop {position:relative;flex:none;aspect-ratio:600/407;width:100%;max-width:none;overflow:hidden;border:1px solid #ece4d580;background:#0c2525;}
+.db-value-photo-crop>.db-picture {height:100%;background:transparent;}
+/* Each supplied view contains the complete photograph at x194/y196/w600/h407.
+   CSS frames that region only. No UI from the reference remains visible. */
+.db-value-photo-crop img {position:absolute;left:calc(-100% * 194 / 600);top:calc(-100% * 196 / 407);width:calc(100% * 1672 / 600);height:calc(100% * 941 / 407);max-width:none;object-fit:fill;filter:none;}
+.db-value-book-photo>figcaption {font-size:calc(17 * var(--v));line-height:1.5;text-align:center;padding-top:calc(10 * var(--v));color:#f0e6d8;}
+.db-value-book-copy {display:flex;flex-direction:column;align-items:flex-start;min-width:0;min-height:0;padding:calc(50 * var(--v)) calc(56 * var(--v)) calc(20 * var(--v)) calc(92 * var(--v));background:transparent;}
+.db-value-book-kicker {border-left:calc(2 * var(--v)) solid #ff4242;padding-left:calc(12 * var(--v));font:300 calc(22 * var(--v))/1.2 'Memorial Condensed','Arial Narrow',sans-serif;text-transform:uppercase;letter-spacing:.12em;}
+.db-value-book-copy>h2 {font:200 calc(76 * var(--v))/1.12 'Memorial Condensed','Arial Narrow',sans-serif;letter-spacing:-.02em;margin-top:calc(26 * var(--v));}
+.db-value-book-copy>h2>span {display:block;white-space:nowrap;}
+.db-value-book-lead,.db-value-book-more {font-size:calc(19 * var(--v));line-height:1.5;font-weight:400;}
+.db-value-book-lead {margin-top:calc(28 * var(--v));}
+.db-value-book-more {margin-top:calc(16 * var(--v));}
+.db-value-book-action {display:inline-flex;align-items:center;gap:calc(24 * var(--v));min-height:max(44px,calc(44 * var(--v)));max-width:100%;margin-top:auto;padding:calc(6 * var(--v)) 0;font-size:calc(18 * var(--v));font-weight:400;color:#fff0df;text-align:left;}
+.db-value-book-action>span {text-decoration:underline;text-decoration-color:#f24a43;text-decoration-thickness:2px;text-underline-offset:calc(10 * var(--v));}
+.db-value-book-action>svg {width:calc(28 * var(--v));height:calc(28 * var(--v));stroke-width:1.3;}
+.db-value-book-controls {position:relative;z-index:5;display:flex;align-items:center;gap:calc(30 * var(--v));padding:calc(12 * var(--v)) calc(32 * var(--v));border-top:1px solid #fff6;min-height:0;}
+.db-value-page-arrow {flex:none;display:grid;place-items:center;width:max(44px,calc(49 * var(--v)));height:max(44px,calc(49 * var(--v)));border:1px solid #fff;border-radius:50%;color:#fff;background:#071e2130;}
+.db-value-page-arrow>svg {width:calc(26 * var(--v));height:calc(26 * var(--v));stroke-width:1.3;}
+.db-value-book-controls>nav {position:relative;flex:1;min-width:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));}
+.db-value-book-controls nav>button {display:grid;place-items:center;min-height:44px;padding:calc(8 * var(--v));font-size:calc(17 * var(--v));line-height:1.4;white-space:nowrap;color:#f6ecdf;}
+.db-value-book-controls nav>button>span {position:relative;}
+.db-value-tab-indicator {position:absolute;top:var(--value-tab-top,100%);left:var(--value-tab-left,0px);width:var(--value-tab-width,0px);height:2px;background:#ff4040;pointer-events:none;transition:left .45s cubic-bezier(.2,.7,.2,1),top .45s ease,width .45s ease;}
+.db-values-book button:focus-visible {outline-color:#fff;outline-offset:4px;}
+.db-value-photo-crop .db-image-status {color:#fff;}
+/* One persistent, two-sided leaf. The room, full-book asset, closed outline,
+   spine and controls are siblings outside it. No full-book bitmap on a face. */
+.db-value-leaf-definitions {position:absolute;pointer-events:none;}
+.db-value-turning-sheet {position:absolute;z-index:4;left:50%;top:0;bottom:calc(-1 * var(--book-controls));width:50%;transform-origin:left center;transform-style:preserve-3d;background:none;border:0;box-shadow:none;pointer-events:none;will-change:transform;}
+.db-value-turning-sheet[hidden] {display:none;}
+.db-value-turning-sheet[data-direction='-1'] {left:0;transform-origin:right center;}
+/* Each face only handles backface visibility. Clip its child, so the rotating
+   parent retains its 3D context. No rectangular paint exists outside the path. */
+.db-value-turn-face {position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:none;border:0;box-shadow:none;}
+.db-value-turn-back {transform:rotateY(180deg);}
+.db-value-turn-clip {position:absolute;inset:0;display:flex;flex-direction:column;padding-bottom:var(--book-controls);background:linear-gradient(90deg,#dfe9e61a,#e7eee612 70%,#fff3);border:0;box-shadow:none;}
+.db-value-turn-face[data-page-side=left]>.db-value-turn-clip {background:linear-gradient(270deg,#dfe9e61a,#e7eee612 70%,#fff3);}
+.db-value-turn-clip::before {content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,#ffffff0c 49%,transparent 65%);}
+.db-value-turn-clip>.db-value-book-copy,.db-value-turn-clip>.db-value-book-photo {position:relative;flex:1;}
+.db-value-turn-outline {position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;stroke:#fff0dca6;stroke-width:1.1;pointer-events:none;}
+.db-value-turn-outline path {vector-effect:non-scaling-stroke;}
+.db-value-book-action:disabled {cursor:default;}
+.db-value-book-controls [aria-disabled=true] {cursor:progress;}
+.db-value-load-status {position:absolute;z-index:6;top:calc(8 * var(--v));right:calc(28 * var(--v));padding:8px 12px;border-radius:6px;background:#102c2bec;color:#fff;font-size:max(12px,calc(13 * var(--v)));}
+.db-value-load-status button {min-height:44px;margin-left:12px;text-decoration:underline;}
+@media(prefers-reduced-motion:no-preference) {
+  .db-value-book-action svg {transition:translate .2s;}
+  .db-value-book-action:hover svg {translate:5px 0;}
+}
+@media(prefers-reduced-motion:reduce) {.db-value-turning-sheet {display:none;}.db-value-tab-indicator {transition:none;}}
+.reduce-motion .db-value-turning-sheet {display:none;}
+.reduce-motion .db-value-tab-indicator {transition:none;}
+@media(min-width:901px) and (max-width:1450px) {
+  .db-value-book {width:94%;}
+  .db-value-book-copy {padding-left:calc(65 * var(--v));padding-right:calc(34 * var(--v));}
+  .db-value-book-copy>h2 {font-size:calc(66 * var(--v));}
+  .db-value-book-controls {gap:calc(20 * var(--v));padding-inline:calc(22 * var(--v));}
+  .db-value-book-controls nav>button {font-size:calc(15 * var(--v));}
+}
+@media(max-width:900px) {
+  .db-kiosk main>.db-values-book {--v:1px;height:auto;min-height:100%;padding:90px 20px calc(var(--navigation-height) + 24px);overflow:visible;}
+  .db-values-book>h1 {font-size:22px;margin:0;}
+  .db-value-book {width:100%;max-height:none;margin-top:28px;flex:none;grid-template-rows:auto auto;}
+  .db-value-book-stage {perspective:none;transform-style:flat;}
+  .db-value-book-surface>img {width:calc(100% * 1893 / 882);left:calc(-100% * 63 / 882);}
+  .db-value-turning-sheet {display:none;}
+  .db-value-spread {grid-template-columns:minmax(0,1fr);}
+  .db-value-book-photo {padding:22px 22px 16px;}
+  .db-value-book-photo>figcaption {font-size:13px;}
+  .db-value-book-copy {padding:24px 28px 30px;border-top:1px solid #fff5;}
+  .db-value-book-kicker {font-size:18px;}
+  .db-value-book-copy>h2 {font-size:52px;margin-top:20px;}
+  .db-value-book-lead,.db-value-book-more {font-size:16px;}
+  .db-value-book-action {font-size:16px;margin-top:22px;}
+  .db-value-book-controls {gap:12px;padding:16px;flex-wrap:wrap;}
+  .db-value-book-controls>nav {order:-1;flex-basis:100%;grid-template-columns:1fr 1fr;gap:10px;}
+  .db-value-book-controls nav>button {font-size:14px;min-height:48px;white-space:normal;}
+}
+@media(max-width:480px) {
+  .db-kiosk main>.db-values-book {padding-inline:16px;}
+  .db-value-book-copy {padding:22px 20px 26px;}
+  .db-value-book-copy>h2 {font-size:clamp(30px,9.8vw,42px);}
+  .db-value-book-copy>h2>span {white-space:normal;}
+  .db-value-book-photo {padding:16px;}
+}

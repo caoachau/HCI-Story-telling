@@ -1,0 +1,53 @@
+/* Four native book pages, their photographs, destinations and shared footer. */
+const fs=require('node:fs'),path=require('node:path'),Module=require('node:module');
+const file=path.resolve(__dirname,'den-tho-bac-test.cjs'),source=fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n');
+const begin=source.indexOf('  const sections=['),end=source.lastIndexOf('\n}\nmain().catch');
+const body=String.raw`
+  const settleBook=async()=>{await wait('document.querySelector(".db-values-book")?.dataset.bookPhase==="idle"','book idle');await settle();};
+  const ready=()=>wait('document.querySelector(".db-value-photo-crop img")?.complete&&document.querySelector(".db-value-photo-crop img")?.naturalWidth===1672&&document.querySelector(".db-value-book-surface>img")?.complete','supplied book photograph');
+  for(const [width,height] of [[1672,941],[1774,887],[1920,1080],[3840,2160],[1280,720],[768,1024],[390,844],[320,720]]){
+    await viewport(width,height);await open('?section=values');await ready();await settleBook();
+    for(const [index,id] of ['affection','community','history','continuity'].entries()){
+      await click('[data-value-page="'+index+'"]');await ready();await settleBook();
+      await check('document.querySelector(".db-values-book").dataset.valueId==="'+id+'"&&document.querySelector(".db-value-photo-crop img").src.includes("0'+(index+1)+'-reference-")&&document.querySelectorAll("[data-value-page][aria-pressed=true]").length===1&&document.querySelector("main").scrollWidth<=document.querySelector("main").clientWidth+1','Book page '+(index+1)+' uses the matching supplied photo without overflow at '+width);
+      if(width>=1280){
+        await check('[...document.querySelectorAll("main button")].every(button=>{const r=button.getBoundingClientRect(),footer=document.querySelector(".db-navigation").getBoundingClientRect();return r.height>=44&&r.top>=0&&r.bottom<footer.top+1&&document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)?.closest("button")===button})&&document.querySelector("main").scrollHeight<=innerHeight+1','All book actions remain touchable above the existing footer at '+width+' / '+index);
+        await check('document.querySelector(".db-value-book-more").getBoundingClientRect().bottom<=document.querySelector(".db-value-book-action").getBoundingClientRect().top+1&&document.querySelectorAll(".db-navigation").length===1&&document.querySelectorAll(".db-navigation button").length===6','Page copy and CTA remain separate, with one shared footer at '+width+' / '+index);
+      }
+      if(width===1672||width===3840||width===390)await shot('values-book-'+width+'-0'+(index+1));
+    }
+  }
+  await viewport(1672,941);await open('?section=values');await ready();
+  await check('!document.querySelector(".db-value-book-reflection")&&!document.querySelector("main").textContent.includes("Mở một góc nhìn khác")&&document.querySelector(".db-value-book").getBoundingClientRect().width>innerWidth*.92&&document.querySelector(".db-value-book").getBoundingClientRect().height>innerHeight*.74','Larger book replaces the removed reflection and alternate-view row');
+  await check('(()=>{const img=document.querySelector(".db-value-book-surface>img"),c=document.createElement("canvas");c.width=img.naturalWidth;c.height=img.naturalHeight;const ctx=c.getContext("2d");ctx.drawImage(img,0,0);return img.currentSrc.includes("glass-book-lossless-")&&img.naturalWidth===1893&&img.naturalHeight===831&&ctx.getImageData(0,0,1,1).data[3]<5&&ctx.getImageData(200,200,1,1).data[3]>50&&ctx.getImageData(200,200,1,1).data[3]<200})()','Supplied glass-book image keeps its genuine transparent alpha');
+  await click('[data-value-page="1"]');await wait('document.querySelector(".db-value-turning-sheet:not([hidden])")','forward glass turn');
+  await check('document.querySelector(".db-value-turning-sheet").dataset.direction==="1"&&document.querySelectorAll(".db-value-turn-face").length===2&&document.querySelector(".db-value-turning-sheet").getAttribute("aria-hidden")==="true"&&!document.querySelector(".db-value-turning-sheet button")&&document.querySelector(".db-value-book-action").disabled','Forward turn uses two presentational faces and protects the changing CTA');
+  await settleBook();await wait('document.querySelector(".db-value-turning-sheet").hidden','forward turn finishes');
+  await check('document.querySelector(".db-value-photo-crop img").src.includes("02-reference-")&&!document.querySelector(".db-value-book-action").disabled','Completed forward turn reveals the correct photo and interactive CTA');
+  await click('.db-value-page-arrow:first-child');await wait('document.querySelector(".db-value-turning-sheet:not([hidden])")','reverse glass turn');await check('document.querySelector(".db-value-turning-sheet").dataset.direction==="-1"','Previous turns from the opposite side of the spine');await settleBook();
+  for(const next of [1,3,0,2]){await click('[data-value-page="'+next+'"]');await sleep(35);}await settleBook();
+  await check('document.querySelector(".db-values-book").dataset.valueId==="community"&&document.querySelector(".db-value-photo-crop img").src.includes("02-reference-")','Rapid choices accept one turn and block overlapping requests');
+  await check('(()=>{const n=document.querySelector(".db-value-book-controls nav"),indicator=n.querySelector(".db-value-tab-indicator").getBoundingClientRect(),label=n.querySelector("[aria-pressed=true]>span").getBoundingClientRect();return Math.abs(indicator.left-label.left)<2&&Math.abs(indicator.width-label.width)<2})()','Moving underline settles below the selected tab label');
+  await viewport(1920,1080);await open('?section=values&value=community');await ready();
+  await check('document.querySelector(".db-values-book").dataset.valueId==="community"','Direct link opens the selected book page');
+  await click('[data-value-page="0"]');await settleBook();await click('.db-value-book-action');await wait('document.querySelector("dialog[open]")','founding story');
+  await check('document.querySelector(".db-reader-bar").textContent.includes("1970")','Affection opens the existing founding story');await click('.db-reader-bar button');await wait('!document.querySelector("dialog")','reader closes');
+  await check('document.activeElement===document.querySelector(".db-value-book-action")','Closing the story restores book action focus');
+  await click('[data-value-page="1"]');await settleBook();await click('.db-value-book-action');await check('document.querySelector(".db-kiosk").dataset.section==="people"&&document.querySelector("[data-person-tab=witness]")','Community opens the witness story tab');
+  await click('[data-section-target=values]');await ready();await check('document.querySelector(".db-values-book").dataset.valueId==="community"','Returning preserves the chosen book page');
+  await click('[data-value-page="2"]');await settleBook();await click('.db-value-book-action');await check('document.querySelector(".db-kiosk").dataset.section==="history"','Historical value opens the existing timeline');
+  await click('[data-section-target=values]');await click('[data-value-page="3"]');await settleBook();await click('.db-value-book-action');await wait('document.querySelector("dialog[open]")','takeaway story');await check('document.querySelectorAll(".db-reader-chapter").length>=3&&document.querySelector(".db-listen")','Continuity keeps the existing practical reader and narration');await click('.db-reader-bar button');await wait('!document.querySelector("dialog")','takeaway closes');
+  await click('.db-value-page-arrow:last-child');await settleBook();await check('document.querySelector(".db-values-book").dataset.valueId==="affection"','Next wraps the final page to the first');
+  await click('.db-value-page-arrow:first-child');await settleBook();await check('document.querySelector(".db-values-book").dataset.valueId==="continuity"','Previous wraps the first page to the final');
+  await click('[data-value-page="0"]');await settleBook();await cdp('Input.dispatchKeyEvent',{type:'keyDown',key:'End',code:'End',windowsVirtualKeyCode:35});await wait('document.querySelectorAll("[data-value-page]")[3].getAttribute("aria-pressed")==="true"&&document.activeElement.dataset.valuePage==="3"','keyboard page and focus');console.log('PASS Keyboard End moves both page and focus');
+  await cdp('Emulation.setTouchEmulationEnabled',{enabled:true});const point=await page('const r=document.querySelectorAll("[data-value-page]")[2].getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}');await cdp('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[point]});await cdp('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await settleBook();await check('document.querySelector(".db-values-book").dataset.valueId==="history"','Native touch selects a book page');await cdp('Emulation.setTouchEmulationEnabled',{enabled:false});
+  await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await open('?section=values');await ready();await check('getComputedStyle(document.querySelector(".db-value-spread")).animationName==="none"','Reduced motion disables page transitions');
+  await cdp('Network.setCacheDisabled',{cacheDisabled:true});await cdp('Network.setBlockedURLs',{urls:['*/01-reference-*.webp']});await open('?section=values');await wait('document.querySelector(".db-value-photo-crop .db-image-status button")','book photograph error');
+  await click('[data-value-page="2"]');await ready();await check('document.querySelector(".db-value-photo-crop img").src.includes("03-reference-")&&!document.querySelector(".db-value-photo-crop .db-image-status button")','Choosing another page recovers from a failed photograph');
+  await click('[data-value-page="0"]');await wait('document.querySelector(".db-value-load-status button")','target load error');
+  await check('document.querySelector(".db-values-book").dataset.valueId==="history"&&document.querySelector(".db-value-turning-sheet").hidden','Failed target preserves the readable current page without a broken flip');
+  await cdp('Network.setBlockedURLs',{urls:[]});await click('.db-value-load-status button');await settleBook();await ready();
+  await check('document.querySelector(".db-value-photo-crop img").src.includes("01-reference-")','Failed target can be retried and decoded before committing');await cdp('Network.setCacheDisabled',{cacheDisabled:false});
+  assert.deepEqual(errors,[]);console.log('PASS No uncaught browser errors');
+`;
+const runner=new Module(file,module);runner.filename=file;runner.paths=Module._nodeModulePaths(path.dirname(file));runner._compile(source.slice(0,begin)+body+source.slice(end),file);

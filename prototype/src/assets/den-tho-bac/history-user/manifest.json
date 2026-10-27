@@ -1,0 +1,94 @@
+[
+  {
+    "year": "1969",
+    "original": "1969-original.png",
+    "web": "1969.webp",
+    "source": "C:\\Users\\ASUS\\OneDrive\\M\u00e1y t\u00ednh\\69.png",
+    "size": [
+      2003,
+      785
+    ],
+    "source_sha256": "0f2402e637f02ea12653eefe84cf83c4f811a3ed8196fa30973c3e77f46eb088",
+    "web_bytes": 275776
+  },
+  {
+    "year": "1970",
+    "original": "1970-original.png",
+    "web": "1970.webp",
+    "source": "C:\\Users\\ASUS\\OneDrive\\M\u00e1y t\u00ednh\\70.png",
+    "size": [
+      2004,
+      785
+    ],
+    "source_sha256": "b0e7921e4b5aac2c9c4d8f2ed3f158211987b8e1c12386d2b1ca0e2d61786fe2",
+    "web_bytes": 269802
+  },
+  {
+    "year": "1971",
+    "original": "1971-original.png",
+    "web": "1971.webp",
+    "source": "C:\\Users\\ASUS\\OneDrive\\M\u00e1y t\u00ednh\\71.png",
+    "size": [
+      2003,
+      785
+    ],
+    "source_sha256": "4d7135b80b3225dd35922913124e6ef8e447c1b8e42acfffb93ec12f4eb68327",
+    "web_bytes": 280610
+  },
+  {
+    "year": "1971-1972",
+    "original": "1971-1972-original.png",
+    "web": "1971-1972.webp",
+    "source": "C:\\Users\\ASUS\\OneDrive\\M\u00e1y t\u00ednh\\72.png",
+    "size": [
+      2004,
+      785
+    ],
+    "source_sha256": "72143894d677cfd8538dbcd0404bc31fbe49a63a02bf6af12be73f89370daf2b",
+    "web_bytes": 257086
+  },
+  {
+    "year": "1975",
+    "original": "1975-original.png",
+    "web": "1975.webp",
+    "source": "C:\\Users\\ASUS\\OneDrive\\M\u00e1y t\u00ednh\\75.png",
+    "size": [
+      2004,
+      785
+    ],
+    "source_sha256": "c4310693311748fd53ce92a36dc93435809584f9bd78d6489206e7c5b4bec735",
+    "web_bytes": 241750
+  },
+  {
+    "year": "1989",
+    "original": "1989-original.png",
+    "web": "1989-no-plus.webp",
+    "source": "C:\\Users\\ASUS\\OneDrive\\M\u00e1y t\u00ednh\\89.png",
+    "size": [
+      2002,
+      786
+    ],
+    "source_sha256": "f74a504d446a4f2c61e95ca49f0c2db1fcd3fb760905a84368b0733777c1482f",
+    "web_bytes": 229008,
+    "web_size": [
+      2001,
+      786
+    ],
+    "edit": "Removed the baked-in plus circle using built-in imagegen",
+    "prompt": "remove-plus-prompt.md"
+  },
+  {
+    "year": "2012",
+    "original": "2012-v2-original.png",
+    "web": "2012-v2.webp",
+    "source": "C:\\Users\\ASUS\\OneDrive\\M\u00e1y t\u00ednh\\12.png",
+    "size": [
+      2004,
+      785
+    ],
+    "source_sha256": "bb9d67803dfa8be22f6b8bc151d6040795ca5c839c6b9dc4e700465d0234f446",
+    "web_bytes": 336568,
+    "previous_original": "2012-original.png",
+    "note": "Replacement image supplied by the user; format conversion only."
+  }
+]

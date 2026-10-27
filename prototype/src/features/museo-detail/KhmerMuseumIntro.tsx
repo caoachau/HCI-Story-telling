@@ -3,29 +3,15 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
-  Home,
-  Leaf,
-  MapPin,
-  ScrollText,
-  Shield,
 } from "lucide-react";
 import { khmerCulturePhotos, type CultureLanguage } from "./khmerCulture";
 import {
   khmerIntro,
-  khmerIntroChapters,
   khmerIntroContext,
   khmerIntroSlides,
 } from "./khmerIntro";
 import type { MuseumSection } from "./useMuseumScreens";
 import { useKhmerIntroMotion } from "./useKhmerIntroMotion";
-
-const icons = {
-  home: Home,
-  leaf: Leaf,
-  pin: MapPin,
-  scroll: ScrollText,
-  shield: Shield,
-};
 
 export function KhmerMuseumIntro({
   active,
@@ -47,7 +33,6 @@ export function KhmerMuseumIntro({
     direction: 1,
     revision: 0,
   });
-  const [dockSelected, setDockSelected] = useState<MuseumSection>("overview");
   const { selected } = slide;
   const { reduced, finishOpening } = useKhmerIntroMotion(
     root,
@@ -168,29 +153,6 @@ export function KhmerMuseumIntro({
             <b className="md-cta-label">{khmerIntro.action[lang]}</b>
           </button>
         </div>
-        <nav
-          className="md-chapter-dock"
-          aria-label={vi ? "Các phần của trang bảo tàng" : "Museum chapters"}
-        >
-          <i className="md-dock-glow" aria-hidden="true" />
-          {khmerIntroChapters.map((chapter) => {
-            const Icon = icons[chapter.icon];
-            return (
-              <button
-                type="button"
-                key={chapter.section}
-                data-dock-selected={dockSelected === chapter.section}
-                onClick={() => {
-                  setDockSelected(chapter.section);
-                  navigate(chapter.section);
-                }}
-              >
-                <Icon />
-                <span>{chapter.title[lang]}</span>
-              </button>
-            );
-          })}
-        </nav>
         <div
           className="md-hero-context"
           aria-label={

@@ -1,0 +1,2162 @@
+{
+  "date": "2026-10-27",
+  "scope": "Unused app code/assets and superseded tests; runtime files and explicitly retained source references preserved.",
+  "removed": [
+    {
+      "path": "src/assets/con-chim/hero-arch-reference.png",
+      "bytes": 39741,
+      "sha256": "8436d8d1a34b2b4f97080c3bb2dc92a47f21e8b1e56a13006878183d3ecab10a"
+    },
+    {
+      "path": "src/assets/den-tho-bac/ceremony-timeline.jpg",
+      "bytes": 26428,
+      "sha256": "38550dca676752c23502bb446a0d880e5d521eb1f288ad9ef8bedea3990b8c2f"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1969-background.png",
+      "bytes": 2115019,
+      "sha256": "eeb5beb9750cfd3a096655c781e9ed824c9f27edb66134de06e42bafb7a3e161"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1970-background.png",
+      "bytes": 2539126,
+      "sha256": "6b172dd523f1ec0549797fce58b96d8846f044683cd7a661deb71b8a93db7228"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1971-background.png",
+      "bytes": 2965667,
+      "sha256": "9e18105090826b2a371b0ee0294b8002539c7ec1b61de09e1604d0add5509bef"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1972-background.png",
+      "bytes": 2703096,
+      "sha256": "f04c468c111ac22c52f758272ff8e39f137dafc46f6b1d13dc32a0107523de6f"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1975-background.png",
+      "bytes": 2420299,
+      "sha256": "7c2f48e94806a2c06893f51ec53bca841413cd3a95e2c9fe903ea183b4745697"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1989-background.png",
+      "bytes": 1958372,
+      "sha256": "6c26887f41abdd18ab92239f836ce66736db757659aa183381b7e6c6de1ba99f"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/2012-background.png",
+      "bytes": 3201054,
+      "sha256": "8d78c8a6a56805c3bdf11a6bc88363e73b9817d4c0e9e3d651f910cee101dc50"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/year-1969.svg",
+      "bytes": 51085,
+      "sha256": "497a36285dd2c7b9c7415e9b4e2847053ea2e71e70fbda8092461989753eb71b"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/year-1970.svg",
+      "bytes": 25822,
+      "sha256": "47cb9ca7d98f466d6767116458c61485dbf22608f3e5bd2625ce595707694693"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/year-1971.svg",
+      "bytes": 26034,
+      "sha256": "39afe1969df6a5164aed18fc45ebd8a614eba093d41ec285f14aac786865124e"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/year-1972.svg",
+      "bytes": 29442,
+      "sha256": "f54a732167acd1d48960ba2445382a03a7746e59e3eefa120e6b0fe385c12ff6"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/year-1975.svg",
+      "bytes": 32356,
+      "sha256": "800754b5954969b88da95feeda3f0e77c06fc9fdecc3a6e999badd800671bd10"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/year-1989.svg",
+      "bytes": 43267,
+      "sha256": "04858ca70ce298eb52061c856241c1dee86abc7a68623c37a9057a5a1333f559"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/year-2012.svg",
+      "bytes": 28518,
+      "sha256": "54d32f789695793f300f91c8b9b55c92fa2b9f516613823097b92957b65144cf"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1969-original.jpg",
+      "bytes": 70671,
+      "sha256": "7359e9c63dd1933c238ba527486d0bf13ea88705b11c5d3f31934e217c9cecb9"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1969-reference.png",
+      "bytes": 2044306,
+      "sha256": "d565ca909b064edfc78a8c97347a684637711db249a93bf0b563095925c5715f"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1970-original.jpg",
+      "bytes": 76060,
+      "sha256": "960211329b9c59936d93afca68fc02d42c9d0f836b33d381637ab8156933e3f7"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1970-reference.png",
+      "bytes": 2751535,
+      "sha256": "81a501be53bb5574f381a1894d6de8b56a277cbc85bc61aefcb980aa2a4b39a5"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1971-original.webp",
+      "bytes": 544840,
+      "sha256": "846699378ff393a990bdde4fb4dd410c102a1f6cf4651895a1abce72464d8ed2"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1971-reference.png",
+      "bytes": 2370370,
+      "sha256": "9d29e36d99985b795d9ddbcc89730d698bb61754e55f8200573cac312bef2b8c"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1972-original.webp",
+      "bytes": 540272,
+      "sha256": "97ca2dbc2926bd40ae7510aa103e0c0e33d5295d8a560f2787f733938987ee48"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1972-reference.png",
+      "bytes": 2369520,
+      "sha256": "9a68c92eb0fa27a273c07f4cd1cb8b3c643a815ca6fd9eafd04cf5830d7c8328"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1975-original.webp",
+      "bytes": 581196,
+      "sha256": "bbc107e62d58b299f65045c97975bd3edc96c173826c58a051b5f831d624dc97"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1975-reference.png",
+      "bytes": 2409672,
+      "sha256": "83ce12f1840d11105b034966e0b7992f29fbc035e2320600584d8291e18f5aac"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1989-original.jpg",
+      "bytes": 830205,
+      "sha256": "b5976d7b7fd12f93628830d172249cc891fff80cc7130a705a11ea923298e52e"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/1989-reference.png",
+      "bytes": 1921034,
+      "sha256": "d80211db2afbae383424e8c731529e9f9aa1df521ce5c35b3f9aef32d76ad4ff"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/2012-original.jpg",
+      "bytes": 301674,
+      "sha256": "28691a138639e750d2b711a1eeb556985ab29846b4bf749d4149514275d841be"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-immersive/2012-reference.png",
+      "bytes": 2428682,
+      "sha256": "6349be5fa9d5ddf3e940e5958beeaf5b4bb3453a7b1dc41389db18bd93334059"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-stilt-panorama-v4.png",
+      "bytes": 2490009,
+      "sha256": "70ed2060f1a4d95b54a8c30b576cc8b6c06597fba323339ec0dddf2746f2eb17"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-stilt-panorama-v4.webp",
+      "bytes": 669050,
+      "sha256": "4f4fa7a66bc481e03ca47e340f5b84c3e5217c527012cd5b1a4869774e49ee05"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-temple-panorama-v4.png",
+      "bytes": 2090809,
+      "sha256": "0dbb610564591499ff73edbb39910cc00bd7833c040aed86b548c695d7945675"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-temple-panorama-v4.webp",
+      "bytes": 528820,
+      "sha256": "b08f7fe9c1e66742dd81f5371601a868444abc028f9cfc070d2922177b6079d7"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1969-original.png",
+      "bytes": 2201566,
+      "sha256": "0f2402e637f02ea12653eefe84cf83c4f811a3ed8196fa30973c3e77f46eb088"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1969.webp",
+      "bytes": 275776,
+      "sha256": "a6fc888fbd56bb41be342b8030a28de7817712c229dda7ad3a674e0fca593415"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1970-original.png",
+      "bytes": 2149868,
+      "sha256": "b0e7921e4b5aac2c9c4d8f2ed3f158211987b8e1c12386d2b1ca0e2d61786fe2"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1970.webp",
+      "bytes": 269802,
+      "sha256": "2d2346db34fbe764c65266622c4104ded0a7ad67c4bda3e726d156f349f0d841"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1971-1972-original.png",
+      "bytes": 1975406,
+      "sha256": "72143894d677cfd8538dbcd0404bc31fbe49a63a02bf6af12be73f89370daf2b"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1971-1972.webp",
+      "bytes": 257086,
+      "sha256": "e524ecec9eab264309d615363fbd3505745b4a31d5ddcac7d75b9383f4cc64b3"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1971-original.png",
+      "bytes": 2145051,
+      "sha256": "4d7135b80b3225dd35922913124e6ef8e447c1b8e42acfffb93ec12f4eb68327"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1971.webp",
+      "bytes": 280610,
+      "sha256": "900503e16acd960c3090238eee7a5cc68a47300e0e67e78c195ec63cd703af24"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1975-original.png",
+      "bytes": 1978637,
+      "sha256": "c4310693311748fd53ce92a36dc93435809584f9bd78d6489206e7c5b4bec735"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1975.webp",
+      "bytes": 241750,
+      "sha256": "4eac386ab5473871befff7b1dac74291e2669db95d80c8af2af66cd7206e8450"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1989-no-plus.png",
+      "bytes": 1882479,
+      "sha256": "146261b8ffa01f48d5aa14456bbbeca345b32a78ebf2b59280142b4e435fb797"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1989-no-plus.webp",
+      "bytes": 229008,
+      "sha256": "e10abce6ed561d78933a2aad46ac22a8a14f47970c3bbc47f6893a1eef2ebaf8"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1989-original.png",
+      "bytes": 1922778,
+      "sha256": "f74a504d446a4f2c61e95ca49f0c2db1fcd3fb760905a84368b0733777c1482f"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/1989.webp",
+      "bytes": 229930,
+      "sha256": "b198c86f798990182566262f6fb29b7baaa948725751145a33724ce76cd2d4d9"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/2012-original.png",
+      "bytes": 2150288,
+      "sha256": "4fb2be7df55843ee5d4cd44458c0be9745d8dfd5846033a97913f11388beb1aa"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/2012-v2-original.png",
+      "bytes": 2239692,
+      "sha256": "bb9d67803dfa8be22f6b8bc151d6040795ca5c839c6b9dc4e700465d0234f446"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/2012-v2.webp",
+      "bytes": 336568,
+      "sha256": "8d7c9aee970f4a5b1bf3740737f4ab656073e706f7bad975659055a679ff5181"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-user/2012.webp",
+      "bytes": 331314,
+      "sha256": "ec22642dc006f5715d533eba015b901004e733d79c347d42b624b59ed1f568de"
+    },
+    {
+      "path": "src/assets/den-tho-bac/map-current-original.png",
+      "bytes": 3131356,
+      "sha256": "ff3ca249678b0dc1b9799890ed5f556dacf1132ecfd451275a93ae969e0b86f7"
+    },
+    {
+      "path": "src/assets/den-tho-bac/map-current.webp",
+      "bytes": 563236,
+      "sha256": "dc49253a8924a68913c54e2b7413288ab9dbb18043223ede42446a0e7c7062f4"
+    },
+    {
+      "path": "src/assets/den-tho-bac/map-legend-original.png",
+      "bytes": 2690067,
+      "sha256": "e92bcb8de6d115b048c39d14164056edc1a8b9bd5295c75468c5ad452f9f803e"
+    },
+    {
+      "path": "src/assets/den-tho-bac/map-legend.webp",
+      "bytes": 470434,
+      "sha256": "f2f4403755dfe521db37f8c711796b7708fa4bfd3e8666cc8dc6b83608f86cdb"
+    },
+    {
+      "path": "src/assets/den-tho-bac/memorial-timeline.jpg",
+      "bytes": 32193,
+      "sha256": "000ffc9bbd9297e74796ed22f254ab39c85c7cb6b77efeef886864c73614be6e"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/01-photo.webp",
+      "bytes": 813278,
+      "sha256": "2045bbe349a23cdacd67ceab894adc788937fa28f0307ec8a9b29cf5af06de80"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/01-reference-background-v3.png",
+      "bytes": 3142127,
+      "sha256": "50a2a78599313a40792b5b7642f05007f649cd70c7b5063ea9d63b141b460957"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/01-reference-background-v3.webp",
+      "bytes": 687088,
+      "sha256": "de553d81cc80df41fa7cc072b92635160e78f855d8ba947a2b311c24ff266692"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/01-reference.png",
+      "bytes": 2746596,
+      "sha256": "ea0e65a6aa30da5c84bed30fd5ad85b2ebafd179db385f7aea8bafb9ae9dcd37"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/02-photo-wide-original.jpg",
+      "bytes": 358934,
+      "sha256": "466d47bdb3fd2db85592b47a8ac459f4bf5c2954f1bb3814780782b9e48dce28"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/02-photo.webp",
+      "bytes": 720220,
+      "sha256": "67a479c337f780b629afb1d29ef954ab1966eeb15b521cdf3bd6740eaaef5e15"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/02-reference-background-v2.png",
+      "bytes": 3052802,
+      "sha256": "46055009dd2b0a0a4a9aa7d1d353cc68de05fc91004f9cbec71d94b7fe213735"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/02-reference-background-v2.webp",
+      "bytes": 600402,
+      "sha256": "524e8c147acdf5c398ff4e462c08c188af684f228a8582306e0fa0259074a5f5"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/02-reference.png",
+      "bytes": 2481230,
+      "sha256": "414fca6f01574e72a77690d23a3852d42de9a3ea353d5fbbbe11d1f62da05614"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/03-photo-original.jpg",
+      "bytes": 1818336,
+      "sha256": "f2e073a2d72b8350b580063f4900bb2cc0a6ed4cae25ad6fcea31dad23bcc4b6"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/03-photo-wide-original.jpg",
+      "bytes": 258030,
+      "sha256": "95b5d30c3fa6715621ccf7608890cc38c89f7c9bf0788cd211524d054c44bfcd"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/03-photo.webp",
+      "bytes": 1189136,
+      "sha256": "00b116d9b72ad404f8660e29bc813c676db82bf07c9042a7d74ddf7025d673f2"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/03-reference-background-v2.png",
+      "bytes": 2440354,
+      "sha256": "a73b369cb96879e1986f3a9877a681b1b506f267d94f9cdc83a1a9cb1f7b48b7"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/03-reference-background-v2.webp",
+      "bytes": 368378,
+      "sha256": "8ff1b7e237044d3559e7a33c36f5b3d1f60bd7cabbcf5ae42f2452dbd592bca0"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/03-reference.png",
+      "bytes": 2243024,
+      "sha256": "ae794d631198fe4826431d5d60bf264949e32180c42e6cbe3dc56cc0cb3a63fd"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/01-background.png",
+      "bytes": 3165105,
+      "sha256": "a30110ba460bcff53e8381d2f9528b4b2ce24d28ea8cef94240b3a7fbd5df51c"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/01-background.webp",
+      "bytes": 618396,
+      "sha256": "1cc57e74eb59f2c1869c69dc78f81a5948ed8ba7a6fb43e153069d45a5f273e4"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/01-original.png",
+      "bytes": 2433075,
+      "sha256": "eea08f8158ad7933c2a82ca7792bad222353ed0fb0b4b5996fcc17682f537b47"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/01.webp",
+      "bytes": 416012,
+      "sha256": "62eec620e75d28cc9c9e69d352f8b26b9237c9c2baf16b2125362e511fcef084"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/02-background.png",
+      "bytes": 3372564,
+      "sha256": "4c75922a376f971da55b0eadd3b800e956eec22857c838f9ef0305874aaa7129"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/02-background.webp",
+      "bytes": 714122,
+      "sha256": "261e057afdf5271c957bc774398840c05e0a8012d325a64fb0246ff53e9d0f9a"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/02-original.png",
+      "bytes": 2297405,
+      "sha256": "af755cb2e0924b79827732711628db45fb5e571813e0574b585108d90cac8637"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/02.webp",
+      "bytes": 364984,
+      "sha256": "650e686abbda2aadc8a01307b87a9de93270d6c3b118a596ca7952655065de10"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/03-background.png",
+      "bytes": 2717650,
+      "sha256": "ed69c86d724965f95dd2fb67be739d884db31a8e2755a41ec9e734e3151b2f52"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/03-background.webp",
+      "bytes": 481358,
+      "sha256": "635c365eab51dd9de065bae7c7a7ee861d1724c248495917b2df5b9dd6aade20"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/03-original.png",
+      "bytes": 2369436,
+      "sha256": "5350d5c97276a98c6c809fe20dd7fcf807f6fbe973057d37431debf1cd2a2f88"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-user/03.webp",
+      "bytes": 370284,
+      "sha256": "39e69d9fe30d0c69d36ee25826a5297dc6397ced08950cfe1da095d694c561e2"
+    },
+    {
+      "path": "src/assets/den-tho-bac/people-user/witness-demo-original.png",
+      "bytes": 2777250,
+      "sha256": "1aeeada4e90bb3f9afdc3f2e46ae7b0e2aef331b6a6c9000fbcf659460d32d22"
+    },
+    {
+      "path": "src/assets/den-tho-bac/portrait-user/ho-chi-minh-portrait-original.jpg",
+      "bytes": 64377,
+      "sha256": "f6cb97498f551fc943abe416ebcfad8b479f06f5f3e9807d4922471ba8c9c651"
+    },
+    {
+      "path": "src/assets/den-tho-bac/site-map-original.png",
+      "bytes": 3137043,
+      "sha256": "cb00cc4432a9401c790553e94e9a1215d7f0c779fcf3b98d277e6185e0fe16ad"
+    },
+    {
+      "path": "src/assets/den-tho-bac/site-map.webp",
+      "bytes": 640676,
+      "sha256": "1009e9d32351fe45738e7e17f81a406e2f179c93d08792998664f177a5304c8a"
+    },
+    {
+      "path": "src/assets/den-tho-bac/stilt-cutout-v2.png",
+      "bytes": 1840113,
+      "sha256": "ef007ebcdc25d9845fc914b633a818b046b3469b4d1ec0ec89b376b19d7caaf8"
+    },
+    {
+      "path": "src/assets/den-tho-bac/stilt-timeline.jpg",
+      "bytes": 34362,
+      "sha256": "b41c3b70ee4d1c098f4b064028ebf3aee3b62c205474f8a0781d9d75f1a33599"
+    },
+    {
+      "path": "src/assets/den-tho-bac/temple-cutout-v2.png",
+      "bytes": 1385317,
+      "sha256": "faa49542c0d42b1e4f778a6962dd00d94ea053f6544db9e911742605bea47593"
+    },
+    {
+      "path": "src/assets/den-tho-bac/temple-timeline.jpg",
+      "bytes": 31619,
+      "sha256": "b50567a09042bc59c703a2332c4d1d2e9675da000e67c42f8801b0d4cf03e172"
+    },
+    {
+      "path": "src/assets/museo/ancestors.jpg",
+      "bytes": 142656,
+      "sha256": "ff31205ae9c43e575d132462532d21ed8db80e096a18d83dd7f76efaa5718332"
+    },
+    {
+      "path": "src/assets/museo/bison-art.jpg",
+      "bytes": 17606,
+      "sha256": "3040917b1fdf491cba90265fafede8b0be1d594f5d2f37cc58f3a9f7d4b2c336"
+    },
+    {
+      "path": "src/assets/museo/cave-entrance.jpg",
+      "bytes": 260316,
+      "sha256": "3d257ba9c9c777b13b7a9538f3f41096df08b9f29b977c359638d46030e9e1e8"
+    },
+    {
+      "path": "src/assets/museo/detail-altamira-bison.jpg",
+      "bytes": 186297,
+      "sha256": "b3586553eeaa0b86dedefa20ee76b20d0e437c4fa5e6a742ea9077a92ad03bcc"
+    },
+    {
+      "path": "src/assets/museo/detail-altamira-ceiling.jpg",
+      "bytes": 428774,
+      "sha256": "9fe3183ad15772b5bd9cbde0eb99dfd5ea4b00fe07e3f32280ac8184e2fd8ed9"
+    },
+    {
+      "path": "src/assets/museo/detail-altamira-museum.jpg",
+      "bytes": 482047,
+      "sha256": "8c788bad27aba213c536fffc3b4a6ce9830a068da484afa2186ad3afa47ecb76"
+    },
+    {
+      "path": "src/assets/museo/detail-blombos-coast.jpg",
+      "bytes": 193211,
+      "sha256": "360d89162692123358b9c857d1ffa5ba5bc766ccff4b8ebc6cff96c298f52190"
+    },
+    {
+      "path": "src/assets/museo/detail-blombos-entrance.jpg",
+      "bytes": 1081148,
+      "sha256": "660aa31be732c4f55e5d9ec116b59a6b14da388d5c55938c45e4fabed2264466"
+    },
+    {
+      "path": "src/assets/museo/detail-blombos-layers.jpg",
+      "bytes": 607661,
+      "sha256": "dc10dd5b82cc2db51c95b151f54e9bbc4c25d4c265febec1f57fe84450d565de"
+    },
+    {
+      "path": "src/assets/museo/detail-lascaux-deer.jpg",
+      "bytes": 584874,
+      "sha256": "ea526e451d565dcb07e1d00c598f8127e91989c38ab0b5f7b1b8cbe16f879d58"
+    },
+    {
+      "path": "src/assets/museo/detail-lascaux-hall.jpg",
+      "bytes": 425636,
+      "sha256": "60dd9faadb39c5e000832cece8281df706db493165f99734d550df627605ef92"
+    },
+    {
+      "path": "src/assets/museo/detail-lascaux-painting.jpg",
+      "bytes": 97251,
+      "sha256": "b991da94a6357619ba549789b8bcbf66a69bc6e2e0fc8b6f8ee7f20699b72222"
+    },
+    {
+      "path": "src/assets/museo/detail-olduvai-landscape.jpg",
+      "bytes": 497438,
+      "sha256": "f3a5ab5971d1ec51972cf567248a59cbc930a43c998f69bf67c5a1c78c208ccc"
+    },
+    {
+      "path": "src/assets/museo/detail-olduvai-museum.jpg",
+      "bytes": 407269,
+      "sha256": "f2e2fe72d14b671f5f76e84ec8a81bc9c1d733afcdb89f29178f871addb3eafc"
+    },
+    {
+      "path": "src/assets/museo/detail-olduvai-satellite.jpg",
+      "bytes": 577696,
+      "sha256": "a1369c07bfc128ed93c76c72a5ea5fdfa313994f2461af02e798b7acaa04893b"
+    },
+    {
+      "path": "src/assets/museo/early-people.jpg",
+      "bytes": 20020,
+      "sha256": "7d6548bf63bdc2093770ba1779b421dcf6ad411e4a909b9c1dd978d61b57e894"
+    },
+    {
+      "path": "src/assets/museo/early-symbols.jpg",
+      "bytes": 31303,
+      "sha256": "866a16690e6b81ef6b7a598e09c08e288e1062c28eb7960f2cb610f7785d74f7"
+    },
+    {
+      "path": "src/assets/museo/era-erectus.jpg",
+      "bytes": 14227,
+      "sha256": "4c36879683e675327432868d942ca62f4c01ebc3ddbc236ac9ae5f3379f7ed1d"
+    },
+    {
+      "path": "src/assets/museo/era-neanderthal.jpg",
+      "bytes": 18447,
+      "sha256": "f05d7565c09e5bab92f2b899a326814c8fd3f1151800621ba64c0c9b586287ef"
+    },
+    {
+      "path": "src/assets/museo/era-neolithic.jpg",
+      "bytes": 19326,
+      "sha256": "ca1b647ad27a70ed3a8edaf8998a7004e102e9d58193325c8b3e8075f3d7b45a"
+    },
+    {
+      "path": "src/assets/museo/era-paleolithic.jpg",
+      "bytes": 15430,
+      "sha256": "239a5ea3e4682943d9cc61a75e08ee27c6a06da3ad8d14afbf1ec5c89dbf27d5"
+    },
+    {
+      "path": "src/assets/museo/era-sapiens.jpg",
+      "bytes": 16223,
+      "sha256": "4a0f7524f96c7662df638b4f03073c11b008398ec64357574440ea90e9111cfa"
+    },
+    {
+      "path": "src/assets/museo/evolution-skull.jpg",
+      "bytes": 263600,
+      "sha256": "0931ad1e2519548d3bccae3ffadd80fa3026fc3a85e17ee19a6dde4ce45fce28"
+    },
+    {
+      "path": "src/assets/museo/exhibition-culture.jpg",
+      "bytes": 55394,
+      "sha256": "30008115d3903e632f3aeffe480b1081465581d74e0508d43f96c1e914463cc1"
+    },
+    {
+      "path": "src/assets/museo/exhibition-environment.jpg",
+      "bytes": 53662,
+      "sha256": "0931fe237f34cd2f254e91a849afe99c46ab921cae0cbf62ded8fe4a7e8c7228"
+    },
+    {
+      "path": "src/assets/museo/exhibition-ice.jpg",
+      "bytes": 42915,
+      "sha256": "74af597a30f0ccac66decc19137c0bb23a4200594d32acd87645500d62c83956"
+    },
+    {
+      "path": "src/assets/museo/exhibition-legacy.jpg",
+      "bytes": 37050,
+      "sha256": "2e244bec7bdcd6e58d0212573ebb4b8b0782fb9b3535e97184dcaa9fe7391055"
+    },
+    {
+      "path": "src/assets/museo/exhibition-origins.jpg",
+      "bytes": 51808,
+      "sha256": "8e339a36e6f5a22aa572558c2d6ca1fcd0e71a0339dfae51be2e9f8a0831e9ca"
+    },
+    {
+      "path": "src/assets/museo/exhibition-tools.jpg",
+      "bytes": 45405,
+      "sha256": "8b352ee8097e5bb78d9357c3f54ae71360401dcf72b0f4b8035bd2c0e8cab808"
+    },
+    {
+      "path": "src/assets/museo/france-map.jpg",
+      "bytes": 17281,
+      "sha256": "08718497dca88c74a4c93f1a9b45637a9e6f2a47d43b190237efc167172632f0"
+    },
+    {
+      "path": "src/assets/museo/hand-art.jpg",
+      "bytes": 16765,
+      "sha256": "a95f98f6b679dc760db0baabe53d0fe3e0b3d5d5ec9b5ce93c7f6fe1af7c57d3"
+    },
+    {
+      "path": "src/assets/museo/hero-skull.jpg",
+      "bytes": 296687,
+      "sha256": "107ad8d70160b66125f48b38f84fa50021d9b914e43391d8503c519303ac3acc"
+    },
+    {
+      "path": "src/assets/museo/ice-world.jpg",
+      "bytes": 31512,
+      "sha256": "3a52a30194b0fc37853020c6ecbc215d1e4f3cc7b6dc47811e31a32f6daee9a2"
+    },
+    {
+      "path": "src/assets/museo/main-chamber.jpg",
+      "bytes": 208853,
+      "sha256": "dabfe047d5b09a0f9b6d864d8912480628351fb640cd314b43d998f84687dfbf"
+    },
+    {
+      "path": "src/assets/museo/map-chauvet.jpg",
+      "bytes": 70184,
+      "sha256": "596f6353e81d5dc9a8fcabd88f4ca2c2ebe59007cd8fa9e9e5b6c4124531cdf0"
+    },
+    {
+      "path": "src/assets/museo/site-altamira.jpg",
+      "bytes": 31978,
+      "sha256": "e07e6373a9e67032038bb9f3f70f759ea16e455f9dcd667f385fc7271a5798b4"
+    },
+    {
+      "path": "src/assets/museo/site-blombos.jpg",
+      "bytes": 32212,
+      "sha256": "b69b856685110a17082d4df2595d941741635cdb7543158890d29709fda374ab"
+    },
+    {
+      "path": "src/assets/museo/site-chauvet.jpg",
+      "bytes": 39046,
+      "sha256": "8af7b697addf1c365d608255c5a0a3de175212fe4d80bea69bc75166cb9d1e55"
+    },
+    {
+      "path": "src/assets/museo/site-lascaux.jpg",
+      "bytes": 35397,
+      "sha256": "ac6c87b82b24cee990ad2f1bc4435275e330cfb58227b67508cc8d65400a7cb9"
+    },
+    {
+      "path": "src/assets/museo/site-olduvai.jpg",
+      "bytes": 34288,
+      "sha256": "d167998bb0269ce8fc5a8ee6e3e8bb50e1168c2e9d5aaf372c155abb0805a17c"
+    },
+    {
+      "path": "src/assets/museo/stone-tool.jpg",
+      "bytes": 22333,
+      "sha256": "be9524309e1917eb1bba837547af6c5602d0fbed7c056368f879d17b935c1cda"
+    },
+    {
+      "path": "src/assets/museo/tour-art.jpg",
+      "bytes": 22835,
+      "sha256": "3be7744d1910e601d7048cbe2cb7eb99e8d04a611b612c1a64438089b9501ba0"
+    },
+    {
+      "path": "src/assets/museo/tour-chamber.jpg",
+      "bytes": 19785,
+      "sha256": "cabf890956f9f520b0643bc5ae31a776052f4c0c40fe44d07f9329f7cfe8a13d"
+    },
+    {
+      "path": "src/assets/museo/tour-fire.jpg",
+      "bytes": 22685,
+      "sha256": "271643cf8854ece2b287fd4a946666c615a4b9d7b7d7ca4525d070d841127eb5"
+    },
+    {
+      "path": "src/assets/museo/tour-landscape.jpg",
+      "bytes": 16133,
+      "sha256": "a00536df60755ef713326f7495b11f0e8ee0d315667c41615c58fcc3935f5dc4"
+    },
+    {
+      "path": "src/assets/museo/tour-mammoth.jpg",
+      "bytes": 23149,
+      "sha256": "bf0e6aea8e97139fd87a5c4964b4a20c464d499e3d4436889dec819b87768aa0"
+    },
+    {
+      "path": "src/assets/museo/tour-wall.jpg",
+      "bytes": 227672,
+      "sha256": "aca3d4a7c332d612b74a88fb1b4f694917c23345ea091ef9a56e109055cddb5b"
+    },
+    {
+      "path": "src/assets/museo/world-map.jpg",
+      "bytes": 259867,
+      "sha256": "0f2d60d6d94aa055e1f715019a4c87fbaef91f00615e3bac8c5baae05eaff985"
+    },
+    {
+      "path": "src/features/con-chim/components/ExploreMoreSection.tsx",
+      "bytes": 1855,
+      "sha256": "5f648cc5852c604d1287a66a3ca897b9d5a59306cee8d47073ea8cbb330f2c50"
+    },
+    {
+      "path": "src/features/con-chim/components/Footer.tsx",
+      "bytes": 1535,
+      "sha256": "edf246881fe87f7cb5ec42de34e48d0c563d4728c2c2c57c9dfb2342b1b04996"
+    },
+    {
+      "path": "src/features/con-chim/components/GallerySection.tsx",
+      "bytes": 8798,
+      "sha256": "b1bd79af2db12b2a337942f15afca31e2c4c07edf85fb6027d64f64f58fe2d54"
+    },
+    {
+      "path": "src/features/con-chim/components/Header.tsx",
+      "bytes": 9186,
+      "sha256": "4cf0aae0b035129d3c0b3477e16708abc34f5a5ff9971e95a794d54812f68704"
+    },
+    {
+      "path": "src/features/con-chim/components/HeroSection.tsx",
+      "bytes": 4006,
+      "sha256": "8c89623c4d138d90e9af0517b1039b6515bad0422bf82c60a598f11041e527c1"
+    },
+    {
+      "path": "src/features/con-chim/components/ImageSequence.tsx",
+      "bytes": 5204,
+      "sha256": "30511135e2b5661c59e33f85472bd934b8b41b7480672a9a4185222300dda728"
+    },
+    {
+      "path": "src/features/con-chim/components/ItineraryModal.tsx",
+      "bytes": 5846,
+      "sha256": "69432b52bcd523de9967619d2e67094c4c68c016462d316f882a3a880ed3a471"
+    },
+    {
+      "path": "src/features/con-chim/components/Modal.tsx",
+      "bytes": 3243,
+      "sha256": "9e2c1bb413c1a0d0a1a26c9b3b0271d2addce68c205f3e3de6fcf5e24dafdbe9"
+    },
+    {
+      "path": "src/features/con-chim/components/MotionWords.tsx",
+      "bytes": 576,
+      "sha256": "18067bb76b381443e922cedd19468b7457e0f871d17e0b567a85467e651d8fbe"
+    },
+    {
+      "path": "src/features/con-chim/components/OverviewSection.tsx",
+      "bytes": 5183,
+      "sha256": "e75a7dae6725ce68600260f0d1f019b11226609207c1acb892f2b87578bbb333"
+    },
+    {
+      "path": "src/features/con-chim/components/timeline.css",
+      "bytes": 4207,
+      "sha256": "705e9ad7af260157302be2120beaf87e02782747b4664588b907f97f7c9c9561"
+    },
+    {
+      "path": "src/features/con-chim/components/TimelineSection.tsx",
+      "bytes": 3483,
+      "sha256": "de6c70e49980e7b40e2834c7605fc6ade901b89149186001c27dc2a53643fe8f"
+    },
+    {
+      "path": "src/features/con-chim/components/TravelGuideHero.tsx",
+      "bytes": 4288,
+      "sha256": "c4f1c99dbe190d627c60ab81c91fbcd03a55de3ed6b23d37a6a82ab0272e6297"
+    },
+    {
+      "path": "src/features/con-chim/components/VeoVideoModal.tsx",
+      "bytes": 5142,
+      "sha256": "c2d4c0053420d9c3ec30d8ab6481d7f0bc648062d5d23640cd5a8a1a8bd31c3c"
+    },
+    {
+      "path": "src/features/con-chim/components/VideoModal.tsx",
+      "bytes": 873,
+      "sha256": "2b34cc969e241f15d7e42a224842fc2ad19bf162283954eb22203c0fa494382e"
+    },
+    {
+      "path": "src/features/con-chim/index.css",
+      "bytes": 38858,
+      "sha256": "08d72d5d21b0e2b06c024b13d486a765480e0a15f42a6dadeac7d71c40ce700a"
+    },
+    {
+      "path": "src/features/con-chim/motion.css",
+      "bytes": 5249,
+      "sha256": "4916e8413b469c181c4e096bf475a43a3a45aa494d463b11545fbb0910eeab5a"
+    },
+    {
+      "path": "src/features/con-chim/screens.css",
+      "bytes": 17246,
+      "sha256": "0274f7b5be9d37fa4cd773d7c3bbd6b129a60ced2e41a905adc350a9bc845c48"
+    },
+    {
+      "path": "src/features/con-chim/utils/itinerary.ts",
+      "bytes": 1907,
+      "sha256": "a4a1ac3c9782ecbc6810cd1c3512a7faa6d6cb0381c5a3614b94ea2e2f4d0597"
+    },
+    {
+      "path": "src/features/con-chim/utils/motion.ts",
+      "bytes": 1052,
+      "sha256": "1a0c091571429c53b5706c070456d98757ade19d04b9d021bd1e89f13e8dd7f5"
+    },
+    {
+      "path": "src/features/con-chim/utils/soundHelper.ts",
+      "bytes": 3858,
+      "sha256": "88620d7b44b59e5d758a610e2a9b417fe896315ede7b81ea3e60ed3acdba5016"
+    },
+    {
+      "path": "src/features/con-chim/utils/useDetailMotion.ts",
+      "bytes": 9234,
+      "sha256": "1f9d8456f64e785be6a24fb22a985ef8219d847bf7fb143dcbfffa341d76c568"
+    },
+    {
+      "path": "src/features/con-chim/utils/useLandscapeDepth.ts",
+      "bytes": 1984,
+      "sha256": "9e45443154423c9f75468b9d7036f4657152dfc30107c28a4874b1c597010581"
+    },
+    {
+      "path": "src/features/con-chim/utils/usePhotoSwipe.ts",
+      "bytes": 1655,
+      "sha256": "06a94f439fa227e49a0c74ace3dc09008b2f0b0fd84ab19569d1df389c6cec09"
+    },
+    {
+      "path": "src/features/con-chim/utils/useReveal.ts",
+      "bytes": 1170,
+      "sha256": "54a2fbcab335089ba52655e44f7d545dab9f75ee33fd174401bb23dc1b9b208b"
+    },
+    {
+      "path": "src/features/con-chim/utils/useScreenNavigation.ts",
+      "bytes": 11681,
+      "sha256": "dee16afc10ebeabb945738fc37cf9de6a030bc274ff1f41bf5c5fd54e496e63b"
+    },
+    {
+      "path": "src/features/con-chim/utils/veoClient.ts",
+      "bytes": 2494,
+      "sha256": "ab6017f7dceca88e7d6fad48fab4974fd77c1e4a63ae4b00e361ca947f0e70ab"
+    },
+    {
+      "path": "src/features/museo-detail/eraHighlights.ts",
+      "bytes": 11317,
+      "sha256": "338291cb7acaf13504c88ef5315e8df0b1f65daf3c49034c574cf41cdfd47fdd"
+    },
+    {
+      "path": "src/features/museo-detail/siteDetails.ts",
+      "bytes": 14836,
+      "sha256": "9b1318e3b82c4fd5b0f0739048acdf3697de6bbd28f9bad8ccf0ae288e46f479"
+    },
+    {
+      "path": "src/features/museo-detail/SiteExplorer.tsx",
+      "bytes": 5353,
+      "sha256": "efadcbc2ccfd72b9d3326aecab2344fec7f8a4e498a24a18e459dab735f8bf2e"
+    },
+    {
+      "path": "src/features/museo-detail/sitePhotoCredits.ts",
+      "bytes": 3200,
+      "sha256": "86c4c8738f2d34b169edd733511fae6b7234403a0a6114f69fc43722ec98b3bc"
+    },
+    {
+      "path": "tests/con-chim-motion-test.cjs",
+      "bytes": 16928,
+      "sha256": "72e3cb7518d9ef2cc0d5f9e3843646b99f39eb951a2ca0e863b49ee233a6c4c9"
+    },
+    {
+      "path": "tests/con-chim-timeline-test.cjs",
+      "bytes": 18290,
+      "sha256": "2988eae750482440961fa1ae620e677cdc2bf8069187fa70ddedbcac981d460b"
+    },
+    {
+      "path": "tests/con-chim-zip-test.cjs",
+      "bytes": 20222,
+      "sha256": "f438e619670eda5d92297c3178b0f5fa3e122b34947384a1686edea9593cb515"
+    }
+  ],
+  "preserved": [
+    {
+      "path": "ao-ba-om.html",
+      "sha256": "3f70785a86ba634c22efb98ddd126ba5af63994bcaeed5571c225cca0f7d836d"
+    },
+    {
+      "path": "assets/ao-ba-om-aerial.webp",
+      "sha256": "441f2fb7c4299b9d0944d06685b2d2f01fd55c8ca9597503858dfb97cab24bcd"
+    },
+    {
+      "path": "bao-tang-khmer.html",
+      "sha256": "687fccfd168d771ecc9cc981be100ddc58cfec22c03066a66645056ee87aafcf"
+    },
+    {
+      "path": "con-chim.html",
+      "sha256": "f1724c290aaad5f98c1220253bc86a911f04c6649629b0d1bf4b62dbf983c58b"
+    },
+    {
+      "path": "den-tho-bac.html",
+      "sha256": "4ead0b105a98d36c9a1a3bc5ce19028bb3477b6d5bac512de363dfaf14e19a61"
+    },
+    {
+      "path": "index.html",
+      "sha256": "cc091564a1ebb5084c6f6fb9c918097703ddae6c669354f00f8bdc1493fbb91d"
+    },
+    {
+      "path": "public/con-chim-mark.svg",
+      "sha256": "3e340e883b2e09ab612f4186cdb3b9b6c3ac4c6367382b95e55f2169c525afe0"
+    },
+    {
+      "path": "public/map-cache-sw.js",
+      "sha256": "1697fbe5ead0a68b50cdb7ad4ad6776a3f08c910a7c36cdb5724e855c75d2ac4"
+    },
+    {
+      "path": "public/museo-mark.svg",
+      "sha256": "e0b4d425f6bba3f7be58f552574fffe4fe6d6265da4a2063d99aa36ca053c7d1"
+    },
+    {
+      "path": "src/App.tsx",
+      "sha256": "cf469cb5673612d767d710a480d298774bd4b0bdab6e00ddc7a38deaf10330c2"
+    },
+    {
+      "path": "src/assets/ao-ba-om/ang-pagoda.webp",
+      "sha256": "cdc46b5c3f852a14fa2c11996100d0f5f1b15411bbcd64019d316e43ecc9e1d1"
+    },
+    {
+      "path": "src/assets/ao-ba-om/festival-2024.webp",
+      "sha256": "5970a1178b22e4e0db805a5c2bd87485f5c500e6a8705e3ef80a643fd4f44ef8"
+    },
+    {
+      "path": "src/assets/ao-ba-om/floating-lanterns-2024.webp",
+      "sha256": "4b1b3ff4084eeb106a3bb774c5d839f90a2794a23dd267d0dca3b8bb18cefb8d"
+    },
+    {
+      "path": "src/assets/ao-ba-om/lantern-legend.webp",
+      "sha256": "8081c7c6eb9114b2dacfb195d9bc0536d34e46d6105b79c2b38f695848685cbd"
+    },
+    {
+      "path": "src/assets/ao-ba-om/pond.webp",
+      "sha256": "858c7da325b2319904d06d4b9bb274400648b3168b44b382788e1ffb3d3b0f8d"
+    },
+    {
+      "path": "src/assets/ao-ba-om/roots.webp",
+      "sha256": "1488c55549361a8aadbfade2f65834708244f6756e373854728416bb4ec789da"
+    },
+    {
+      "path": "src/assets/con-chim/community-pond.webp",
+      "sha256": "25d86fcf7f7b1382301a9465be7202d7b4cfd45fed9567ee5b812001929609d1"
+    },
+    {
+      "path": "src/assets/con-chim/con-chim-2019.webp",
+      "sha256": "41bc0781d2587329947294a68275afa31c1dd6e0e3e09a8fbdbf90eef5b4d8cb"
+    },
+    {
+      "path": "src/assets/con-chim/cooking.webp",
+      "sha256": "f12c0c57fa2ed26c778bd3e7e6dba124d497358c439e45b803b321a7a0971d6e"
+    },
+    {
+      "path": "src/assets/con-chim/cycling-2025-original.jpg",
+      "sha256": "a84e487b95d3d5bd35ee6d32d2ff9f8eaaf80e01105bd5bc6e697f4ed3acf52c"
+    },
+    {
+      "path": "src/assets/con-chim/cycling-2025.webp",
+      "sha256": "0719e79bd49e1343dacf454dfd673b234e72d2368af6e81ccb154821d3f0feb7"
+    },
+    {
+      "path": "src/assets/con-chim/islet-aerial.webp",
+      "sha256": "cd229bd4dfbca0804ba8af310bda74db1caab1f029d87aefd1c88b47bfb51bac"
+    },
+    {
+      "path": "src/assets/con-chim/islet-meal.webp",
+      "sha256": "c988f68f0e956628027b4d1b0bb241584c6f9b3bbe4b76894f118c829dfd09cc"
+    },
+    {
+      "path": "src/assets/con-chim/rice-fields.webp",
+      "sha256": "07e439c0896db3cfae3c4a792215b08718fa47ce06324684d90d284627a9370b"
+    },
+    {
+      "path": "src/assets/con-chim/river-panorama.webp",
+      "sha256": "96b58f67eab7f57d7f978a2d66d1783f81a5f2da81cb202147eaec18f0a9e2be"
+    },
+    {
+      "path": "src/assets/con-chim/village-kitchen.webp",
+      "sha256": "c52a719bff27585118c86230838773b6d263da5da03fb95faf427b387be51670"
+    },
+    {
+      "path": "src/assets/con-chim/village-visit.webp",
+      "sha256": "c3f2ea27f10f9683d5158948225e1173e5a7b1915701c27116eecc7072c8a27e"
+    },
+    {
+      "path": "src/assets/den-tho-bac/activities-user/birthday-original.jpg",
+      "sha256": "f87f12807b9c023ad6670fb56ccca663c46b5419ae8543b0894556d767ae4ff8"
+    },
+    {
+      "path": "src/assets/den-tho-bac/activities-user/birthday.webp",
+      "sha256": "e6b7828e247a0a25244febd76efa1bd9dc935e9e90fc9a66afaf3d7152493745"
+    },
+    {
+      "path": "src/assets/den-tho-bac/activities-user/opening-original.jpg",
+      "sha256": "960211329b9c59936d93afca68fc02d42c9d0f836b33d381637ab8156933e3f7"
+    },
+    {
+      "path": "src/assets/den-tho-bac/activities-user/opening.webp",
+      "sha256": "2c35680a3c8ba2d42efe9576237c8f650953532c0b3ab54972e8b023dd61d53a"
+    },
+    {
+      "path": "src/assets/den-tho-bac/activities-user/remembrance-original.jpg",
+      "sha256": "555ca62eddef036848e6ccfec3db7c0d5c9f9623e3634606d32ebe5075664af0"
+    },
+    {
+      "path": "src/assets/den-tho-bac/activities-user/remembrance.webp",
+      "sha256": "8dcd87dcca94abf21743092edd5384e6133123e5e35e2bdfd1d84526063414bb"
+    },
+    {
+      "path": "src/assets/den-tho-bac/activities-user/visit-original.jpg",
+      "sha256": "e2b2932f0103440784d6820ac496557f36e06a7a8020abf71e2868695e0d3f4b"
+    },
+    {
+      "path": "src/assets/den-tho-bac/activities-user/visit.webp",
+      "sha256": "f7d37afd2595d6b143216b9f7c69e244f95286c8ad790e31d07e5eb721517511"
+    },
+    {
+      "path": "src/assets/den-tho-bac/ceremony.jpg",
+      "sha256": "9bead27f30f7bcbc2eb60159b43fe01cc4ce05769338ebd4f8ae1ce077de5910"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1969-background.webp",
+      "sha256": "c21676ad0a0949ee45125b702fa06a8401b9b9f4f8c7aa578238dba004e9e7da"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1970-background.webp",
+      "sha256": "59cb1ea9a165cd3844e740a153ce57dff37d58306f23c78893b5e39be91d6334"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1971-background.webp",
+      "sha256": "f518bc00c399107cfdae935d7820ea50dc7a03993abdf959bc22fd3df1fa5ee8"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1972-background.webp",
+      "sha256": "5ba101d8aa6f6dbae5bdda970378f6ac4cd8b047ccd8665c619f640af3c6e05a"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1975-background.webp",
+      "sha256": "0418dbf6e9ec1e835c626b0ac977239377f85799d27c7dc66951fa14b7b8befd"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/1989-background.webp",
+      "sha256": "9377893062f9c22bc76bf1823aa60317afb4be550e7433ac4cd1b98d7e265f5d"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/2012-background.webp",
+      "sha256": "aa86385bb00066fb6d7098ea87f5811f7a5a048d9ea580dadc2c0f30d0c4d99c"
+    },
+    {
+      "path": "src/assets/den-tho-bac/history-exact/numeral-font.json",
+      "sha256": "b1b7b7db263e80852f7a5a00a80055ce16ba0b2829bbc3ea73f54cbe08fc85a3"
+    },
+    {
+      "path": "src/assets/den-tho-bac/map-current-coordinates.json",
+      "sha256": "ed2116bcf199bef03dc767c0a0fe0dc625287c1db4041fa706ea700390ba4983"
+    },
+    {
+      "path": "src/assets/den-tho-bac/map-current-marked-v2.webp",
+      "sha256": "6313200cdcdcbe447da7d4fc376fa23f8748842b2e0960b16a7f0025d8369a6a"
+    },
+    {
+      "path": "src/assets/den-tho-bac/map-current-v2.webp",
+      "sha256": "a44afd3d7812245ff5aff0aea3a28f587213cd6e0c221e0e9e79d3957f5b9725"
+    },
+    {
+      "path": "src/assets/den-tho-bac/mark.svg",
+      "sha256": "784f93a4ac0e9851326fad2c6a2992229fc9fb66c797864101362d2c8161d738"
+    },
+    {
+      "path": "src/assets/den-tho-bac/memorial.jpg",
+      "sha256": "3fe15eb704dbeea59bdf2dc96c3695f405b1e83d5b5ff71c89f82fbb550dab10"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/01-photo-original.jpg",
+      "sha256": "a3e0477f74020d9b496d1c83eba4255d0723b2d99fbbc7da6e10f05edac2353b"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/02-photo-original.jpeg",
+      "sha256": "15d8f219b4bac1d8a68fb908954e108ec2f777ef7416b6f389a38279a1cf9b56"
+    },
+    {
+      "path": "src/assets/den-tho-bac/overview-remake/03-photo-original-v2.jpg",
+      "sha256": "0002c03945d96f9c1f2f8d623c0a64b5924af354681e7192340c48b68f157cf7"
+    },
+    {
+      "path": "src/assets/den-tho-bac/people-user/witness-background-v1.webp",
+      "sha256": "4d5ddaf22a2fce827d9006ca9b28612a8f0bc74af0ec7fd0b3e863bc8f448578"
+    },
+    {
+      "path": "src/assets/den-tho-bac/people-user/witness-layout-v2.webp",
+      "sha256": "74a5e0979936b3bf94c92d705d415e77a0c3fe0611bc0cacc43580316cbd9a5a"
+    },
+    {
+      "path": "src/assets/den-tho-bac/portrait-user/artist-interview-original.jpg",
+      "sha256": "08fe5667da0e812ef8a2cc6d35b102cbc34ab25aebaedbcee8d3528dbac5bacb"
+    },
+    {
+      "path": "src/assets/den-tho-bac/portrait-user/ho-chi-minh-portrait-updated.webp",
+      "sha256": "c87ecb48da86b48a1780ab6ccfe2f2a91127b720b2d7158a537788e0675a99f5"
+    },
+    {
+      "path": "src/assets/den-tho-bac/portrait-user/portrait-demo.webp",
+      "sha256": "40cac1196649ad7a09ce587faa76a493f8b34c4a0654704de030955b649e94cb"
+    },
+    {
+      "path": "src/assets/den-tho-bac/stilt-house.jpg",
+      "sha256": "84fc58cfb5817b3f2e82124a3b6e3e3ceb27f0ffdf237ef280301dd8d4e848e6"
+    },
+    {
+      "path": "src/assets/den-tho-bac/temple.jpg",
+      "sha256": "5fd15225f93ba0e454ed6fbf66f14cc528b205c8f7c3da644ec3532b81b91089"
+    },
+    {
+      "path": "src/assets/den-tho-bac/values-user/01-reference.webp",
+      "sha256": "4449731aa446dda7126bcf017130ba3343e1f3ca8e914b7f739c64c30f19ed68"
+    },
+    {
+      "path": "src/assets/den-tho-bac/values-user/02-reference.webp",
+      "sha256": "eda2f49bf18962a46dd0738b47713d670d0f9d6f4cee34d0e88f0557526ac2c8"
+    },
+    {
+      "path": "src/assets/den-tho-bac/values-user/03-reference.webp",
+      "sha256": "92bc836342f3757c392644d44403bc96587aa29b92c95d88d3413952c7eee622"
+    },
+    {
+      "path": "src/assets/den-tho-bac/values-user/04-reference.webp",
+      "sha256": "4a593c09337513fc6741c9c30d4641b6601743cc40f1638025671ecb89dc3be3"
+    },
+    {
+      "path": "src/assets/den-tho-bac/values-user/exhibition-background-v1.webp",
+      "sha256": "b8ed8b621a18ba719febe4d71a9c6778fdecef707a708124d8998cf9338facbe"
+    },
+    {
+      "path": "src/assets/den-tho-bac/values-user/glass-book-lossless.webp",
+      "sha256": "0b3c4746127ac8024322816e5a7f2985070df240ab015b16cd94a56bca321e8d"
+    },
+    {
+      "path": "src/assets/den-tho-bac/witness.jpg",
+      "sha256": "b67f42d41be8f402346a9dbf8001791da3a69fd69948160a575028f885dc251a"
+    },
+    {
+      "path": "src/assets/fonts/be-vietnam-pro-1.woff2",
+      "sha256": "dc085e2fba3414e5c5bf1e6172f921a9f81c5859946a4ed3d63c1e470d96a9e2"
+    },
+    {
+      "path": "src/assets/fonts/be-vietnam-pro-2.woff2",
+      "sha256": "f7a2811e471c2973a1179ce39da3ad6bb8082381aa8d1535ccfcbc3d6d78a052"
+    },
+    {
+      "path": "src/assets/fonts/be-vietnam-pro-3.woff2",
+      "sha256": "03d1b589cff172e1a670b3573e731d3380bc326f80cf83b0d3504e3188e2e074"
+    },
+    {
+      "path": "src/assets/fonts/be-vietnam-pro-4.woff2",
+      "sha256": "97658c6f9a384f29a3005c3d96e2a0d1c810192cf68979071c290f5a377a9f99"
+    },
+    {
+      "path": "src/assets/fonts/be-vietnam-pro-5.woff2",
+      "sha256": "20cc75daeaaaa0fa8af2b616b2de2b2900f0ce14ae8e9faa47d272cedd93827f"
+    },
+    {
+      "path": "src/assets/fonts/be-vietnam-pro-6.woff2",
+      "sha256": "9503dec2a7c532c8331e9600bcafea287a4fd208573b8668d85ab8d8de1863c7"
+    },
+    {
+      "path": "src/assets/fonts/be-vietnam-pro-7.woff2",
+      "sha256": "4f58af2d1c3e28a9ba14c51c82db2751d78344b75bdcb34de24a1031ebe59da6"
+    },
+    {
+      "path": "src/assets/fonts/be-vietnam-pro-8.woff2",
+      "sha256": "33d57e5bd840b03921568e08d2be1082d453e55f1ba55f421e41a1aa54e12601"
+    },
+    {
+      "path": "src/assets/fonts/be-vietnam-pro-9.woff2",
+      "sha256": "a193dd87699bd2e18ddf72dc271493ea82a23dad9f5c334d9f2a257b1e05fc30"
+    },
+    {
+      "path": "src/assets/fonts/history-numerals-750.woff2",
+      "sha256": "02182552e7f531c373a6a733f2caa41f2b39c8369b8794573e27759dce87fe2a"
+    },
+    {
+      "path": "src/assets/fonts/noto-serif-1.woff2",
+      "sha256": "fb6a5ed734c2fbe39794a1e11ea075c70676ed82b8e8cd57c175ebbb4af805c1"
+    },
+    {
+      "path": "src/assets/fonts/noto-serif-2.woff2",
+      "sha256": "2654f8d1261a420fc81628122bee9d494b493227e3d7d9baa4238360b92b11d3"
+    },
+    {
+      "path": "src/assets/fonts/noto-serif-3.woff2",
+      "sha256": "46281456234014ceb2a79bff447245de0f76b8d803be0738972ed374c3206c5b"
+    },
+    {
+      "path": "src/assets/fonts/oswald-variable.ttf",
+      "sha256": "5b38c246e255a12f5712d640d56bcced0472466fc68983d2d0410ec0457c2817"
+    },
+    {
+      "path": "src/assets/heritage-markers/ao-ba-om.webp",
+      "sha256": "0a67947d920654e9ae8ea8cc3f8711d22ea6cb7f0a7287098168c93ae79b3512"
+    },
+    {
+      "path": "src/assets/heritage-markers/bao-tang-khmer.webp",
+      "sha256": "6342c84e08d0b009234afd1b54ae2a38a1841452f8d78d21e9d20c4293845f43"
+    },
+    {
+      "path": "src/assets/heritage-markers/bien-ba-dong.webp",
+      "sha256": "2c1bd7b384084a77650e36adecde4070c936285f87d9496c3bfec4231adb7549"
+    },
+    {
+      "path": "src/assets/heritage-markers/chua-ang.webp",
+      "sha256": "5e16c874a0a27bbdf5b0a798c19d05a7828ad05041089ce33e6d4bf1530030af"
+    },
+    {
+      "path": "src/assets/heritage-markers/chua-hang.webp",
+      "sha256": "2429af588a7bdf8febdd19a33a05858f272f0c3a432df82a2bbb14418c299b57"
+    },
+    {
+      "path": "src/assets/heritage-markers/con-chim.webp",
+      "sha256": "be1fadbd23bd6f1196843b1cefb89b8aaf2bbc3fd6b1fb447c486ffd40925e0e"
+    },
+    {
+      "path": "src/assets/heritage-markers/den-tho-bac.webp",
+      "sha256": "a8b38253d6b8effe468c6892a16c83e240c5cb8014b4407da7b89bf1c77b5037"
+    },
+    {
+      "path": "src/assets/museo/evolution-landscape.jpg",
+      "sha256": "3342221ddce2dc7328b716f8eaeb5414fdfa24188c55a4861e1fec0044a16901"
+    },
+    {
+      "path": "src/assets/museo/khmer-buddha.jpg",
+      "sha256": "f727f592e3ea1538f8afff3a2ba4a528362672ff7199471405f84a87bf9cff3c"
+    },
+    {
+      "path": "src/assets/museo/khmer-clothing.jpg",
+      "sha256": "0a4566e74fd92568caf161fee552330de60f926f589f4515cabaebf4472743c9"
+    },
+    {
+      "path": "src/assets/museo/khmer-culture-chapey.jpg",
+      "sha256": "e5a7795116962fa5f7f0b67b3f2cb1b57cd8729cb45c1efe805a1563bda6930d"
+    },
+    {
+      "path": "src/assets/museo/khmer-culture-gongs-2025.jpg",
+      "sha256": "09bc60c80adafaa034a638d555495ced84bf88f2b1c0b7fe9cd622b150738da7"
+    },
+    {
+      "path": "src/assets/museo/khmer-culture-highlands-performance-2025.jpg",
+      "sha256": "fbef61d9ae0b9a18585673a95342d6339b36ec46bdf0d56ee0ad0d69980d30ba"
+    },
+    {
+      "path": "src/assets/museo/khmer-culture-khmer-dance-2025.jpg",
+      "sha256": "8f84141e51ad5a38c9a08c65d81660ae0a17e8ae97d6f98cef06cdc93c1818eb"
+    },
+    {
+      "path": "src/assets/museo/khmer-culture-lam-phen.jpg",
+      "sha256": "bd288a71b6ffc7660e738906db47eaab4ef63c027fbee59e1ed3d40e07862915"
+    },
+    {
+      "path": "src/assets/museo/khmer-culture-thach-sang.jpg",
+      "sha256": "26ee4cae3708c1316ca1284ae56eef1827060db6c1ced1f8e286d59e222c6124"
+    },
+    {
+      "path": "src/assets/museo/khmer-culture-thuone-2021.avif",
+      "sha256": "a4940532ead8963b14933d8ef154db7733985e29cc30710da545011bfcf0f0da"
+    },
+    {
+      "path": "src/assets/museo/khmer-culture-training-2023.jpg",
+      "sha256": "0dae22c2e0ec5430ce1b8445351aa86344b40e146c357e1f2f561e977141e23b"
+    },
+    {
+      "path": "src/assets/museo/khmer-duke.jpg",
+      "sha256": "89672e35d3d9650249194bf2ff87eb99e415192bb64eb088d35d667816a362ea"
+    },
+    {
+      "path": "src/assets/museo/khmer-ensemble.jpg",
+      "sha256": "6ad3c88e659419966f47c5ec61dbe2dae6eb19544932fc654b220fc2f26096ee"
+    },
+    {
+      "path": "src/assets/museo/khmer-exhibition.jpg",
+      "sha256": "b055e9958712140055befe61fcef110b99d5ec314c44617969514d07d1a3d3ee"
+    },
+    {
+      "path": "src/assets/museo/khmer-facade-2023.jpg",
+      "sha256": "dcee8eff73a6229da84cbcc3c5c2855bffd21b8e89cd43f88aab665a4dda618c"
+    },
+    {
+      "path": "src/assets/museo/khmer-facade.jpg",
+      "sha256": "33328c6d11bdc7da5cefb5af9a73e27db87656e7f592aed94f1aebc58f387680"
+    },
+    {
+      "path": "src/assets/museo/khmer-farm-tools.jpg",
+      "sha256": "22f2b51d1a177203abab4946c792e1e4f7e4a285a893b3ec4429e9f9fb544ea9"
+    },
+    {
+      "path": "src/assets/museo/khmer-fishing.jpg",
+      "sha256": "d6c303adaec266412a00f57bc778babb9efb865a7e493d931b17f0cb62e9aae0"
+    },
+    {
+      "path": "src/assets/museo/khmer-hall.jpg",
+      "sha256": "11c3b98267796b2eb6c617a02c2c2f13e15e0f3972e8a0f246c34303a44b748e"
+    },
+    {
+      "path": "src/assets/museo/khmer-history-donors-2024.jpg",
+      "sha256": "10e4c378f44264b7b277d6be9cc925d3cea929c855b5604f6a024bce6b60dc4e"
+    },
+    {
+      "path": "src/assets/museo/khmer-history-exhibition-2024.jpg",
+      "sha256": "ede5b0b5c36533204198fb0c69d463e3176ea5c06a523a6eca3ab27ce0d9ba5a"
+    },
+    {
+      "path": "src/assets/museo/khmer-history-music-2008.bmp",
+      "sha256": "8e85de3a2e263e048a0358243c1ee1ad04ecb8f717c29abe8f87da3972c6128b"
+    },
+    {
+      "path": "src/assets/museo/khmer-history-opening-2024.jpg",
+      "sha256": "008861f6d022a6651e85f7e492d8818699e3bb63afea1f15b5717ffa2df9b5f6"
+    },
+    {
+      "path": "src/assets/museo/khmer-history-tools-2008.bmp",
+      "sha256": "8cf73b841fa71416c64f30d3f9c56a590380527da95f03e779906af087ab9433"
+    },
+    {
+      "path": "src/assets/museo/khmer-kitchen.jpg",
+      "sha256": "527e7bc68f41fa651e3361983886f8f556607dde76b5968e778ca1220957e640"
+    },
+    {
+      "path": "src/assets/museo/khmer-mask.jpg",
+      "sha256": "149d63f9ef7a37bc70e8a32ddf427498812ccb5e35281ea46b4df8eab1f5ea66"
+    },
+    {
+      "path": "src/assets/museo/khmer-memorial-khmer.png",
+      "sha256": "9ffe3bd76c036aae3852818da0007bbaeae26ee608ecaa1398f81e72e0207ecc"
+    },
+    {
+      "path": "src/assets/museo/khmer-memorial-vietnamese.png",
+      "sha256": "9e4205138adb0e8768ddf523d27107ed551bb9f92e1d5e2278ce756839f7eb11"
+    },
+    {
+      "path": "src/assets/museo/khmer-memorial.png",
+      "sha256": "6d28004a0da6ea14695c0a6c1a8f35e62500e1b3f977a9f7945f47edea50beb8"
+    },
+    {
+      "path": "src/assets/museo/khmer-ngo-model.jpg",
+      "sha256": "dd928901055cf8a46fdbca0ae37fdbae2db216b6ef4f13a1eeb0181605786160"
+    },
+    {
+      "path": "src/assets/museo/khmer-pinpeat.jpg",
+      "sha256": "1e9ffe900ff4a4ce26c8823865f7442a72557364d7be8d19c9f1e006a4d7934c"
+    },
+    {
+      "path": "src/assets/museo/khmer-preaching-chair.jpg",
+      "sha256": "454f961403312f87eb5d68de172e7870ecbef19a0ec938189497712e07caaea2"
+    },
+    {
+      "path": "src/assets/museo/khmer-roof.jpg",
+      "sha256": "fa80c44a7402a888d77fb743371b13711b753b99723f000b87293ae2caa4e8b5"
+    },
+    {
+      "path": "src/assets/museo/khmer-sandstone.jpg",
+      "sha256": "afa0ba45e60dea675278ccc7250fb8601e85e779e11b98413a3cf64bc431949a"
+    },
+    {
+      "path": "src/assets/museo/khmer-temple-model.jpg",
+      "sha256": "400387664f618b5c10b16d512e48d050198abb6f59a62c7d9984fd382d595916"
+    },
+    {
+      "path": "src/assets/museo/khmer-tools.jpg",
+      "sha256": "0672b5028b9cd76c4e75f341a9270ee22ac140ee1bf4e811b29eed1a8f65127b"
+    },
+    {
+      "path": "src/assets/museo/khmer-village.jpg",
+      "sha256": "f649d86d6bfff11267c2b2b7e12d8320b4c1f9e9e9b2ef4daae335d4f177befa"
+    },
+    {
+      "path": "src/assets/museo/khmer-visitors.jpg",
+      "sha256": "649aac96bda1832c881875f234e6d5b253267386cca936d000f906bad32b1a79"
+    },
+    {
+      "path": "src/assets/museo/montserrat-black.woff",
+      "sha256": "099ccae8543c6654920ccfbd682aed97c8e4ffd06e3bfe313c203905b2ba0f5d"
+    },
+    {
+      "path": "src/assets/museo/rock-texture.jpg",
+      "sha256": "daa6e9d72e4ca3a75a4694494fc0efb782b45e18b66e2f236546d5a2e377456c"
+    },
+    {
+      "path": "src/assets/museo/space-mono.woff",
+      "sha256": "09b9aaddf03cbf574c8992dbdd54bbca10bd43d916c58185be65d00f7b6c6fd5"
+    },
+    {
+      "path": "src/components/AboutProjectModal.tsx",
+      "sha256": "184c73ad309a3593269704ea4cd703d74465f2603491c1be95db466be756932c"
+    },
+    {
+      "path": "src/components/AoBaOmEditorial.tsx",
+      "sha256": "1be4efc37b259fac180c1f5ea9b12f823551c1f21437557bd9f818fd36d25588"
+    },
+    {
+      "path": "src/components/Artifact3DModal.tsx",
+      "sha256": "f62866599aa4c3b5609c164e2b4fb63cedbb8c71cdaa47dac272994086dde1c7"
+    },
+    {
+      "path": "src/components/AttractModeOverlay.tsx",
+      "sha256": "0435b72ed49beeb2795c1b71f3fc1b4b52fa53d39270645401101b554a7a0fa2"
+    },
+    {
+      "path": "src/components/BaDongEditorial.tsx",
+      "sha256": "d4c48781b869fae1b85a37dccab3ee04027c761dbd59e02bd5979a4ae340e4e5"
+    },
+    {
+      "path": "src/components/BeforeAfterSlider.tsx",
+      "sha256": "a6fb7626cf41506f1f7c4986db2bcfabd0fbb7d6cc73213e47343b28587afb72"
+    },
+    {
+      "path": "src/components/ConChimZipDetail.tsx",
+      "sha256": "61e591a7bfab0c018b2cd459d78309d3ba7d5ca6f32c30ee776630e92d489363"
+    },
+    {
+      "path": "src/components/DenThoBacDetail.tsx",
+      "sha256": "41b6f7d625e45f6a5680e43fc900f164868a511e403d774fefe29499b027d507"
+    },
+    {
+      "path": "src/components/Earth3DViewer.tsx",
+      "sha256": "2ba34b76311470f83acbd845f587e1f4c7be6dbdf2dbe8415faebc60407acd46"
+    },
+    {
+      "path": "src/components/HeaderTopBar.tsx",
+      "sha256": "2a5a5542382f1c3ad9705fe7c2fab3200194c4964aaa8d63579feadf9a350487"
+    },
+    {
+      "path": "src/components/LandmarkCarousel.tsx",
+      "sha256": "2f227e53291402ea367d369291a3c0b3fc68978356d18f304759465de05139d1"
+    },
+    {
+      "path": "src/components/LandmarkDrawer.tsx",
+      "sha256": "307ee419d28a585b200dded0d15b156ee20c282ba2d39ddcc1dd5508d360a288"
+    },
+    {
+      "path": "src/components/LocationQuickView.tsx",
+      "sha256": "a82e0fb1c0be519ac9b0d1c8ffd231fb08c974cd47396eabcd4f4cf5b9f4851c"
+    },
+    {
+      "path": "src/components/LocationUtilityDialog.tsx",
+      "sha256": "cea8330012419b39c4d5dd694fc154aaea84755537ca04dbfde759121a7ac04b"
+    },
+    {
+      "path": "src/components/Panorama360Modal.tsx",
+      "sha256": "d07035d486d8375a7c4835abc8db4a5c5d6684fc25bb5d4561ee4fa5605dca92"
+    },
+    {
+      "path": "src/components/QRCodeModal.tsx",
+      "sha256": "29365b8831f67ee9ef3d008cfc9e4945316641c8f7e876e55c346094cf6df8ab"
+    },
+    {
+      "path": "src/components/QuickLocationGallery.tsx",
+      "sha256": "4cf7864648d7b0eeb55623b517c63e58631a7a4de2bcb6f46c82a7d13657342e"
+    },
+    {
+      "path": "src/components/QuickLocationReader.tsx",
+      "sha256": "08f0a06f80f7ba1bd132c6e3aa95cdff0098749d3b4df67bfb8dadf3b27b1e33"
+    },
+    {
+      "path": "src/components/SearchModal.tsx",
+      "sha256": "106a1d37295c409ad9d071cdba585edf908fb087bea6a54752e23b3ac049ce4d"
+    },
+    {
+      "path": "src/components/StorytellingPanel.tsx",
+      "sha256": "e102d1d477d52596f8bc329cea01f11b7dcc5f41c79743a2e217e00cb8d662e3"
+    },
+    {
+      "path": "src/components/aoBaOmContent.ts",
+      "sha256": "1b900d8fa109eb1d9163bced3d5d3e735811e44303be17dfdbfd4d9727455d69"
+    },
+    {
+      "path": "src/components/aoBaOmEditorial.css",
+      "sha256": "3f2bc25a47048f57740581f42a2ab496175c27a78a1a346507b17f6a0ebe7a86"
+    },
+    {
+      "path": "src/components/aoBaOmFonts.css",
+      "sha256": "9f8cefceab6ba53467adf96151b83d58bdcfb124ee7fdba998949a81664b1163"
+    },
+    {
+      "path": "src/components/baDongEditorial.css",
+      "sha256": "12838cefef68fd378676e562228218cd37e3aeedd520f346f6c88cfd5f099e34"
+    },
+    {
+      "path": "src/components/conChimFonts.css",
+      "sha256": "d22b3bad667ac85cd89c39000541a70d52a4e0edde3b5f358b6e0211294a9d06"
+    },
+    {
+      "path": "src/components/conChimZipHost.css",
+      "sha256": "7bd8aca1def7feb8f0dd43965d7037aa4de219501bea84cddd64e59338afa688"
+    },
+    {
+      "path": "src/components/locationQuickUtility.css",
+      "sha256": "f3ecb66df5d36615f442241d67daf53092359d36005d3602e9456c187715835f"
+    },
+    {
+      "path": "src/components/locationQuickView.css",
+      "sha256": "aea0e06436734ecb5a8aae82533ec310e4ab1388629e2c3578779c030b641ecf"
+    },
+    {
+      "path": "src/components/useLocationQuickMotion.ts",
+      "sha256": "3c71bf33ba7478490c28abd093938e46945d84589491ba528edfd075234d64c6"
+    },
+    {
+      "path": "src/components/useQuickPageMotion.ts",
+      "sha256": "a1e42fc1fa04d95648f175b702ae6f631cdd67ca24b772d1500adb3905819439"
+    },
+    {
+      "path": "src/data/heritageSites.ts",
+      "sha256": "88b057fc976ae5c447f9f78e92ed3e006973a530d3851ad3cab6a31b338410d8"
+    },
+    {
+      "path": "src/data/locationQuickContent.ts",
+      "sha256": "fb921ef0f5c4e85ad0f956629604d4445bb3684bf6b2823cd9d6ccccbad975f4"
+    },
+    {
+      "path": "src/data/maritimePlaces.generated.ts",
+      "sha256": "9c8b008adc7e492e0a86da5be66f38c0121476d86662b2e5bffd71b8eaf8041d"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/AoBaOmMuseumKiosk.tsx",
+      "sha256": "1ab7e3d2f2e9c43cfe74ada8b124313c24b528a55c8a6788a05403b300bb64fe"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/Section1EditorialHero.tsx",
+      "sha256": "0e9d21683cbf2d8e477641955aff610bc8922f1666d07468b471f5c9a73fcd8e"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/Section2InteractiveSiteMap.tsx",
+      "sha256": "a8443b7590ec11b770fa5310f366a1e48514f8fa4a00e77830698f84087fee01"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/Section3ProgressiveTimeline.tsx",
+      "sha256": "4ada5df937e2ff38c10532f544af300d5bd34e20b9270b1ff1fb4385ba17635b"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/Section4LivingCommunityExhibition.tsx",
+      "sha256": "5bbe01fbf201d280f1ed4fa5c9340d5e914f17ec6b1aceda7e4ade0a25f6149c"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/Section5LegacyEnduringValues.tsx",
+      "sha256": "1da47c4b33fcf84cb8c01d40126546d37f871f44581c29b5a0a49c07926a267d"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/aoBaOm5PartsData.ts",
+      "sha256": "5f776ce7294987a893400bda30cce9845a7f8d7b7b4c389195f5adff1cbff450"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/main.tsx",
+      "sha256": "8671eb503681e4b4fb297e4682722df16e50699473058f2ff0ad4a3b49fdda95"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/motion/cinematic.css",
+      "sha256": "7343dd5cd9a9c2bdd5a9621f3d406840e58b68eebb61642643b6120f8676b510"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/motion/useMotion.ts",
+      "sha256": "dd8d536677df0b63c29e48a2b01817af6c4fdcda625df0cee05dcbbe9e34d948"
+    },
+    {
+      "path": "src/features/ao-ba-om-detail/types.ts",
+      "sha256": "93eb407057a3d37ce7d97e725c4bd0d3920f8eafa51fd485684458e3c0bbcd6a"
+    },
+    {
+      "path": "src/features/con-chim/App.tsx",
+      "sha256": "e57bcfb1897ef725f62c249b183d65326544c698487f013b7ad7075515cbd835"
+    },
+    {
+      "path": "src/features/con-chim/components/ActivityPreview.tsx",
+      "sha256": "9a5adacdbddbe08dcfc7bee98b3ba07bc05f4bdfddcbbacb951c52196252a394"
+    },
+    {
+      "path": "src/features/con-chim/components/ConChimOverview.tsx",
+      "sha256": "76dbab1a7b0ca82afdfcdbbf7059a9a7d4e911109264a46e4730a13e2851bd35"
+    },
+    {
+      "path": "src/features/con-chim/components/ConChimSections.tsx",
+      "sha256": "55725c981d6d906e0b3eb512dd5787330dd50bf5a2ac027e26b9ecc04ed0f29f"
+    },
+    {
+      "path": "src/features/con-chim/components/DiscoveryImage.tsx",
+      "sha256": "045e84660ea577983d2638bdca3187dc178b5ec07a4eafbd7dacb54566a2cb7a"
+    },
+    {
+      "path": "src/features/con-chim/components/DiscoveryReader.tsx",
+      "sha256": "3335974b4c5b2deaf15b8c9f2746fcf8defef9b97a9d39f59c7a8ac354a89ded"
+    },
+    {
+      "path": "src/features/con-chim/components/KioskDiscovery.tsx",
+      "sha256": "de38513b4ea6b6791bc35443353b34158e38f117da550bd396face5c255d5569"
+    },
+    {
+      "path": "src/features/con-chim/components/PhotoObservation.tsx",
+      "sha256": "85f88eb48d19bc33a6a77666cace0767bfc2d59b3d75b0e797819e7ed55aa0a4"
+    },
+    {
+      "path": "src/features/con-chim/components/PortableNotes.tsx",
+      "sha256": "fb2363607fc569ad6f901dfc7d8951f58fca9cd3b5c50b67652e3505589ec433"
+    },
+    {
+      "path": "src/features/con-chim/components/StoryQuestions.tsx",
+      "sha256": "d9924c020608ce366cc4d1f49157e3c865fb87134b266703b28308387f5bac1e"
+    },
+    {
+      "path": "src/features/con-chim/components/StoryTakeaway.tsx",
+      "sha256": "10762d25d2a0d9d67eae2d0e79ae975c1394606a757fc2e68cd8dece275c1126"
+    },
+    {
+      "path": "src/features/con-chim/data/conChimData.ts",
+      "sha256": "dc0b203348a9ba42bef5ebd0996479ce3311629ba3ed734711c39481486153e1"
+    },
+    {
+      "path": "src/features/con-chim/data/kt01Stories.ts",
+      "sha256": "8a14e1dd4e2f302b04d2bc9d2de6436b05933a2a9a37d22335f3d6fed7594aba"
+    },
+    {
+      "path": "src/features/con-chim/data/sectionContent.ts",
+      "sha256": "77070d02f53336e3fb4a21621bbf8f0120216fc9f037e89e6a5ee45541015ce4"
+    },
+    {
+      "path": "src/features/con-chim/data/storyLayers.ts",
+      "sha256": "d69be342dd97d6f95e84b5a8fb574784c7fbe409ccaeb013bb4aee42dacf5bfb"
+    },
+    {
+      "path": "src/features/con-chim/discovery.css",
+      "sha256": "1fc59843539ee17b8ad6d4a0fe646fda6ceacacfd9e48211822caca5de0e93db"
+    },
+    {
+      "path": "src/features/con-chim/main.tsx",
+      "sha256": "2dd005775fd710bf42fa4e4ee29d6b1c264fd3f3dedf57f55d656b3eea2df288"
+    },
+    {
+      "path": "src/features/con-chim/sections.css",
+      "sha256": "04f143f9544aded4f7935c2b2887803bfbcd3a1a39931201a0a936170ab53a1c"
+    },
+    {
+      "path": "src/features/con-chim/storyLayers.css",
+      "sha256": "b6d14470163945b1581d05c389fe75436664b5ab6f5f1f945b9298179a31b2e0"
+    },
+    {
+      "path": "src/features/con-chim/utils/detailBridge.ts",
+      "sha256": "5da0d1c31f8e97aa28606787968b31049a859aa4167a07fdcf487db1121d928a"
+    },
+    {
+      "path": "src/features/con-chim/utils/hostControls.ts",
+      "sha256": "3a5499d458905b5e4c7d86be93fb165d563cad4cbebd84c9da8ca4f0c6f4f654"
+    },
+    {
+      "path": "src/features/con-chim/utils/storyLinks.ts",
+      "sha256": "e78d21755576d7c8720578bbfa425945a92299c9f9b597b83ac5d2688beada03"
+    },
+    {
+      "path": "src/features/con-chim/utils/useKioskHost.ts",
+      "sha256": "c6f1e19b63294262c176adf7e5d0c9d5dce2a6850f7771d47335ac8c030d6892"
+    },
+    {
+      "path": "src/features/con-chim/utils/useStoryVoice.ts",
+      "sha256": "088e63fd9317fd40b87fa1f57b2bee6bbb4c4821f4b18983a50fbc2f6d88fcf8"
+    },
+    {
+      "path": "src/features/den-tho-bac/ActivitiesSection.tsx",
+      "sha256": "0ba6671640472f9a072c21f1843eb417a0fb2a97a969daea3cfbafe5727f0d5f"
+    },
+    {
+      "path": "src/features/den-tho-bac/HistorySection.tsx",
+      "sha256": "03eab8ecdb348876018789212478864f38124132e291f9129f26806d43d8162e"
+    },
+    {
+      "path": "src/features/den-tho-bac/MemorialDetailPage.tsx",
+      "sha256": "41b298133885c89686b80debc29a0af93de1b3cdd60ffff314649a25a1ebe935"
+    },
+    {
+      "path": "src/features/den-tho-bac/MemorialMedia.tsx",
+      "sha256": "8dea6bf9e6a6a4e2ac74dbeafc3e7fb0382cb2aa09db4a1681d1531765b2bf2f"
+    },
+    {
+      "path": "src/features/den-tho-bac/OverviewSlideshow.tsx",
+      "sha256": "3557e3f88a4b10dba7d24b6a8649f03673f0a98c82b1608ebae3adb8e22549ae"
+    },
+    {
+      "path": "src/features/den-tho-bac/PeopleSection.tsx",
+      "sha256": "65d8577c0873d9ee50310475c7d419754e3cf2454a2523dbac6711993b42d632"
+    },
+    {
+      "path": "src/features/den-tho-bac/PortraitPeopleScene.tsx",
+      "sha256": "10a7c33285cab4be09ba403a302351c8f7a67212089b9f22fe43ef21db33101d"
+    },
+    {
+      "path": "src/features/den-tho-bac/SpacesSection.tsx",
+      "sha256": "431d685d2deae9555da8cf63003a199f7bfe92a40212566fcfe7a4c27d49828a"
+    },
+    {
+      "path": "src/features/den-tho-bac/ValuesSection.tsx",
+      "sha256": "c331594178e24bee70c683d876c9f465a686640d8b8da5ac303d3e04e2a13288"
+    },
+    {
+      "path": "src/features/den-tho-bac/WitnessPeopleScene.tsx",
+      "sha256": "709d3438c86c8531f6862e6c3e1dea8a3bee5afb02418d997a6b3aa129f4372d"
+    },
+    {
+      "path": "src/features/den-tho-bac/activities.css",
+      "sha256": "d98ef8d65b5fe95a4e81ae63202a9e12144de352a2389ef800084a866ad0a6b9"
+    },
+    {
+      "path": "src/features/den-tho-bac/activity-content.ts",
+      "sha256": "7a3607beab863053f01076b1b801da625e13679cbffd53be3f35901b954ff49e"
+    },
+    {
+      "path": "src/features/den-tho-bac/content.ts",
+      "sha256": "07e7b03dd0333d61f34bf0ebed2524d217b4b174a4ed63b8c7ecb8cc18ac3aec"
+    },
+    {
+      "path": "src/features/den-tho-bac/detail-navigation.css",
+      "sha256": "1f75f96f2cf5131e219e31b081a3a17490c983a04b0c42c0a2b901b10171d8f2"
+    },
+    {
+      "path": "src/features/den-tho-bac/detail-tools.css",
+      "sha256": "31ed44c0ad952b212af1b4a1ed053302b6936b4221e4ecbc9c8a2fc34b514746"
+    },
+    {
+      "path": "src/features/den-tho-bac/history-scenes.ts",
+      "sha256": "f93496ac997cd3c5efd48c07a892dd6190fb96e61148986a3fc82110ecdca1c2"
+    },
+    {
+      "path": "src/features/den-tho-bac/history.css",
+      "sha256": "c7b7a0976f9309449fee0496d56de8b6ce445b39070983eff13be1fb2812ab5e"
+    },
+    {
+      "path": "src/features/den-tho-bac/main.tsx",
+      "sha256": "88691511013709b4ea8ea05a824332ef0467c8272b8b9bfb6ee16b3758540115"
+    },
+    {
+      "path": "src/features/den-tho-bac/memorial.css",
+      "sha256": "38f2968a10c28f3ef2c19b955e1902cd718aedd463fc834f93240f62e5e570b6"
+    },
+    {
+      "path": "src/features/den-tho-bac/overview-slideshow.css",
+      "sha256": "05f3aeae1d4e3e2ad9f5abd70a873613a4c9be944b8679cc45521b4461a2129b"
+    },
+    {
+      "path": "src/features/den-tho-bac/people-portrait.css",
+      "sha256": "0bef64a8b52c09f2329015f03fb3f11b54d35c880bb01f41b89a5baed4554f4a"
+    },
+    {
+      "path": "src/features/den-tho-bac/people-shared.css",
+      "sha256": "790b21f1c6b183f19462c53406062ccdcf0d3e63801135ab73a74e39a849758c"
+    },
+    {
+      "path": "src/features/den-tho-bac/people-witness.css",
+      "sha256": "e4b79ffaf29b7a4b49bca3da517d309f3a392c7e694f547e29964a8693dc1a01"
+    },
+    {
+      "path": "src/features/den-tho-bac/section-motion.css",
+      "sha256": "1a71afde2db5a1acfb199838166af09056c0ff09bc27b643033625a54df1c6ef"
+    },
+    {
+      "path": "src/features/den-tho-bac/space-points.css",
+      "sha256": "416aecbf5b4c3ec4c9c214c4825cd078139825dc77b953e2412379f2dadaac55"
+    },
+    {
+      "path": "src/features/den-tho-bac/values-book.css",
+      "sha256": "9c03b60fada41c7614ce70663e2e2e297f75bf8f10b5076e1d7271d7a10caf89"
+    },
+    {
+      "path": "src/features/museo-detail/KhmerLegacyExhibition.tsx",
+      "sha256": "95f73e8730f907e9b74682ea061e3d7bc4eaa31394a3ee107f0c20567bef4386"
+    },
+    {
+      "path": "src/features/museo-detail/KhmerMuseumCulture.tsx",
+      "sha256": "ec80b2017ac67e30ea60a44966fa0c158d4c5c87bdf267a6d3e5835b90885d12"
+    },
+    {
+      "path": "src/features/museo-detail/KhmerMuseumHistory.tsx",
+      "sha256": "027e89113dff3fc5c25d584ea0ed79bfa6211b5483b3dc8d4ceb1a02e63ee30a"
+    },
+    {
+      "path": "src/features/museo-detail/KhmerMuseumIntro.tsx",
+      "sha256": "4610b37799f1b1492a5cb1bddca56745a8a5f849901d970c5ce1224058aa270f"
+    },
+    {
+      "path": "src/features/museo-detail/KhmerMuseumLegacy.tsx",
+      "sha256": "ac9d0c83369945e5abd3ead6daa275d31e48da1d0c97b970357eea1c06fa5f66"
+    },
+    {
+      "path": "src/features/museo-detail/KhmerMuseumOverview.tsx",
+      "sha256": "80d37346939f2e7272405e0c016101e89dbb6ba8bd276861b9f42c6ff09f1327"
+    },
+    {
+      "path": "src/features/museo-detail/KhmerMuseumOverviewViewer.tsx",
+      "sha256": "4457d5917957bc8c82cf1c30b5bcf567a9ae7fcdae301d0c79b01373d6339b67"
+    },
+    {
+      "path": "src/features/museo-detail/KhmerMuseumPlaces.tsx",
+      "sha256": "4549437451abda498862556676c293697d57780013f0a371d8b0aafbeafd474d"
+    },
+    {
+      "path": "src/features/museo-detail/KhmerPlaceExhibition.tsx",
+      "sha256": "3694eb74b197bcdeec283ab2a1be4dae09b1cd9f8aa8bd0d54529092c847c96a"
+    },
+    {
+      "path": "src/features/museo-detail/KhmerPlaceExplorer.tsx",
+      "sha256": "15deb329dcb786bc73a82414d2637bf39372711ef6b8fd4a1ef506221d499d6e"
+    },
+    {
+      "path": "src/features/museo-detail/MuseumDetailPage.tsx",
+      "sha256": "f2390dcaa519d09f676acc5ba3a0a75cf6af6a84cfa109abf754eb49c895c17d"
+    },
+    {
+      "path": "src/features/museo-detail/TourGalleryStrip.tsx",
+      "sha256": "2aa0f4d29ff1fab8aed58625de77a7a4ebd556f28af510e2322bbc0164cf9a7c"
+    },
+    {
+      "path": "src/features/museo-detail/TourPhotoDrawer.tsx",
+      "sha256": "18090a136b99f776cb2a6fb2bd824595463551742b82cbccd191ea522246bf16"
+    },
+    {
+      "path": "src/features/museo-detail/data.ts",
+      "sha256": "4debe9f5445d88faa8ba544a71cfea47e13fd0cae7137def29e90f77b7d40dd6"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-culture-motion.css",
+      "sha256": "30ce37f465b594a89b8c7d9602b895f1bbf5636d5f141c8d7cb308b7b7482d36"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-culture.css",
+      "sha256": "4dad7cbce44befd204595e295b267275a04684b14fd1ccb5fb62c57c6707d273"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-history-motion.css",
+      "sha256": "b3629d1bcc296b84e2d1adad9c27afce3547659327a2c1fc67fd49563bdb123b"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-history.css",
+      "sha256": "6885d962f81992d3c221d63d9b56bca7b6e4d8794a9382a41f4d7d310fb6e2b1"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-intro.css",
+      "sha256": "31c3f7ffd39b37f1246dbf21a394a3bb30ebcac407972aa48e8941c15b3026dd"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-legacy-exhibition.css",
+      "sha256": "bd6deffd8ccc0550b28c274129a5dd6c803afb2c37fa49f81b99164062ba227b"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-legacy-motion.css",
+      "sha256": "f375cb5265e8fa6232bbf006b1bcefcb7d769384f6c1e8d9f335f8c7b00b605f"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-legacy.css",
+      "sha256": "513c47582ae8db1d18f844482e7187cbe65b611131ce19a5682a792054c43595"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-overview-viewer.css",
+      "sha256": "b75e6807b2cd23ac648945b33bbb61c78dade6597edcb986442aba988ec447ee"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-overview.css",
+      "sha256": "91925fb33e2faeb2fee9eca9cc8fe6beeefcb79c5d3e9aa10f7231c6ba67d9ea"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-place-exhibition.css",
+      "sha256": "dbb09a336f1b37aba59aaa0dc799349a36642a5deab26f80214ce9cd42e587f5"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-places-motion.css",
+      "sha256": "ee81c195c49cd15155e147711ff34555c6e4223d4ed99d0a5549803f96f89eda"
+    },
+    {
+      "path": "src/features/museo-detail/khmer-places.css",
+      "sha256": "bb63608902407cd74c47ba337e059a72eb1068e38c770fd5f1ae35470bba08a8"
+    },
+    {
+      "path": "src/features/museo-detail/khmerCulture.ts",
+      "sha256": "3e2c73794e150ea12a1429d1abdeb8c4b791ec69c697fc97ab982cb04c950e17"
+    },
+    {
+      "path": "src/features/museo-detail/khmerHistory.ts",
+      "sha256": "2bb2d62225426c999a2f09525456d7f691cfb4cc3448d74ee8a2807911e77578"
+    },
+    {
+      "path": "src/features/museo-detail/khmerIntro.ts",
+      "sha256": "6b02f8178b902799d56e1ef0f2ac2ec7a917254f976bd645ed1c84782c04f43d"
+    },
+    {
+      "path": "src/features/museo-detail/khmerLegacy.ts",
+      "sha256": "784f012999f26ac12c29e67b9f591bb8d3b3bdb3b5350d089bb00eb6d3069af6"
+    },
+    {
+      "path": "src/features/museo-detail/khmerOverview.ts",
+      "sha256": "e39bd5b5d2e7943330bd84cea6fc03e6b6064c866e04793e00fce7709fb99eb3"
+    },
+    {
+      "path": "src/features/museo-detail/khmerOverviewExhibition.ts",
+      "sha256": "f5a0b74ed309c58df77d4c460d27772b38b5e248938dda5e092107e2ab59df85"
+    },
+    {
+      "path": "src/features/museo-detail/khmerPlaces.ts",
+      "sha256": "8a96a45f38b1db38a579ff24b69e264ec48bdd1515d5b8ac8e4fd523328cfb1d"
+    },
+    {
+      "path": "src/features/museo-detail/legacyExhibition.ts",
+      "sha256": "d31db330fbd9d6396d916d2c8f7f4aaaa263f37b58be23a9b4de9b5cb473faf8"
+    },
+    {
+      "path": "src/features/museo-detail/main.tsx",
+      "sha256": "c0230da758389ec743323d8a5c103043f515ab7dd09e18a3f517c83def02e1b5"
+    },
+    {
+      "path": "src/features/museo-detail/museo.css",
+      "sha256": "b49b11265a5a8625e66ec080a89df3c113bb054121f5d349c8834a983a1812a8"
+    },
+    {
+      "path": "src/features/museo-detail/museum-motion.css",
+      "sha256": "332dff6dc9cdae50cc616ba70b942e88b9815b33a9f2f3ca72fb89b87054b870"
+    },
+    {
+      "path": "src/features/museo-detail/museumMotion.ts",
+      "sha256": "44f3008bf923a274dfa0ba88974d77e807605a31c880176063dff5cb6e75578d"
+    },
+    {
+      "path": "src/features/museo-detail/placeExhibition.ts",
+      "sha256": "ed62954b8d58098e2cd6809b205b883bc493cadcfc8ba38619bfc91c35e26cc0"
+    },
+    {
+      "path": "src/features/museo-detail/screen-layout.css",
+      "sha256": "5660af24b01c35ed751ea6cc7af54b2ecccbcaafc037510d6dda9b48615ac67d"
+    },
+    {
+      "path": "src/features/museo-detail/useCultureMotion.ts",
+      "sha256": "6c5c2bf54ab3dfce3175756caacfc49a84c645dbfa94cc2f70317503cf7b300a"
+    },
+    {
+      "path": "src/features/museo-detail/useHistoryTimelineMotion.ts",
+      "sha256": "d339cf470e912721e78e841c1f4ac40e3b5a45cfdd9ef3b8681a718ac5d88c4c"
+    },
+    {
+      "path": "src/features/museo-detail/useKhmerIntroMotion.ts",
+      "sha256": "b41852161bb00a21771a2435edf1a24fb176e246a399209828de216aa52f9181"
+    },
+    {
+      "path": "src/features/museo-detail/useLegacyMosaicMotion.ts",
+      "sha256": "7fbe407b9806ab79b103fff520949b2c4ea878cda9df2ca5340f37ae4da58e67"
+    },
+    {
+      "path": "src/features/museo-detail/useLegacyViewerMotion.ts",
+      "sha256": "8e81f2d9e6f7afa8513282e17610710d12251fe4fc663bf8323ec3170da162ca"
+    },
+    {
+      "path": "src/features/museo-detail/useMuseumScreens.ts",
+      "sha256": "5748c4f086243174ae2358364bb27659e5904b2b85899fcc84581a47f700aab9"
+    },
+    {
+      "path": "src/features/museo-detail/usePlaceExplorerMotion.ts",
+      "sha256": "bd00851dfef1070be76631129d509a9a92b231aa8c33c39be4064e481cf86d82"
+    },
+    {
+      "path": "src/features/museo-detail/usePlaceViewerMotion.ts",
+      "sha256": "1df90edebbdd2604b8b94957a9596bc4dc02f3f1cd3d140451cc27f6568a40bf"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "f0a0c35d28f2b557cbf5a37eff047e917475470aec3ad980f30d4f3651b055c4"
+    },
+    {
+      "path": "src/main.tsx",
+      "sha256": "e730e09546d4c7aabc1978d39cfc4d67234c7dadfab02d472a5994f4a7216c02"
+    },
+    {
+      "path": "src/services/cameraManager.ts",
+      "sha256": "5d60e4e866aa9e7a776fda848194bd674cd316ab691a1b9784b6beca6fd26e6d"
+    },
+    {
+      "path": "src/services/esriImagery.ts",
+      "sha256": "ae15dbed42ea225ae61f96a78878ac016f5182bc4a6e13705a5e8375597f2687"
+    },
+    {
+      "path": "src/services/esriTileCache.generated.ts",
+      "sha256": "d00e554ef85974e9db7d4c70df198a9e8d7af318842e5c1e55fd62cd440b8d48"
+    },
+    {
+      "path": "src/services/googleDetailsEnCache.generated.ts",
+      "sha256": "39625616940cd6372202f59075deecda41829ad4c9ce82ee759474295e4f8db8"
+    },
+    {
+      "path": "src/services/googleDetailsViCache.generated.ts",
+      "sha256": "77b63292e3e5dd793e771f11c1dc8164ad0c42faf909821aa4adc6e0742dd04d"
+    },
+    {
+      "path": "src/services/googleImagery.ts",
+      "sha256": "df9c7933c8c8976cb531f3632bd4b788aaeda711c1a7bbe4f700106af4acbe63"
+    },
+    {
+      "path": "src/services/googleTileCache.generated.ts",
+      "sha256": "8d8238615b1c3865589096c5f9c120f90cb41641bf08d91bb8bbca7294903672"
+    },
+    {
+      "path": "src/services/heritageMarkers.ts",
+      "sha256": "f2cf5dbd961776ba6ba801dcfc83653fafc01ee96d678231dac66085de49718f"
+    },
+    {
+      "path": "src/services/localWeather.ts",
+      "sha256": "6304fefa5f423f9dc0a76766e66359db9435476356b4f812c5fb77687880d1b0"
+    },
+    {
+      "path": "src/services/mapCacheRevision.generated.ts",
+      "sha256": "e2df06321dd7d7c1e9e09c2d372c55ab99ec4a9534fbbc8618806e262c57c504"
+    },
+    {
+      "path": "src/services/mapDetails.ts",
+      "sha256": "25df0847b3b3013c143443a4f79e17f98417a80ac233bb7ca988106a50b5be05"
+    },
+    {
+      "path": "src/services/mapTileCache.ts",
+      "sha256": "a2850fac920d90a6772f8185ee8496f123cfe7c767d37bef39c52e07c5015d68"
+    },
+    {
+      "path": "src/services/maritimeLabels.ts",
+      "sha256": "d40dddb9a28bdad271fdac92cd8e9a54e5d8b8e348a8889f7699d9c0af8124f3"
+    },
+    {
+      "path": "src/services/soundscape.ts",
+      "sha256": "9d5c153a4bac3c0d12b22dff1033f865bd7dcbfde717e27a13d02bce96ed2fd1"
+    },
+    {
+      "path": "src/services/terrainImagery.ts",
+      "sha256": "20c4604d4398d97daeba7a4c4641f11b179ff1e410d68e43b29aec4289c02823"
+    },
+    {
+      "path": "src/services/terrainTileCache.generated.ts",
+      "sha256": "5925a3829004acea051e0eec816354a23b9794cbf8c1649f92e8e8fa3509c67b"
+    },
+    {
+      "path": "src/services/tilePreloader.ts",
+      "sha256": "123fa4a45f98308f73833867551f85624138a59f0a935731b9bb39582eb05438"
+    },
+    {
+      "path": "src/utils/geoCoordinates.ts",
+      "sha256": "547870c788fbedc5a9384fa6b82367c2842232aaaa22ec388be070b6a45785f7"
+    },
+    {
+      "path": "src/utils/museumOpening.ts",
+      "sha256": "5d67873555eab27c02f3e91a10b32b0b9a7fa0bc73d84dbb1a6590c26b76f341"
+    },
+    {
+      "path": "src/utils/museumPreload.ts",
+      "sha256": "7a8b1bb939a8e3492c7612cdfe880d43127d6b4669c59f6927cdd0b71a038040"
+    }
+  ],
+  "generated": [
+    {
+      "path": "preview/pdf-tools",
+      "files": 139,
+      "bytes": 55873803
+    },
+    {
+      "path": ".browser-profile",
+      "files": 2538,
+      "bytes": 289823316
+    },
+    {
+      "path": ".museum-review",
+      "files": 4,
+      "bytes": 1685033
+    },
+    {
+      "path": "dist/assets",
+      "files": 233,
+      "bytes": 73607583
+    },
+    {
+      "path": "preview/* (obsolete outputs only)",
+      "files": 836,
+      "bytes": 1129558546
+    }
+  ],
+  "keptPreview": [
+    "values-page-turn-review.html",
+    "den-tho-bac-values-page-turn.webm",
+    "den-tho-bac-overview-fit-1920x1080-0.png",
+    "den-tho-bac-overview-fit-1920x1080-1.png",
+    "den-tho-bac-overview-fit-1920x1080-2.png",
+    "den-tho-bac-people-label-free-live-witness.png",
+    "den-tho-bac-people-label-free-live-portrait.png",
+    "den-tho-bac-spaces-red-final-1920x1080-list.png",
+    "den-tho-bac-spaces-red-final-1920x1080-pond.png",
+    "den-tho-bac-spaces-red-final-390x844-list.png",
+    "den-tho-bac-history-shared-timeline-1920x1080.png",
+    "den-tho-bac-values-curve-forward-0.png",
+    "den-tho-bac-values-curve-forward-45.png",
+    "den-tho-bac-values-curve-forward-90.png",
+    "den-tho-bac-values-curve-forward-135.png",
+    "den-tho-bac-values-curve-forward-180.png",
+    "den-tho-bac-values-curve-reverse-0.png",
+    "den-tho-bac-values-curve-reverse-45.png",
+    "den-tho-bac-values-curve-reverse-90.png",
+    "den-tho-bac-values-curve-reverse-135.png",
+    "den-tho-bac-values-curve-reverse-180.png"
+  ],
+  "baseline": {
+    "src": {
+      "files": 516,
+      "bytes": 244693518
+    },
+    "preview": {
+      "files": 994,
+      "bytes": 1218877134
+    },
+    ".browser-profile": {
+      "files": 2538,
+      "bytes": 289823316
+    },
+    ".museum-review": {
+      "files": 4,
+      "bytes": 1685033
+    },
+    "dist": {
+      "files": 36793,
+      "bytes": 329259135
+    }
+  },
+  "validation": {
+    "lint": "passed",
+    "build": "passed",
+    "audit": {
+      "entries": 5,
+      "cachedTiles": 36551,
+      "retainedSupportFiles": 40,
+      "unusedFiles": 0,
+      "missing": 0
+    },
+    "appAssets": "passed",
+    "conChimKT01": "passed",
+    "museumOverviewViewer": "passed",
+    "bookMotion": "passed",
+    "bookChecks": 38,
+    "preservedRuntimeHashes": 293
+  },
+  "after": {
+    "src": {
+      "files": 345,
+      "bytes": 113030605
+    },
+    "preview": {
+      "files": 27,
+      "bytes": 40509478
+    },
+    ".browser-profile": {
+      "files": 0,
+      "bytes": 0
+    },
+    ".museum-review": {
+      "files": 0,
+      "bytes": 0
+    },
+    "dist": {
+      "files": 36741,
+      "bytes": 320687471
+    }
+  },
+  "netBytesFreed": 1610110582
+}

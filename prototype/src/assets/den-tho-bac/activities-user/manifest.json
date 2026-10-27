@@ -1,0 +1,30 @@
+{
+  "opening": {
+    "original": "opening-original.jpg",
+    "web": "opening.webp",
+    "width": 550,
+    "height": 371,
+    "sha256": "960211329b9c59936d93afca68fc02d42c9d0f836b33d381637ab8156933e3f7"
+  },
+  "birthday": {
+    "original": "birthday-original.jpg",
+    "web": "birthday.webp",
+    "width": 2048,
+    "height": 1536,
+    "sha256": "f87f12807b9c023ad6670fb56ccca663c46b5419ae8543b0894556d767ae4ff8"
+  },
+  "remembrance": {
+    "original": "remembrance-original.jpg",
+    "web": "remembrance.webp",
+    "width": 800,
+    "height": 656,
+    "sha256": "555ca62eddef036848e6ccfec3db7c0d5c9f9623e3634606d32ebe5075664af0"
+  },
+  "visit": {
+    "original": "visit-original.jpg",
+    "web": "visit.webp",
+    "width": 2048,
+    "height": 1365,
+    "sha256": "e2b2932f0103440784d6820ac496557f36e06a7a8020abf71e2868695e0d3f4b"
+  }
+}

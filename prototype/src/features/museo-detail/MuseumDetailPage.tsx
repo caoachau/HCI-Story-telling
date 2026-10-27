@@ -1,18 +1,14 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
-  BookOpen,
   ChevronLeft,
   ChevronRight,
   Diamond,
-  Expand,
   Hand,
   Landmark,
   Map,
   Mountain,
-  QrCode,
   Search,
-  Shrink,
   Sparkles,
   X,
 } from "lucide-react";
@@ -37,10 +33,10 @@ import { KhmerMuseumOverview } from "./KhmerMuseumOverview";
 import { KhmerOverviewViewer } from "./KhmerMuseumOverviewViewer";
 import type { KhmerOverviewTopic } from "./khmerOverview";
 import {
-  museumScreens,
   useMuseumScreens,
   type MuseumSection,
 } from "./useMuseumScreens";
+import { MuseumFooter, MuseumTools } from "./MuseumChrome";
 import "./museo.css";
 import "./screen-layout.css";
 import "./khmer-overview.css";
@@ -56,6 +52,7 @@ import "./khmer-places-motion.css";
 import "./khmer-history-motion.css";
 import "./khmer-culture-motion.css";
 import "./khmer-legacy-motion.css";
+import "./museum-chrome.css";
 import "./khmer-legacy-exhibition.css";
 
 type Section = MuseumSection;
@@ -412,9 +409,7 @@ export function MuseumDetailPage({
   lang = "vi",
   onClose,
   isExpanded,
-  isSidebarWide,
   onToggleExpanded,
-  onToggleSidebarWide,
   onOpenQRCode,
   onContentChange,
 }: Props) {
@@ -442,9 +437,6 @@ export function MuseumDetailPage({
         : new Set([...previous, activeSection]),
     );
   }, [activeSection]);
-  const screenIndex = museumScreens.findIndex(
-    (screen) => screen.id === activeSection,
-  );
   const vi = lang === "vi";
   const changed = () => onContentChange?.();
   const navigate = (section: Section, item?: string) => {
@@ -612,130 +604,9 @@ export function MuseumDetailPage({
             />
           )}
         </main>
-        <div className="md-room-sweep" aria-hidden="true" />
       </div>
-      <nav
-        className="md-screen-nav"
-        lang={lang}
-        aria-label={vi ? "Chuyển màn hình" : "Museum screens"}
-      >
-        <button
-          className="md-screen-previous"
-          type="button"
-          aria-label={vi ? "Màn hình trước" : "Previous screen"}
-          disabled={screenIndex === 0}
-          onClick={() => navigate(museumScreens[screenIndex - 1].id)}
-        >
-          <ChevronLeft />
-        </button>
-        <div className="md-screen-progress">
-          <span className="md-screen-label" aria-live="polite">
-            <b className="md-number-window">
-              <span key={screenIndex}>
-                {String(screenIndex + 1).padStart(2, "0")}
-              </span>
-            </b>
-            {" / 06 "}
-            <span>
-              {vi
-                ? museumScreens[screenIndex].vi
-                : museumScreens[screenIndex].en}
-            </span>
-          </span>
-          <div
-            className="md-screen-dots"
-            style={{ "--md-screen-index": screenIndex } as CSSProperties}
-          >
-            <i className="md-screen-indicator" aria-hidden="true">
-              <b key={screenIndex} />
-            </i>
-            {museumScreens.map((screen, index) => (
-              <button
-                key={screen.id}
-                className="md-screen-dot"
-                type="button"
-                data-section={screen.id}
-                aria-label={`${vi ? "Màn hình" : "Screen"} ${index + 1}: ${vi ? screen.vi : screen.en}`}
-                aria-current={activeSection === screen.id ? "step" : undefined}
-                title={vi ? screen.vi : screen.en}
-                onClick={() => navigate(screen.id)}
-              >
-                <span />
-              </button>
-            ))}
-          </div>
-        </div>
-        <button
-          className="md-screen-next"
-          type="button"
-          aria-label={vi ? "Màn hình tiếp theo" : "Next screen"}
-          disabled={screenIndex === museumScreens.length - 1}
-          onClick={() => navigate(museumScreens[screenIndex + 1].id)}
-        >
-          <ChevronRight />
-        </button>
-      </nav>
-      {(onClose || onToggleExpanded || onToggleSidebarWide || onOpenQRCode) && (
-        <div
-          className="md-host-controls"
-          lang={lang}
-          aria-label={vi ? "Điều khiển trang chi tiết" : "Detail page controls"}
-        >
-          {onOpenQRCode && (
-            <button
-              type="button"
-              onClick={onOpenQRCode}
-              aria-label={vi ? "Mở mã QR bảo tàng" : "Museum QR code"}
-              title={vi ? "Mã QR" : "QR code"}
-            >
-              <QrCode />
-            </button>
-          )}
-          {onToggleSidebarWide && (
-            <button
-              type="button"
-              onClick={onToggleSidebarWide}
-              aria-label={
-                vi
-                  ? "Đổi độ rộng chi tiết bảo tàng"
-                  : "Change museum detail width"
-              }
-              aria-pressed={isSidebarWide}
-              title={vi ? "Đổi độ rộng" : "Change width"}
-            >
-              <BookOpen />
-            </button>
-          )}
-          {onToggleExpanded && (
-            <button
-              type="button"
-              onClick={onToggleExpanded}
-              aria-label={
-                isExpanded
-                  ? vi
-                    ? "Thu nhỏ chi tiết bảo tàng"
-                    : "Exit fullscreen museum detail"
-                  : vi
-                    ? "Mở rộng chi tiết bảo tàng"
-                    : "Expand museum detail"
-              }
-              title={vi ? "Toàn màn hình" : "Fullscreen"}
-            >
-              {isExpanded ? <Shrink /> : <Expand />}
-            </button>
-          )}
-          {onClose && (
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label={vi ? "Đóng chi tiết bảo tàng" : "Close museum detail"}
-              title={vi ? "Về bản đồ Trà Vinh" : "Back to Trà Vinh map"}
-            >
-              <X />
-            </button>
-          )}
-        </div>
-      )}
+      <MuseumFooter active={activeSection} lang={lang} navigate={navigate} />
+      <MuseumTools lang={lang} onClose={onClose} onOpenQRCode={onOpenQRCode} onToggleExpanded={onToggleExpanded} isExpanded={isExpanded} />
       {modal?.kind === "overview" ? (
         <KhmerOverviewViewer
           initialTopic={modal.overviewTopic ?? "introduction"}

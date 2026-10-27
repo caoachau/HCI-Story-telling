@@ -1,0 +1,59 @@
+[
+  {
+    "image": "01",
+    "original": "01-original.png",
+    "web": "01.webp",
+    "size": [
+      1672,
+      941
+    ],
+    "source_sha256": "eea08f8158ad7933c2a82ca7792bad222353ed0fb0b4b5996fcc17682f537b47",
+    "web_bytes": 416012,
+    "clean_background": {
+      "png": "01-background.png",
+      "web": "01-background.webp",
+      "mode": "imagegen edit",
+      "prompts": "clean-background-prompts.json",
+      "web_bytes": 618396,
+      "sha256": "1cc57e74eb59f2c1869c69dc78f81a5948ed8ba7a6fb43e153069d45a5f273e4"
+    }
+  },
+  {
+    "image": "02",
+    "original": "02-original.png",
+    "web": "02.webp",
+    "size": [
+      1672,
+      941
+    ],
+    "source_sha256": "af755cb2e0924b79827732711628db45fb5e571813e0574b585108d90cac8637",
+    "web_bytes": 364984,
+    "clean_background": {
+      "png": "02-background.png",
+      "web": "02-background.webp",
+      "mode": "imagegen edit",
+      "prompts": "clean-background-prompts.json",
+      "web_bytes": 714122,
+      "sha256": "261e057afdf5271c957bc774398840c05e0a8012d325a64fb0246ff53e9d0f9a"
+    }
+  },
+  {
+    "image": "03",
+    "original": "03-original.png",
+    "web": "03.webp",
+    "size": [
+      1672,
+      941
+    ],
+    "source_sha256": "5350d5c97276a98c6c809fe20dd7fcf807f6fbe973057d37431debf1cd2a2f88",
+    "web_bytes": 370284,
+    "clean_background": {
+      "png": "03-background.png",
+      "web": "03-background.webp",
+      "mode": "imagegen edit",
+      "prompts": "clean-background-prompts.json",
+      "web_bytes": 481358,
+      "sha256": "635c365eab51dd9de065bae7c7a7ee861d1724c248495917b2df5b9dd6aade20"
+    }
+  }
+]

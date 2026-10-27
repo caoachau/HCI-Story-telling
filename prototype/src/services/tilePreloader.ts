@@ -136,7 +136,7 @@ export async function prefetchAreaTiles(
       await prefetchTile(url, signal);
     }
   };
-  await Promise.all(Array.from({ length: Math.min(4, urls.length) }, warmTiles));
+  await Promise.all(Array.from({ length: Math.min(2, urls.length) }, warmTiles));
 }
 
 /**

@@ -1,0 +1,750 @@
+@font-face {
+  font-family: 'Memorial Year';
+  src: url('../../assets/fonts/history-numerals-750.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 750;
+  font-stretch: 25% 151%;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+/* Supplied full-frame scenes, native font numerals and a native timeline.
+   Reference canvas 1672 × 941. Original pixels and aspect ratios are retained.
+   DESIGN_VARIANCE 6 / MOTION_INTENSITY 4 / VISUAL_DENSITY 4. */
+.db-kiosk[data-section="history"] {
+  --u: clamp(0.68px, min(0.059808612vw, 0.106269926dvh), 2.6px);
+  grid-template-columns: minmax(0, 1fr);
+  background: #090b0a;
+}
+.db-kiosk[data-section="history"] main {
+  min-width: 0;
+}
+.db-kiosk[data-section="history"] main > .db-history {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #090b0a;
+  color: #fff;
+  --history-red: #ff0910;
+}
+.db-history-stage {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  container-type: size;
+}
+.db-history-visual,
+.db-history-photo-art,
+.db-history-art-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.db-history-art-layer > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  filter: none;
+}
+.db-history-shade {
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--history-reading-shade);
+}
+.db-history .db-history-heading {
+  position: absolute;
+  inset: calc(23 * var(--u)) calc(max(240px, 264 * var(--u)) + 60 * var(--u))
+    auto calc(34 * var(--u));
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.db-history-heading h1 {
+  font-size: calc(15 * var(--u));
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.db-history-heading > div > p {
+  font-size: calc(11 * var(--u));
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-top: calc(3 * var(--u));
+}
+.db-history-instruction {
+  display: flex;
+  align-items: center;
+  margin-right: 0;
+  font-size: calc(11 * var(--u));
+  color: #fff;
+}
+.db-history-year {
+  position: absolute;
+  left: calc(var(--year-left) * var(--u));
+  top: calc(var(--year-top) * var(--u));
+  width: calc(var(--year-width) * var(--u));
+  height: calc(var(--year-height) * var(--u));
+  z-index: 1;
+  color: #fff;
+  pointer-events: none;
+  container-type: size;
+}
+.db-history-year-type {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+/* cqh is the actual year box height on desktop and mobile. Size the live font
+   directly, without a scaled SVG viewBox, textLength stretching or CSS zoom.
+   Metrics from the native width-axis instance preserve all four ink edges. */
+.db-history-year-type > text {
+  font-family: 'Memorial Year', 'Arial Black', Arial, sans-serif;
+  font-size: calc(100cqh * var(--year-size));
+  font-weight: 750;
+  font-style: normal;
+  font-synthesis: none;
+  font-kerning: none;
+  font-variant-numeric: proportional-nums;
+  font-optical-sizing: none;
+  font-variation-settings: 'wdth' var(--year-font-width);
+  letter-spacing: 0;
+  fill: #fff;
+  stroke: none;
+  filter: none;
+  mask-image: none;
+  text-shadow: none;
+  transform: none;
+}
+.db-era-detail {
+  position: absolute;
+  z-index: 2;
+  left: calc(43 * var(--u));
+  top: calc(var(--history-copy-top) * var(--u));
+  width: 46%;
+  max-width: calc(800 * var(--u));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.db-history[data-history-layout="large"] .db-era-detail {
+  left: calc(50 * var(--u));
+  top: calc(var(--history-copy-top) * var(--u));
+}
+.db-history-copy {
+  width: 100%;
+}
+.db-history-date {
+  display: flex;
+  align-items: center;
+  gap: calc(20 * var(--u));
+  color: var(--history-red);
+  line-height: 1.4;
+}
+.db-history-date > span {
+  font-size: calc(16 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.db-history[data-history-layout="large"] .db-history-date > span {
+  font-size: calc(28 * var(--u));
+  letter-spacing: 0;
+}
+.db-history-date > small {
+  font-size: calc(13 * var(--u));
+  font-weight: 600;
+  color: #fff;
+  border-left: 1px solid #fff;
+  padding-left: calc(16 * var(--u));
+  text-transform: uppercase;
+}
+.db-era-detail h2 {
+  font: 900 calc(50 * var(--u))/1.16 var(--display);
+  letter-spacing: -0.04em;
+  margin-top: calc(14 * var(--u));
+  white-space: nowrap;
+}
+.db-history-lead {
+  font-size: calc(24 * var(--u));
+  font-weight: 400;
+  line-height: 1.4;
+  margin-top: calc(10 * var(--u));
+  max-width: none;
+}
+.db-history-stage[data-history-year="1971–1972"] .db-history-lead {
+  max-width: calc(680 * var(--u));
+}
+.db-history-fact {
+  font-size: calc(20 * var(--u));
+  line-height: 1.45;
+  color: #fff;
+  margin-top: calc(22 * var(--u));
+  padding-left: calc(18 * var(--u));
+  border-left: calc(4 * var(--u)) solid var(--history-red);
+  max-width: none;
+}
+.db-era-detail > .db-history-read {
+  gap: calc(26 * var(--u));
+  margin-top: calc(18 * var(--u));
+  padding: calc(14 * var(--u)) calc(31 * var(--u));
+  min-height: max(44px, calc(59 * var(--u)));
+  border: 1.5px solid var(--history-red);
+  border-radius: 999px;
+  background: #0003;
+  color: var(--history-red);
+  font-size: calc(17 * var(--u));
+  font-weight: 600;
+  white-space: nowrap;
+}
+.db-history-read > svg {
+  width: calc(23 * var(--u));
+  height: calc(23 * var(--u));
+  transition: translate 0.2s;
+}
+.db-era-detail > .db-history-read:hover {
+  background: var(--history-red);
+  color: #fff;
+}
+.db-history-read:hover > svg {
+  translate: 4px 0;
+}
+.db-history[data-history-layout="large"] .db-era-detail h2 {
+  font-size: calc(48.5 * var(--u));
+  margin-top: calc(10 * var(--u));
+}
+.db-history[data-history-layout="large"] .db-history-lead {
+  font-size: calc(21 * var(--u));
+  line-height: 1.5;
+  margin-top: calc(8 * var(--u));
+  max-width: calc(590 * var(--u));
+}
+.db-history[data-history-layout="large"] .db-history-fact {
+  font-size: calc(17 * var(--u));
+  line-height: 1.25;
+  margin-top: calc(14 * var(--u));
+  max-width: none;
+}
+.db-history[data-history-layout="large"] .db-history-read {
+  margin-top: calc(12 * var(--u));
+  padding-inline: calc(27 * var(--u));
+}
+.db-history-visual > figcaption {
+  position: absolute;
+  z-index: 3;
+  right: 3%;
+  bottom: calc(var(--navigation-height) + 95 * var(--u));
+  max-width: 45%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: calc(12 * var(--u));
+  line-height: 1.5;
+  text-align: right;
+  color: #fff;
+  text-shadow:
+    0 1px 3px #000,
+    0 0 6px #000;
+}
+.db-history-axis {
+  position: absolute;
+  z-index: 5;
+  left: calc(43 * var(--u));
+  right: calc(43 * var(--u));
+  bottom: var(--navigation-height);
+  height: calc(84 * var(--u));
+  display: flex;
+  align-items: center;
+  gap: calc(34 * var(--u));
+  border-top: 1px solid #ffffff70;
+  background: transparent;
+  padding-bottom: calc(8 * var(--u));
+}
+.db-history-axis > .db-round {
+  width: max(44px, calc(44 * var(--u)));
+  height: max(44px, calc(44 * var(--u)));
+  padding: calc(10 * var(--u));
+  font-size: calc(21 * var(--u));
+  flex-shrink: 0;
+  color: #fff;
+  background: transparent;
+  border: 1.5px solid #fff;
+}
+.db-history-axis > .db-round:disabled {
+  opacity: 1;
+}
+.db-timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  flex: 1;
+  min-width: 0;
+  max-width: none;
+  margin-inline: auto;
+  align-self: stretch;
+}
+.db-timeline > button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 44px;
+  padding: calc(16 * var(--u)) calc(5 * var(--u));
+  color: #fff;
+  border-radius: 0;
+}
+.db-milestone-year {
+  position: relative;
+  font-size: calc(19 * var(--u));
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  padding: calc(7 * var(--u)) 0;
+}
+.db-milestone-year::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(3 * var(--u));
+  background: var(--history-red);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+.db-timeline [aria-pressed="true"] .db-milestone-year {
+  color: var(--history-red);
+  font-weight: 700;
+}
+.db-timeline [aria-pressed="true"] .db-milestone-year::after {
+  transform: scaleX(1);
+}
+.db-timeline > button:hover .db-milestone-year {
+  color: var(--history-red);
+}
+.db-history button:focus-visible {
+  outline-color: #fff;
+  outline-offset: 3px;
+}
+.db-history-art-status {
+  position: absolute;
+  z-index: 6;
+  right: 3%;
+  top: calc(90 * var(--u));
+  font-size: calc(12 * var(--u));
+  color: #fff;
+  background: #090b0aee;
+  padding: calc(9 * var(--u)) calc(14 * var(--u));
+  pointer-events: auto;
+}
+.db-history-art-status--error {
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(14 * var(--u));
+  text-align: center;
+  background: #090b0af0;
+}
+.db-history-art-status button {
+  display: block;
+  min-height: 44px;
+  padding: 8px 20px;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 999px;
+}
+.db-history[data-history-layout="compact"] .db-history-visual > figcaption {
+  font-size: calc(13 * var(--u));
+  bottom: calc(183 * var(--u));
+}
+.db-history-copy > .db-history-fact {
+  position: absolute;
+  left: 0;
+  top: calc((var(--history-fact-top) - var(--history-copy-top)) * var(--u));
+  width: 100%;
+  margin: 0;
+  border: 0;
+  padding-left: calc(24 * var(--u));
+}
+.db-history-fact::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(4 * var(--u));
+  height: calc(var(--history-fact-bar) * var(--u));
+  background: var(--history-red);
+}
+.db-history[data-history-layout="large"] .db-history-fact {
+  margin-top: 0;
+  padding-left: calc(21 * var(--u));
+  padding-top: calc(5 * var(--u));
+}
+.db-history-stage[data-history-year="1971–1972"] .db-history-fact {
+  padding-top: calc(9 * var(--u));
+}
+.db-history .db-era-detail > .db-history-read {
+  position: absolute;
+  left: 0;
+  top: calc((var(--history-read-top) - var(--history-copy-top)) * var(--u));
+  margin: 0;
+}
+.db-history[data-history-layout="compact"] .db-history-heading {
+  left: calc(40 * var(--u));
+  top: calc(30 * var(--u));
+  right: calc(312 * var(--u));
+}
+.db-history[data-history-layout="compact"] .db-history-heading h1 {
+  font-size: calc(18 * var(--u));
+  letter-spacing: 0.12em;
+}
+.db-history[data-history-layout="compact"] .db-history-heading > div > p {
+  font-size: calc(13 * var(--u));
+  letter-spacing: 0.14em;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .db-history-art-layer--out {
+    animation: db-history-out 0.65s ease both;
+  }
+  .db-history-art-layer--in {
+    animation-duration: 0.75s;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+    animation-fill-mode: both;
+  }
+  .db-history-art-layer[data-effect="remembrance"] {
+    animation-name: db-memory-emerge;
+  }
+  .db-history-art-layer[data-effect="building"] {
+    animation-name: db-build-across;
+  }
+  .db-history-art-layer[data-effect="opening"] {
+    animation-name: db-opening-reveal;
+  }
+  .db-history-art-layer[data-effect="rebuilding"] {
+    animation-name: db-rebuild-rise;
+  }
+  .db-history-art-layer[data-effect="peace"] {
+    animation-name: db-peace-settle;
+  }
+  .db-history-art-layer[data-effect="recognition"] {
+    animation-name: db-document-arrive;
+  }
+  .db-history-art-layer[data-effect="living"] {
+    animation-name: db-living-pan;
+  }
+  .db-history-copy {
+    animation: db-history-copy-in 0.45s ease-out both;
+  }
+  .db-history-year {
+    animation: db-history-year-in 0.5s ease-out both;
+  }
+  @keyframes db-history-out {
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes db-memory-emerge {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes db-build-across {
+    from {
+      opacity: 0;
+      translate: 12px 0;
+    }
+    to {
+      opacity: 1;
+      translate: 0;
+    }
+  }
+  @keyframes db-opening-reveal {
+    from {
+      opacity: 0;
+      translate: -8px 0;
+    }
+    to {
+      opacity: 1;
+      translate: 0;
+    }
+  }
+  @keyframes db-rebuild-rise {
+    from {
+      opacity: 0;
+      translate: 0 12px;
+    }
+    to {
+      opacity: 1;
+      translate: 0;
+    }
+  }
+  @keyframes db-peace-settle {
+    from {
+      opacity: 0;
+      translate: 0 -8px;
+    }
+    to {
+      opacity: 1;
+      translate: 0;
+    }
+  }
+  @keyframes db-document-arrive {
+    from {
+      opacity: 0.1;
+      translate: 0 6px;
+    }
+    to {
+      opacity: 1;
+      translate: 0;
+    }
+  }
+  @keyframes db-living-pan {
+    from {
+      opacity: 0;
+      translate: -12px 0;
+    }
+    to {
+      opacity: 1;
+      translate: 0;
+    }
+  }
+  @keyframes db-history-copy-in {
+    from {
+      opacity: 0;
+      translate: 0 8px;
+    }
+    to {
+      opacity: 1;
+      translate: 0;
+    }
+  }
+  @keyframes db-history-year-in {
+    from {
+      opacity: 0;
+      translate: 0 -8px;
+    }
+    to {
+      opacity: 1;
+      translate: 0;
+    }
+  }
+}
+@media (min-width: 901px) and (max-aspect-ratio: 3/2) {
+  .db-era-detail {
+    width: 60%;
+  }
+  .db-era-detail h2 {
+    font-size: calc(46 * var(--u));
+  }
+}
+@media (max-width: 1100px) and (min-width: 901px) {
+  .db-history-instruction {display: none;}
+}
+@media (max-width: 900px) {
+  .db-kiosk[data-section="history"] {
+    --u: 1px;
+  }
+  .db-kiosk[data-section="history"] main > .db-history {
+    height: auto;
+    min-height: 100%;
+    padding-bottom: calc(var(--navigation-height) + 14px);
+    overflow: visible;
+  }
+  .db-history-stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 700px;
+    padding: 92px 24px 56px;
+    container-type: normal;
+  }
+  .db-history .db-history-heading,
+  .db-history[data-history-layout="compact"] .db-history-heading {
+    inset: 18px 20px auto;
+    align-items: flex-start;
+  }
+  .db-history-heading h1,
+  .db-history[data-history-layout="compact"] .db-history-heading h1 {
+    font-size: 12px;
+  }
+  .db-history-heading > div > p,
+  .db-history[data-history-layout="compact"] .db-history-heading > div > p {
+    font-size: 8px;
+    margin-top: 4px;
+  }
+  .db-history .db-history-instruction {
+    display: none;
+  }
+  .db-history-art-layer > img {
+    height: 520px;
+    top: 0;
+    object-position: center;
+    opacity: 0.85;
+  }
+  .db-history-shade {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      0deg,
+      #090b0a 0%,
+      #090b0ae6 30%,
+      #090b0a55 65%,
+      #090b0a30 100%
+    );
+  }
+  .db-history-year,
+  .db-history[data-history-layout="large"] .db-history-year {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(100%, calc(var(--year-width) * 1px));
+    height: auto;
+    aspect-ratio: var(--year-width) / var(--year-height);
+    margin-top: 25px;
+  }
+  .db-era-detail,
+  .db-history[data-history-layout="large"] .db-era-detail {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    max-width: none;
+    margin-top: 32px;
+  }
+  .db-history-date > span,
+  .db-history[data-history-layout="large"] .db-history-date > span {
+    font-size: 16px;
+    letter-spacing: 0.06em;
+  }
+  .db-history-date > small {
+    font-size: 11px;
+    padding-left: 12px;
+  }
+  .db-history .db-era-detail h2,
+  .db-history[data-history-layout="large"] .db-era-detail h2 {
+    font-size: clamp(27px, 5vw, 40px);
+    white-space: normal;
+    line-height: 1.2;
+    margin-top: 14px;
+  }
+  .db-history-lead,
+  .db-history[data-history-layout="large"] .db-history-lead {
+    font-size: 17px;
+    max-width: 60ch;
+    margin-top: 14px;
+  }
+  .db-history-fact,
+  .db-history[data-history-layout="large"] .db-history-fact {
+    font-size: 14px;
+    margin-top: 20px;
+    max-width: 60ch;
+    line-height: 1.6;
+    padding-left: 14px;
+    border-left-width: 3px;
+  }
+  .db-era-detail > .db-history-read,
+  .db-history[data-history-layout="large"] .db-history-read {
+    font-size: 13px;
+    min-height: 48px;
+    padding: 11px 20px;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .db-history .db-history-copy > .db-history-fact {
+    position: relative;
+    left: auto;
+    top: auto;
+    margin-top: 20px;
+    padding-top: 5px;
+    padding-left: 18px;
+  }
+  .db-history-fact::before {
+    width: 3px;
+    height: 100%;
+  }
+  .db-history .db-era-detail > .db-history-read {
+    position: relative;
+    left: auto;
+    top: auto;
+    margin-top: 20px;
+  }
+  .db-history-read > svg {
+    width: 21px;
+    height: 21px;
+  }
+  .db-history-visual > figcaption {
+    right: 24px;
+    left: 24px;
+    bottom: 10px;
+    max-width: none;
+    font-size: 10px;
+    text-align: left;
+  }
+  .db-history[data-history-layout] .db-history-axis {
+    position: relative;
+    inset: auto;
+    margin: 0 12px;
+    height: 76px;
+    gap: 6px;
+    padding-bottom: 0;
+    border-top: 1px solid #ffffff70;
+  }
+  .db-history-axis > .db-round {
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+  }
+  .db-timeline {
+    overflow-x: auto;
+    scrollbar-width: thin;
+    grid-template-columns: repeat(7, minmax(65px, 1fr));
+  }
+  .db-timeline > button {
+    padding: 12px 3px;
+  }
+  .db-milestone-year {
+    font-size: 14px;
+    padding: 8px 5px;
+  }
+}
+@media (max-width: 600px) {
+  .db-history-heading h1 {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    max-width: 150px;
+  }
+  .db-history-heading > div > p {
+    font-size: 7px;
+    max-width: 140px;
+  }
+  .db-history-stage {
+    padding-inline: 20px;
+  }
+}
+

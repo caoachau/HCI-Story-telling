@@ -14,6 +14,7 @@ export default defineConfig({
       input: {
         main: resolve(projectDir, 'index.html'),
         conChim: resolve(projectDir, 'con-chim.html'),
+        denThoBac: resolve(projectDir, 'den-tho-bac.html'),
         aoBaOm: resolve(projectDir, 'ao-ba-om.html'),
         baoTangKhmer: resolve(projectDir, 'bao-tang-khmer.html'),
       },

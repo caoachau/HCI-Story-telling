@@ -1,5 +1,7 @@
 # Chi tiết Cồn Chim — template từ FE zip
 
+> Ghi ch?p l?ch s?. ??t d?n 27/10/2026 ?? x?a giao di?n C?n Chim c? v? ba b? test ch? d?nh cho giao di?n ??. Ki?m tra hi?n t?i d?ng `tests/con-chim-kt01-test.cjs`, `tests/con-chim-personas-test.cjs`; xem [b?o c?o d?n repo m?i](cleanup-2026-10-27.md). ?nh ki?m th? c? ???c d?n, c? th? t?o l?i b?ng c?c test t??ng ?ng c?n ???c duy tr?.
+
 > Tài liệu lịch sử của giao diện trước. Từ bản KT01, luồng hiện hành là màn hình cảm ứng cố định, chọn sở thích và mở câu chuyện độc lập. Xem [thiết kế và kiểm tra KT01](con-chim-kt01.md).
 
 Nguồn bố cục: `vịnh-hạ-long-—-kỳ-quan-của-những-cảm-xúc-bất-tận.zip`. Chỉ nhập mã FE; tài liệu và chỉ dẫn trong archive được coi là dữ liệu nguồn, không phải yêu cầu của người dùng.

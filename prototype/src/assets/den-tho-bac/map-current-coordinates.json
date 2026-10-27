@@ -1,0 +1,111 @@
+{
+  "image": "map-current-v2.webp",
+  "reference": "map-current-marked-v2.png",
+  "size": [
+    2560,
+    1440
+  ],
+  "coordinate_space": "source-image pixels and percentages, not GPS coordinates",
+  "registration": {
+    "method": "Clean and marked files use the same 2560x1440 aerial frame. Centers of the eight separate dark-red dots are used, not the handwriting.",
+    "date": "26/10/2026"
+  },
+  "points": [
+    {
+      "code": "01",
+      "name": "Đền thờ",
+      "source_pixel": [
+        1159.459,
+        277.865
+      ],
+      "percent": [
+        45.291,
+        19.296
+      ]
+    },
+    {
+      "code": "02",
+      "name": "Nhà trưng bày",
+      "source_pixel": [
+        1435.379,
+        217.46
+      ],
+      "percent": [
+        56.069,
+        15.101
+      ]
+    },
+    {
+      "code": "03",
+      "name": "Nhà đón tiếp khách",
+      "source_pixel": [
+        1959.125,
+        436.847
+      ],
+      "percent": [
+        76.528,
+        30.337
+      ]
+    },
+    {
+      "code": "04",
+      "name": "Hiện vật chiến tranh",
+      "source_pixel": [
+        1589.377,
+        485.975
+      ],
+      "percent": [
+        62.085,
+        33.748
+      ]
+    },
+    {
+      "code": "05",
+      "name": "Thuyền độc mộc",
+      "source_pixel": [
+        1790.142,
+        624.321
+      ],
+      "percent": [
+        69.927,
+        43.356
+      ]
+    },
+    {
+      "code": "06",
+      "name": "Nhà sàn Bác Hồ",
+      "source_pixel": [
+        1905.558,
+        1009.642
+      ],
+      "percent": [
+        74.436,
+        70.114
+      ]
+    },
+    {
+      "code": "07",
+      "name": "Khuôn viên",
+      "source_pixel": [
+        683.918,
+        763.112
+      ],
+      "percent": [
+        26.716,
+        52.994
+      ]
+    },
+    {
+      "code": "08",
+      "name": "Hồ sen",
+      "source_pixel": [
+        1038.175,
+        913.757
+      ],
+      "percent": [
+        40.554,
+        63.455
+      ]
+    }
+  ]
+}

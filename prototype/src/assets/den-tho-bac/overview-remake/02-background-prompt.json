@@ -1,0 +1,6 @@
+{
+  "mode": "built-in imagegen edit",
+  "input": "02-reference.png",
+  "output": "02-reference-background-v2.png",
+  "prompt": "Use case: precise-object-edit. Edit this 1774x887 target interface screenshot into its CLEAN BACKGROUND ASSET. Remove ONLY the interface overlays: white/red 'CÂU CHUYỆN', 02, DẤU XƯA CÒN MÃI, description and outlined left CTA; top-right utility pill; all three 01/02/03 bottom selectors, tracks and labels; bottom navigation bar, rule, icons and labels. Reconstruct the small physical scene areas hidden by the UI. Keep the existing photographic scene and exact canvas composition unchanged: bamboo, wooden gateway, all real gold text on the gateway and side signs, the small thatched temple in the center distance, memorial stone, sand and trees. No zoom, crop, camera movement, stretched perspective, altered architectural lettering, new objects, extra blur or duplicated edge strips. Preserve the exact 2:1 1774x887 framing of the input, especially the gateway title fully visible near the top and complete gateway posts ending above the removed footer. Square edge-to-edge clean background; do not output any interface text or controls. Keep inscriptions belonging to physical structures. Output a faithful background, not a redesign."
+}

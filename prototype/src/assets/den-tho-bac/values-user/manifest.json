@@ -1,0 +1,84 @@
+{
+  "01-reference-original.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 1853510,
+    "sha256": "bb20355a35a42ef9203b65e977973fb0ec77942e4f868ce1ba65797f0fece68d"
+  },
+  "01-reference.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 236136,
+    "sha256": "4449731aa446dda7126bcf017130ba3343e1f3ca8e914b7f739c64c30f19ed68"
+  },
+  "02-reference-original.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 1969809,
+    "sha256": "6474a8de7ffe03bbcee3fcff31900c62e42efbc14d9591f93cdbdf9acbb042e0"
+  },
+  "02-reference.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 254088,
+    "sha256": "eda2f49bf18962a46dd0738b47713d670d0f9d6f4cee34d0e88f0557526ac2c8"
+  },
+  "03-reference-original.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 1802176,
+    "sha256": "a1ce890d9ab55a31db8ace373142efb9c5a83dd5d0fa58ca49ce7c077bd5d529"
+  },
+  "03-reference.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 208196,
+    "sha256": "92bc836342f3757c392644d44403bc96587aa29b92c95d88d3413952c7eee622"
+  },
+  "04-reference-original.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 1915929,
+    "sha256": "acec89eb8551f1ae552706cfc20d99bb510cab6e92651c294706b9b876c4f4b8"
+  },
+  "04-reference.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 243204,
+    "sha256": "4a593c09337513fc6741c9c30d4641b6601743cc40f1638025671ecb89dc3be3"
+  },
+  "exhibition-background-v1.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 2197197,
+    "sha256": "ee58355f6cb21ef25d301a072146f51dee02433bce5177910c486e25f95a9d91"
+  },
+  "exhibition-background-v1.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 245326,
+    "sha256": "b8ed8b621a18ba719febe4d71a9c6778fdecef707a708124d8998cf9338facbe"
+  },
+  "glass-book-original.png": {
+    "width": 1893,
+    "height": 831,
+    "mode": "RGBA",
+    "bytes": 1937183,
+    "sha256": "fe1c01cacd068a105f7b93003b62087e6b10b821a0d9f9dee83ff8dcdcb3bfc3"
+  },
+  "page-turn-reference.png": {
+    "width": 1942,
+    "height": 809,
+    "mode": "RGB",
+    "bytes": 1978907,
+    "sha256": "51bf1485c82a740308a7fdd9a779c9f3e6e578f3655e2fa65a0b3aa05c8822a2"
+  },
+  "glass-book-lossless.webp": {
+    "width": 1893,
+    "height": 831,
+    "mode": "RGBA",
+    "bytes": 1258032,
+    "sha256": "0b3c4746127ac8024322816e5a7f2985070df240ab015b16cd94a56bca321e8d",
+    "processing": "Lossless WebP format conversion only; decoded RGBA pixels equal original PNG, including alpha."
+  }
+}

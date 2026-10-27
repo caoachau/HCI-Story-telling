@@ -1,0 +1,107 @@
+{
+  "1969-reference.png": {
+    "source": "C:\\Users\\ASUS\\Downloads\\1969 archival memorial history screen.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 2044306,
+    "sha256": "d565ca909b064edfc78a8c97347a684637711db249a93bf0b563095925c5715f"
+  },
+  "1970-reference.png": {
+    "source": "C:\\Users\\ASUS\\Downloads\\1970 Shrine Gateway History-1.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 2751535,
+    "sha256": "81a501be53bb5574f381a1894d6de8b56a277cbc85bc61aefcb980aa2a4b39a5"
+  },
+  "1971-reference.png": {
+    "source": "C:\\Users\\ASUS\\Downloads\\1971 Shrine Inauguration Ceremony-2.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 2370370,
+    "sha256": "9d29e36d99985b795d9ddbcc89730d698bb61754e55f8200573cac312bef2b8c"
+  },
+  "1972-reference.png": {
+    "source": "C:\\Users\\ASUS\\Downloads\\1972_ Rebuilding the Shrine-4.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 2369520,
+    "sha256": "9a68c92eb0fa27a273c07f4cd1cb8b3c643a815ca6fd9eafd04cf5830d7c8328"
+  },
+  "1975-reference.png": {
+    "source": "C:\\Users\\ASUS\\Downloads\\1975 Shrine Preservation Timeline-3.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 2409672,
+    "sha256": "83ce12f1840d11105b034966e0b7992f29fbc035e2320600584d8291e18f5aac"
+  },
+  "1989-reference.png": {
+    "source": "C:\\Users\\ASUS\\Downloads\\1989 Heritage Recognition at the Temple.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 1921034,
+    "sha256": "d80211db2afbae383424e8c731529e9f9aa1df521ce5c35b3f9aef32d76ad4ff"
+  },
+  "2012-reference.png": {
+    "source": "C:\\Users\\ASUS\\Downloads\\2012 Heritage Timeline Page.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 2428682,
+    "sha256": "6349be5fa9d5ddf3e940e5958beeaf5b4bb3453a7b1dc41389db18bd93334059"
+  },
+  "1969-original.jpg": {
+    "source": "C:\\Users\\ASUS\\OneDrive\\Máy tính\\New folder\\69.jpg",
+    "width": 815,
+    "height": 641,
+    "bytes": 70671,
+    "sha256": "7359e9c63dd1933c238ba527486d0bf13ea88705b11c5d3f31934e217c9cecb9",
+    "usage": "Current supplied photograph; unchanged original bytes. Year mapping follows the corrected image order."
+  },
+  "1970-original.jpg": {
+    "source": "C:\\Users\\ASUS\\OneDrive\\Máy tính\\New folder\\1031970.jpg",
+    "width": 550,
+    "height": 371,
+    "bytes": 76060,
+    "sha256": "960211329b9c59936d93afca68fc02d42c9d0f836b33d381637ab8156933e3f7",
+    "usage": "Current supplied photograph; unchanged original bytes. Year mapping follows the corrected image order."
+  },
+  "1971-original.webp": {
+    "source": "C:\\Users\\ASUS\\OneDrive\\Máy tính\\New folder\\71.webp",
+    "width": 800,
+    "height": 599,
+    "bytes": 544840,
+    "sha256": "846699378ff393a990bdde4fb4dd410c102a1f6cf4651895a1abce72464d8ed2",
+    "usage": "Current supplied photograph; unchanged original bytes. Year mapping follows the corrected image order."
+  },
+  "1972-original.webp": {
+    "source": "C:\\Users\\ASUS\\OneDrive\\Máy tính\\New folder\\72.webp",
+    "width": 800,
+    "height": 591,
+    "bytes": 540272,
+    "sha256": "97ca2dbc2926bd40ae7510aa103e0c0e33d5295d8a560f2787f733938987ee48",
+    "usage": "Current supplied photograph; unchanged original bytes. Year mapping follows the corrected image order."
+  },
+  "1975-original.webp": {
+    "source": "C:\\Users\\ASUS\\OneDrive\\Máy tính\\New folder\\75.webp",
+    "width": 800,
+    "height": 599,
+    "bytes": 581196,
+    "sha256": "bbc107e62d58b299f65045c97975bd3edc96c173826c58a051b5f831d624dc97",
+    "usage": "Current supplied photograph; unchanged original bytes. Year mapping follows the corrected image order."
+  },
+  "1989-original.jpg": {
+    "source": "C:\\Users\\ASUS\\OneDrive\\Máy tính\\New folder\\89.jpg",
+    "width": 1920,
+    "height": 2560,
+    "bytes": 830205,
+    "sha256": "b5976d7b7fd12f93628830d172249cc891fff80cc7130a705a11ea923298e52e",
+    "usage": "Current supplied photograph; unchanged original bytes. Year mapping follows the corrected image order."
+  },
+  "2012-original.jpg": {
+    "source": "C:\\Users\\ASUS\\OneDrive\\Máy tính\\New folder\\2012.jpg",
+    "width": 820,
+    "height": 548,
+    "bytes": 301674,
+    "sha256": "28691a138639e750d2b711a1eeb556985ab29846b4bf749d4149514275d841be",
+    "usage": "Current supplied photograph; unchanged original bytes. Year mapping follows the corrected image order."
+  }
+}

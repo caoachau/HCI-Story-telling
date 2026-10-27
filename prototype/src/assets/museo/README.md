@@ -1,6 +1,8 @@
 # MUSEO reference artwork
 
-The JPEG assets are regions extracted from the user-supplied museum reference plates in `Frame 55.png`, `Group 86.png`, `image 106.png` and `image 107.png`. The page uses those regions as photography, map artwork and artifact illustrations; headings, navigation, buttons, filters, dialogs and galleries are React components.
+The current page uses the Khmer museum photographs described in `src/features/museo-detail/khmerOverview.ts`, `khmerPlaces.ts`, `khmerHistory.ts` and `khmerCulture.ts`. Those modules retain captions and source links. Headings, navigation, buttons, filters, dialogs and galleries are React components.
+
+On 27 October 2026 the unused cave/prehistory demo photographs and its retired gallery code were removed. The overview lookup now imports only its five current images. `rock-texture.jpg` and `evolution-landscape.jpg` remain referenced by the shared stylesheet. The original extraction instructions below describe the older reference workflow; rerunning the full script also recreates retired assets.
 
 Reproduce the extraction on Windows:
 
@@ -8,9 +10,7 @@ Reproduce the extraction on Windows:
 ./scripts/extract-museo-reference.ps1 -ReferenceDirectory 'path/to/reference/directory'
 ```
 
-The script retains the originals and exports JPEGs at a maximum width of 1600 px. The 38 illustrations are about 2.6 MB in total and are lazy loaded below the hero. Some source plates contain enlarged low-resolution artwork; those regions retain the supplied image quality.
-
-The 12 `detail-*.jpg` photographs are additional Wikimedia Commons images for the Explore Site galleries. They are downloaded originals or Commons-served thumbnails, without image edits. Full attribution and license links are stored in `src/features/museo-detail/sitePhotoCredits.ts` and shown with the selected photograph. These files are separate from the reference extraction script.
+The script exports JPEGs at a maximum width of 1600 px. Source plates remain outside the repository. Removed files and hashes are recorded in `docs/cleanup-2026-10-27.json`.
 
 `montserrat-black.ttf` (Montserrat, weight 900) and `space-mono.ttf` (Space Mono, regular) are the source Google Fonts, distributed under their included SIL Open Font License files. The page serves compressed WOFF subsets (63 KB combined) retaining Latin, Vietnamese and punctuation glyphs. The TTF masters are retained for future subsetting and do not ship in the build. Existing Lucide icons are used throughout the UI.
 

@@ -22,7 +22,7 @@ export function useQuickPageMotion(
     const transform = `translateX(${tab.offsetLeft}px) scaleX(${tab.offsetWidth})`;
     line.style.transform = transform;
     const changingSite = element.dataset.quickMotion === "changing-site";
-    if (!reduced && before.siteId === siteId && !changingSite)
+    if (!reduced && before.siteId === siteId && !changingSite && before.topic !== topic)
       indicator.current = line.animate([{ transform: old }, { transform }], {
         duration: 460,
         easing: "cubic-bezier(.16,1,.3,1)",

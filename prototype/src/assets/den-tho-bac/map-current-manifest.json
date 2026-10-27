@@ -1,0 +1,53 @@
+[
+  {
+    "original": "map-current-original.png",
+    "web": "map-current.webp",
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "ff3ca249678b0dc1b9799890ed5f556dacf1132ecfd451275a93ae969e0b86f7",
+    "web_bytes": 563236,
+    "runtime": false
+  },
+  {
+    "original": "map-legend-original.png",
+    "web": "map-legend.webp",
+    "size": [
+      1942,
+      809
+    ],
+    "sha256": "e92bcb8de6d115b048c39d14164056edc1a8b9bd5295c75468c5ad452f9f803e",
+    "web_bytes": 470434,
+    "runtime": false
+  },
+  {
+    "original": "mapmoi.webp",
+    "web": "map-current-v2.webp",
+    "size": [
+      2560,
+      1440
+    ],
+    "sha256": "a44afd3d7812245ff5aff0aea3a28f587213cd6e0c221e0e9e79d3957f5b9725",
+    "bytes": 1308638,
+    "runtime": true,
+    "role": "clean aerial",
+    "supplied": "26/10/2026"
+  },
+  {
+    "original": "map-current-marked-v2.png",
+    "web": "map-current-marked-v2.webp",
+    "size": [
+      2560,
+      1440
+    ],
+    "sha256": "84b1756a7bc58659b20d88a336e103c6938080ce33bc9dd5146ab50151526aca",
+    "bytes": 9295372,
+    "runtime": true,
+    "role": "marked reference",
+    "supplied": "26/10/2026",
+    "supplied_file": "Desktop/mapmoi.png",
+    "web_bytes": 1526768,
+    "web_sha256": "6313200cdcdcbe447da7d4fc376fa23f8748842b2e0960b16a7f0025d8369a6a"
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "witness-demo-original.png": {
+    "size": [
+      1672,
+      941
+    ],
+    "bytes": 2777250,
+    "sha256": "1aeeada4e90bb3f9afdc3f2e46ae7b0e2aef331b6a6c9000fbcf659460d32d22"
+  },
+  "witness-background-v1.png": {
+    "size": [
+      1672,
+      941
+    ],
+    "bytes": 3259626,
+    "sha256": "9e180392dde032c210b3cc481fa2b2041ce127d35b14a55a2626c21a84886915"
+  },
+  "witness-background-v1.webp": {
+    "size": [
+      1672,
+      941
+    ],
+    "bytes": 657482,
+    "sha256": "4d5ddaf22a2fce827d9006ca9b28612a8f0bc74af0ec7fd0b3e863bc8f448578"
+  },
+  "witness-layout-v2-original.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 2818178,
+    "sha256": "764dba5f89b63c3dbda8df51e2f9f6119867d6c786973575613b27e7ae827f8c"
+  },
+  "witness-layout-v2.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 527268,
+    "sha256": "74a5e0979936b3bf94c92d705d415e77a0c3fe0611bc0cacc43580316cbd9a5a"
+  }
+}

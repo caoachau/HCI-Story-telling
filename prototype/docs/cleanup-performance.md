@@ -1,5 +1,7 @@
 # Dọn dữ liệu và tối ưu hiệu suất — 04/10/2026
 
+> Ghi ch?p l?ch s?. ??t d?n 27/10/2026 ?? x?a giao di?n C?n Chim c? v? ba b? test ch? d?nh cho giao di?n ??. Ki?m tra hi?n t?i d?ng `tests/con-chim-kt01-test.cjs`, `tests/con-chim-personas-test.cjs`; xem [b?o c?o d?n repo m?i](cleanup-2026-10-27.md). ?nh ki?m th? c? ???c d?n, c? th? t?o l?i b?ng c?c test t??ng ?ng c?n ???c duy tr?.
+
 ## Phạm vi dọn
 
 Đối chiếu cả ba entry Vite (`index.html`, `con-chim.html`, `ao-ba-om.html`), import động, URL trong CSS và glob ảnh ghim bản đồ trước khi xóa. `npm run audit:unused` báo các file nguồn chưa được entry sử dụng; chỉ báo cáo, không tự xóa. Script không coi tài liệu, giấy phép hoặc tile URL sinh từ manifest là file dư.

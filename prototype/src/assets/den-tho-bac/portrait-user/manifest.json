@@ -1,0 +1,38 @@
+{
+  "artist-interview-original.jpg": {
+    "width": 500,
+    "height": 312,
+    "bytes": 51324,
+    "sha256": "08fe5667da0e812ef8a2cc6d35b102cbc34ab25aebaedbcee8d3528dbac5bacb"
+  },
+  "ho-chi-minh-portrait-original.jpg": {
+    "width": 450,
+    "height": 409,
+    "bytes": 64377,
+    "sha256": "f6cb97498f551fc943abe416ebcfad8b479f06f5f3e9807d4922471ba8c9c651"
+  },
+  "portrait-demo-original.png": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 1917563,
+    "sha256": "091c977d727aad6b239ee6a22784fe2489d9ccb9ab55876fb705e5dcac3a34a5"
+  },
+  "portrait-demo.webp": {
+    "width": 1672,
+    "height": 941,
+    "bytes": 222496,
+    "sha256": "40cac1196649ad7a09ce587faa76a493f8b34c4a0654704de030955b649e94cb"
+  },
+  "ho-chi-minh-portrait-updated-original.png": {
+    "width": 1315,
+    "height": 1196,
+    "bytes": 2371037,
+    "sha256": "69386be4395ce6a5b52d19c325dacc546aeffb2bb1ea86e664a1b33831ce996b"
+  },
+  "ho-chi-minh-portrait-updated.webp": {
+    "width": 1315,
+    "height": 1196,
+    "bytes": 207670,
+    "sha256": "c87ecb48da86b48a1780ab6ccfe2f2a91127b720b2d7158a537788e0675a99f5"
+  }
+}

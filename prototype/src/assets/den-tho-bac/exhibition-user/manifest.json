@@ -1,0 +1,845 @@
+{
+  "source": "F:/1. Đang lam/tmp/ntb",
+  "supplied": "2026-10-27",
+  "count": 93,
+  "processing": "Original bytes copied without image edits",
+  "photos": [
+    {
+      "index": 1,
+      "file": "1793091964470_182707632726786341_2992410667195687979_09c63fa9d887cf8a2081f3a58d46d8be.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 69646,
+      "sha256": "8698577fca220043fa69606ba5e99cb419adc845007a4b8e3f043626925d9d94",
+      "asset": "photo-001.jpg"
+    },
+    {
+      "index": 2,
+      "file": "1793091964496_182707632726786341_2992410667195687979_c274fa69515096072c2ea9e43b539f53.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 157226,
+      "sha256": "d8e30484be71e7173f869008a2a0985f4db65308870ff61806a9ae1db1b6077a",
+      "asset": "photo-002.jpg"
+    },
+    {
+      "index": 3,
+      "file": "1793091964524_182707632726786341_2992410667195687979_770256e5da630e1b2d7939417a830b44.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 199202,
+      "sha256": "c8cfcf0fdad18fafd523828b7f1f8d3594f21e90117f0afcbc454d6d2c2848de",
+      "asset": "photo-003.jpg"
+    },
+    {
+      "index": 4,
+      "file": "1793091964559_182707632726786341_2992410667195687979_d79c17318ad8df54b31462cd93eb112f.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 91520,
+      "sha256": "840712ba1f08110da625c1d0a88dcfb30986331e142123562e6358c2c455dcff",
+      "asset": "photo-004.jpg"
+    },
+    {
+      "index": 5,
+      "file": "1793091964583_182707632726786341_2992410667195687979_845ef214081102eb9ac837024fe68de5.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 174864,
+      "sha256": "206410cba7e4ca7271b91518556948c3dba3fef9ab7be6ab34cb94664518d0d4",
+      "asset": "photo-005.jpg"
+    },
+    {
+      "index": 6,
+      "file": "1793091964616_182707632726786341_2992410667195687979_59bf2451e5e88823768fa471035323ed.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 113733,
+      "sha256": "cf2ace34a0bde52714732b347f49a1bef513cb45b97b01ebc5362a03ad8b1aaf",
+      "asset": "photo-006.jpg"
+    },
+    {
+      "index": 7,
+      "file": "1793091964640_182707632726786341_2992410667195687979_49108572123ed85e8c8d2d0b4c6b375d.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 148953,
+      "sha256": "0b0967dfe812e15961dc3e5ae6be3ecb19ba3257195e1d3e1ade46f476a6bf72",
+      "asset": "photo-007.jpg"
+    },
+    {
+      "index": 8,
+      "file": "1793091964673_182707632726786341_2992410667195687979_ae5eef678c8f840a99c8144fa04d6033.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 197793,
+      "sha256": "ff501c763ad9902d9f8ae04913fece8306d2335e7c56d4ff0dd76ee59e536d38",
+      "asset": "photo-008.jpg"
+    },
+    {
+      "index": 9,
+      "file": "1793091964709_182707632726786341_2992410667195687979_798702f5acbccde6cd59a477eff2cb27.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 155100,
+      "sha256": "8bc8c557b1b203d5b64381f16d765e836184c359f37058bb7281c14f4d10372b",
+      "asset": "photo-009.jpg"
+    },
+    {
+      "index": 10,
+      "file": "1793091964737_182707632726786341_2992410667195687979_81765c6d42e6071dac8f687559dfbbf8.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 233077,
+      "sha256": "3a2fbde58624d5a57a6f547f7b842b84c04881f418dcb8c57223ffd36c081fb0",
+      "asset": "photo-010.jpg"
+    },
+    {
+      "index": 11,
+      "file": "1793091964764_182707632726786341_2992410667195687979_3324142a0a265ad0190f05fd6481c8a3.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 279468,
+      "sha256": "dc72b153ed0d7a04c77406ca7ecbd537747b9b6b4b52cf92fe07685b1d27fd3c",
+      "asset": "photo-011.jpg"
+    },
+    {
+      "index": 12,
+      "file": "1793091964789_182707632726786341_2992410667195687979_394e985540790203792e5f1971ffeb2e.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 157785,
+      "sha256": "4888f36efcae2b12938234cbeea9b4ecfcfb36c03cb0990a5c9662462b57df76",
+      "asset": "photo-012.jpg"
+    },
+    {
+      "index": 13,
+      "file": "1793091964812_182707632726786341_2992410667195687979_43252ab54f59b2516b69fa59b61a9c39.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 159981,
+      "sha256": "e68cf1df23671602558268c4d49c7b28b3015b54f8b96de5ff8c2f3bb10fd9b4",
+      "asset": "photo-013.jpg"
+    },
+    {
+      "index": 14,
+      "file": "1793091964836_182707632726786341_2992410667195687979_8d085eb96e9b2b032a46e3b21d391bed.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 114073,
+      "sha256": "0c50680a81e0d7965fde687090beec80f9f6233081413490fe93f1718f6007b0",
+      "asset": "photo-014.jpg"
+    },
+    {
+      "index": 15,
+      "file": "1793091964865_182707632726786341_2992410667195687979_359453ae80e08ca2c267380cde292351.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 153537,
+      "sha256": "6e1dae28b467918e047497e7e4bc9712a0808a06fc1298e671fd7bf0a6a4927c",
+      "asset": "photo-015.jpg"
+    },
+    {
+      "index": 16,
+      "file": "1793091964897_182707632726786341_2992410667195687979_2d674758d0f1ef60222dad4497294443.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 217892,
+      "sha256": "b5755fdb494f7142ec537a0645517e06465d6163f6a3e5c69903f8d0a43b31ed",
+      "asset": "photo-016.jpg"
+    },
+    {
+      "index": 17,
+      "file": "1793091964926_182707632726786341_2992410667195687979_854d393bcf5208b80b450effa85ea3c6.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 94719,
+      "sha256": "90fc329e733ca139e60297cb991fd7f2b35ab14ca5ebaa505e99ae45cc9530dc",
+      "asset": "photo-017.jpg"
+    },
+    {
+      "index": 18,
+      "file": "1793091964959_182707632726786341_2992410667195687979_901e325d2e6d67a98c55c9546413e121.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 264385,
+      "sha256": "70609d72c3d0b3e5612b0db69d1df40164fc95ad2680edd1bdc3fee1927e72c2",
+      "asset": "photo-018.jpg"
+    },
+    {
+      "index": 19,
+      "file": "1793091964994_182707632726786341_2992410667195687979_660421d1cdeaf2e2e951c296134d1a17.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 159157,
+      "sha256": "52b0bca0579f0623f05ba0db07e895266c05b0b7c986c8faf013902f81517ef6",
+      "asset": "photo-019.jpg"
+    },
+    {
+      "index": 20,
+      "file": "1793091965019_182707632726786341_2992410667195687979_83ee32a6c2f471dfac15fa7a37baaf95.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 300526,
+      "sha256": "bd7d36d65c198eff2959a2c61b9c50539c98fa4e39db984b787040fa4c4956dc",
+      "asset": "photo-020.jpg"
+    },
+    {
+      "index": 21,
+      "file": "1793091965045_182707632726786341_2992410667195687979_0412846b3bdea0e6e1eb3f578ada89eb.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 80366,
+      "sha256": "629ad8c99ed2651828a1890d83bfe9244273e065db93c08c9c2bea4555553a7c",
+      "asset": "photo-021.jpg"
+    },
+    {
+      "index": 22,
+      "file": "1793091965075_182707632726786341_2992410667195687979_d4c90922eb0eb644cf620d39fc5061b3.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 301901,
+      "sha256": "d70400fafd68c27f60bc574451ac08a52fd5a85f8f2fc709ea44e6af58485278",
+      "asset": "photo-022.jpg"
+    },
+    {
+      "index": 23,
+      "file": "1793091965103_182707632726786341_2992410667195687979_aa25b52736556d5e60c14edee2ac91a3.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 122956,
+      "sha256": "1c8a9fb90b10af62152f01c9a9411cd17627005d18217d066b957ade99af2976",
+      "asset": "photo-023.jpg"
+    },
+    {
+      "index": 24,
+      "file": "1793091965133_182707632726786341_2992410667195687979_42f3db94aa3e1857ea02fc3949e0a74e.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 163973,
+      "sha256": "a3d608ea81cfe11030236979374c03a24ac7486abafc45d217c52e65fae2d4fa",
+      "asset": "photo-024.jpg"
+    },
+    {
+      "index": 25,
+      "file": "1793091965163_182707632726786341_2992410667195687979_4acba92dbc46bdd71a2a72256af47c33.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 198412,
+      "sha256": "4cff02f17109bd08cc94555cd00a6b42344b9f49030289d05c253e25285bc19d",
+      "asset": "photo-025.jpg"
+    },
+    {
+      "index": 26,
+      "file": "1793091965192_182707632726786341_2992410667195687979_2024dce3ac217f6ba81ff5a78362dee3.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 230921,
+      "sha256": "4c3b744e424085601aba52ba053a9138ba1e60494a75ae5982989976d746c6ab",
+      "asset": "photo-026.jpg"
+    },
+    {
+      "index": 27,
+      "file": "1793091965221_182707632726786341_2992410667195687979_12853199c80340981a48c274f85c98a5.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 245622,
+      "sha256": "c9c9fbea504f89907acd8b60bdff18adf58f233b8ec8ac0c61b79a513e2a270b",
+      "asset": "photo-027.jpg"
+    },
+    {
+      "index": 28,
+      "file": "1793091965252_182707632726786341_2992410667195687979_0bec0894bba17de34f54549b181e0908.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 168777,
+      "sha256": "3f1aadfc0ba1a23bf472a11b6798ff0da7519bf8a5c733d8133b0339a8d84e62",
+      "asset": "photo-028.jpg"
+    },
+    {
+      "index": 29,
+      "file": "1793091965275_182707632726786341_2992410667195687979_073831fbd1a29a4c6a2acf47b8c23f6e.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 159977,
+      "sha256": "87dc29f8cff83aaec3c5742894eb571fff8443812404b039264ae348262a95c4",
+      "asset": "photo-029.jpg"
+    },
+    {
+      "index": 30,
+      "file": "1793091965298_182707632726786341_2992410667195687979_36dc2603149d5a813108a846b6de2dc7.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 109448,
+      "sha256": "a39ae5a43c4e82cda4ce496a7fce628b604cb34404442dfdfa846b0af9cb9c74",
+      "asset": "photo-030.jpg"
+    },
+    {
+      "index": 31,
+      "file": "1793091965326_182707632726786341_2992410667195687979_371dafa5c928c07b168b983c1dcb975a.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 177279,
+      "sha256": "25a97bfc3bfb4a5c05652baa2d53de3a5b4a82305aba76076dc1e3e0be262721",
+      "asset": "photo-031.jpg"
+    },
+    {
+      "index": 32,
+      "file": "1793091965354_182707632726786341_2992410667195687979_c0c593e4fd2006336be03cf327afbec9.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 186011,
+      "sha256": "43ca2b416d5a2682e0321ceea7d863b400ec6506b24462dc6ab3e4ee61a1d272",
+      "asset": "photo-032.jpg"
+    },
+    {
+      "index": 33,
+      "file": "1793091965382_182707632726786341_2992410667195687979_2e8e9f78115db95caeaecfa5127f6e19.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 129870,
+      "sha256": "529e0d1f22b7378d017974ea2a94151b4e58d4ad9bad2d1c0e506c967d599d3c",
+      "asset": "photo-033.jpg"
+    },
+    {
+      "index": 34,
+      "file": "1793091965410_182707632726786341_2992410667195687979_6d6263fc60ba6e96f732f95089f71404.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 114298,
+      "sha256": "0f5287e280e3535fc56bc615df405b602064cff1c43e2a7fc07d618d781ae711",
+      "asset": "photo-034.jpg"
+    },
+    {
+      "index": 35,
+      "file": "1793091965441_182707632726786341_2992410667195687979_100030dcb0b79a868bcd462095b016d5.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 237566,
+      "sha256": "21ff74b458480c4b7e488579f868419a1f0a1470c2a717c4812fb19d14f0af37",
+      "asset": "photo-035.jpg"
+    },
+    {
+      "index": 36,
+      "file": "1793091965474_182707632726786341_2992410667195687979_445e144d5b115b2ae542b562b1f53c05.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 213362,
+      "sha256": "cca9793b2230aea0d3d130248591cf114263028afc8a12080a3de12de3208ebf",
+      "asset": "photo-036.jpg"
+    },
+    {
+      "index": 37,
+      "file": "1793091965501_182707632726786341_2992410667195687979_f5433fb01c3b39cc92fb7a1a84354aad.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 181191,
+      "sha256": "3d8068941a5201ff3b30f5d84ed2f9b098e1a9782a34b0a9ee9124204b97a88f",
+      "asset": "photo-037.jpg"
+    },
+    {
+      "index": 38,
+      "file": "1793091965532_182707632726786341_2992410667195687979_7a182fd8433fc9296b743484410f20f3.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 89727,
+      "sha256": "a7c1b561355e010293fbeb23aa136d9687f3f4de37b855b0638ada1d3285c4d7",
+      "asset": "photo-038.jpg"
+    },
+    {
+      "index": 39,
+      "file": "1793091965557_182707632726786341_2992410667195687979_567c6ac4fba98e757b65f19da8dc886d.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 147831,
+      "sha256": "1a47cc2c374e698ec613fcf1e00a98f927d47d1fb7d92936d31c06343fa723c3",
+      "asset": "photo-039.jpg"
+    },
+    {
+      "index": 40,
+      "file": "1793091965585_182707632726786341_2992410667195687979_b31c43654ca40a0559edb724625b8760.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 137504,
+      "sha256": "7aacdcc179878c54cce191b6c53b2203b78cf6465bf27301a48ffd91dcfc3ad4",
+      "asset": "photo-040.jpg"
+    },
+    {
+      "index": 41,
+      "file": "1793091965615_182707632726786341_2992410667195687979_fad734b739bfbd5340d6d32367e0a7c1.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 131242,
+      "sha256": "01cf5983bf7ac50172d638a2fc5b0dc15af1fe6b49b9e325db13d3784c728e91",
+      "asset": "photo-041.jpg"
+    },
+    {
+      "index": 42,
+      "file": "1793091965644_182707632726786341_2992410667195687979_2baa0da5c7eeb6d1e97bb1a34675e4f3.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 132106,
+      "sha256": "9f48ddc2f7fc7fd1ee175ebcfd4f827130210850f117ce67e0984fae72be396c",
+      "asset": "photo-042.jpg"
+    },
+    {
+      "index": 43,
+      "file": "1793091965681_182707632726786341_2992410667195687979_3f9013687253d80ec2abb1a9c87c8365.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 242477,
+      "sha256": "b26f9a7fd10712edae70aa93ccc68f370f5ee8eaa79667c5083968724de77060",
+      "asset": "photo-043.jpg"
+    },
+    {
+      "index": 44,
+      "file": "1793091965713_182707632726786341_2992410667195687979_b6318d3c1f9895f1d9184b5e9b39e2b5.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 182393,
+      "sha256": "7561f3cce3a60640a3bfbfd753c9c85200600ecd00e0a01bf455c3f27814434b",
+      "asset": "photo-044.jpg"
+    },
+    {
+      "index": 45,
+      "file": "1793091965742_182707632726786341_2992410667195687979_c02bf15ad73a04f5a77a8819120cc1f9.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 221853,
+      "sha256": "96be04c2588565427df3639dd9eaccf237e538bf56124e024806d7b36abfe90e",
+      "asset": "photo-045.jpg"
+    },
+    {
+      "index": 46,
+      "file": "1793091965773_182707632726786341_2992410667195687979_c7bbd345d1e5ba856138bb0760996c2b.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 197749,
+      "sha256": "219fefe0a333865ac6eabefcaa4fcc98774421eb4afa188565a91924e18f1414",
+      "asset": "photo-046.jpg"
+    },
+    {
+      "index": 47,
+      "file": "1793091965804_182707632726786341_2992410667195687979_1522db1cc829a8977515b5028c21e7e3.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 185815,
+      "sha256": "f9b60fd50584b8854047f64f7af81579268ac34d7b329a5fc5e2ba2d4c9fadce",
+      "asset": "photo-047.jpg"
+    },
+    {
+      "index": 48,
+      "file": "1793091965833_182707632726786341_2992410667195687979_693fd0bdadc3f485afa28dc66b1288c5.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 278845,
+      "sha256": "5c9b3d980dd8325fb4ed3ec94e2eb7c2033ba08c59ea0273125e8b4502e744bc",
+      "asset": "photo-048.jpg"
+    },
+    {
+      "index": 49,
+      "file": "1793091965861_182707632726786341_2992410667195687979_ff4253920a5dc3f37bf0ad02d945246c.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 224033,
+      "sha256": "087da1a1703edff3108a11a88cdce2aa0e50cf1ebf9c03ecedc5f75009bb3cee",
+      "asset": "photo-049.jpg"
+    },
+    {
+      "index": 50,
+      "file": "1793091965889_182707632726786341_2992410667195687979_c2517ceecea9d2469947ee677b63b539.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 147018,
+      "sha256": "753aa787cca13451e43215c827d67a759ab713a7e505da702498fb4abfc21c45",
+      "asset": "photo-050.jpg"
+    },
+    {
+      "index": 51,
+      "file": "1793091993453_182707632726786341_2992410667195687979_c360e7efbf7a4e52ac54da257cbfb659.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 195223,
+      "sha256": "66231f9888e8305018d3bd7e02ee365c82af166081c3a467dffc1e2e6d37789d",
+      "asset": "photo-051.jpg"
+    },
+    {
+      "index": 52,
+      "file": "1793091993476_182707632726786341_2992410667195687979_567015e1241b8b1b50f68606c0aa421e.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 267510,
+      "sha256": "05adf611fe962b07177c4908e5e7d6877924608be074f4bc3ab87e7ad8ac7dd2",
+      "asset": "photo-052.jpg"
+    },
+    {
+      "index": 53,
+      "file": "1793091993499_182707632726786341_2992410667195687979_39c5ad209c56462e3720f2a409127276.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 241463,
+      "sha256": "5eddb2d084a0c21d7aaea8910d03125e733b1b960955bcdd0e70c7a1935e8d1e",
+      "asset": "photo-053.jpg"
+    },
+    {
+      "index": 54,
+      "file": "1793091993522_182707632726786341_2992410667195687979_b95b063a0edaf16658211762904a46c9.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 96384,
+      "sha256": "f756c7adfff35671fbefde10b48c8daf325193e5acc7c27a84b766eb3a54a2f6",
+      "asset": "photo-054.jpg"
+    },
+    {
+      "index": 55,
+      "file": "1793091993569_182707632726786341_2992410667195687979_1f6c7d5091799c3af88034b4164615d8.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 171225,
+      "sha256": "a9bab02ca8fa090fac2ebf70400cd2f19f59dd8388687061c82d0b5282c85402",
+      "asset": "photo-055.jpg"
+    },
+    {
+      "index": 56,
+      "file": "1793091993596_182707632726786341_2992410667195687979_1f2197a8d60833e20ba8ad5003c66037.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 301234,
+      "sha256": "961739b18ab6d79b33035ee680770b69fb3f1ae6fb39b66c1e651e292774d151",
+      "asset": "photo-056.jpg"
+    },
+    {
+      "index": 57,
+      "file": "1793091993623_182707632726786341_2992410667195687979_ab21f02fda74a9e264bf36e8ffeba980.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 197552,
+      "sha256": "cf1dfaa518d98a57fb75bcfb912b59e3c04aa5cdb07dcce6b3bb203ffcddab57",
+      "asset": "photo-057.jpg"
+    },
+    {
+      "index": 58,
+      "file": "1793091993655_182707632726786341_2992410667195687979_8f4f991afb0433e6f87607bc99b75681.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 225054,
+      "sha256": "ed8ce652c5506335a22c1aada1b4cf4ea7aecc0c7e1f9eb50b9d4ba2b301cb39",
+      "asset": "photo-058.jpg"
+    },
+    {
+      "index": 59,
+      "file": "1793091993697_182707632726786341_2992410667195687979_887ddadfd8a262fff7122ed66c927267.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 248677,
+      "sha256": "0c1cbf9c7d7734a2229195c2a50c41ca0ab277fc96d1cba775e59b9b7caf0b52",
+      "asset": "photo-059.jpg"
+    },
+    {
+      "index": 60,
+      "file": "1793091993724_182707632726786341_2992410667195687979_6f51a128b8a20a3533ce76c7dbe10869.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 187885,
+      "sha256": "b3b7bd2524e4a1d2efe25d58b39edfb0009ca8239b2fcfe5547f7a6b452d1b95",
+      "asset": "photo-060.jpg"
+    },
+    {
+      "index": 61,
+      "file": "1793091993763_182707632726786341_2992410667195687979_592f0abb4f5b8ee15449aadb2d5d7f10.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 226783,
+      "sha256": "a0399b23e2e5fe044f9a4027fb72b195cf06b7620653f2f4821e56ae4f1b821f",
+      "asset": "photo-061.jpg"
+    },
+    {
+      "index": 62,
+      "file": "1793091993793_182707632726786341_2992410667195687979_a9a322b7a5494b442dd8ee5f24b85e05.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 246900,
+      "sha256": "97096d298a52217a976d7c4ef4377a3cf5dbbc2ad2c8a19c62b03e35ca7f47ba",
+      "asset": "photo-062.jpg"
+    },
+    {
+      "index": 63,
+      "file": "1793091993820_182707632726786341_2992410667195687979_307285f3dde96a814f73adf497779669.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 171416,
+      "sha256": "d73e8ab5e5ee0fc4efeb81bdd48f711d3fcd109c2afddcfcb630b9c150bc8c73",
+      "asset": "photo-063.jpg"
+    },
+    {
+      "index": 64,
+      "file": "1793091993850_182707632726786341_2992410667195687979_4382debb46953aef35db078a547404a2.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 256439,
+      "sha256": "df483ef398024ba9e7728cb839dce4768e27a2ac528db24801b314fe944a200b",
+      "asset": "photo-064.jpg"
+    },
+    {
+      "index": 65,
+      "file": "1793091993878_182707632726786341_2992410667195687979_91cd55625ee8dd49ab44df73fd5f5119.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 150083,
+      "sha256": "a53f8a2c13ba52f802eac1098a460819b2a7bb9de9842c0abef1cee85a992f5a",
+      "asset": "photo-065.jpg"
+    },
+    {
+      "index": 66,
+      "file": "1793091993906_182707632726786341_2992410667195687979_f80e9147acfdb6ab7e32a86df439c13a.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 200314,
+      "sha256": "63271f43010785be394cd5ab0f84704beee98bfe4f130354828b2d8fedb6a55e",
+      "asset": "photo-066.jpg"
+    },
+    {
+      "index": 67,
+      "file": "1793091993947_182707632726786341_2992410667195687979_4e23f0233ba93c6684f8e6c77abd7593.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 218231,
+      "sha256": "a2518de84b3379794a9f835ef671525c3a5e055f54094ea7eb9f57e5481cf6b2",
+      "asset": "photo-067.jpg"
+    },
+    {
+      "index": 68,
+      "file": "1793091993982_182707632726786341_2992410667195687979_95aa7b7db35b6e28814945ac1a8c493e.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 96552,
+      "sha256": "3a3686233e9da1121b65f29f9d1263cdf16fcf2b95012770c30b84b72ac1a839",
+      "asset": "photo-068.jpg"
+    },
+    {
+      "index": 69,
+      "file": "1793091994009_182707632726786341_2992410667195687979_fa546ee30e011c96e29b833c1886cd33.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 211451,
+      "sha256": "4c5a2188117f1a38aa83eb58ec53b037af9915effe1a63da593a0ee49bdd5b60",
+      "asset": "photo-069.jpg"
+    },
+    {
+      "index": 70,
+      "file": "1793091994043_182707632726786341_2992410667195687979_bb8d25c05fbb3970ec48d564136b8208.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 204965,
+      "sha256": "8b7ec0b05217b29e3e1eaed8a18601a7d5195000d74d32ed9945e2a39aa8f9ef",
+      "asset": "photo-070.jpg"
+    },
+    {
+      "index": 71,
+      "file": "1793091994070_182707632726786341_2992410667195687979_dbbeb149fd4c2ac2b9fe1220e19c3fec.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 253791,
+      "sha256": "bbe9065d9216e0dec13af6d8e85fc4dcb6dcaf839d40821756c154fc5913443b",
+      "asset": "photo-071.jpg"
+    },
+    {
+      "index": 72,
+      "file": "1793091994106_182707632726786341_2992410667195687979_3d693aac64918fce3b800939d0f2fc9d.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 129474,
+      "sha256": "63a845bb9871d4aff68dd05516bcb6ae84e3f4f3b26fb076926f1422978cb413",
+      "asset": "photo-072.jpg"
+    },
+    {
+      "index": 73,
+      "file": "1793091994132_182707632726786341_2992410667195687979_7e518c38fb75edcf14e01ccec440ebb6.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 176856,
+      "sha256": "1c444c31d9b573620552dd7eb3a253c2212a12fb3cf9f3c99852e2dbb93e64f2",
+      "asset": "photo-073.jpg"
+    },
+    {
+      "index": 74,
+      "file": "1793091994163_182707632726786341_2992410667195687979_9ef3d4b71dd11bf277a21218cc8dddd5.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 233948,
+      "sha256": "0e51f98202593a299361bbbdda213681057197145484facfbf22542b8d504cfc",
+      "asset": "photo-074.jpg"
+    },
+    {
+      "index": 75,
+      "file": "1793091994195_182707632726786341_2992410667195687979_4e362729a78a51c1ce34b9fec872b13d.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 202072,
+      "sha256": "535d34450d0130f76e08668eb95e6022ebe4480a41980c4b8f39e2f9a6a0b39f",
+      "asset": "photo-075.jpg"
+    },
+    {
+      "index": 76,
+      "file": "1793091994223_182707632726786341_2992410667195687979_546098d5c15db138f923632455b076d2.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 133039,
+      "sha256": "46fb6919467834b554c2a56c3550b86efabf307cfb1928a1ca4b8663e9929b8d",
+      "asset": "photo-076.jpg"
+    },
+    {
+      "index": 77,
+      "file": "1793091994250_182707632726786341_2992410667195687979_4aeb982032498cc79a33a6a82449040c.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 252426,
+      "sha256": "db723733bf6973c00332e7f1928dece2c98b80d1fd4f4523aed4a9ad067f4f5b",
+      "asset": "photo-077.jpg"
+    },
+    {
+      "index": 78,
+      "file": "1793091994276_182707632726786341_2992410667195687979_1c164b9743c63be43da04cc5257f3f64.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 269635,
+      "sha256": "1af9de12ba7f6090241810de3b1fd620eddb1aeb68c77cd99275500037bd9dad",
+      "asset": "photo-078.jpg"
+    },
+    {
+      "index": 79,
+      "file": "1793091994307_182707632726786341_2992410667195687979_a558b3b9abca171c7e75533953d742e8.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 95717,
+      "sha256": "46e4dba49a6681854f1b8f7cf55e8c0e0d0f4d8bb146911b58988978efc6e367",
+      "asset": "photo-079.jpg"
+    },
+    {
+      "index": 80,
+      "file": "1793091994343_182707632726786341_2992410667195687979_9130f619db2ba6a8327a263ad5f5734f.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 210891,
+      "sha256": "043b7b2a384b1a346756284f82bac9e1b40b61fdd00633dc3948f85ccfae9753",
+      "asset": "photo-080.jpg"
+    },
+    {
+      "index": 81,
+      "file": "1793091994383_182707632726786341_2992410667195687979_fc835f8304223e6c51b8e4012b4f7ec1.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 108544,
+      "sha256": "8cefd2a451575aecd21bf0538f7e9ea85b3cec0effe79a167e2d5c32e2093cbf",
+      "asset": "photo-081.jpg"
+    },
+    {
+      "index": 82,
+      "file": "1793091994410_182707632726786341_2992410667195687979_51357d11ed2d2cdca0e20889787ace79.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 157103,
+      "sha256": "cfffd6199a5d7c363806d9fade62c14040fea90eeccf9847e4c7fd982d5aa324",
+      "asset": "photo-082.jpg"
+    },
+    {
+      "index": 83,
+      "file": "1793091994441_182707632726786341_2992410667195687979_fb64dfeb3a22787cd41547dc181d5637.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 147981,
+      "sha256": "510ca05cf23276f77c55c0f81b916a944adddb3d6000bc6cb4c42e1521c1b09c",
+      "asset": "photo-083.jpg"
+    },
+    {
+      "index": 84,
+      "file": "1793091994477_182707632726786341_2992410667195687979_280087034b8b69aacc6aa7d7b534b990.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 121034,
+      "sha256": "e1194109480430ebe18c8c20d3d66fbc28e8e49eae4d204729d1b2bd114143f2",
+      "asset": "photo-084.jpg"
+    },
+    {
+      "index": 85,
+      "file": "1793091994504_182707632726786341_2992410667195687979_d05b0c21266a43648482fde0186fee5e.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 157549,
+      "sha256": "e2e256d187067519ed1e92fd1a078d1dd1f93e42a866fa26d9fbce38277c3019",
+      "asset": "photo-085.jpg"
+    },
+    {
+      "index": 86,
+      "file": "1793091994542_182707632726786341_2992410667195687979_49b73a2474cee80c33415375ac519a0c.jpg",
+      "width": 960,
+      "height": 1280,
+      "bytes": 185464,
+      "sha256": "0ecf3508de5e088b1060fb1db318734b44eae1a7af60ff22d06b35a4ccd70a0a",
+      "asset": "photo-086.jpg"
+    },
+    {
+      "index": 87,
+      "file": "1793091994572_182707632726786341_2992410667195687979_35be5cfdb06fcefc5bb1c23335e15310.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 84858,
+      "sha256": "27ad23dbbd6eccb8602f7845865ea3f7b8988d4dd45d4ab0010f27bf404ed5b0",
+      "asset": "photo-087.jpg"
+    },
+    {
+      "index": 88,
+      "file": "1793091994599_182707632726786341_2992410667195687979_9c51801de16a5b92c04cf1b2ad7d75c5.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 117654,
+      "sha256": "46b66cfad53bdea62a59e36140345b8ae972b9b3c2806ee8ad87f2fd61890a83",
+      "asset": "photo-088.jpg"
+    },
+    {
+      "index": 89,
+      "file": "1793091994629_182707632726786341_2992410667195687979_b8de59c6c427e7a222774e97421402ac.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 197013,
+      "sha256": "5e016c5b9f6d6c0256edaf5813f88e1efd6550cfc47c1759a98c82cf32c33e8e",
+      "asset": "photo-089.jpg"
+    },
+    {
+      "index": 90,
+      "file": "1793091994660_182707632726786341_2992410667195687979_82daad8eaa98920fc53239ea63627889.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 176734,
+      "sha256": "6e8a80e030737c02071e7e796ef2e183743c9f8fc05189de91ad14d62b48bcc0",
+      "asset": "photo-090.jpg"
+    },
+    {
+      "index": 91,
+      "file": "1793091994688_182707632726786341_2992410667195687979_9bf6353eefe8553610eeb1e075e197c5.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 276587,
+      "sha256": "1e90b55240895bde61621ee72c48e419ac33d0f08820a79f32ad865ff13e08b0",
+      "asset": "photo-091.jpg"
+    },
+    {
+      "index": 92,
+      "file": "1793091994715_182707632726786341_2992410667195687979_9febbe6b29cdcb88ed04a965d57c1a01.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 185976,
+      "sha256": "1b1b78b0481b6d8920300df5e28b9bc325e08952c65bef1423e9401bd9107d9b",
+      "asset": "photo-092.jpg"
+    },
+    {
+      "index": 93,
+      "file": "1793091994745_182707632726786341_2992410667195687979_16199f083b1c3b24a4ca5f2e086be366.jpg",
+      "width": 1280,
+      "height": 960,
+      "bytes": 216947,
+      "sha256": "90f4d09eabad1bde888f2ecd1c41be347ad24cb83306d1d27c06c84dfb31721a",
+      "asset": "photo-093.jpg"
+    }
+  ]
+}

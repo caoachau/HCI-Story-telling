@@ -1,0 +1,224 @@
+/* One transparent source/fullscreen/close toolbar shared by all detail sections. */
+.db-kiosk {
+  position: relative;
+  --tools-reserve: 345px;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.db-kiosk > main {
+  grid-row: 1;
+}
+
+.db-kiosk > .db-detail-tools {
+  position: absolute;
+  z-index: 12;
+  top: 14px;
+  right: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 80px 80px;
+  align-items: stretch;
+  width: min(366px, calc(100vw - 28px));
+  height: 66px;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  border-radius: 999px;
+  background: rgba(8, 10, 9, 0.12);
+  box-shadow: none;
+}
+
+.db-kiosk > .db-detail-tools > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  color: #fff;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  appearance: none;
+  cursor: pointer;
+  transition: none;
+}
+
+.db-kiosk > .db-detail-tools > .db-detail-tools__sources {
+  gap: 10px;
+  min-height: 0;
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  border-right: 1px solid rgba(255, 255, 255, 0.58);
+}
+
+.db-kiosk > .db-detail-tools > .db-detail-tools__sources > span {
+  display: inline;
+}
+
+.db-kiosk > .db-detail-tools > .db-detail-tools__sources > svg {
+  flex: none;
+  width: 23px;
+  height: 23px;
+  min-width: 23px;
+  min-height: 23px;
+  stroke-width: 1.8;
+}
+
+.db-kiosk > .db-detail-tools > .db-detail-tools__action {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  font-size: 0;
+}
+
+.db-kiosk > .db-detail-tools > .db-detail-tools__action > svg {
+  width: 27px;
+  height: 27px;
+  stroke-width: 1.8;
+}
+
+.db-kiosk > .db-detail-tools > [data-detail-action="fullscreen"] {
+  border-right: 1px solid rgba(255, 255, 255, 0.58);
+}
+
+.db-kiosk > .db-detail-tools > button:hover:not(:disabled) {
+  color: #fff;
+  background: transparent;
+}
+
+.db-kiosk > .db-detail-tools > button:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid #fff;
+  outline-offset: -5px;
+}
+
+.db-section-heading > div {
+  min-width: 0;
+  flex: 1;
+  max-width: calc(100% - var(--tools-reserve));
+}
+
+.db-section-heading > p {
+  padding-top: 64px;
+}
+
+.db-history-heading {
+  right: var(--tools-reserve);
+}
+
+.db-fullscreen-status {
+  top: 94px;
+  right: 28px;
+}
+
+@media (max-width: 900px) {
+  .db-kiosk {
+    --tools-reserve: 290px;
+  }
+
+  .db-kiosk > .db-detail-tools {
+    top: 12px;
+    right: 14px;
+    width: min(352px, calc(100vw - 24px));
+    height: 60px;
+    grid-template-columns: minmax(0, 1fr) 70px 70px;
+  }
+
+  .db-kiosk > .db-detail-tools > .db-detail-tools__sources {
+    gap: 8px;
+    padding-inline: 13px;
+    font-size: 14px;
+  }
+
+  .db-kiosk > .db-detail-tools > .db-detail-tools__sources > svg {
+    width: 21px;
+    height: 21px;
+    min-width: 21px;
+    min-height: 21px;
+  }
+
+  .db-kiosk > .db-detail-tools > .db-detail-tools__action > svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .db-section-heading > div {
+    max-width: calc(100% - 245px);
+  }
+
+  .db-section-heading > p {
+    padding-top: 0;
+  }
+
+  .db-history-heading {
+    right: 265px;
+  }
+
+  .db-fullscreen-status {
+    top: 80px;
+    right: 18px;
+    max-width: calc(100% - 36px);
+  }
+}
+
+@media (max-width: 600px) {
+  .db-kiosk > .db-detail-tools {
+    top: 10px;
+    right: 12px;
+    width: min(346px, calc(100vw - 24px));
+    height: 56px;
+    grid-template-columns: minmax(0, 1fr) 58px 58px;
+  }
+
+  .db-kiosk > .db-detail-tools > .db-detail-tools__sources {
+    gap: 7px;
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+
+  .db-kiosk > .db-detail-tools > .db-detail-tools__sources > svg {
+    width: 19px;
+    height: 19px;
+    min-width: 19px;
+    min-height: 19px;
+  }
+
+  .db-kiosk > .db-detail-tools > .db-detail-tools__action > svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .db-kiosk main > .db-people,
+  .db-kiosk main > .db-activities,
+  .db-kiosk main > .db-values {
+    padding-top: 86px;
+  }
+
+  .db-section-heading > div {
+    max-width: none;
+  }
+
+  .db-history-stage {
+    padding-top: 122px;
+  }
+
+  .db-history-heading {
+    inset: 80px 20px auto;
+  }
+
+  .db-history-instruction {
+    display: none;
+  }
+
+  .db-kiosk main > .db-atlas {
+    padding-top: 76px;
+  }
+}

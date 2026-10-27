@@ -26,7 +26,7 @@ module.exports = async function (api) {
   await viewport(1440, 960);
   await section("overview");
   await sleep(150);
-  await click(".md-screen-dot[data-section=exhibitions]");
+  await click(".md-footer>button[data-section=exhibitions]");
   await wait(
     "!document.getElementById('museo-exhibitions').hidden",
     "heritage screen appears",

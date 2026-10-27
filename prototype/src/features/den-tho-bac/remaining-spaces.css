@@ -1,0 +1,12 @@
+.db-reader--space-researched .db-reader-heading > p { white-space: nowrap; }
+.db-reader--space-researched .db-photo-mode { height: 34px; min-height: 34px; padding: 1px 6px; }
+.db-reader-map-marker { position: absolute; display: grid; place-items: center; width: max(36px, calc(40 * var(--u))); height: max(36px, calc(40 * var(--u))); transform: translate(-50%, -50%); border: 2px solid #fff; border-radius: 50%; background: #ed2a30; color: #fff; box-shadow: 0 2px 8px #0008; font-size: max(12px, calc(14 * var(--u))); font-weight: 700; line-height: 1; pointer-events: none; }
+.db-reader--space-researched .db-reader-photo.is-zoomed > .db-picture { width: 200%; height: 200%; }
+@media (max-width: 900px) {
+  .db-reader--space-researched .db-reader-heading > p { font-size: 10px; }
+}
+@media (min-width: 640px) and (max-width: 900px) and (max-height: 500px) {
+  .db-reader--space-researched .db-reader-layout { display: grid; grid-template-columns: minmax(0, .42fr) minmax(0, .58fr); gap: 12px; }
+  .db-reader--space-researched .db-reader-prose { height: 100%; }
+  .db-reader--space-researched .db-reader-media { order: initial; height: 100%; min-height: 0; grid-template-columns: minmax(0, 1fr) 48px; }
+}

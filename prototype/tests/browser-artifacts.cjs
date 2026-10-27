@@ -8,7 +8,11 @@ exports.disposeBrowser = async (chrome, profile) => {
   if (!target.startsWith(parent + path.sep)) throw Error('Profile outside test directory');
   if (chrome && chrome.exitCode === null && chrome.signalCode === null) {
     await new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => reject(Error('Test Chrome did not exit')), 5000);
+      // Large 4K screenshot suites can take longer to flush and exit on Windows.
+      const timeout = setTimeout(() => {
+        if (chrome.exitCode !== null || chrome.signalCode !== null) resolve();
+        else reject(Error('Test Chrome did not exit'));
+      }, 15000);
       chrome.once('exit', () => { clearTimeout(timeout); resolve(); });
       chrome.kill();
     });

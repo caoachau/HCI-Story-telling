@@ -1,0 +1,8 @@
+.db-reader--grounds .db-reader-heading > p { white-space: nowrap; }
+.db-reader-research-sources > p { margin-block: 16px; color: #d0c6b5; font-size: 13px; line-height: 1.8; }
+.db-reader--grounds .db-reader-photo[data-photo-size=reference] > .db-picture { display: grid; place-items: center; }
+.db-reader--grounds .db-reader-photo[data-photo-size=reference] .db-picture > img { width: min(100%, var(--reader-photo-max-width)); height: auto; max-height: 100%; object-fit: contain; }
+.db-reader--grounds .db-reader-photo.is-zoomed[data-photo-size=reference] .db-picture > img { width: min(100%, calc(var(--reader-photo-max-width) * 1.5)); }
+@media (max-width: 900px) {
+  .db-reader--grounds .db-reader-heading > p { font-size: 9px; }
+}

@@ -9,7 +9,6 @@ import {
 import { flushSync } from "react-dom";
 import { gsap } from "gsap";
 import {
-  museumEase,
   museumMotionReduced,
   useMuseumReducedMotion,
 } from "./museumMotion";
@@ -34,154 +33,112 @@ export function useMuseumScreens(
   const [activeSection, setActiveSection] = useState<MuseumSection>("hero");
   const current = useRef<MuseumSection>("hero");
   const reduced = useMuseumReducedMotion(viewport);
-  const animation = useRef<gsap.core.Tween | null>(null);
-  const sweepAnimation = useRef<gsap.core.Tween | null>(null);
+  const animation = useRef<gsap.core.Timeline | null>(null);
   const transitioning = useRef(false);
   const desired = useRef<MuseumSection>("hero");
   const queued = useRef<MuseumSection | null>(null);
-  const entering = useRef(false);
+  const previous = useRef<MuseumSection | null>(null);
+  const outgoingNode = useRef<HTMLElement | null>(null);
   const restoreFocus = useRef(false);
-  const hasShownScreen = useRef(false);
   const showRef = useRef<(section: MuseumSection) => void>(() => {});
   const wheel = useRef({ last: 0, changed: 0, distance: 0 });
-  const touch = useRef<{
-    x: number;
-    y: number;
-    atTop: boolean;
-    atBottom: boolean;
-  } | null>(null);
+  const touch = useRef<{ x: number; y: number; atTop: boolean; atBottom: boolean } | null>(null);
 
-  const showSection = useCallback(
-    (section: MuseumSection, focus = false) => {
-      desired.current = section;
-      const element = viewport.current;
-      const outgoing = element?.querySelector<HTMLElement>(
-        `#museo-${current.current}`,
-      );
-      if (focus) restoreFocus.current = true;
-      if (transitioning.current) {
-        queued.current = section;
-        return;
-      }
-      if (current.current === section) {
-        if (focus) outgoing?.focus({ preventScroll: true });
-        restoreFocus.current = false;
-        return;
-      }
-      restoreFocus.current ||= !!outgoing?.contains(document.activeElement);
-      const commit = () => {
-        current.current = section;
-        setActiveSection(section);
-        onContentChange?.();
-      };
-      if (!outgoing || !element || museumMotionReduced(element) || !visible) {
-        commit();
-        return;
-      }
-      transitioning.current = true;
-      element.dataset.roomMotion = "leaving";
+  const clearOutgoing = useCallback(() => {
+    const node = outgoingNode.current;
+    if (!node) return;
+    node.hidden = node.id !== `museo-${current.current}`;
+    node.inert = false;
+    node.removeAttribute("aria-hidden");
+    delete node.dataset.roomOutgoing;
+    gsap.set(node, { clearProps: "opacity,transform,willChange" });
+    outgoingNode.current = null;
+  }, []);
+
+  const showSection = useCallback((section: MuseumSection, focus = false) => {
+    desired.current = section;
+    if (focus) restoreFocus.current = true;
+    if (transitioning.current) { queued.current = section; return; }
+    const element = viewport.current;
+    const outgoing = element?.querySelector<HTMLElement>(`#museo-${current.current}`);
+    if (current.current === section) {
+      if (focus) outgoing?.focus({ preventScroll: true });
+      restoreFocus.current = false;
+      return;
+    }
+    restoreFocus.current ||= !!outgoing?.contains(document.activeElement);
+    const animate = !!outgoing && !!element && !museumMotionReduced(element) && visible;
+    previous.current = animate ? current.current : null;
+    transitioning.current = animate;
+    if (element && animate) {
+      element.dataset.roomMotion = "entering";
       element.setAttribute("aria-busy", "true");
-      const compact = element.clientWidth < 1000;
-      const sweep = element.querySelector(".md-room-sweep");
-      if (sweep) {
-        sweepAnimation.current?.kill();
-        sweepAnimation.current = gsap.fromTo(
-          sweep,
-          { xPercent: -110, opacity: 1 },
-          {
-            xPercent: 210,
-            duration: compact ? 0.55 : 0.85,
-            ease: museumEase,
-            onComplete: () => {
-              gsap.set(sweep, { opacity: 0 });
-            },
-          },
-        );
-      }
-      animation.current = gsap.to(outgoing, {
-        scale: 0.985,
-        opacity: 0.35,
-        duration: compact ? 0.16 : 0.26,
-        ease: museumEase,
-        onComplete: () => {
-          entering.current = true;
-          flushSync(commit);
-        },
-      });
-    },
-    [onContentChange, viewport, visible],
-  );
+    }
+    // Commit both retained rooms together, then crossfade in layout effect.
+    // There is no fade-to-black, scale step or full-screen dark sweep.
+    current.current = section;
+    flushSync(() => setActiveSection(section));
+    onContentChange?.();
+  }, [onContentChange, viewport, visible]);
   showRef.current = showSection;
 
   useLayoutEffect(() => {
-    const section = viewport.current?.querySelector<HTMLElement>(
-      `#museo-${activeSection}`,
-    );
-    if (!section) return;
-    // A freshly mounted screen is already at zero. Assigning scrollTop here
-    // forces the whole new container-query layout during the opening commit.
-    if (hasShownScreen.current) section.scrollTop = 0;
-    hasShownScreen.current = true;
+    const element = viewport.current;
+    const section = element?.querySelector<HTMLElement>(`#museo-${activeSection}`);
+    if (!element || !section) return;
+    if (section.scrollTop) section.scrollTop = 0;
     if (restoreFocus.current) {
       section.focus({ preventScroll: true });
       restoreFocus.current = false;
     }
-    if (!entering.current) return;
-    entering.current = false;
-    const element = viewport.current!;
-    element.dataset.roomMotion = "entering";
-    const outgoing = element.querySelectorAll<HTMLElement>(
-      ".md-section[hidden]",
-    );
-    gsap.set(outgoing, { clearProps: "transform,opacity" });
-    animation.current = gsap.fromTo(
-      section,
-      { opacity: 0, y: element.clientWidth < 1000 ? 24 : 44 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: element.clientWidth < 1000 ? 0.4 : 0.56,
-        ease: museumEase,
-        clearProps: "transform,opacity",
-        onComplete: () => {
-          transitioning.current = false;
-          element.dataset.roomMotion = "idle";
-          element.setAttribute("aria-busy", "false");
-          const next = queued.current;
-          queued.current = null;
-          if (next) showRef.current(next);
-        },
+    const before = previous.current;
+    previous.current = null;
+    if (!before) return;
+    const outgoing = element.querySelector<HTMLElement>(`#museo-${before}`);
+    if (!outgoing) { transitioning.current = false; element.dataset.roomMotion = "idle"; element.setAttribute("aria-busy", "false"); return; }
+    outgoingNode.current = outgoing;
+    // Keep the actual previous room painted, but outside focus and reading order.
+    outgoing.hidden = false;
+    outgoing.inert = true;
+    outgoing.setAttribute("aria-hidden", "true");
+    outgoing.dataset.roomOutgoing = "true";
+    const duration = element.clientWidth < 1000 ? .38 : .48;
+    gsap.set(outgoing, { opacity: 1, willChange: "opacity" });
+    gsap.set(section, { opacity: 0, y: 8, willChange: "opacity,transform" });
+    animation.current = gsap.timeline({
+      onComplete: () => {
+        clearOutgoing();
+        gsap.set(section, { clearProps: "opacity,transform,willChange" });
+        transitioning.current = false;
+        element.dataset.roomMotion = "idle";
+        element.setAttribute("aria-busy", "false");
+        const next = queued.current;
+        queued.current = null;
+        if (next) showRef.current(next);
       },
-    );
-  }, [activeSection, viewport]);
+    })
+      .to(section, { opacity: 1, y: 0, duration, ease: "power2.inOut" }, 0)
+      .to(outgoing, { opacity: 0, duration: duration * .45, ease: "power1.in" }, duration * .55);
+  }, [activeSection, clearOutgoing, viewport]);
 
   useLayoutEffect(() => {
     const element = viewport.current;
     if (!element || (!reduced && visible)) return;
     animation.current?.kill();
-    sweepAnimation.current?.kill();
+    clearOutgoing();
     transitioning.current = false;
-    entering.current = false;
+    previous.current = null;
     queued.current = null;
     element.dataset.roomMotion = "idle";
     element.setAttribute("aria-busy", "false");
-    gsap.set(element.querySelectorAll(".md-section"), {
-      clearProps: "transform,opacity",
-    });
-    gsap.set(element.querySelector(".md-room-sweep"), { opacity: 0 });
+    gsap.set(element.querySelectorAll(".md-section"), { clearProps: "opacity,transform,willChange" });
     if (current.current !== desired.current) {
       current.current = desired.current;
       setActiveSection(desired.current);
     }
-  }, [reduced, visible, viewport]);
+  }, [reduced, visible, viewport, clearOutgoing]);
 
-  useEffect(
-    () => () => {
-      animation.current?.kill();
-      sweepAnimation.current?.kill();
-    },
-    [],
-  );
+  useEffect(() => () => { animation.current?.kill(); clearOutgoing(); }, [clearOutgoing]);
 
   useEffect(() => {
     const element = viewport.current;

@@ -44,7 +44,10 @@ async function shot(name) {
   fs.writeFileSync(path.join(root, 'preview', 'museo-' + name + '.png'), Buffer.from(result.data, 'base64'));
 }
 async function section(name) {
-  await click('.md-screen-dot[data-section="' + name + '"]');
+  if(name==='overview') {
+    await section('hero');
+    await click('.md-hero-copy>.md-play-link');
+  } else await click('.md-footer>button[data-section="' + name + '"]');
   await wait(`!document.getElementById('museo-${name}').hidden && !['leaving','entering'].includes(document.querySelector('.md-scroll').dataset.roomMotion)`, name + ' screen is active');
   if(name==='hero') await wait("document.getElementById('museo-hero').dataset.introMotion!=='opening'",'introductory reveal finishes');
   if(name==='map') await wait("document.getElementById('museo-map').dataset.placeSceneMotion==='ready'",'spatial chapter reveal finishes');
@@ -70,7 +73,7 @@ async function quickViewChecks() {
     if (id !== 'bao-tang-khmer') {
       await evaluate("document.querySelector('[data-action=\"show-location-details\"]').focus()");
       await click('[data-action="show-location-details"]');
-      const detail = id==='ao-ba-om' ? '.ao-shell' : id==='bien-ba-dong' ? '.bd-shell' : id==='con-chim' ? '.cc-zip-detail' : '.heritage-location-detail h2';
+      const detail = id==='ao-ba-om' ? '.ao-shell' : id==='bien-ba-dong' ? '.bd-shell' : id==='con-chim' ? '.cc-zip-detail' : id==='den-tho-bac' ? '.dbk-host-detail iframe' : '.heritage-location-detail h2';
       await wait(`document.querySelector(${JSON.stringify(detail)})`, id + ' full detail', 35000);
       await check("const r=document.querySelector('.heritage-location-detail').getBoundingClientRect();r.left===0 && r.top===0 && r.width===innerWidth && r.height===innerHeight && !document.querySelector('.landmark-carousel')", id + ' detail fills the viewport and hides the dock');
       if (id === 'chua-ang') {
@@ -676,7 +679,7 @@ async function overviewViewerChecks(motion = false) {
   await check("const d=document.querySelector('.md-overview-viewer'),r=d.getBoundingClientRect();r.x===100&&r.y===100&&r.width===1720&&r.height===880&&d.contains(document.elementFromPoint(960,540))",'1920x1080 viewer has 100px margins on all sides and owns pointer interaction');
   await check("const v=document.querySelector('.md-overview-visual').getBoundingClientRect(),r=document.querySelector('.md-overview-reading').getBoundingClientRect();Math.abs(v.width/r.width-1.5)<.01",'large desktop allocates sixty percent of the columns to the visual');
   await check("const stage=document.querySelector('.md-overview-visual-stage');stage.scrollWidth<=stage.clientWidth+1&&stage.scrollHeight<=stage.clientHeight+1",'unzoomed photograph has no accidental scrollbars');
-  await check("Number(getComputedStyle(document.querySelector('.md-scroll')).opacity)<=.36 && getComputedStyle(document.querySelector('.md-overview-backdrop')).backdropFilter==='blur(10px)' && getComputedStyle(document.querySelector('.md-screen-nav')).pointerEvents==='none' && document.querySelectorAll('.md-overview-metadata>div').length===3",'backdrop dims and blurs the section while the viewer presents three metadata entries');
+  await check("Number(getComputedStyle(document.querySelector('.md-scroll')).opacity)<=.36 && getComputedStyle(document.querySelector('.md-overview-backdrop')).backdropFilter==='blur(10px)' && getComputedStyle(document.querySelector('.md-footer')).pointerEvents==='none' && document.querySelectorAll('.md-overview-metadata>div').length===3",'backdrop dims and blurs the section while the viewer presents three metadata entries');
   await shot('overview-viewer-identity-desktop');
   const title=await evaluate("document.querySelector('#md-dialog-title').textContent");
   for(let position=1;position<4;position++){
@@ -807,7 +810,7 @@ async function motionChecks() {
   await section('hero');await evaluate("document.querySelector('.md-skip-link').focus()");await click('.md-skip-link');
   await wait("!document.getElementById('museo-overview').hidden&&document.querySelector('.md-scroll').dataset.roomMotion==='idle'",'skip link transition completes');
   await check("document.activeElement===document.getElementById('museo-overview')",'skip link focuses the overview after its animated entrance');
-  await click('.md-screen-dot[data-section=map]');await click('.md-screen-dot[data-section=timeline]');await click('.md-screen-dot[data-section=exhibitions]');
+  await click('.md-footer>button[data-section=map]');await click('.md-footer>button[data-section=timeline]');await click('.md-footer>button[data-section=exhibitions]');
   await wait("!document.getElementById('museo-exhibitions').hidden&&document.querySelector('.md-scroll').dataset.roomMotion==='idle'",'rapid room requests settle at the latest destination');
   await check("document.querySelectorAll('.md-section:not([hidden])').length===1&&document.querySelector('.md-screen-dot[aria-current=step]').dataset.section==='exhibitions'&&document.querySelector('.md-screen-label').innerText.startsWith('06 / 06')",'queued navigation keeps one screen and the final progress number');
   await section('hero');await shot('motion-desktop');
@@ -819,7 +822,7 @@ async function motionChecks() {
   await viewport(844,390);await section('overview');await section('hero');await shot('motion-landscape');
   await check("document.getElementById('museo-hero').scrollHeight<=document.getElementById('museo-hero').clientHeight+1&&document.querySelector('.md-hero-copy').getBoundingClientRect().right<document.querySelector('.md-hero-context').getBoundingClientRect().left",'landscape motion preserves the compact two-column arrangement');
   await viewport(1440,960);await section('hero');
-  await click('.md-screen-dot[data-section=map]');
+  await click('.md-footer>button[data-section=map]');
   await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
   await wait("!document.getElementById('museo-map').hidden&&document.querySelector('.md-scroll').dataset.roomMotion==='idle'",'reduced motion immediately resolves an in-progress room transition');
   await section('hero');
@@ -923,7 +926,7 @@ async function main() {
       await check(oneScreen, width + 'px ' + name + ' occupies the viewport alone');
       await check("const section=document.querySelector('.md-main>.md-section:not([hidden])');section.scrollHeight<=section.clientHeight+2 && section.scrollWidth<=section.clientWidth+2", width + 'px ' + name + ' fits one screen without outer scrolling');
       await check(primaryContentFits, width + 'px ' + name + ' keeps headings, copy and controls inside their panels');
-      await check("const controls=document.querySelector('.md-host-controls').getBoundingClientRect(),footer=document.querySelector('.md-screen-nav').getBoundingClientRect();controls.top>=footer.top && controls.bottom<=footer.bottom", width + 'px host controls stay in the footer');
+      await check("const controls=document.querySelector('.md-host-controls').getBoundingClientRect(),footer=document.querySelector('.md-footer').getBoundingClientRect();controls.top>=footer.top && controls.bottom<=footer.bottom", width + 'px host controls stay in the footer');
       if (name === 'hero') await check("const copy=document.querySelector('.md-hero-copy').getBoundingClientRect(),context=document.querySelector('.md-hero-context').getBoundingClientRect(),dock=document.querySelector('.md-chapter-dock').getBoundingClientRect();copy.bottom+3<=context.top && context.bottom+3<=dock.top && document.querySelectorAll('.md-hero-context article').length===3", width + 'px introduction, related topics and chapter dock do not overlap');
       if (name === 'tour') await check("const copy=document.querySelector('.md-tour-copy').getBoundingClientRect(),caption=document.querySelector('.md-tour-scene-caption').getBoundingClientRect(),strip=document.querySelector('.md-gallery-strip').getBoundingClientRect();copy.bottom+3<=caption.top && caption.bottom+3<=strip.top", width + 'px tour copy, scene context and photo strip do not overlap');
       if (process.argv.includes('--layout-only')) await shot('fit-' + width + 'x' + height + '-' + name);

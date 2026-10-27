@@ -1,0 +1,63 @@
+/* Three-column exhibition layout follows ve.png. Existing supplied photographs,
+   HTML typography and controls; no generated or retouched people/paintings.
+   DESIGN_VARIANCE 6 / MOTION_INTENSITY 3 / VISUAL_DENSITY 4. */
+.db-portrait-archive {width:100%;max-width:none;margin-inline:0;padding-inline:0;border-top:1px solid #ffffffb5;margin-top:calc(28 * var(--u));padding-top:calc(28 * var(--u));}
+.db-portrait-archive>.db-picture {width:100%;height:auto;aspect-ratio:1315/1196;border:1px solid #ffffffb5;border-radius:0;background:#1a1e1a;}
+.db-portrait-archive>.db-picture>img {display:block;width:100%;max-width:none;height:auto;margin:0;padding:0;object-fit:contain;filter:none;}
+.db-portrait-archive>figcaption,.db-portrait-photo>figcaption {font-size:calc(14 * var(--u));line-height:1.6;color:#eceee7;padding-top:calc(12 * var(--u));}
+.db-portrait-photo {position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;width:100%;max-width:none;margin-inline:0;padding-inline:0;}
+.db-portrait-photo:before {content:'';position:absolute;top:0;bottom:0;left:calc(-22 * var(--u));width:1px;background:#ffffff70;}
+.db-portrait-photo-stage {min-height:0;flex:1;display:block;width:100%;max-width:none;margin:0;padding:0;overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain;}
+.db-portrait-artwork {position:relative;display:block;width:100%;max-width:none;height:auto;aspect-ratio:522/627;margin:0;padding:0;flex:none;border:1px solid #ffffffbf;overflow:hidden;background:#202520;}
+.db-portrait-artwork>.db-picture {width:100%;max-width:none;height:100%;margin:0;padding:0;background:transparent;}
+/* The reference supplies this exact close view. Frame only x501 y239 w522 h627, below the baked-in badge,
+   using CSS, keeping ve.png intact. The original interview is in the reader. */
+.db-portrait-artwork>.db-picture>img {position:absolute;left:calc(-100% * 501 / 522);top:calc(-100% * 239 / 627);display:block;width:100%;max-width:none;height:auto;margin:0;padding:0;object-fit:contain;transform:scale(calc(1672 / 522));transform-origin:top left;filter:none;}
+.db-portrait-photo>figcaption {flex:none;}
+.db-portrait-photo>figcaption>span {font-size:.8em;color:#d7dcd2;}
+.db-portrait-story {position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;border-left:1px solid #ffffff70;padding-left:calc(34 * var(--u));}
+.db-portrait-kicker {flex:none;font-size:calc(18 * var(--u));line-height:1.6;padding-top:calc(10 * var(--u));}
+.db-portrait-kicker:after {content:'';display:block;width:calc(62 * var(--u));height:calc(3 * var(--u));margin-top:calc(15 * var(--u));background:#ff302b;}
+.db-portrait-copy {margin-top:calc(42 * var(--u));}
+.db-portrait-story .db-portrait-copy>h2 {font:900 calc(56 * var(--u))/1.15 var(--display);letter-spacing:-.045em;margin:0;color:#fff;}
+.db-portrait-copy>h2>span {color:#ff302b;}
+.db-portrait-role {font-size:calc(21 * var(--u));line-height:1.6;color:#e9ebe4;margin-top:calc(14 * var(--u));}
+.db-portrait-lead {font-size:calc(27 * var(--u));line-height:1.55;color:#fff;margin-top:calc(38 * var(--u));}
+.db-portrait-action {border-top:1px solid #ffffff90;margin-top:calc(34 * var(--u));padding-top:calc(25 * var(--u));}
+.db-portrait-read {min-height:max(48px,calc(72 * var(--u)));padding:calc(16 * var(--u)) calc(30 * var(--u));border:calc(1.5 * var(--u)) solid #fff;border-radius:999px;background:transparent;color:#fff;gap:calc(35 * var(--u));font-size:calc(22 * var(--u));font-weight:500;white-space:nowrap;}
+.db-portrait-read>svg {width:calc(28 * var(--u));height:calc(28 * var(--u));transition:translate .2s;}
+.db-portrait-read:hover {background:#fff;color:#173120;}
+.db-portrait-read:hover>svg {translate:4px 0;}
+.db-portrait-credit {margin-top:auto;border-top:1px solid #ffffff90;padding-top:calc(20 * var(--u));font-size:calc(16 * var(--u));line-height:1.6;}
+.db-people-portrait button:focus-visible {outline:3px solid #fff;outline-offset:4px;}
+.db-portrait-artwork .db-image-status {color:#fff;}
+@media(prefers-reduced-motion:no-preference) {
+  .db-portrait-artwork {animation:db-portrait-photo-in .6s ease-out both;}
+  .db-portrait-archive {animation:db-portrait-photo-in .5s ease-out both;}
+  .db-portrait-copy {animation:db-portrait-copy-in .45s ease-out both;}
+  @keyframes db-portrait-photo-in {from{opacity:0;}to{opacity:1;}}
+  @keyframes db-portrait-copy-in {from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+}
+@media(max-width:900px) {
+  .db-portrait-archive {margin-top:22px;padding-top:22px;}
+  .db-portrait-archive>figcaption,.db-portrait-photo>figcaption {font-size:11px;padding-top:10px;}
+  .db-portrait-photo-stage {flex:none;aspect-ratio:522/627;width:100%;overflow:visible;}
+  .db-portrait-artwork {width:100%;}
+  .db-portrait-photo:before {left:-14px;}
+  .db-portrait-story {grid-column:1/-1;border-left:0;border-top:1px solid #ffffff70;padding:22px 0 0;}
+  .db-portrait-kicker {font-size:14px;padding:0;}
+  .db-portrait-kicker:after {margin-top:10px;width:50px;height:2px;}
+  .db-portrait-copy {margin-top:24px;}
+  .db-portrait-story .db-portrait-copy>h2 {font-size:36px;}
+  .db-portrait-role {font-size:15px;margin-top:12px;}
+  .db-portrait-lead {font-size:19px;margin-top:22px;}
+  .db-portrait-action {margin-top:24px;padding-top:22px;}
+  .db-portrait-read {font-size:16px;min-height:54px;padding:12px 26px;gap:28px;}
+  .db-portrait-credit {font-size:12px;margin-top:36px;padding-top:18px;}
+}
+@media(max-width:550px) {
+  .db-portrait-archive {max-width:none;}
+  .db-portrait-photo {width:100%;max-width:none;}
+  .db-portrait-photo:before {display:none;}
+  .db-portrait-story .db-portrait-copy>h2 {font-size:31px;}
+}

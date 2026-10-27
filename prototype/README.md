@@ -59,6 +59,8 @@ Worker MapLibre 6 được đóng gói qua truy vấn Vite `?worker&url` trướ
 
 ## Ghi chú biên tập
 
-Chi tiết dọn file và tối ưu ảnh, cuộn, vòng đời hiệu ứng nằm trong [cleanup-performance.md](docs/cleanup-performance.md). Kiểm tra file nguồn dư bằng `npm run audit:unused`; lệnh này chỉ báo cáo và không xóa dữ liệu.
+Đợt dọn mới nhất nằm trong [cleanup-2026-10-27.md](docs/cleanup-2026-10-27.md); [cleanup-performance.md](docs/cleanup-performance.md) lưu lịch sử tối ưu trước đó. Kiểm tra bằng `npm run audit:unused -- --output preview/unused-audit.json`: lệnh đọc graph build của cả năm entry Vite, ảnh nạp động, CSS và manifest tile bản đồ, chỉ báo cáo và không xóa dữ liệu. Các ảnh gốc, mẫu đối chiếu và metadata cần giữ được ghi rõ lý do trong `scripts/asset-retention.json`.
+
+Kế hoạch cải tiến hiệu ứng trang Đền thờ Bác Hồ nằm trong [den-tho-bac-motion-plan.md](docs/den-tho-bac-motion-plan.md); các hiệu ứng mới hiện ở bước đề xuất.
 
 Nội dung và số liệu trong dữ liệu dự án chưa được xác minh độc lập trong lần tích hợp này. Hãy đối chiếu hồ sơ hiện vật, tiểu sử, số liệu cộng đồng, ảnh và trích dẫn với cộng đồng và nguồn địa phương trước khi coi là dữ kiện đã kiểm chứng hoặc phát hành chính thức. Nguồn ảnh prototype trước đây được ghi tại `assets/CREDITS.md`.
