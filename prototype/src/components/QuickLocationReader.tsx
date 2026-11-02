@@ -1,5 +1,6 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { restoredParams, updateRoute, useRememberedState } from '../experience/state';
 
 export type QuickReaderBlock = {
   id: string;
@@ -96,14 +97,20 @@ export function QuickLocationReader({
   active,
   lang,
   reduced,
+  memoryKey = 'reader',
 }: {
   blocks: QuickReaderBlock[];
   active: boolean;
   lang: "vi" | "en";
   reduced: boolean;
+  memoryKey?: string;
 }) {
   const [pages, setPages] = useState<QuickReaderBlock[][]>([blocks]);
-  const [page, setPage] = useState(0);
+  const siteId = memoryKey.split(':')[0];
+  const initial = restoredParams(siteId);
+  const explicitPage = initial.has('quickPage') && initial.get('quickTab') === memoryKey.split(':')[1];
+  const [page, setPage] = useRememberedState(`${memoryKey}:page`, Math.max(0, Math.min(100, Number(initial.get('quickPage')) || 0)), explicitPage);
+  useEffect(() => { if (active) updateRoute({ quickPage: page }, siteId, !['con-chim', 'den-tho-bac'].includes(siteId)); }, [page, active, siteId]);
   const [outgoing, setOutgoing] = useState<number | null>(null);
   const root = useRef<HTMLDivElement>(null);
   const body = useRef<HTMLDivElement>(null);
@@ -135,20 +142,23 @@ export function QuickLocationReader({
       setPage((current) => Math.min(current, next.length - 1));
     };
     measure();
-    const observer = new ResizeObserver(() => {
+    const schedule = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(measure);
-    });
+    };
+    const observer = new ResizeObserver(schedule);
     observer.observe(body.current!);
+    window.addEventListener('heritage:preferences', schedule);
     void document.fonts.ready.then(() => {
       if (alive) measure();
     });
     return () => {
       alive = false;
+      window.removeEventListener('heritage:preferences', schedule);
       observer.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [active]);
+  }, [active, lang]);
   useLayoutEffect(() => {
     if (outgoing === null || !active || reduced || !previous.current) {
       setOutgoing(null);

@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { restoredParams, updateRoute, useRememberedState } from '../experience/state';
+import { useScrollMemory } from '../experience/useScrollMemory';
 import { createPortal } from 'react-dom';
 import {
   ArrowDown, ArrowLeft, ArrowRight, BookOpen, Compass, Expand,
@@ -193,13 +195,39 @@ export const BaDongEditorial: React.FC<Props> = ({
   const bookSwipeAt = useRef(0);
   const bookFlipTimeout = useRef<number | null>(null);
   const readerRef = useRef<HTMLDivElement>(null);
-  const [activeLayer, setActiveLayer] = useState(0);
-  const [bookIndex, setBookIndex] = useState(0);
+  const initial = useRef(restoredParams('bien-ba-dong')).current;
+  const [activeLayer, setActiveLayer] = useRememberedState('ba-dong:layer', Math.max(0, Math.min(4, Number(initial.get('phase')) || 0)), initial.has('phase'));
+  const [bookIndex, setBookIndex] = useRememberedState('ba-dong:book', Math.max(0, Math.min(3, Number(initial.get('chapter')) || 0)), initial.has('chapter'));
   const [turningSheet, setTurningSheet] = useState<number | null>(null);
   const [turnDirection, setTurnDirection] = useState<-1 | 1>(1);
   const [isBookImmersive, setIsBookImmersive] = useState(false);
-  const [lightbox, setLightbox] = useState<number | null>(null);
+  const [lightbox, setLightbox] = useState<number | null>(() => initial.get('reader') === 'photo' ? Math.max(0, Math.min(photos.length - 1, Number(initial.get('photo')) || 0)) : null);
   const coords = formatCoordinates(site.lat, site.lng);
+  useScrollMemory(scrollRef, 'ba-dong:scroll', !initial.has('section'));
+  useEffect(() => { updateRoute({ chapter: bookIndex, phase: activeLayer }, 'bien-ba-dong'); }, [bookIndex, activeLayer]);
+  useEffect(() => { updateRoute({ reader: lightbox === null ? null : 'photo', photo: lightbox }, 'bien-ba-dong'); }, [lightbox]);
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const sections = [...container.querySelectorAll<HTMLElement>('section[id^="bd-"]')];
+    const target = sections.find(value => value.id === initial.get('section'));
+    let interacted = false, timer: number;
+    const stopRestore = () => { interacted = true; };
+    const restore = () => { if (target && !interacted) container.scrollTop += target.getBoundingClientRect().top - container.getBoundingClientRect().top + Math.max(0, Math.min(10000, Number(initial.get('anchorOffset')) || 0)); };
+    const remember = () => {
+      clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        const top = container.getBoundingClientRect().top;
+        const current = sections.filter(value => value.getBoundingClientRect().top <= top + 120).at(-1) || sections[0];
+        if (current) updateRoute({ section: current.id, anchorOffset: Math.max(0, Math.round(top - current.getBoundingClientRect().top)) }, 'bien-ba-dong');
+      }, 120);
+    };
+    container.addEventListener('wheel', stopRestore, { passive: true });
+    container.addEventListener('pointerdown', stopRestore, { passive: true });
+    const first = requestAnimationFrame(restore), second = window.setTimeout(restore, 400);
+    container.addEventListener('scroll', remember, { passive: true });
+    return () => { cancelAnimationFrame(first); clearTimeout(second); clearTimeout(timer); container.removeEventListener('scroll', remember); container.removeEventListener('wheel', stopRestore); container.removeEventListener('pointerdown', stopRestore); };
+  }, []);
 
   const bookPages = [
     { title: t.bookIntroTitle, body: t.bookTexts[0], photo: photos[0], tone: 'photo' },

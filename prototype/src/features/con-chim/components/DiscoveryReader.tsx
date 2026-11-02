@@ -10,6 +10,8 @@ import { PhotoObservation } from './PhotoObservation';
 import { PortableNotes } from './PortableNotes';
 import { StoryQuestions } from './StoryQuestions';
 import { StoryTakeaway } from './StoryTakeaway';
+import { updateRoute, useRememberedState } from '../../../experience/state';
+import { useScrollMemory } from '../../../experience/useScrollMemory';
 
 interface Props {
   story:DiscoveryStory; onClose:()=>void; onChoose:(id:string)=>void;
@@ -17,13 +19,14 @@ interface Props {
 }
 export function DiscoveryReader({story,onClose,onChoose,initialMode='read',initialContext,portable=false}:Props) {
   const layer=STORY_LAYERS[story.id];
-  const [mode,setMode]=useState<ReaderMode>(initialMode);
-  const [question,setQuestion]=useState(initialContext?.question);
-  const [point,setPoint]=useState(initialContext?.point||layer.points[0].id);
-  const [step,setStep]=useState(initialContext?.step||0),[material,setMaterial]=useState(0);
+  const [mode,setMode]=useRememberedState<ReaderMode>(`con-chim:${story.id}:mode`, initialMode, initialMode !== 'read' || !!initialContext);
+  const [question,setQuestion]=useRememberedState<string | undefined>(`con-chim:${story.id}:question`, initialContext?.question, !!initialContext?.question);
+  const [point,setPoint]=useRememberedState(`con-chim:${story.id}:point`, initialContext?.point||layer.points[0].id, !!initialContext?.point);
+  const [step,setStep]=useRememberedState(`con-chim:${story.id}:step`, initialContext?.step||0, !!initialContext),[material,setMaterial]=useState(0);
   const [shareContext,setShareContext]=useState<StoryContext>(initialContext||{mode:'read'});
   const backMode=useRef<Exclude<ReaderMode,'takeaway'>>('read');
   const content=useRef<HTMLDivElement>(null);
+  useScrollMemory(content, `con-chim:${story.id}:${mode}`);
   const related=DISCOVERY_STORIES.find(item=>item.id===story.related)!;
   const storyIndex=DISCOVERY_STORIES.findIndex(item=>item.id===story.id);
   const previous=DISCOVERY_STORIES[(storyIndex+DISCOVERY_STORIES.length-1)%DISCOVERY_STORIES.length];
@@ -37,14 +40,8 @@ export function DiscoveryReader({story,onClose,onChoose,initialMode='read',initi
   const share=()=>{if(mode==='takeaway')return;backMode.current=mode;setShareContext(context);visit('takeaway');};
   const back=()=>{if(mode==='read')onClose();else visit(mode==='takeaway'?backMode.current:'read');};
   useEffect(()=>{
-    if(!portable)return;
     const selected=mode==='takeaway'?shareContext:context;
-    const url=new URL(window.location.href);url.search='';url.searchParams.set('story',story.id);url.searchParams.set('portable','1');
-    if(selected.mode!=='read')url.searchParams.set('mode',selected.mode);
-    if(selected.mode==='questions'&&selected.question)url.searchParams.set('question',selected.question);
-    if(selected.mode==='observe'&&selected.point)url.searchParams.set('point',selected.point);
-    if(selected.mode==='activity'&&selected.step)url.searchParams.set('step',String(selected.step));
-    try{window.history.replaceState(null,'',url);}catch{/* Reading still works if history is unavailable. */}
+    updateRoute({ story: story.id, portable: portable ? '1' : null, mode: selected.mode, question: selected.mode === 'questions' ? selected.question : null, point: selected.mode === 'observe' ? selected.point : null, step: selected.mode === 'activity' ? selected.step : null }, 'con-chim');
   },[portable,story.id,mode,question,point,step,shareContext]);
   const openSources=()=>{
     voice.stop();setMode('read');

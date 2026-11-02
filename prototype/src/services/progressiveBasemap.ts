@@ -22,12 +22,18 @@ export function createBasemapStyle(initial: BasemapType): StyleSpecification {
     for (const overview of [true, false]) {
       const id = provider.id + (overview ? '-overview' : '');
       sources[id] = {
-        type: 'raster', tiles: provider.tiles, tileSize: 256,
-        maxzoom: overview ? 9 : provider.maxZoom,
+        type: 'raster',
+        tiles: overview ? provider.tiles : [`heritage-block://${type === 'satellite' ? 'esri' : 'google'}/{z}/{x}/{y}`],
+        tileSize: overview ? 256 : 1024,
+        minzoom: overview ? 0 : 7,
+        // A 1024px tile contains the original 4x4 grid at z+2: same geographic
+        // detail, sixteen times fewer requests/textures, not lower resolution.
+        maxzoom: overview ? 9 : provider.maxZoom - 2,
         attribution: provider.attribution,
       };
       layers.push({
         id: `${id}-layer`, type: 'raster', source: id,
+        ...(overview ? {} : { minzoom: 8 }),
         // Start with only the few overview tiles. Controls and markers become
         // available without waiting for hundreds of detailed/terrain requests.
         layout: { visibility: type === initial && overview ? 'visible' : 'none' },

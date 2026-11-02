@@ -140,6 +140,33 @@
 .map-control-dock { transform: translateY(-50%); border-radius: 30px; background: var(--map-surface); border-color: var(--map-border); }
 .map-control-dock button { border-radius: 50%; color: #e6e8e6; }
 .map-control-dock button[aria-pressed="true"], .map-control-dock button[aria-expanded="true"] { color: #fff; background: var(--map-active); }
+.heritage-map-viewport .map-control-dock.map-control-dock--unified[role="toolbar"] {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: none;
+  gap: 0;
+  width: 54px;
+  padding: 4px;
+  right: calc(var(--story-controls-offset) + var(--map-inset));
+  top: calc((100% + var(--map-header-bottom) - var(--map-journey-height) + 60px) / 2);
+  max-height: max(54px, calc(100% - var(--map-header-bottom) - var(--map-journey-height) - 108px));
+  transform: translateY(-50%);
+  translate: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #758282 transparent;
+  overscroll-behavior: contain;
+}
+.map-control-dock--unified button { flex: 0 0 44px; width: 44px; height: 44px; min-height: 44px; padding: 0; }
+.map-control-dock--unified .map-story-tools-slot { display: contents !important; }
+.map-control-dock--unified .hx-tools { display: contents; }
+.map-control-dock--unified .hx-tools button { color: #e6e8e6; }
+.map-control-dock--unified .hx-tools button:hover { background: #354047; }
+.map-control-dock--unified .map-story-tools-divider { flex: 0 0 1px; height: 1px; margin: 6px 8px; background: #ffffff29; }
+.heritage-high-contrast .map-control-dock--unified { background: #fff; border-color: #000; }
+.heritage-high-contrast .map-control-dock--unified button { color: #000; }
+.heritage-high-contrast .map-control-dock--unified button[aria-pressed="true"], .heritage-high-contrast .map-control-dock--unified button[aria-expanded="true"] { background: #000 !important; color: #fff !important; }
 .map-top-actions > button[aria-pressed="true"] svg { color: inherit; }
 .heritage-map-viewport .accessibility-popover button[aria-pressed="true"] { color: #fff; background: var(--map-active); border-color: var(--map-active-border); }
 .heritage-map-viewport .accessibility-popover button[aria-pressed="true"] > span { color: inherit; }
@@ -222,6 +249,7 @@
   width: max-content;
   max-width: calc(100% - var(--story-controls-offset) - 40px);
 }
+.landmark-strip[hidden], .landmark-carousel-card[hidden] { display: none !important; }
 .landmark-carousel-toggle {
   position: static; transform: none;
   display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -396,4 +424,7 @@
 .access-reduce-motion .landmark-carousel * { transition: none !important; }
 @media (prefers-reduced-transparency: reduce) {
   .heritage-map-viewport { --map-surface: #151a1f; }
+}
+@media (max-height: 520px) and (min-width: 480px) {
+  .map-bottom-controls { right: calc(var(--story-controls-offset) + var(--map-inset) + 68px); }
 }

@@ -21,6 +21,7 @@ import {
   SACRED_ARTIFACTS,
 } from './aoBaOm5PartsData';
 import type { AoLanguage } from './types';
+import { PeopleEvidence } from '../../experience/EvidencePanels';
 
 interface Section4LivingCommunityExhibitionProps {
   lang: AoLanguage;
@@ -102,52 +103,7 @@ export const Section4LivingCommunityExhibition: React.FC<Section4LivingCommunity
       <div className="relative z-10 flex-1">
         
         {/* WING 1: CON NGƯỜI & NGHỆ NHÂN GÌN GIỮ DI SẢN */}
-        {activeCategory === 'people' && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-300">
-            {CULTURAL_PEOPLE.map((person) => (
-              <div
-                key={person.id}
-                className="bg-[#121622] border border-white/10 hover:border-amber-400/50 rounded-3xl overflow-hidden shadow-2xl p-6 flex flex-col justify-between group transition-all"
-              >
-                <div className="space-y-4">
-                  {/* Photo & Badge */}
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10">
-                    <img
-                      src={person.image}
-                      alt={person.name}
-                      className="w-full h-full object-cover filter contrast-105 group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/75 border border-amber-400/40 text-[11px] font-mono text-amber-300 backdrop-blur-sm">
-                      {lang === 'vi' ? person.badge.vi : person.badge.en}
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <h3 className="font-serif text-xl font-bold text-amber-100 group-hover:text-amber-300 transition-colors">
-                      {person.name}
-                    </h3>
-                    <p className="text-xs font-mono uppercase tracking-wider text-amber-400/80">
-                      {lang === 'vi' ? person.role.vi : person.role.en}
-                    </p>
-                    <p className="text-[11px] font-mono text-stone-400">
-                      {lang === 'vi' ? person.community.vi : person.community.en}
-                    </p>
-                  </div>
-
-                  <p className="text-xs font-serif text-stone-300 leading-relaxed">
-                    {lang === 'vi' ? person.story.vi : person.story.en}
-                  </p>
-                </div>
-
-                {/* Quote Block */}
-                <div className="mt-5 p-3.5 bg-black/40 border-l-2 border-amber-400 rounded-r-xl text-xs font-serif text-amber-200/90 italic">
-                  <Quote className="w-3.5 h-3.5 text-amber-400 mb-1 inline mr-1 opacity-70" />
-                  "{lang === 'vi' ? person.quote.vi : person.quote.en}"
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        {activeCategory === 'people' && <div className="hx-body rounded-2xl bg-[#fbf8f1] text-[#173f3c]"><PeopleEvidence siteId="ao-ba-om" lang={lang} /></div>}
 
         {/* WING 2: HOẠT ĐỘNG TIÊU BIỂU & ĐẠI LỄ HỘI */}
         {activeCategory === 'festivals' && (

@@ -3,6 +3,7 @@ import { resolveGoogleTileUrl, registerGoogleTileFallback } from './googleImager
 import { resolveTerrainTileUrl } from './terrainImagery';
 import { resolveMapDetailsTileUrl } from './mapDetails';
 import { MAP_CACHE_REVISION } from './mapCacheRevision.generated';
+import { registerMapBlocks } from './mapBlocks';
 
 export function resolveMapTileUrl(url: string): string {
   return resolveMapDetailsTileUrl(resolveTerrainTileUrl(resolveGoogleTileUrl(resolveEsriTileUrl(url))));
@@ -11,6 +12,7 @@ export function resolveMapTileUrl(url: string): string {
 /** Store requested map images across reloads without delaying the first view. */
 export function registerMapTileCache(): void {
   registerGoogleTileFallback();
+  registerMapBlocks();
   if (!('serviceWorker' in navigator)) return;
   const workerUrl = `${import.meta.env.BASE_URL}map-cache-sw.js?revision=${encodeURIComponent(MAP_CACHE_REVISION)}`;
   void navigator.serviceWorker.register(workerUrl, { scope: import.meta.env.BASE_URL })

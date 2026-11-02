@@ -7,8 +7,13 @@ import { LocationQuickView } from './components/LocationQuickView';
 import { LocationUtilityDialog } from './components/LocationUtilityDialog';
 import type { CameraManager, CameraChapterView } from './services/cameraManager';
 import { soundscape } from './services/soundscape';
-import { X, Clock3 } from 'lucide-react';
+import { Clock3 } from 'lucide-react';
 import { fetchLocalWeather, type LocalWeather } from './services/localWeather';
+import { usePreferences, setPreferences } from './experience/preferences';
+import { ExperienceTools } from './experience/ExperienceTools';
+import { activateSiteRoute, isSiteId, routeParams, setEntryIssue, updateRoute, useRememberedState } from './experience/state';
+import { isSiteInCategory } from './data/siteCategories';
+import { narration } from './experience/narration';
 
 const Earth3DViewer = lazy(() => import('./components/Earth3DViewer').then((module) => ({ default: module.Earth3DViewer })));
 import { loadStorytellingPanel, peekStorytellingPanel } from './utils/museumPreload';
@@ -24,11 +29,14 @@ const SearchModal = lazy(() => import('./components/SearchModal').then((module) 
 const AttractModeOverlay = lazy(() => import('./components/AttractModeOverlay').then((module) => ({ default: module.AttractModeOverlay })));
 
 export default function App() {
-  const [selectedSite, setSelectedSite] = useState<HeritageSite>(HERITAGE_SITES[0]);
-  const [hasUserSelectedSite, setHasUserSelectedSite] = useState<boolean>(false);
+  const prefs = usePreferences();
+  const initial = routeParams();
+  const initialSite = HERITAGE_SITES.find(site => site.id === initial.get('site'));
+  const [selectedSite, setSelectedSite] = useState<HeritageSite>(initialSite || HERITAGE_SITES[0]);
+  const [hasUserSelectedSite, setHasUserSelectedSite] = useState<boolean>(!!initialSite);
   const [recenterRequestId, setRecenterRequestId] = useState(0);
   const [viewMode, setViewMode] = useState<'3d' | '2d'>('3d');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useRememberedState<string>('map:category', 'all');
   const [isAutoTouring, setIsAutoTouring] = useState<boolean>(false);
   const [isKioskFullscreen, setIsKioskFullscreen] = useState<boolean>(false);
   const [isArtifactModalOpen, setIsArtifactModalOpen] = useState<boolean>(false);
@@ -37,20 +45,21 @@ export default function App() {
   const [isPanoramaOpen, setIsPanoramaOpen] = useState<boolean>(false);
   const [isQRCodeOpen, setIsQRCodeOpen] = useState<boolean>(false);
   const [isAttractMode, setIsAttractMode] = useState<boolean>(false);
-  const [isReduceMotion, setIsReduceMotion] = useState<boolean>(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
-  const [isStoryExpanded, setIsStoryExpanded] = useState<boolean>(false);
-  const [hasOpenedStoryDetail, setHasOpenedStoryDetail] = useState(false);
+  const isReduceMotion = prefs.reduceMotion;
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(!!initialSite);
+  const [isStoryExpanded, setIsStoryExpanded] = useState<boolean>(!!initialSite && initial.get('detail') === '1');
+  const [hasOpenedStoryDetail, setHasOpenedStoryDetail] = useState(!!initialSite && initial.get('detail') === '1');
   const [hasPreparedMuseumDetail, setHasPreparedMuseumDetail] = useState(false);
   useEffect(() => { setHasPreparedMuseumDetail(false); }, [selectedSite.id, isSidebarOpen]);
   const [isStoryWide, setIsStoryWide] = useState<boolean>(false);
-  const [isLandmarkCarouselCollapsed, setIsLandmarkCarouselCollapsed] = useState(false);
+  const [isLandmarkCarouselCollapsed, setIsLandmarkCarouselCollapsed] = useState(!!initialSite);
   const [isListDrawerOpen, setIsListDrawerOpen] = useState<boolean>(false);
   const [isSoundPlaying, setIsSoundPlaying] = useState<boolean>(false);
-  const [lang, setLang] = useState<'vi' | 'en'>('vi');
-  const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
-  const [isLargeText, setIsLargeText] = useState(false);
-  const [isHighContrast, setIsHighContrast] = useState(false);
+  const lang = prefs.lang;
+  const setLang = (value: 'vi' | 'en') => setPreferences({ lang: value });
+  const [mapToolsHost, setMapToolsHost] = useState<HTMLDivElement | null>(null);
+  const isLargeText = prefs.largeText;
+  const isHighContrast = prefs.highContrast;
   const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [contentEpoch, setContentEpoch] = useState(0);
   const [weather, setWeather] = useState<LocalWeather | null>(null);
@@ -58,6 +67,15 @@ export default function App() {
   const cameraManagerRef = useRef<CameraManager | null>(null);
   const storyDetailRef = useRef<HTMLDivElement>(null);
   const idleTimerRef = useRef<number | null>(null);
+  const setStoryPanelOpen = (open: boolean) => {
+    setIsSidebarOpen(open);
+    setIsLandmarkCarouselCollapsed(open);
+  };
+  useEffect(() => { if (initial.get('site') && !initialSite) setEntryIssue({ vi: 'Không tìm thấy địa điểm trong liên kết. Bạn có thể chọn lại trên bản đồ.', en: 'The linked place was not found. Choose another place on the map.' }); }, []);
+  useEffect(() => {
+    updateRoute({ site: hasUserSelectedSite ? selectedSite.id : null, detail: hasUserSelectedSite && isStoryExpanded ? '1' : null, view: hasUserSelectedSite ? isStoryExpanded ? 'detail' : 'quick' : null }, hasUserSelectedSite ? selectedSite.id : undefined, !['con-chim', 'den-tho-bac'].includes(selectedSite.id));
+  }, [selectedSite.id, hasUserSelectedSite, isStoryExpanded]);
+  useEffect(() => { narration.stop(); }, [selectedSite.id, isSidebarOpen, isStoryExpanded]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -127,7 +145,7 @@ export default function App() {
       soundscape.stopSoundscape();
       setIsSoundPlaying(false);
       setHasUserSelectedSite(false);
-      setIsSidebarOpen(false);
+      setStoryPanelOpen(false);
       setIsArtifactModalOpen(false);
       setIsPanoramaOpen(false);
       setIsQRCodeOpen(false);
@@ -187,6 +205,10 @@ export default function App() {
 
   // Site selection handler
   const handleSelectSite = (site: HeritageSite) => {
+    setEntryIssue(null);
+    // A click acknowledges the chosen place in the same React commit. Map
+    // imagery and camera motion must never hold the information panel back.
+    setStoryPanelOpen(true);
     if (hasUserSelectedSite && selectedSite.id === site.id) {
       // A repeated click is an explicit camera action even though React's
       // selected-site value stays the same. Keep the story panel in place.
@@ -194,6 +216,7 @@ export default function App() {
       resetIdleTimer();
       return;
     }
+    activateSiteRoute(site.id);
     setSelectedSite(site);
     setHasUserSelectedSite(true);
     setIsStoryExpanded(false);
@@ -209,13 +232,13 @@ export default function App() {
   // Zooming/panning can select a story without starting a destination flight.
   const handleMapStoryFocus = (site: HeritageSite | null) => {
     if (!site) {
-      setIsSidebarOpen(false);
+      setStoryPanelOpen(false);
       return;
     }
     setSelectedSite(site);
     if (selectedSite.id !== site.id) setHasOpenedStoryDetail(false);
     setHasUserSelectedSite(true);
-    setIsSidebarOpen(true);
+    setStoryPanelOpen(true);
     setIsStoryExpanded(false);
     setIsStoryWide(false);
     if (isSoundPlaying && selectedSite.id !== site.id) {
@@ -227,7 +250,7 @@ export default function App() {
   const handleHomeClick = () => {
     setHasOpenedStoryDetail(false);
     setHasUserSelectedSite(false);
-    setIsSidebarOpen(false);
+    setStoryPanelOpen(false);
     setIsStoryExpanded(false);
     setIsStoryWide(false);
     setIsListDrawerOpen(false);
@@ -237,7 +260,7 @@ export default function App() {
   const handleBackClick = () => {
     setHasOpenedStoryDetail(false);
     setHasUserSelectedSite(false);
-    setIsSidebarOpen(false);
+    setStoryPanelOpen(false);
     setIsStoryExpanded(false);
     setIsStoryWide(false);
     cameraManagerRef.current?.flyToOverview();
@@ -256,7 +279,10 @@ export default function App() {
         onHomeClick={handleHomeClick}
         onBackClick={handleBackClick}
         selectedCategory={selectedCategory}
-        onSelectCategory={(cat) => setSelectedCategory(cat)}
+        onSelectCategory={(cat) => {
+          setSelectedCategory(cat);
+          if (!isSiteInCategory(selectedSite, cat)) handleHomeClick();
+        }}
         isSoundPlaying={isSoundPlaying}
         onToggleSound={handleToggleSound}
         lang={lang}
@@ -282,7 +308,7 @@ export default function App() {
             isAutoTouring={isAutoTouring}
             onToggleAutoTour={() => setIsAutoTouring(!isAutoTouring)}
             activeCategoryFilter={selectedCategory}
-            onOpenStorytelling={() => setIsSidebarOpen(true)}
+            onOpenStorytelling={() => setStoryPanelOpen(true)}
             isStorytellingOpen={isSidebarOpen}
             isOccluded={isSidebarOpen && isStoryExpanded}
             isLandmarksCollapsed={isLandmarkCarouselCollapsed}
@@ -291,35 +317,13 @@ export default function App() {
             onHomeClick={handleHomeClick}
             hasUserSelectedSite={hasUserSelectedSite}
             isReduceMotion={isReduceMotion}
-            isAccessibilityOpen={isAccessibilityOpen}
-            onToggleAccessibility={() => setIsAccessibilityOpen((open) => !open)}
+            onToolsHostReady={setMapToolsHost}
             onRegisterCameraManager={(mgr) => {
               cameraManagerRef.current = mgr;
             }}
           />
           </Suspense>
 
-          {/* Story panel and accessibility controls */}
-
-          {isAccessibilityOpen && (
-            <section className="accessibility-popover z-30 rounded-2xl border border-amber-500/30 bg-[#10141d]/95 p-4 shadow-2xl backdrop-blur" aria-label={lang === 'vi' ? 'Tùy chỉnh trợ năng' : 'Accessibility settings'}>
-              <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-amber-100">{lang === 'vi' ? 'Trợ năng' : 'Accessibility'}</h2>
-                <button onClick={() => setIsAccessibilityOpen(false)} className="rounded-lg p-1 text-stone-400 hover:bg-white/10 hover:text-white" aria-label={lang === 'vi' ? 'Đóng trợ năng' : 'Close accessibility settings'}><X className="h-4 w-4" /></button>
-              </div>
-              <div className="space-y-2 text-xs">
-                <button onClick={() => setIsLargeText(!isLargeText)} aria-pressed={isLargeText} className="flex min-h-10 w-full items-center justify-between rounded-xl border border-white/10 px-3 text-left hover:bg-white/5">
-                  <span>{lang === 'vi' ? 'Cỡ chữ lớn' : 'Larger text'}</span><span className="text-amber-300">{isLargeText ? (lang === 'vi' ? 'Bật' : 'On') : (lang === 'vi' ? 'Tắt' : 'Off')}</span>
-                </button>
-                <button onClick={() => setIsHighContrast(!isHighContrast)} aria-pressed={isHighContrast} className="flex min-h-10 w-full items-center justify-between rounded-xl border border-white/10 px-3 text-left hover:bg-white/5">
-                  <span>{lang === 'vi' ? 'Tương phản cao' : 'High contrast'}</span><span className="text-amber-300">{isHighContrast ? (lang === 'vi' ? 'Bật' : 'On') : (lang === 'vi' ? 'Tắt' : 'Off')}</span>
-                </button>
-                <button onClick={() => setIsReduceMotion(!isReduceMotion)} aria-pressed={isReduceMotion} className="flex min-h-10 w-full items-center justify-between rounded-xl border border-white/10 px-3 text-left hover:bg-white/5">
-                  <span>{lang === 'vi' ? 'Giảm chuyển động' : 'Reduce motion'}</span><span className="text-amber-300">{isReduceMotion ? (lang === 'vi' ? 'Bật' : 'On') : (lang === 'vi' ? 'Tắt' : 'Off')}</span>
-                </button>
-              </div>
-            </section>
-          )}
         </div>
         {/* Overlay the story without changing the map's size or camera center. */}
         {isSidebarOpen && (
@@ -328,6 +332,7 @@ export default function App() {
             : 'heritage-story-panel absolute inset-y-0 right-0 z-40 shadow-2xl'}>
             <div hidden={isStoryExpanded} className="h-full">
               <LocationQuickView
+                key={selectedSite.id}
                 site={selectedSite}
                 lang={lang}
                 onPrepareDetails={() => setHasPreparedMuseumDetail(true)}
@@ -337,7 +342,7 @@ export default function App() {
                   setContentEpoch((epoch) => epoch + 1);
                 }}
                 onClose={() => {
-                  setIsSidebarOpen(false);
+                  setStoryPanelOpen(false);
                   setIsStoryExpanded(false);
                   setIsStoryWide(false);
                   setHasOpenedStoryDetail(false);
@@ -363,12 +368,13 @@ export default function App() {
             >
             <Suspense fallback={<div className="flex h-full items-center justify-center bg-[#11141c] text-sm text-stone-400" role="status">{lang === 'vi' ? 'Đang mở diễn giải…' : 'Loading story…'}</div>}>
             <StorytellingPanel
+              key={selectedSite.id}
               site={selectedSite}
               onOpenArtifactModal={() => setIsArtifactModalOpen(true)}
               lang={lang}
               onToggleLang={() => setLang(lang === 'vi' ? 'en' : 'vi')}
               onClose={() => {
-                setIsSidebarOpen(false);
+                setStoryPanelOpen(false);
                 setIsStoryExpanded(false);
                 setIsStoryWide(false);
                 setHasOpenedStoryDetail(false);
@@ -386,14 +392,15 @@ export default function App() {
           </aside>
         )}
       {/* 3. Bottom Landmark Dock Carousel (Floating, compact, collapsible) */}
-      {!(isSidebarOpen && isStoryExpanded) && <LandmarkCarousel
+      <LandmarkCarousel
         selectedSite={selectedSite}
         onSelectSite={handleSelectSite}
         lang={lang}
         isStoryOpen={isSidebarOpen}
         isStoryExpanded={isStoryExpanded}
-        isCollapsed={isLandmarkCarouselCollapsed}
-      />}
+        isCollapsed={isLandmarkCarouselCollapsed || (isSidebarOpen && isStoryExpanded)}
+        activeCategory={selectedCategory}
+      />
       </div>
 
       {/* 4. Slide-Over Landmark Directory Drawer (7 Sites) */}
@@ -434,6 +441,7 @@ export default function App() {
           onClose={() => setIsSearchOpen(false)}
           onSelectSite={handleSelectSite}
           lang={lang}
+          activeCategory={selectedCategory}
         />
         </Suspense>
       )}
@@ -490,6 +498,7 @@ export default function App() {
         </div>
       )}
 
+    <ExperienceTools siteId={isSiteId(selectedSite.id) ? selectedSite.id : 'ao-ba-om'} dockHost={isSidebarOpen && isStoryExpanded ? null : mapToolsHost} hidden={isSidebarOpen && isStoryExpanded && ['con-chim', 'den-tho-bac'].includes(selectedSite.id)} />
     </div>
   );
 }

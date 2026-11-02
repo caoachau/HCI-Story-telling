@@ -1,6 +1,13 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { MemorialDetailPage } from './MemorialDetailPage';
+import { installExperienceBridge } from '../../experience/state';
+import { ExperienceTools } from '../../experience/ExperienceTools';
+import { RecoveryBoundary } from '../../experience/RecoveryBoundary';
+import { usePreferences } from '../../experience/preferences';
+import { EnglishExperience } from '../../experience/EnglishExperience';
+installExperienceBridge();
+function MemorialEntry() { const prefs = usePreferences(); return prefs.lang === 'en' ? <EnglishExperience siteId="den-tho-bac" /> : <MemorialDetailPage />; }
 import './memorial.css';
 import './history.css';
 import './space-points.css';
@@ -21,4 +28,4 @@ import './grounds.css';
 import './boat.css';
 import './remaining-spaces.css';
 
-createRoot(document.getElementById('root')!).render(<React.StrictMode><MemorialDetailPage/></React.StrictMode>);
+createRoot(document.getElementById('root')!).render(<React.StrictMode><RecoveryBoundary><MemorialEntry/><ExperienceTools siteId="den-tho-bac" /></RecoveryBoundary></React.StrictMode>);

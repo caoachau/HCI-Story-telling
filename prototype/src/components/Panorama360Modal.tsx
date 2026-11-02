@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { X, Compass, RotateCcw, Move, Sparkles } from 'lucide-react';
+import { usePreferences } from '../experience/preferences';
 
 interface Panorama360ModalProps {
   lang: 'vi' | 'en';
@@ -16,11 +17,13 @@ export const Panorama360Modal: React.FC<Panorama360ModalProps> = ({
   caption,
   onClose,
 }) => {
+  const { reduceMotion } = usePreferences();
   const containerRef = useRef<HTMLDivElement>(null);
   const [rotation, setRotation] = useState<number>(0);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
-  const [isAutoRotating, setIsAutoRotating] = useState<boolean>(true);
+  const [isAutoRotating, setIsAutoRotating] = useState<boolean>(!reduceMotion);
+  useEffect(() => { if (reduceMotion) setIsAutoRotating(false); }, [reduceMotion]);
 
   // Auto-rotation effect
   useEffect(() => {
@@ -80,6 +83,7 @@ export const Panorama360Modal: React.FC<Panorama360ModalProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsAutoRotating(!isAutoRotating)}
+            aria-pressed={isAutoRotating}
             className={`px-3 py-2 rounded-xl text-xs font-mono border transition-all flex items-center gap-1.5 ${
               isAutoRotating
                 ? 'bg-amber-600/30 border-amber-500 text-amber-300'

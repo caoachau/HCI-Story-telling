@@ -2,19 +2,21 @@ import React, { useState, useMemo } from 'react';
 import { Search, X, MapPin, ChevronRight, Sparkles } from 'lucide-react';
 import { HERITAGE_SITES, HeritageSite } from '../data/heritageSites';
 import { formatCoordinates } from '../utils/geoCoordinates';
+import { isSiteInCategory } from '../data/siteCategories';
 
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectSite: (site: HeritageSite) => void;
   lang: 'vi' | 'en';
+  activeCategory?: string;
 }
 
 export const SearchModal: React.FC<SearchModalProps> = ({
   isOpen,
   onClose,
   onSelectSite,
-  lang,
+  lang, activeCategory = 'all',
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -30,17 +32,19 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   };
 
   const results = useMemo(() => {
-    if (!searchTerm.trim()) return HERITAGE_SITES;
-    const term = searchTerm.toLowerCase();
-    return HERITAGE_SITES.filter(
+    const available = HERITAGE_SITES.filter(site => isSiteInCategory(site, activeCategory));
+    if (!searchTerm.trim()) return available;
+    const normalize = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').toLowerCase();
+    const term = normalize(searchTerm.trim());
+    return available.filter(
       (site) =>
-        site.name.toLowerCase().includes(term) ||
-        site.englishName.toLowerCase().includes(term) ||
-        site.province.toLowerCase().includes(term) ||
-        site.category.toLowerCase().includes(term) ||
-        site.tagline.toLowerCase().includes(term)
+        normalize(site.name).includes(term) ||
+        normalize(site.englishName).includes(term) ||
+        normalize(site.province).includes(term) ||
+        normalize(site.category).includes(term) ||
+        normalize(site.tagline).includes(term)
     );
-  }, [searchTerm]);
+  }, [searchTerm, activeCategory]);
 
   if (!isOpen) return null;
 

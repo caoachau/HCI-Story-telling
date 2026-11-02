@@ -1,14 +1,19 @@
 import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
 import type { ReaderChapter } from './reader-content';
+import { routeParams, updateRoute } from '../../experience/state';
 
-export function useReaderGallery(prose: RefObject<HTMLElement | null>, chapters: ReaderChapter[], reduced: boolean) {
-  const [active, setActive] = useState(0);
+export function useReaderGallery(prose: RefObject<HTMLElement | null>, chapters: ReaderChapter[], reduced: boolean, storyId = '', forcedInitial?: number) {
+  const initial = useRef(forcedInitial !== undefined ? forcedInitial : routeParams().has('chapter') ? Math.max(0, Math.min(chapters.length - 1, Number(routeParams().get('chapter')) || 0)) : null);
+  const jumpPending = useRef(initial.current !== null);
+  const [active, setActive] = useState(initial.current || 0);
+  useEffect(() => { if (storyId) updateRoute({ chapter: active }, 'den-tho-bac'); }, [active, storyId]);
   useEffect(() => {
     const pane = prose.current;
     if (!pane) return;
     const sections = [...pane.querySelectorAll<HTMLElement>('[data-reader-chapter]')];
     let frame = 0;
     const measure = () => {
+      if (jumpPending.current) return;
       const box = pane.getBoundingClientRect(), last = sections.at(-1), end = pane.lastElementChild;
       if (last && end) {
         // Leave exactly enough room for the final section to reach the same
@@ -38,6 +43,11 @@ export function useReaderGallery(prose: RefObject<HTMLElement | null>, chapters:
     if (!pane || !section) return;
     pane.scrollTo({ top: pane.scrollTop + section.getBoundingClientRect().top - pane.getBoundingClientRect().top - 24, behavior: reduced ? 'instant' : 'smooth' });
   }, [prose, reduced]);
+  useEffect(() => {
+    if (initial.current === null) return;
+    const timer = setTimeout(() => { select(initial.current!); jumpPending.current = false; prose.current?.dispatchEvent(new Event('scroll')); }, 100);
+    return () => clearTimeout(timer);
+  }, [select, prose]);
   return { active, select };
 }
 

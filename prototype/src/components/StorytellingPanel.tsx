@@ -2,6 +2,8 @@ import React, { Suspense, use, useState, useEffect } from 'react';
 import { HeritageSite } from '../data/heritageSites';
 import { soundscape, narrateStory, stopNarration } from '../services/soundscape';
 import { formatCoordinates } from '../utils/geoCoordinates';
+import { restoredParams, updateRoute, useRememberedState } from '../experience/state';
+import { useNarration } from '../experience/narration';
 import { BeforeAfterSlider } from './BeforeAfterSlider';
 import { BaDongEditorial } from './BaDongEditorial';
 import { ConChimZipDetail } from './ConChimZipDetail';
@@ -69,11 +71,19 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
   onSelectChapterCamera,
   onContentChange,
 }) => {
-  const [activeTab, setActiveTab] = useState<'chapters' | 'beforeAfter' | 'artisans' | 'trail' | 'media'>('chapters');
-  const [selectedChapterIdx, setSelectedChapterIdx] = useState<number>(0);
+  const initial = restoredParams(site.id);
+  type Tab = 'chapters' | 'beforeAfter' | 'artisans' | 'trail' | 'media';
+  const initialTab = ['chapters', 'beforeAfter', 'artisans', 'trail', 'media'].includes(initial.get('tab') || '') ? initial.get('tab') as Tab : 'chapters';
+  const [activeTab, setActiveTab] = useRememberedState<Tab>(`${site.id}:tab`, initialTab, initial.has('tab'));
+  const chapterIndex = Number(initial.get('chapter'));
+  const [selectedChapterIdx, setSelectedChapterIdx] = useRememberedState<number>(`${site.id}:chapter`, Number.isInteger(chapterIndex) && chapterIndex >= 0 && chapterIndex < site.chapters.length ? chapterIndex : 0, initial.has('chapter'));
   const [isSoundscapePlaying, setIsSoundscapePlaying] = useState<boolean>(false);
-  const [isNarrating, setIsNarrating] = useState<boolean>(false);
-  const [currentSubtitle, setCurrentSubtitle] = useState<string>('');
+  const chapter = site.chapters[Math.min(selectedChapterIdx, site.chapters.length - 1)];
+  const textToRead = lang === 'vi' ? `${chapter.title}\n${chapter.summary}\n${chapter.details}` : `${chapter.englishTitle}\n${chapter.englishSummary}\n${chapter.englishDetails}`;
+  const voice = useNarration(textToRead, lang === 'vi' ? 'vi-VN' : 'en-US', `${site.id}:${selectedChapterIdx}:${lang}`);
+  const isNarrating = voice.status === 'playing' || voice.status === 'paused';
+  const currentSubtitle = isNarrating ? voice.chunks[voice.index] || '' : '';
+  useEffect(() => { if (isExpanded && ['chua-ang', 'chua-hang'].includes(site.id)) updateRoute({ tab: activeTab, chapter: selectedChapterIdx }, site.id); }, [activeTab, selectedChapterIdx, site.id, isExpanded]);
 
   const handleSelectTab = (tab: typeof activeTab) => {
     if (tab !== activeTab) onContentChange?.();
@@ -82,16 +92,11 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
 
   // Stop narration & sync audio on site change
   useEffect(() => {
-    stopNarration();
-    setIsNarrating(false);
-    setSelectedChapterIdx(0);
-    setCurrentSubtitle('');
+    voice.stop();
   }, [site]);
 
   useEffect(() => {
-    stopNarration();
-    setIsNarrating(false);
-    setCurrentSubtitle('');
+    voice.stop();
   }, [lang]);
 
   // Ambient Soundscape toggle
@@ -102,31 +107,12 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
 
   // Narration Voice toggle with live subtitle support
   const handleToggleNarration = () => {
-    if (isNarrating) {
-      stopNarration();
-      setIsNarrating(false);
-      setCurrentSubtitle('');
-    } else {
-      const chapter = site.chapters[selectedChapterIdx];
-      const textToRead = site.id === 'bien-ba-dong' || site.id === 'con-chim' || site.id === 'ao-ba-om'
-        ? site.chapters.map((item) => lang === 'vi'
-          ? `${item.title}. ${item.summary}. ${item.details}`
-          : `${item.englishTitle}. ${item.englishSummary}. ${item.englishDetails}`).join(' ')
-        : lang === 'vi'
-          ? `${chapter.title}. ${chapter.summary}. ${chapter.details}`
-          : `${chapter.englishTitle}. ${chapter.englishSummary}. ${chapter.englishDetails}`;
-
-      setIsNarrating(true);
-      setCurrentSubtitle(lang === 'vi' ? chapter.summary : chapter.englishSummary);
-      narrateStory(textToRead, lang === 'vi' ? 'vi-VN' : 'en-US', () => {
-        setIsNarrating(false);
-        setCurrentSubtitle('');
-      });
-    }
+    voice.play();
   };
 
   // Chapter camera transition
   const handleSelectChapter = (idx: number) => {
+    voice.stop();
     if (idx !== selectedChapterIdx) onContentChange?.();
     setSelectedChapterIdx(idx);
     const chapter = site.chapters[idx];
@@ -587,36 +573,7 @@ export const StorytellingPanel: React.FC<StorytellingPanelProps> = ({
                 {lang === 'vi' ? 'Nhân Chứng Sống & Bậc Thầy Di Sản Bản Địa' : 'Living Heritage Keepers'}
               </h4>
               <div className="space-y-4">
-                {site.artisans.map((artisan, idx) => (
-                  <div key={idx} className="bg-[#141822] border border-white/10 rounded-2xl p-5 space-y-3">
-                    <div className="flex items-start gap-3.5">
-                      <img
-                        src={artisan.avatarUrl}
-                        alt={artisan.name}
-                        className="w-14 h-14 rounded-full object-cover border-2 border-amber-500/40 shrink-0"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h5 className="text-sm font-serif font-bold text-amber-200">{artisan.name}</h5>
-                          <span className="text-[10px] font-mono px-2 py-0.5 bg-amber-500/10 border border-amber-500/30 text-amber-300 rounded-md">
-                            {artisan.badge}
-                          </span>
-                        </div>
-                        <p className="text-xs text-stone-400">{artisan.role} · {artisan.age} tuổi</p>
-                        <p className="text-[11px] text-stone-500 font-mono">{artisan.village}</p>
-                      </div>
-                    </div>
-
-                    <p className="text-xs italic font-serif text-amber-100/90 bg-black/30 p-3 rounded-xl border border-white/5">
-                      &ldquo;{artisan.quote}&rdquo;
-                    </p>
-
-                    <div className="text-xs text-stone-300">
-                      <span className="text-amber-500 font-medium">Đóng góp di sản: </span>
-                      {artisan.contribution}
-                    </div>
-                  </div>
-                ))}
+                <p className="rounded-xl border border-white/15 p-4 text-sm leading-relaxed">{lang === 'vi' ? 'Chưa có hồ sơ lời kể trực tiếp và quyền dùng hình/tiếng được xác nhận cho mục này. Hãy chọn Câu chuyện → Nguồn và người kể để xem căn cứ hiện có. Ảnh minh họa không được dùng để gán danh tính hoặc lời nói cho một người.' : 'A direct account and permission to use the person’s image or voice have not been confirmed here. Choose Story → Sources and storytellers to inspect available evidence. Illustrative images do not establish identity or testimony.'}</p>
               </div>
             </div>
           </div>

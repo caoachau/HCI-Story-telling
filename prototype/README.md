@@ -11,6 +11,8 @@ npm start
 
 Mở http://127.0.0.1:3000. Tạo bản dựng bằng `npm run build`; xem trước bằng `npm run preview`.
 
+Đợt triển khai yêu cầu ngày 28/10 bổ sung công cụ kể chuyện, Việt–Anh, trợ năng, thuyết minh, thư viện đã lưu và QR giữ ngữ cảnh. Xem [kết quả triển khai và hồ sơ còn cần bổ sung](docs/requirements-completion.md), gồm cách cấu hình `VITE_PUBLIC_URL` và chạy kiểm thử. Các thông tin chưa có người địa phương xác nhận được ghi rõ trên giao diện.
+
 Trang chi tiết **Bảo tàng văn hóa Khmer** dựng theo mẫu MUSEO/Chauvet được mở từ địa điểm trên bản đồ hoặc xem riêng tại http://127.0.0.1:3000/bao-tang-khmer.html. Sáu section giữ thứ tự và hình ảnh của mẫu, kèm bản đồ chọn điểm, timeline, gallery và bộ lọc triển lãm. Chi tiết và kiểm tra tại [museo-detail.md](docs/museo-detail.md).
 
 Bản đồ và ảnh từ các dịch vụ bên ngoài cần kết nối Internet. Không cần khóa API để chạy ứng dụng. ZIP có metadata nhắc đến Gemini nhưng không chứa màn hình AI hoặc endpoint gọi Gemini, vì vậy tính năng đó chưa có trong bản tích hợp.

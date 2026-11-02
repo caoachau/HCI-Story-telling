@@ -7,7 +7,8 @@
     "start": "vite --host 127.0.0.1 --port 3000",
     "dev": "vite --host 127.0.0.1 --port 3000",
     "build": "vite build",
-    "cache:map": "node scripts/cache-map-imagery.mjs",
+    "cache:map": "node scripts/cache-map-imagery.mjs && node scripts/pack-map-tiles.mjs",
+    "pack:map": "node scripts/pack-map-tiles.mjs",
     "audit:unused": "node scripts/audit-unused.mjs",
     "preview": "vite preview",
     "lint": "tsc --noEmit"

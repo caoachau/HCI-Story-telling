@@ -5,9 +5,7 @@ import {
   HERITAGE_SITES,
   HeritageSite,
 } from '../data/heritageSites';
-import {
-  prefetchAreaTiles,
-} from '../services/tilePreloader';
+import { prefetchMapBlocks } from '../services/mapBlocks';
 import { ESRI_IMAGERY } from '../services/esriImagery';
 import { createBasemapStyle, configureBasemapLod, revealBasemap, type BasemapType } from '../services/progressiveBasemap';
 import { TERRAIN_TILE_URL } from '../services/terrainImagery';
@@ -35,7 +33,6 @@ import {
   Hand,
   ZoomIn,
   ZoomOut,
-  Accessibility,
   Map as MapIcon,
   ChevronDown,
   ChevronUp,
@@ -64,8 +61,7 @@ interface Earth3DViewerProps {
   onHomeClick?: () => void;
   hasUserSelectedSite?: boolean;
   isReduceMotion?: boolean;
-  isAccessibilityOpen?: boolean;
-  onToggleAccessibility?: () => void;
+  onToolsHostReady?: (element: HTMLDivElement | null) => void;
   onRegisterCameraManager?: (manager: CameraManager) => void;
 }
 
@@ -85,12 +81,7 @@ const STORY_CLOSE_ZOOM = 14.4;
 const STORY_OPEN_DISTANCE_KM = 0.5;
 const STORY_CLOSE_DISTANCE_KM = 0.9;
 
-function isSiteInCategory(site: HeritageSite, category: string): boolean {
-  if (category === 'khmer') return ['ao-ba-om', 'chua-ang', 'bao-tang-khmer'].includes(site.id);
-  if (category === 'eco') return ['con-chim', 'bien-ba-dong', 'ao-ba-om'].includes(site.id);
-  if (category === 'history') return ['den-tho-bac', 'chua-hang', 'chua-ang'].includes(site.id);
-  return true;
-}
+import { isSiteInCategory } from '../data/siteCategories';
 
 function configureGestureMotion(map: maplibregl.Map, reduceMotion: boolean): void {
   // Use MapLibre's continuous gesture animation: wheel events share one ease,
@@ -128,8 +119,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
   onHomeClick,
   hasUserSelectedSite = false,
   isReduceMotion = false,
-  isAccessibilityOpen = false,
-  onToggleAccessibility,
+  onToolsHostReady,
   onRegisterCameraManager,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -165,8 +155,6 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
   const viewModeRef = useRef<'3d' | '2d'>(viewMode);
   viewModeRef.current = viewMode;
 
-  const onOpenStorytellingRef = useRef(onOpenStorytelling);
-  onOpenStorytellingRef.current = onOpenStorytelling;
   const storyContextRef = useRef({ isOpen: isStorytellingOpen, occluded: isOccluded, hasSelection: hasUserSelectedSite, category: activeCategoryFilter, onFocus: onMapStoryFocus });
   storyContextRef.current = { isOpen: isStorytellingOpen, occluded: isOccluded, hasSelection: hasUserSelectedSite, category: activeCategoryFilter, onFocus: onMapStoryFocus };
   const mapFocusedSiteIdRef = useRef<string | null>(null);
@@ -174,6 +162,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
   const currentBasemapRef = useRef<BasemapType>(currentBasemap);
   currentBasemapRef.current = currentBasemap;
   const appliedBasemapRef = useRef<BasemapType>(currentBasemap);
+  const appliedViewModeRef = useRef(viewMode);
   const mapLanguageRef = useRef(lang);
   mapLanguageRef.current = lang;
   const showMapDetailsRef = useRef(showMapDetails);
@@ -364,10 +353,8 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
       onFlightComplete: () => {
         // Flight ended
       },
-      onSettleComplete: () => {
-        // The manager already waits for destination tiles after arrival.
-        onOpenStorytellingRef.current?.();
-      },
+      // Selection opens its information immediately in App. Finishing a flight
+      // must not reopen a panel the visitor has already closed.
       onOverviewArrived: () => {
         lastTargetSiteIdRef.current = null;
       },
@@ -407,8 +394,10 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
       cooperativeGestures: false,
       doubleClickZoom: true,
       attributionControl: false,
-      maxTileCacheSize: 700,
-      maxTileCacheZoomLevels: 10,
+      // Each composite has 16 times as many pixels; keep the previous GPU
+      // memory budget rather than retaining 700 large textures per provider.
+      maxTileCacheSize: 44,
+      maxTileCacheZoomLevels: 6,
       fadeDuration: 200,
       refreshExpiredTiles: false,
       // The independent overview stays on screen, so obsolete detail requests
@@ -564,9 +553,30 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
   }, [isMapLoaded, showMapDetails, lang, selectedSite.id, hasUserSelectedSite, currentBasemap]);
 
   // 3. Handle 2D <-> 3D Mode Toggle
+  // Warm the seven destinations only during an idle overview. Keep one bounded
+  // compressed block request active; selecting/dragging cancels this work.
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !isMapLoaded) return;
+    if (!map || !isMapLoaded || hasUserSelectedSite || isOccluded) return;
+    const controller = new AbortController();
+    const timer = window.setTimeout(async () => {
+      const provider = currentBasemap === 'satellite' ? 'esri' : 'google';
+      try {
+        for (const site of HERITAGE_SITES) {
+          if (controller.signal.aborted || map.isMoving()) return;
+          await prefetchMapBlocks(site.lng, site.lat, provider, controller.signal);
+        }
+      } catch { /* Optional warmup never blocks visible imagery or controls. */ }
+    }, 2000);
+    const stop = () => controller.abort();
+    map.on('movestart', stop);
+    return () => { window.clearTimeout(timer); controller.abort(); map.off('movestart', stop); };
+  }, [isMapLoaded, currentBasemap, hasUserSelectedSite, isOccluded]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !isMapLoaded || appliedViewModeRef.current === viewMode) return;
+    appliedViewModeRef.current = viewMode;
 
     cameraManagerRef.current.stopOrbit();
     if (viewMode === '3d') {
@@ -584,7 +594,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
         duration: 1200,
       });
     }
-  }, [viewMode, isMapLoaded, setupTerrain]);
+  }, [viewMode, isMapLoaded, setupTerrain, isReduceMotion]);
 
   // 4. Diorama markers with localized labels and a gentle viewing state.
   useEffect(() => {
@@ -654,8 +664,7 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
       : 'google';
     const prefetchController = new AbortController();
     tilePrefetchRef.current = prefetchController;
-    const zoomLevels = mapType === 'google' ? [16, 17, 18] : [15, 16, 17];
-    void prefetchAreaTiles(selectedSite.lng, selectedSite.lat, mapType, zoomLevels, true, prefetchController.signal);
+    void prefetchMapBlocks(selectedSite.lng, selectedSite.lat, mapType, prefetchController.signal).catch(() => {});
 
     // Call CameraManager flyToPOI
     cancelSliderAnimation();
@@ -897,7 +906,15 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
       </div>
 
       {/* Right side control dock: zoom, perspective, orbit, and compass */}
-      <div className="map-control-dock absolute right-[calc(var(--story-controls-offset)+1.25rem)] top-1/2 z-20 flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0e121b]/92 p-1 shadow-2xl backdrop-blur-md">
+      <div className="map-control-dock map-control-dock--unified absolute right-[calc(var(--story-controls-offset)+1.25rem)] top-1/2 z-20 flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0e121b]/92 p-1 shadow-2xl backdrop-blur-md" role="toolbar" aria-orientation="vertical" aria-label={lang === 'vi' ? 'Công cụ bản đồ và câu chuyện' : 'Map and storytelling tools'} onKeyDown={event => {
+        if (!['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+        const buttons = [...event.currentTarget.querySelectorAll<HTMLButtonElement>('button:not(:disabled)')];
+        const index = buttons.indexOf(event.target as HTMLButtonElement);
+        if (index < 0) return;
+        event.preventDefault();
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? buttons.length - 1 : (index + (event.key === 'ArrowDown' ? 1 : -1) + buttons.length) % buttons.length;
+        buttons[next]?.focus();
+      }}>
         <button
           onClick={() => handleZoom(0.8)}
           className="flex h-11 w-11 items-center justify-center rounded-xl text-stone-200 transition-colors hover:bg-white/10 hover:text-amber-300"
@@ -948,20 +965,8 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
         >
           <Compass className="h-5 w-5 transition-transform duration-300" style={{ transform: `rotate(${-telemetry.bearing}deg)` }} />
         </button>
-        {onToggleAccessibility && (
-          <>
-            <div className="mx-2 my-1 h-px bg-white/10" />
-            <button
-              onClick={onToggleAccessibility}
-              className={`flex h-11 w-11 items-center justify-center rounded-xl transition-colors ${isAccessibilityOpen ? 'bg-amber-500 text-stone-950' : 'text-stone-300 hover:bg-white/10 hover:text-amber-300'}`}
-              title={lang === 'vi' ? 'Tùy chỉnh trợ năng' : 'Accessibility settings'}
-              aria-label={lang === 'vi' ? 'Tùy chỉnh trợ năng' : 'Accessibility settings'}
-              aria-expanded={isAccessibilityOpen}
-            >
-              <Accessibility className="h-5 w-5" />
-            </button>
-          </>
-        )}
+        <span className="map-story-tools-divider" role="separator" />
+        <div className="map-story-tools-slot" ref={onToolsHostReady} />
       </div>      {/* Vertical zoom rail */}
       <div className="map-zoom-rail absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-2xl border border-white/10 bg-[#0b0e15]/85 px-2.5 py-3 shadow-2xl backdrop-blur-md sm:left-5" role="group" aria-label={lang === 'vi' ? 'Điều khiển thu phóng' : 'Zoom controls'}>
         <div className="flex flex-col items-center gap-2.5">

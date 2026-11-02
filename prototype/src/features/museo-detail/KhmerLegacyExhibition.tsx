@@ -1,4 +1,5 @@
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { restoredParams, updateRoute, useRememberedState } from '../../experience/state';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -83,15 +84,18 @@ export function KhmerLegacyExhibition({
     probe = useRef<HTMLDivElement>(null),
     backdropPress = useRef(false),
     swipe = useRef<{ x: number; y: number } | null>(null);
+  const initial = restoredParams('bao-tang-khmer');
   const [id, setId] = useState(valueId),
-    [photoIndex, setPhotoIndex] = useState(0),
+    [photoIndex, setPhotoIndex] = useRememberedState(`museum:legacy:${valueId}:photo`, Math.max(0, Math.min((khmerLegacyValues.find(value => value.id === valueId)?.gallery.length || 1) - 1, Number(initial.get('photo')) || 0)), initial.has('photo')),
     [revision, setRevision] = useState(0),
     [photoFailed, setPhotoFailed] = useState(false);
-  const [anchor, setAnchor] = useState({
-    chapter: "overview",
-    id: "lead",
-    offset: 0,
-  });
+  const validChapter = ['overview', 'photographs', 'context', ...(khmerLegacyValues.find(value => value.id === valueId)?.chapters.map(chapter => chapter.id) || [])].find(chapter => chapter === initial.get('chapter')) || 'overview';
+  const [anchor, setAnchor] = useRememberedState(`museum:legacy:${valueId}:anchor`, {
+    chapter: validChapter,
+    id: initial.get('anchorId') || 'lead',
+    offset: Math.max(0, Math.min(10000, Number(initial.get('anchorOffset')) || 0)),
+  }, initial.has('chapter'));
+  useEffect(() => { updateRoute({ value: id, photo: photoIndex, chapter: anchor.chapter, anchorId: anchor.id, anchorOffset: anchor.offset }, 'bao-tang-khmer'); }, [id, photoIndex, anchor.chapter, anchor.id, anchor.offset]);
   const index = Math.max(
       0,
       khmerLegacyValues.findIndex((value) => value.id === id),
@@ -163,10 +167,12 @@ export function KhmerLegacyExhibition({
     };
     const observer = new ResizeObserver(schedule);
     observer.observe(element);
+    window.addEventListener('heritage:preferences', schedule);
     update();
     void document.fonts.ready.then(schedule);
     return () => {
       alive = false;
+      window.removeEventListener('heritage:preferences', schedule);
       cancelAnimationFrame(raf);
       observer.disconnect();
     };

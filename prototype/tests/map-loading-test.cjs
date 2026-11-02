@@ -4,7 +4,7 @@ const file=path.resolve(__dirname,'den-tho-bac-test.cjs');
 let source=fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n');
 // Delay detail imagery at the origin, including service-worker requests. The
 // low-resolution map remains fast, as it does in the shipped local tile pack.
-source=source.replace('fs.createReadStream(file).pipe(res);',String.raw`if(process.env.MAP_BASELINE_ENTRY&&file===path.join(dist,'index.html')){res.end(fs.readFileSync(file,'utf8').replace(/src="\/assets\/main-[^"]+\.js"/,'src="/assets/'+process.env.MAP_BASELINE_ENTRY+'"'));return;}const z=Number(req.url.match(/map-tiles\/(?:google-satellite-v1|esri-13192)\/(\d+)\//)?.[1]);if(z>=10&&process.argv.includes('--fail-detail')){res.writeHead(503);res.end();return;}if(z>=10)setTimeout(()=>fs.createReadStream(file).pipe(res),650);else fs.createReadStream(file).pipe(res);`);
+source=source.replace('fs.createReadStream(file).pipe(res);',String.raw`if(process.env.MAP_BASELINE_ENTRY&&file===path.join(dist,'index.html')){res.end(fs.readFileSync(file,'utf8').replace(/src="\/assets\/main-[^"]+\.js"/,'src="/assets/'+process.env.MAP_BASELINE_ENTRY+'"'));return;}const block=/\/blocks-v1\/(?:google|esri)\/(\d+)\//.exec(req.url);const z=block?Number(block[1])+2:Number(req.url.match(/map-tiles\/(?:google-satellite-v1|esri-13192)\/(\d+)\//)?.[1]);if(z>=10&&process.argv.includes('--fail-detail')){res.writeHead(503);res.end();return;}if(z>=10)setTimeout(()=>fs.createReadStream(file).pipe(res),650);else fs.createReadStream(file).pipe(res);`);
 const begin=source.indexOf('  const sections=['),end=source.lastIndexOf('\n}\nmain().catch');
 const body=String.raw`
   await viewport(1440,900);

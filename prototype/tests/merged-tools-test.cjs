@@ -1,0 +1,65 @@
+/* Real pointer/keyboard checks for the combined right-hand map/story dock. */
+const fs = require('node:fs'), path = require('node:path'), Module = require('node:module');
+const harness = path.resolve(__dirname, 'experience-requirements-test.cjs');
+const source = fs.readFileSync(harness, 'utf8').replace(/\r\n/g, '\n');
+const start = source.indexOf("  await open('/index.html?lang=vi');");
+const end = source.indexOf("  fs.writeFileSync(path.join(preview, 'requirements-validation.json')", start);
+if (start < 0 || end < start) throw Error('Experience harness boundaries changed');
+const body = String.raw`
+  await cdp('Emulation.setDeviceMetricsOverride', {width:1600,height:1000,deviceScaleFactor:1,mobile:false});
+  await open('/index.html?lang=vi');
+  await wait('document.querySelectorAll(".map-control-dock button").length===10', 'five map controls and five story controls in one dock');
+  await check('document.querySelectorAll(".hx-tools").length===1 && document.querySelector(".map-control-dock .hx-tools--docked") && !document.querySelector(".hx-tools [aria-label*=lưu]")', 'One combined toolbar with no personal-library button');
+  await check('(()=>{const r=document.querySelector(".map-control-dock").getBoundingClientRect(),b=[...document.querySelectorAll(".map-control-dock button")].map(n=>n.getBoundingClientRect());return r.right<=innerWidth-8 && r.left>innerWidth*.8 && r.width<=56 && b.every(v=>v.width>=44&&v.height>=44&&Math.abs(v.x-b[0].x)<2)})()', 'The dock is a single column on the right with 44px touch targets');
+  await page('await document.fonts.ready');await shot('desktop');
+  await mouseClick('.map-control-dock .hx-tools [aria-label="Hướng dẫn"]');
+  await check('document.querySelector(".hx-dialog ol").children.length===3', 'Merged Help opens by pointer');await closeTools();
+  await mouseClick('.map-control-dock .hx-tools [aria-label="Câu chuyện và nguồn"]');
+  await check('!!document.querySelector("[data-story-overview]") && !document.querySelector(".hx-body .hx-saved") && !document.querySelector(".hx-body button").textContent.includes("Lưu phần")', 'Story opens without save/library actions');await closeTools();
+  await mouseClick('.map-control-dock .hx-tools [aria-label="Nghe và bản chữ"]');await check('!!document.querySelector(".hx-transcript")','Merged narration opens the written alternative');await closeTools();
+  await mouseClick('.map-control-dock .hx-tools [aria-label="Chia sẻ đúng phần đang xem"]');await check('!!document.querySelector(".hx-share")','Merged share button opens QR/link controls');await closeTools();
+  await mouseClick('.map-control-dock .hx-tools [aria-label="Ngôn ngữ và trợ năng"]');
+  await check('document.querySelectorAll(".hx-dialog input[type=checkbox]").length===3 && document.querySelectorAll(".map-control-dock [aria-label*=trợ]").length===1', 'Language and accessibility use one shared control');await closeTools();
+  await mouseClick('.map-control-dock button[aria-label="Chuyển sang 2D"]');await wait('[...document.querySelectorAll(".map-control-dock button")].some(node=>node.getAttribute("aria-label")==="Chuyển sang 3D")', '2D toggle applies');
+  await mouseClick('.map-control-dock button[aria-label="Chuyển sang 3D"]');
+  await check('[...document.querySelectorAll(".map-control-dock button")].some(node=>node.getAttribute("aria-label")==="Chuyển sang 2D")','Map perspective controls still work after merging');
+  for(const [width,height] of [[1440,768],[390,844],[320,568],[667,375]]){
+    await cdp('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<768});await sleep(150);
+    await page('document.querySelector(".map-control-dock button").focus()');
+    await cdp('Input.dispatchKeyEvent',{type:'keyDown',key:'End',code:'End',windowsVirtualKeyCode:35});
+    await check('document.activeElement?.getAttribute("aria-label")==="Ngôn ngữ và trợ năng"', 'End reaches the last dock action at '+width+'x'+height);
+    await check('(()=>{const r=document.querySelector(".map-control-dock").getBoundingClientRect();return r.left>=0&&r.right<=innerWidth&&r.top>=0&&r.bottom<=innerHeight})()', 'Dock stays inside the viewport at '+width+'x'+height);
+    await mouseClick('.map-control-dock .hx-tools [aria-label="Ngôn ngữ và trợ năng"]');await closeTools();
+    if(width===390||width===667)await shot('map-'+width);
+  }
+  await cdp('Emulation.setDeviceMetricsOverride',{width:1600,height:1000,deviceScaleFactor:1,mobile:false});
+  await open('/index.html?lang=vi');await wait('document.querySelectorAll(".landmark-carousel-card").length===7','full site strip before selection');
+  await page('window.__siteImages=[...document.querySelectorAll(".landmark-carousel-card img")]');
+  await mouseClick('.landmark-carousel-card[data-site-id="chua-ang"]');await wait('document.querySelector(".lqv-root")?.dataset.siteId==="chua-ang"','selected place window');
+  await check('document.querySelector(".landmark-carousel").inert && document.querySelector(".landmark-strip").hidden && !document.querySelector(".landmark-strip").getClientRects().length','Selecting a place immediately hides the entire site strip from view and keyboard');
+  const measureRestore = () => page('window.__stripRestore=null;document.querySelector(".lqv-close").addEventListener("click",()=>{const start=performance.now();requestAnimationFrame(()=>{const strip=document.querySelector(".landmark-strip"),cards=[...strip.querySelectorAll(".landmark-carousel-card")];window.__stripRestore={ms:performance.now()-start,visible:!strip.hidden&&!document.querySelector(".landmark-carousel").inert&&cards.every(n=>n.getClientRects().length>0),count:cards.length};});},{once:true,capture:true});');
+  const checkRestore = async label => {
+    await wait('window.__stripRestore', 'first frame after closing');
+    await check('window.__stripRestore.visible && window.__stripRestore.count===7', label);
+    console.log('FIRST FRAME RESTORE', label, await page('return window.__stripRestore'));
+  };
+  await measureRestore();
+  await mouseClick('.lqv-close');await wait('!document.querySelector(".lqv-root") && document.querySelectorAll(".landmark-carousel-card").length===7','site strip restored after closing');
+  await checkRestore('Desktop tabs are visible in the first frame after closing');
+  await check('window.__siteImages.every(image=>image.isConnected) && [...document.querySelectorAll(".landmark-carousel-card img")].every((image,i)=>image===window.__siteImages[i])','Closing reuses the existing card images without recreating them');
+  await wait('document.activeElement?.dataset.siteId==="chua-ang"','focus returns to the restored place card');
+  await check('!document.querySelector(".landmark-carousel").classList.contains("is-collapsed")','Closing the place window reopens the full strip');
+  await sleep(6500);await check('!document.querySelector(".lqv-root") && document.querySelectorAll(".landmark-carousel-card").length===7','Flight arrival does not reopen a dismissed window or hide restored tabs');
+  await open('/index.html?site=chua-ang&view=quick&lang=vi');await wait('document.querySelector(".map-control-dock .hx-tools--docked")','dock next to quick view');
+  await check('document.querySelector(".landmark-carousel").classList.contains("is-collapsed")','A direct place link also starts with its site strip collapsed');
+  await check('document.querySelector(".map-control-dock").getBoundingClientRect().right<=document.querySelector(".heritage-story-panel").getBoundingClientRect().left-6','Dock stays clear of the desktop information panel');await shot('quick-desktop');
+  await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await wait('document.querySelector(".lqv-root .hx-tools--reader")','compact tools inside mobile quick view');
+  await tool('Hướng dẫn');await check('!!document.querySelector(".hx-dialog[open]")','Story tools remain reachable when the mobile panel covers the map');await closeTools();
+  await measureRestore();
+  await mouseClick('.lqv-close');await wait('!document.querySelector(".lqv-root") && document.querySelectorAll(".landmark-carousel-card").length===7','mobile strip restored');
+  await checkRestore('Phone tabs are visible in the first frame after closing');
+  await check('!document.querySelector(".landmark-carousel").classList.contains("is-collapsed")','Closing on a phone restores the site tabs too');
+  await check('!document.querySelector(".hx-recovery")','No recovery screen during dock journeys');
+`;
+const runner = new Module(harness, module); runner.filename = harness; runner.paths = Module._nodeModulePaths(path.dirname(harness));
+runner._compile((source.slice(0, start) + body + source.slice(end)).replaceAll('requirements-', 'merged-tools-'), harness);

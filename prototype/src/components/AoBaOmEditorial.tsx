@@ -42,6 +42,8 @@ import legendImage from "../assets/ao-ba-om/lantern-legend.webp";
 import "./conChimFonts.css";
 import "./aoBaOmFonts.css";
 import "./aoBaOmEditorial.css";
+import { restoredParams, setSavedPlace, updateRoute, useRememberedState } from '../experience/state';
+import { useScrollMemory } from '../experience/useScrollMemory';
 
 interface Props {
   site: HeritageSite;
@@ -150,11 +152,13 @@ export function AoBaOmEditorial({
   const dialog = useRef<HTMLDialogElement>(null);
   const swipe = useRef<{ x: number; y: number } | null>(null);
   const swiped = useRef(false);
-  const [section, setSection] = useState<AoSection>("overview");
-  const [observation, setObservation] = useState(0);
-  const [scene, setScene] = useState(0);
+  const initial = useRef(restoredParams('ao-ba-om')).current;
+  const firstSection = aoSections.find(item => item.id === initial.get('section'))?.id || 'overview';
+  const [section, setSection] = useRememberedState<AoSection>('ao:section', firstSection, initial.has('section'));
+  const [observation, setObservation] = useRememberedState('ao:observation', 0);
+  const [scene, setScene] = useRememberedState('ao:scene', Math.max(0, Math.min(legendScenes.length - 1, Number(initial.get('scene')) || 0)), initial.has('scene'));
   const [brochureOpen, setBrochureOpen] = useState(true);
-  const [gallery, setGallery] = useState(0);
+  const [gallery, setGallery] = useRememberedState('ao:photo', Math.max(0, Math.min(aoPhotos.length - 1, Number(initial.get('photo')) || 0)), initial.has('photo'));
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [saved, setSaved] = useState(() => {
     try {
@@ -164,6 +168,24 @@ export function AoBaOmEditorial({
     }
   });
   const [savedMessage, setSavedMessage] = useState("");
+  useEffect(() => { const sync = () => { try { setSaved(localStorage.getItem('heritage-saved-ao-ba-om') === 'true'); } catch { /* In-memory state remains available. */ } }; window.addEventListener('heritage:saved', sync); return () => window.removeEventListener('heritage:saved', sync); }, []);
+  useScrollMemory(root, 'ao:editorial', !initial.has('section'));
+  useEffect(() => { updateRoute({ section, scene, photo: gallery }, 'ao-ba-om'); }, [section, scene, gallery]);
+  useEffect(() => {
+    if (!initial.has('section')) return;
+    const container = root.current;
+    if (!container) return;
+    let interacted = false;
+    const stopRestore = () => { interacted = true; };
+    const restore = () => {
+      const target = container.querySelector<HTMLElement>(`[data-ao-section="${firstSection}"]`);
+      if (!interacted && target) container.scrollTop += target.getBoundingClientRect().top - container.getBoundingClientRect().top;
+    };
+    container.addEventListener('pointerdown', stopRestore, { passive: true });
+    container.addEventListener('wheel', stopRestore, { passive: true });
+    const frame = requestAnimationFrame(restore), timer = window.setTimeout(restore, 400);
+    return () => { cancelAnimationFrame(frame); clearTimeout(timer); container.removeEventListener('pointerdown', stopRestore); container.removeEventListener('wheel', stopRestore); };
+  }, []);
   const isDialogOpen = lightbox !== null;
   const wrap = (index: number) => (index + aoPhotos.length) % aoPhotos.length;
   const directions = `https://www.google.com/maps/dir/?api=1&destination=${site.lat},${site.lng}`;
@@ -232,6 +254,7 @@ export function AoBaOmEditorial({
     setSaved(next);
     try {
       localStorage.setItem("heritage-saved-ao-ba-om", String(next));
+      setSavedPlace('ao-ba-om', vi ? site.name : site.englishName, next);
       setSavedMessage(
         vi
           ? next

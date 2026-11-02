@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Grid2X2, Minus, Plus, RotateCcw } from 'lucide-r
 import { EXHIBITION_PHOTOS, EXHIBITION_STOPS, EXHIBITION_TOUR, exhibitionPhoto, type ExhibitionPhoto } from './exhibition-content';
 import { useReaderGallery } from './useReaderGallery';
 import { MAP_REFERENCE } from './content';
+import { routeParams, updateRoute } from '../../experience/state';
 
 const chapters = EXHIBITION_STOPS.map(stop => ({ ...stop, paragraphs: [stop.lead, stop.detail], photo: exhibitionPhoto(stop.photos[0]) }));
 const number = (value: number) => String(value).padStart(2, '0');
@@ -30,10 +31,16 @@ function useExhibitionPhoto(requested: ExhibitionPhoto) {
 export function ExhibitionRoom({ prose }: { prose: React.RefObject<HTMLElement | null> }) {
   // Explicit selections jump to their section immediately. Native reading
   // scrolls continuously; a new section replaces the image only at its boundary.
-  const { active, select } = useReaderGallery(prose, chapters, true);
-  const [selection, setSelection] = useState<Selection>({ stop: 0, photo: 0 });
+  const [first] = useState<Selection>(() => {
+    const number = Number(routeParams().get('photo'));
+    const stop = EXHIBITION_STOPS.findIndex(item => item.photos.includes(number));
+    return stop >= 0 ? { stop, photo: EXHIBITION_STOPS[stop].photos.indexOf(number) } : { stop: 0, photo: 0 };
+  });
+  const { active, select } = useReaderGallery(prose, chapters, true, 'map-exhibition', first.stop);
+  const [selection, setSelection] = useState<Selection>(first);
   const [allPhotos, setAllPhotos] = useState(false), [zoom, setZoom] = useState(1);
   const requested = exhibitionPhoto(EXHIBITION_STOPS[selection.stop].photos[selection.photo]);
+  useEffect(() => { updateRoute({ photo: requested.number }, 'den-tho-bac'); }, [requested.number]);
   const { displayed, status, retry } = useExhibitionPhoto(requested);
   const displayedIndex = EXHIBITION_TOUR.findIndex(item => item.number === displayed.number);
   const selectedIndex = EXHIBITION_TOUR.findIndex(item => item.number === requested.number);

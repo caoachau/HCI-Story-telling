@@ -74,10 +74,13 @@ async function main(){
   await click('.ccl-entry-share');
   await check('document.querySelector(".ccl-qr-unavailable") && !document.querySelector(".ccl-real-qr")','Localhost presents a clear unavailable state instead of a fake or loopback QR');
   await click('.ccl-close-all');await click('.cck-primary');
+  // Reopening now resumes the selected layer; returning to the short layer is
+  // an explicit action, as required by C06/F03.
+  if(await page(`return !document.querySelector('.cck-summary') && !!document.querySelector('[aria-label="Về câu chuyện"]')`))await click('[aria-label="Về câu chuyện"]');
   await check('document.querySelectorAll(".cck-summary li").length===3 && document.querySelector(".ccl-duration").textContent.includes("khoảng 1 phút")','The short layer and estimated reading time remain first');
   await check('!document.querySelector("textarea") && localStorage.length===0','A shared kiosk does not expose or automatically store personal notes');
   await page(`window.__voice={play:0,pause:0,resume:0,cancel:0};Object.defineProperty(window,'SpeechSynthesisUtterance',{configurable:true,value:class{constructor(text){this.text=text}}});Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{getVoices:()=>[{lang:'vi-VN'}],speak:u=>{window.__voice.play++;u.onstart?.()},pause:()=>window.__voice.pause++,resume:()=>window.__voice.resume++,cancel:()=>window.__voice.cancel++}});`);
-  await click('.cck-listen');await click('.ccl-pause');
+  await click('.cck-listen');await wait('window.__voice.play===1','speech engine starts');await click('.ccl-pause');
   await check('window.__voice.play===1 && window.__voice.pause===1 && document.querySelector(".ccl-pause").textContent.includes("Tiếp tục")','Visitor can pause the summary');
   await click('.ccl-pause');await check('window.__voice.resume===1','Visitor can resume the summary');
   await click('.ccl-read-actions button:first-child');

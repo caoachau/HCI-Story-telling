@@ -31,12 +31,13 @@ import { KhmerLegacyExhibition } from "./KhmerLegacyExhibition";
 import { khmerLegacyValues, type LegacyFilter } from "./khmerLegacy";
 import { KhmerMuseumOverview } from "./KhmerMuseumOverview";
 import { KhmerOverviewViewer } from "./KhmerMuseumOverviewViewer";
-import type { KhmerOverviewTopic } from "./khmerOverview";
+import { khmerOverviewStories, type KhmerOverviewTopic } from "./khmerOverview";
 import {
   useMuseumScreens,
   type MuseumSection,
 } from "./useMuseumScreens";
 import { MuseumFooter, MuseumTools } from "./MuseumChrome";
+import { restoredParams, updateRoute, useRememberedState } from '../../experience/state';
 import "./museo.css";
 import "./screen-layout.css";
 import "./khmer-overview.css";
@@ -414,12 +415,26 @@ export function MuseumDetailPage({
   onContentChange,
 }: Props) {
   const viewport = useRef<HTMLDivElement>(null);
-  const [selectedPlaceId, setSelectedPlaceId] = useState("entrance");
-  const [selectedHistoryPhase, setSelectedHistoryPhase] = useState(0);
-  const [selectedCultureId, setSelectedCultureId] = useState("pagoda");
-  const [legacyFilter, setLegacyFilter] = useState<LegacyFilter>("all");
-  const [selectedLegacyId, setSelectedLegacyId] = useState<string>();
-  const [modal, setModal] = useState<Modal | null>(null);
+  const initial = restoredParams('bao-tang-khmer');
+  const placeId = khmerPlaces.find(place => place.id === initial.get('place'))?.id || 'entrance';
+  const cultureId = khmerCultureTopics.find(topic => topic.id === initial.get('culture'))?.id || 'pagoda';
+  const legacyId = khmerLegacyValues.find(value => value.id === initial.get('value'))?.id;
+  const phaseIndex = Number(initial.get('phase'));
+  const [selectedPlaceId, setSelectedPlaceId] = useRememberedState('museum:place', placeId, initial.has('place'));
+  const [selectedHistoryPhase, setSelectedHistoryPhase] = useRememberedState('museum:phase', Number.isInteger(phaseIndex) && phaseIndex >= 0 && phaseIndex < khmerHistoryPhases.length ? phaseIndex : 0, initial.has('phase'));
+  const [selectedCultureId, setSelectedCultureId] = useRememberedState('museum:culture', cultureId, initial.has('culture'));
+  const [legacyFilter, setLegacyFilter] = useRememberedState<LegacyFilter>('museum:legacyFilter', 'all');
+  const [selectedLegacyId, setSelectedLegacyId] = useRememberedState<string | undefined>('museum:value', legacyId, initial.has('value'));
+  const [modal, setModal] = useState<Modal | null>(() => {
+    const reader = initial.get('reader');
+    if (reader === 'place') return { kind: 'place', placeId };
+    if (reader === 'legacy' && legacyId) return { kind: 'legacy', legacyValueId: legacyId };
+    if (reader === 'culture') return { kind: 'culture', cultureTopicId: cultureId };
+    if (reader === 'history') { const phase = khmerHistoryPhases[Number.isInteger(phaseIndex) && phaseIndex >= 0 && phaseIndex < khmerHistoryPhases.length ? phaseIndex : 0]; return { kind: 'history', historyPhaseId: phase?.id, historyTopicId: phase?.topics.find(topic => topic.id === initial.get('topic'))?.id }; }
+    if (reader === 'overview') return { kind: 'overview', overviewTopic: initial.get('overview') && initial.get('overview')! in khmerOverviewStories ? initial.get('overview') as KhmerOverviewTopic : 'introduction' };
+    return null;
+  });
+  useEffect(() => { updateRoute({ place: selectedPlaceId, phase: selectedHistoryPhase, culture: selectedCultureId, value: selectedLegacyId, reader: modal?.kind, topic: modal?.historyTopicId }, 'bao-tang-khmer'); }, [selectedPlaceId, selectedHistoryPhase, selectedCultureId, selectedLegacyId, modal?.kind, modal?.historyTopicId]);
   const { activeSection, showSection } = useMuseumScreens(
     viewport,
     !modal,
@@ -428,7 +443,7 @@ export function MuseumDetailPage({
   );
   // First paint contains only the opening scene. Visited rooms retain their state.
   const [mountedScreens, setMountedScreens] = useState<Set<Section>>(
-    () => new Set(["hero"]),
+    () => new Set(["hero", activeSection]),
   );
   useEffect(() => {
     setMountedScreens((previous) =>
@@ -467,6 +482,10 @@ export function MuseumDetailPage({
   };
   const openModal = (value: Modal) => {
     changed();
+    updateRoute({ chapter: null, photo: null, anchorId: null, anchorOffset: null, ...(value.kind === 'overview' ? { overview: value.overviewTopic } : {}) }, 'bao-tang-khmer');
+    if (value.placeId) setSelectedPlaceId(value.placeId);
+    if (value.cultureTopicId) setSelectedCultureId(value.cultureTopicId);
+    if (value.legacyValueId) setSelectedLegacyId(value.legacyValueId);
     setModal(value);
   };
   return (

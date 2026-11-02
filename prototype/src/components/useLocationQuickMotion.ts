@@ -33,10 +33,16 @@ export function useLocationQuickMotion(
       observer.disconnect();
       media.removeEventListener("change", update);
       if (element.contains(document.activeElement) || document.activeElement === document.body) {
-        const target = trigger?.isConnected && trigger !== document.body &&
-          trigger.tabIndex >= 0 && !trigger.closest("[hidden]") ? trigger :
-          document.querySelector<HTMLElement>(`.landmark-carousel-card[data-site-id="${element.dataset.siteId}"]`);
-        target?.focus({ preventScroll: true });
+        // The strip is hidden while reading. Restore focus after the closing
+        // commit makes the existing cards visible again.
+        requestAnimationFrame(() => {
+          if (element.isConnected) return;
+          if (document.activeElement !== document.body) return;
+          const target = trigger?.isConnected && trigger !== document.body &&
+            trigger.tabIndex >= 0 && !trigger.closest("[hidden]") ? trigger :
+            document.querySelector<HTMLElement>(`.landmark-carousel-card[data-site-id="${element.dataset.siteId}"]`);
+          target?.focus({ preventScroll: true });
+        });
       }
     };
   }, []);

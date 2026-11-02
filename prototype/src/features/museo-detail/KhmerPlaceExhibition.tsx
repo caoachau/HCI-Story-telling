@@ -1,4 +1,5 @@
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { restoredParams, updateRoute, useRememberedState } from '../../experience/state';
 import {
   ArrowLeft,
   ArrowRight,
@@ -117,14 +118,17 @@ export function KhmerPlaceExhibition({
   const backdropPress = useRef(false);
   const swipe = useRef<{ x: number; y: number } | null>(null);
   const [currentId, setCurrentId] = useState(placeId);
-  const [photoIndex, setPhotoIndex] = useState(0);
+  const initial = restoredParams('bao-tang-khmer');
+  const firstPhoto = Math.max(0, Math.min(findKhmerPlace(placeId).gallery.length - 1, Number(initial.get('photo')) || 0));
+  const [photoIndex, setPhotoIndex] = useRememberedState(`museum:place:${placeId}:photo`, firstPhoto, initial.has('photo'));
   const [revision, setRevision] = useState(0);
   const [failedPhoto, setFailedPhoto] = useState(false);
-  const [anchor, setAnchor] = useState({
-    chapter: "overview" as PlaceChapter,
-    id: "introduction",
-    offset: 0,
-  });
+  const [anchor, setAnchor] = useRememberedState(`museum:place:${placeId}:anchor`, {
+    chapter: (placeChapters.find(chapter => chapter === initial.get('chapter')) || 'overview') as PlaceChapter,
+    id: initial.get('anchorId') || 'introduction',
+    offset: Math.max(0, Math.min(10000, Number(initial.get('anchorOffset')) || 0)),
+  }, initial.has('chapter'));
+  useEffect(() => { updateRoute({ place: currentId, photo: photoIndex, chapter: anchor.chapter, anchorId: anchor.id, anchorOffset: anchor.offset }, 'bao-tang-khmer'); }, [currentId, photoIndex, anchor.chapter, anchor.id, anchor.offset]);
   const place = findKhmerPlace(currentId),
     vi = lang === "vi";
   const zone = khmerPlaceZones.find((item) => item.id === place.zone)!;
@@ -184,10 +188,12 @@ export function KhmerPlaceExhibition({
     };
     const observer = new ResizeObserver(schedule);
     observer.observe(element);
+    window.addEventListener('heritage:preferences', schedule);
     update();
     void document.fonts.ready.then(schedule);
     return () => {
       alive = false;
+      window.removeEventListener('heritage:preferences', schedule);
       observer.disconnect();
       cancelAnimationFrame(raf);
     };

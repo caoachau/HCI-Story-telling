@@ -11,29 +11,20 @@ import { WAR_ARTIFACT_SOURCES } from './war-artifacts-content';
 import { GROUNDS_SOURCES } from './grounds-content';
 import { BOAT_SOURCES } from './boat-content';
 import { REMAINING_SPACE_DETAILS } from './remaining-spaces-content';
+import { narration, useNarrationState } from '../../experience/narration';
+import { useScrollMemory } from '../../experience/useScrollMemory';
+import { routeParams } from '../../experience/state';
 
 function useVoice() {
-  const [speaking, setSpeaking] = useState(false), [message, setMessage] = useState('');
-  const revision = useRef(0);
-  const stop = () => { revision.current++; if ('speechSynthesis' in window) speechSynthesis.cancel(); setSpeaking(false); setMessage('Đã dừng giọng đọc.'); };
+  const voice = useNarrationState();
+  const speaking = voice.status === 'playing' || voice.status === 'paused';
+  const stop = narration.stop;
   const speak = (text: string) => {
-    if (speaking) { stop(); return; }
-    if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) { setMessage('Thiết bị này chưa hỗ trợ giọng đọc. Bạn có thể đọc nội dung bên dưới.'); return; }
-    stop(); const token = revision.current, utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'vi-VN'; utterance.rate = .92;
-    const voice = speechSynthesis.getVoices().find(item => item.lang.startsWith('vi'));
-    if (voice) utterance.voice = voice;
-    utterance.onstart = () => { if (revision.current === token) { setSpeaking(true); setMessage('Đang đọc bằng giọng của thiết bị.'); } };
-    utterance.onend = () => { if (revision.current === token) { setSpeaking(false); setMessage('Đã đọc xong.'); } };
-    utterance.onerror = () => { if (revision.current === token) { setSpeaking(false); setMessage('Chưa phát được giọng đọc. Bạn vẫn có thể đọc nội dung.'); } };
-    speechSynthesis.speak(utterance);
+    if (speaking) stop();
+    else narration.play(text, 'vi-VN', `den-tho-bac:${text.slice(0, 70)}`);
   };
-  useEffect(() => {
-    const hidden = () => { if (document.hidden) stop(); };
-    document.addEventListener('visibilitychange', hidden);
-    return () => { revision.current++; if ('speechSynthesis' in window) speechSynthesis.cancel(); document.removeEventListener('visibilitychange', hidden); };
-  }, []);
-  return { speaking, message, speak, stop };
+  useEffect(() => () => narration.stop(), []);
+  return { speaking, message: voice.message, speak, stop };
 }
 
 const number = (index: number) => String(index + 1).padStart(2, '0');
@@ -41,6 +32,7 @@ const number = (index: number) => String(index + 1).padStart(2, '0');
 export function StoryReader({ story, onClose, sourcesOnly = false }: { story?: Story; onClose: () => void; sourcesOnly?: boolean }) {
   const dialog = useRef<HTMLDialogElement>(null), progress = useRef<HTMLDivElement>(null), prose = useRef<HTMLElement>(null);
   const voice = useVoice();
+  useScrollMemory(prose, `den-tho-bac:${story?.id || 'sources'}`, !routeParams().has('chapter'));
   const { close, reduced } = useReaderMotion(dialog, voice.stop);
   useReadingProgress(dialog, progress);
   const keys = story?.sources || Object.keys(SOURCES) as SourceKey[];
@@ -90,7 +82,7 @@ function ReaderStory({ story, prose, reduced }: { story: Story; prose: React.Ref
     ? 'Hình minh họa do người dùng cung cấp. Hai bài báo xác nhận tiểu cảnh tại đền; tài liệu bảo tàng giải thích loại thuyền độc mộc. Các nguồn này chưa xác định tác giả, năm chế tác, chất liệu, nhân vật phía sau hay chuyến đi cụ thể được tái hiện. Không có cơ sở để giới thiệu đây là chiếc thuyền nguyên gốc Bác từng sử dụng.'
     : story.id === 'map-camping' ? 'Bộ năm ảnh do người dùng cung cấp, giữ nguyên ảnh gốc. Nguồn bên dưới đối chiếu bối cảnh cảnh quan và lịch sử khu di tích; chú thích riêng từng ảnh được biên soạn theo những gì quan sát được.' : 'Ba ảnh được người dùng cung cấp, giữ nguyên dấu ảnh Tiền Phong. Thông tin riêng của hiện vật dẫn theo biển giới thiệu trong ảnh; tư liệu bên dưới bổ sung bối cảnh.');
   const singleImage = chapters.every(item => item.photo.src === chapters[0].photo.src);
-  const { active, select } = useReaderGallery(prose, chapters, reduced);
+  const { active, select } = useReaderGallery(prose, chapters, reduced, story.id);
   const { displayed, status, attempt, retry } = useDecodedChapter(chapters, singleImage ? 0 : active);
   const frameAvailable = usePhotoFrameAvailable(reduced);
   const chapter = chapters[displayed];

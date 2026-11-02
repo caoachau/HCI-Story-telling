@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Artifact } from '../data/heritageSites';
 import { X, RotateCw, Box, Eye, Sparkles, Image as ImageIcon } from 'lucide-react';
+import { usePreferences } from '../experience/preferences';
 
 interface Artifact3DModalProps {
   artifact: Artifact;
@@ -10,6 +11,7 @@ interface Artifact3DModalProps {
 }
 
 export const Artifact3DModal: React.FC<Artifact3DModalProps> = ({ artifact, lang, onClose }) => {
+  const { reduceMotion } = usePreferences();
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -18,12 +20,15 @@ export const Artifact3DModal: React.FC<Artifact3DModalProps> = ({ artifact, lang
 
   const [activeDisplayMode, setActiveDisplayMode] = useState<'3d' | 'photo'>('3d');
   const [isWireframe, setIsWireframe] = useState<boolean>(false);
-  const [isRotating, setIsRotating] = useState<boolean>(true);
+  const [isRotating, setIsRotating] = useState<boolean>(!reduceMotion);
   const isPointerDownRef = useRef<boolean>(false);
+  const rotatingRef = useRef(!reduceMotion);
+  useEffect(() => { if (reduceMotion) setIsRotating(false); }, [reduceMotion]);
+  useEffect(() => { rotatingRef.current = isRotating; }, [isRotating]);
   const prevPointerPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (!canvasContainerRef.current) return;
+    if (activeDisplayMode !== '3d' || !canvasContainerRef.current) return;
     const container = canvasContainerRef.current;
     const width = container.clientWidth;
     const height = container.clientHeight;
@@ -82,12 +87,36 @@ export const Artifact3DModal: React.FC<Artifact3DModalProps> = ({ artifact, lang
 
     // Build specific 3D Artifact Geometry based on type
     buildArtifactGeometry(group, artifact.geometryType);
+    group.traverse(object => {
+      const material = (object as THREE.Mesh).material;
+      for (const item of Array.isArray(material) ? material : material ? [material] : []) {
+        if ('wireframe' in item) (item as THREE.MeshStandardMaterial).wireframe = isWireframe;
+      }
+    });
+    const bounds = new THREE.Box3().setFromObject(group);
+    const center = bounds.getCenter(new THREE.Vector3());
+    const size = bounds.getSize(new THREE.Vector3());
+    group.position.sub(center);
+    pedestal.position.y = -size.y / 2 - .2;
+    const radius = bounds.getBoundingSphere(new THREE.Sphere()).radius;
+    const fitCamera = (w: number, h: number) => {
+      camera.aspect = w / Math.max(1, h);
+      const vertical = THREE.MathUtils.degToRad(camera.fov);
+      const horizontal = 2 * Math.atan(Math.tan(vertical / 2) * camera.aspect);
+      const distance = Math.max(2, radius / Math.sin(Math.min(vertical, horizontal) / 2) * 1.2);
+      camera.position.set(0, size.y * .08, distance);
+      camera.lookAt(0, 0, 0);
+      camera.near = .05;
+      camera.far = Math.max(100, distance * 6);
+      camera.updateProjectionMatrix();
+    };
+    fitCamera(width, height);
 
     // Animation Loop
     let animId: number;
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      if (isRotating && !isPointerDownRef.current && meshGroupRef.current) {
+      if (rotatingRef.current && !isPointerDownRef.current && meshGroupRef.current) {
         meshGroupRef.current.rotation.y += 0.008;
       }
       renderer.render(scene, camera);
@@ -98,19 +127,31 @@ export const Artifact3DModal: React.FC<Artifact3DModalProps> = ({ artifact, lang
       if (!canvasContainerRef.current || !rendererRef.current || !cameraRef.current) return;
       const w = canvasContainerRef.current.clientWidth;
       const h = canvasContainerRef.current.clientHeight;
-      cameraRef.current.aspect = w / h;
-      cameraRef.current.updateProjectionMatrix();
+      fitCamera(w, h);
       rendererRef.current.setSize(w, h);
     };
 
     window.addEventListener('resize', handleResize);
+    const resize = new ResizeObserver(handleResize);
+    resize.observe(container);
 
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', handleResize);
+      resize.disconnect();
+      scene.traverse(object => {
+        const mesh = object as THREE.Mesh;
+        mesh.geometry?.dispose();
+        if (Array.isArray(mesh.material)) mesh.material.forEach(material => material.dispose());
+        else mesh.material?.dispose();
+      });
       renderer.dispose();
+      renderer.domElement.remove();
+      rendererRef.current = null;
+      meshGroupRef.current = null;
+      isPointerDownRef.current = false;
     };
-  }, [artifact]);
+  }, [artifact, activeDisplayMode]);
 
   const buildArtifactGeometry = (group: THREE.Group, type: string) => {
     while (group.children.length > 0) {
@@ -275,12 +316,15 @@ export const Artifact3DModal: React.FC<Artifact3DModalProps> = ({ artifact, lang
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
+                onPointerCancel={handlePointerUp}
+                onPointerLeave={handlePointerUp}
               />
 
               {/* Canvas Floating Action Buttons */}
               <div className="absolute bottom-5 left-5 flex items-center gap-2 z-10">
                 <button
                   onClick={() => setIsRotating(!isRotating)}
+                  aria-pressed={isRotating}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium border flex items-center gap-1.5 transition-all ${
                     isRotating
                       ? 'bg-amber-600/30 border-amber-500/50 text-amber-300'
@@ -292,6 +336,7 @@ export const Artifact3DModal: React.FC<Artifact3DModalProps> = ({ artifact, lang
                 </button>
                 <button
                   onClick={handleToggleWireframe}
+                  aria-pressed={isWireframe}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium border flex items-center gap-1.5 transition-all ${
                     isWireframe
                       ? 'bg-sky-600/30 border-sky-500/50 text-sky-300'
@@ -320,7 +365,7 @@ export const Artifact3DModal: React.FC<Artifact3DModalProps> = ({ artifact, lang
                   className="w-full h-full object-contain max-h-[60vh]"
                 />
                 <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-4 text-xs font-mono text-amber-200">
-                  <span className="font-bold text-amber-400">{lang === 'vi' ? 'Ảnh hiện vật thực tế: ' : 'Artifact photograph: '}</span>
+                  <span className="font-bold text-amber-400">{lang === 'vi' ? 'Ảnh tư liệu / minh họa: ' : 'Reference / illustrative image: '}</span>
                   <span>{lang === 'vi' ? artifact.realImageCaption : artifact.englishName}</span>
                 </div>
               </div>
@@ -347,7 +392,7 @@ export const Artifact3DModal: React.FC<Artifact3DModalProps> = ({ artifact, lang
                   : 'text-stone-400 hover:text-white'
               }`}
             >
-              <ImageIcon className="w-3.5 h-3.5" /> {lang === 'vi' ? 'Ảnh thật bảo tàng' : 'Museum photo'}
+              <ImageIcon className="w-3.5 h-3.5" /> {lang === 'vi' ? 'Ảnh tư liệu' : 'Reference image'}
             </button>
           </div>
         </div>
@@ -358,7 +403,7 @@ export const Artifact3DModal: React.FC<Artifact3DModalProps> = ({ artifact, lang
             {/* Header info */}
             <div className="text-xs uppercase tracking-widest text-amber-500 font-mono flex items-center gap-2 mb-2">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>{lang === 'vi' ? 'Hồ Sơ Giám Định Hiện Vật Số' : 'Digital Artifact Record'}</span>
+              <span>{lang === 'vi' ? 'Quan sát mô hình minh họa' : 'Inspect an illustrative model'}</span>
             </div>
 
             <h2 className="text-2xl font-serif text-amber-100 font-medium leading-snug">{lang === 'vi' ? artifact.name : artifact.englishName}</h2>
@@ -383,10 +428,11 @@ export const Artifact3DModal: React.FC<Artifact3DModalProps> = ({ artifact, lang
               </div>
             </div>
 
+            <p className="mb-4 text-xs leading-relaxed text-amber-100" role="note">{lang === 'vi' ? 'Đây là mô hình hình học minh họa, không phải bản quét hoặc hồ sơ giám định của hiện vật. Thông số và hình ảnh cần đối chiếu nguồn trước khi coi là dữ kiện đã xác nhận.' : 'This is a geometric illustration, not a scan or an authenticated object record. Dimensions and imagery require source confirmation.'}</p>
             {/* Description & Cultural Significance */}
             <div className="space-y-4 text-xs leading-relaxed text-stone-300">
               <div>
-                <h4 className="font-semibold text-stone-200 uppercase tracking-wider text-[11px] mb-1 font-mono">{lang === 'vi' ? 'Mô tả giám định' : 'Description'}</h4>
+                <h4 className="font-semibold text-stone-200 uppercase tracking-wider text-[11px] mb-1 font-mono">{lang === 'vi' ? 'Mô tả tham khảo' : 'Reference description'}</h4>
                 <p className="text-stone-300">{artifact.description}</p>
               </div>
 

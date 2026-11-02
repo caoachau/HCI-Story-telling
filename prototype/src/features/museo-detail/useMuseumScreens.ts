@@ -7,6 +7,7 @@ import {
   type RefObject,
 } from "react";
 import { flushSync } from "react-dom";
+import { restoredParams, updateRoute, useRememberedState } from '../../experience/state';
 import { gsap } from "gsap";
 import {
   museumMotionReduced,
@@ -30,12 +31,15 @@ export function useMuseumScreens(
   onContentChange?: () => void,
   visible = true,
 ) {
-  const [activeSection, setActiveSection] = useState<MuseumSection>("hero");
-  const current = useRef<MuseumSection>("hero");
+  const initial = restoredParams('bao-tang-khmer');
+  const first = museumScreens.find(screen => screen.id === initial.get('section'))?.id || 'hero';
+  const [activeSection, setActiveSection] = useRememberedState<MuseumSection>('museum:section', first, initial.has('section'));
+  const current = useRef<MuseumSection>(activeSection);
   const reduced = useMuseumReducedMotion(viewport);
   const animation = useRef<gsap.core.Timeline | null>(null);
   const transitioning = useRef(false);
-  const desired = useRef<MuseumSection>("hero");
+  const desired = useRef<MuseumSection>(activeSection);
+  useEffect(() => { updateRoute({ section: activeSection }, 'bao-tang-khmer'); }, [activeSection]);
   const queued = useRef<MuseumSection | null>(null);
   const previous = useRef<MuseumSection | null>(null);
   const outgoingNode = useRef<HTMLElement | null>(null);

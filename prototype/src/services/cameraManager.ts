@@ -10,11 +10,13 @@ import * as maplibregl from 'maplibre-gl';
 import { HeritageSite } from '../data/heritageSites';
 import { calculateDistanceKm } from '../utils/geoCoordinates';
 
-// Ease velocity in/out, with a steady cruise between the ramps. Position,
-// velocity and acceleration stay continuous without a mid-flight speed surge.
+// Give take-off and landing more time, with a steady cruise between them.
+// Integrating smootherstep velocity keeps position, speed, acceleration and
+// jerk continuous where the ramps meet the cruise.
+const FLIGHT_RAMP_PORTION = 0.34;
 function flightEasing(t: number): number {
-  const ramp = 0.28;
-  const rampDistance = (u: number) => ramp * (u * u * u - 0.5 * u * u * u * u) / (1 - ramp);
+  const ramp = FLIGHT_RAMP_PORTION;
+  const rampDistance = (u: number) => ramp * u * u * u * u * (2.5 - 3 * u + u * u) / (1 - ramp);
   if (t < ramp) return rampDistance(t / ramp);
   if (t > 1 - ramp) return 1 - rampDistance((1 - t) / ramp);
   return (t - ramp / 2) / (1 - ramp);
@@ -229,14 +231,14 @@ export class CameraManager {
     const map = this.map;
     const targetZoom = Math.min(17, map.getMaxZoom());
     const zoomTravel = Math.abs(targetZoom - map.getZoom());
-    const regionalDuration = distanceKm < 1 ? 2200 : distanceKm < 5 ? 2500 : distanceKm <= 20 ? 2800 : 3100;
-    // Main landmark imagery ships with the app, so the continuous descent
-    // no longer needs an extended flight to wait for remote tile requests.
+    const regionalDuration = distanceKm < 1 ? 3600 : distanceKm < 5 ? 4200 : distanceKm <= 20 ? 4800 : 5600;
+    // A slower flight gives the lift and final approach room to settle. Keep
+    // imagery loading independent so it cannot add a pause or a second zoom.
     const durationMs = this.isReduceMotion
       ? 1600
       : customDuration && Number.isFinite(customDuration) && customDuration > 0
         ? customDuration
-        : Math.min(3300, Math.max(regionalDuration, 2000 + zoomTravel * 160));
+        : Math.min(6000, Math.max(regionalDuration, 3400 + zoomTravel * 320));
     const curve = this.isReduceMotion ? 1 : distanceKm < 1 ? 1.05 : distanceKm < 5 ? 1.15 : 1.25;
     const targetPitch = viewMode === '3d' ? (this.isReduceMotion ? 34 : 52) : 0;
     const targetBearing = viewMode === '3d' ? -12 : 0;
@@ -246,7 +248,6 @@ export class CameraManager {
     const cleanup = () => {
       timers.forEach((timer) => window.clearTimeout(timer));
       map.off('moveend', handleFlightEnd);
-      map.off('idle', finishArrival);
       if (this.flightCleanup === cleanup) this.flightCleanup = null;
     };
     this.flightCleanup = cleanup;
@@ -262,33 +263,25 @@ export class CameraManager {
 
     const handleFlightEnd = () => {
       if (flightId !== this.activeFlightId || this.map !== map) return;
-      // Tile readiness only controls when the story opens, never the flight
-      // trajectory. There is no intermediate pause or second zoom animation.
-      if (map.areTilesLoaded()) {
-        finishArrival();
-        return;
-      }
-      this.setState('approaching');
-      map.once('idle', finishArrival);
-      timers.push(window.setTimeout(finishArrival, 250));
+      finishArrival();
     };
 
     this.setState('departing');
 
-    // Midway through duration, transition state to cruising -> approaching
+    // Match the camera state to the acceleration and deceleration ramps.
     timers.push(window.setTimeout(() => {
       if (flightId === this.activeFlightId && this.state === 'departing') {
         this.setState('cruising');
       }
-    }, durationMs * 0.3));
+    }, durationMs * FLIGHT_RAMP_PORTION));
 
     timers.push(window.setTimeout(() => {
       if (flightId === this.activeFlightId && this.state === 'cruising') {
         this.setState('approaching');
       }
-    }, durationMs * 0.7));
+    }, durationMs * (1 - FLIGHT_RAMP_PORTION)));
 
-    // Execute MapLibre flyTo with explicit duration (strictly no maxDuration reset!)
+    // One continuous flyTo shares the same gentle easing from lift to descent.
     map.once('moveend', handleFlightEnd);
     map.flyTo({
       center: [targetSite.lng, targetSite.lat],
@@ -298,7 +291,7 @@ export class CameraManager {
       pitch: targetPitch,
       bearing: targetBearing,
       duration: durationMs,
-      curve: curve,
+      curve,
       essential: true,
       easing: flightEasing,
     });
@@ -335,7 +328,7 @@ export class CameraManager {
       center: [targetSite.lng, targetSite.lat],
       padding: { top: 0, bottom: 0, left: 0, right: 0 },
       offset: [0, 0],
-      duration: this.isReduceMotion ? 850 : Math.min(1600, 1100 + distanceKm * 200),
+      duration: this.isReduceMotion ? 850 : Math.min(2400, 1600 + distanceKm * 260),
       essential: true,
       easing: flightEasing,
     });
@@ -352,22 +345,20 @@ export class CameraManager {
 
     this.setState('approaching');
 
+    const handleChapterEnd = () => {
+      if (flightId !== this.activeFlightId) return;
+      this.setState('idle');
+    };
+    this.map.once('moveend', handleChapterEnd);
     this.map.easeTo({
       center: [view.lng, view.lat],
       zoom: view.zoom,
       pitch: viewMode === '3d' ? Math.min(view.pitch, 48) : 0,
       bearing: viewMode === '3d' ? view.bearing : 0,
-      duration: this.isReduceMotion ? 1100 : 1500,
+      duration: this.isReduceMotion ? 1100 : 2200,
       easing: flightEasing,
     });
 
-    const handleChapterEnd = () => {
-      if (flightId !== this.activeFlightId) return;
-      this.map?.off('moveend', handleChapterEnd);
-      this.setState('idle');
-    };
-
-    this.map.once('moveend', handleChapterEnd);
   }
 
   /**
@@ -385,27 +376,23 @@ export class CameraManager {
 
     this.setState('departing');
 
+    const handleOverviewArrival = () => {
+      if (flightId !== this.activeFlightId) return;
+      this.setState('idle');
+      this.callbacks.onOverviewArrived?.();
+    };
+    this.map.once('moveend', handleOverviewArrival);
     this.map.flyTo({
       center,
       zoom,
       pitch: viewMode === '3d' ? 38 : 0,
       bearing: viewMode === '3d' ? -10 : 0,
-      duration: this.isReduceMotion ? 1600 : Math.min(2800, 2000 + Math.abs(zoom - this.map.getZoom()) * 100),
+      duration: this.isReduceMotion ? 1600 : Math.min(5000, 3800 + Math.abs(zoom - this.map.getZoom()) * 140),
       curve: 1.25,
       essential: true,
       easing: flightEasing,
     });
 
-    const handleOverviewArrival = () => {
-      if (flightId !== this.activeFlightId) return;
-      this.map?.off('moveend', handleOverviewArrival);
-      this.setState('idle');
-      if (this.callbacks.onOverviewArrived) {
-        this.callbacks.onOverviewArrived();
-      }
-    };
-
-    this.map.once('moveend', handleOverviewArrival);
   }
 
   /**

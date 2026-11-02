@@ -18,11 +18,32 @@ Ngày kiểm tra: 27–28/10/2026.
 
 Lần mở đầu chỉ yêu cầu số ít ô tổng thể, sau đó mới bật nguồn chi tiết và địa hình. Khi đổi Google/Esri, nguồn mới được chuẩn bị trong khi ảnh cũ còn hiện; chỉ đổi khi nguồn tổng thể mới đã sẵn sàng. Giữ nguyên đối tượng nguồn, địa hình, nhãn và bộ nhớ đệm. Chờ một lượt render trước khi kiểm tra nguồn vừa bật: nguồn ẩn có thể báo `isSourceLoaded()` dù chưa yêu cầu ô nào.
 
-Cho phép MapLibre hủy yêu cầu chi tiết của mức zoom đã bỏ qua, vì nguồn tổng thể riêng vẫn giữ hình. Tải trước ảnh đích giới hạn hai yêu cầu đồng thời. Chỉ tải trước nhãn khi người xem bật “Chi tiết”. Không thay tốc độ đường bay, bố cục, bộ lọc hay nội dung địa điểm.
+Cho phép MapLibre hủy yêu cầu chi tiết của mức zoom đã bỏ qua, vì nguồn tổng thể riêng vẫn giữ hình. Chỉ tải trước nhãn khi người xem bật “Chi tiết”. Giữ bố cục, bộ lọc và nội dung địa điểm.
+
+## Tăng tốc phản hồi ngày 28/10
+
+Tải ảnh phải nhanh trong khi **giữ nguyên hiệu ứng bay mà người dùng yêu thích**. Thời gian bay là chuyển động chủ đích, không được coi là độ trễ tải ảnh để cắt bỏ. Cấu hình hiện tại:
+
+- Chọn địa điểm mở bảng thông tin trong cùng lượt cập nhật React, không đợi camera hay ảnh. Đóng bảng giữa đường bay không bị mở lại khi tới nơi.
+- Theo yêu cầu làm chậm ngày 29/10, chọn điểm dùng `flyTo` khoảng 3,6–6 giây theo khoảng cách và mức zoom; giữ đường nâng cao khi đi xa, pitch và bearing. Tăng/giảm tốc chiếm 34% ở mỗi đầu, có đoạn bay đều ở giữa; tích phân smootherstep giữ tốc độ, gia tốc và độ biến thiên gia tốc liên tục. Toàn cảnh dùng 3,8–5 giây; căn lại điểm 1,6–2,4 giây; góc nhìn chương 2,2 giây. Giữ thời lượng riêng của chế độ giảm chuyển động, 2D/3D và tải ảnh. Không phát lại chuyển 3D khi vừa khởi tạo bản đồ; tải ảnh không chèn thêm zoom hoặc khoảng dừng.
+- `scripts/pack-map-tiles.mjs` đóng gói 4×4 ô JPEG vào một tệp nhị phân. Trình duyệt ghép đúng lưới tọa độ thành texture 1024 px; mức zoom nguồn giảm 2 để giữ nguyên độ chi tiết địa lý của ảnh gốc. Mỗi cụm thay cho 16 yêu cầu ảnh riêng, không tạo ảnh mới, không nén lại JPEG.
+- Toàn bộ 1.358 cụm (Google 855, Esri 503) chiếm thêm khoảng 211,4 MiB trên đĩa. **Không tải toàn bộ khi mở trang**. Chỉ lấy phần đang nhìn và chuẩn bị vài cụm trung tâm của bảy điểm lúc toàn cảnh đã đứng yên; thao tác mới hủy việc chuẩn bị này.
+- Bộ nhớ đệm nhị phân giới hạn 24 MiB. Giới hạn cache texture xuống 44 ô cho mỗi nguồn vì texture mới lớn hơn 16 lần, giữ ngân sách GPU gần mức cũ. Các consumer dùng chung yêu cầu; hủy một consumer không hủy consumer còn dùng nó.
+- Nếu vùng rìa không có ảnh chi tiết trong gói, dùng ảnh cha đã lưu cho vùng đó thay vì mở đồng thời 16 yêu cầu Internet. Các ảnh chi tiết đã có luôn được giữ nguyên. Ngoài toàn bộ vùng đã lưu vẫn cho phép tải nhà cung cấp.
+- Service worker lưu cả tệp `.bin`; `npm run cache:map` tự đóng gói lại sau khi cập nhật ảnh. Có thể chạy riêng `npm run pack:map`. Bản build/deploy phải bao gồm `public/map-tiles/blocks-v1` và manifest cùng phiên bản.
+
+Đối chiếu lịch sử ngày 28/10 trên Chrome 2456×1042: chuyến đến Đền thờ dùng `flyTo` 3.056 ms; Đền thờ tới Ba Động dùng 3.100 ms, nâng từ zoom 17 lên khoảng zoom 12,34 rồi hạ về zoom 17. Nhật ký cũ: `preview/map-flight-restored.log`. Những thời lượng này là cấu hình trước khi làm chậm, không đại diện phiên bản ngày 29/10.
+
+Bài `tests/map-flight-test.cjs` kiểm tra cấu hình chậm mới với chuyến xa và chặng gần Ao Bà Om–Chùa Âng, các khung camera trung gian, tọa độ cuối, về toàn cảnh, đổi điểm giữa đường và kéo để ngắt. Nhật ký chạy mới: `preview/map-flight-smooth.log`. Bảng thông tin vẫn mở ngay khi chọn, không chờ chuyến bay kết thúc.
+
+`tests/map-response-test.cjs` vẫn đo riêng độ trễ bảng thông tin và yêu cầu ảnh. Các log `map-response-before/after.log` trước khi khôi phục fly là dữ liệu lịch sử, không đại diện thời gian đến đích của đường bay hiện tại. Không dùng tổng thời gian bay để đánh giá tốc độ tải. FPS và độ nét tức thời còn phụ thuộc máy, cache và đường truyền.
+
+`tests/map-blocks-test.cjs` đã kiểm tra mọi cụm, đối chiếu từng đoạn JPEG với tệp gốc theo byte, kiểm tra ảnh cha chứa đúng tọa độ ô con và mọi ô chi tiết gốc vẫn truy cập được. Kiểm tra trình duyệt tải chậm/tải lỗi đã cập nhật để áp dụng cả `.bin`, không vô tình bỏ qua định dạng mới. Các luồng Home, TypeScript và build đều đạt. Ảnh kiểm tra vùng đô thị: `preview/den-tho-bac-map-response-after.png`.
 
 ## Kiểm tra
 
 - `npm run lint` và bản dựng Vite.
+- `node tests/map-flight-test.cjs`: `flyTo` chậm liên tục, nâng cao khi bay xa, hạ nhẹ ở chặng gần, đúng điểm đến, ngắt/đổi chuyến không trở về đích cũ và vẫn dùng nguồn ảnh tối ưu.
 - `node tests/map-loading-test.cjs`: trình duyệt Chrome thật, WebGL, bộ nhớ đệm HTTP và service worker được bỏ qua; máy chủ cố tình trì hoãn 650 ms cho ô ảnh chi tiết từ zoom 10 trở lên. Đo pixel canvas khi đổi nhà cung cấp, bay đến Đền thờ Bác, quay về toàn tỉnh, bay đến biển Ba Động, đổi nhanh liên tiếp và di chuyển ở 2D.
 - `node tests/map-loading-test.cjs --fail-detail`: trả HTTP 503 cho ảnh chi tiết cục bộ và chặn nhà cung cấp từ xa; kiểm tra lớp tổng thể vẫn giữ bản đồ. Các lỗi tải ảnh trong bài thử này là chủ động tạo ra.
 - Kiểm tra các nguồn vệ tinh và địa hình không bị tạo lại; lựa chọn cuối cùng thắng khi bấm liên tiếp; tắt nhãn không phát sinh tải nhãn nền.

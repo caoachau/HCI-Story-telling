@@ -3,6 +3,7 @@ import { Expand, Home, Leaf, MapPin, QrCode, ScrollText, Shield, Shrink, X } fro
 import QRCode from 'qrcode';
 import { khmerIntroChapters } from './khmerIntro';
 import type { MuseumSection } from './useMuseumScreens';
+import { ShareContent } from '../../experience/ShareContent';
 
 const icons = { home: Home, pin: MapPin, scroll: ScrollText, leaf: Leaf, shield: Shield };
 
@@ -61,28 +62,14 @@ export function MuseumTools({ lang, onClose, onOpenQRCode, onToggleExpanded, isE
 
 function MuseumQRCode({ lang, onClose }: { lang: 'vi' | 'en'; onClose: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const [code, setCode] = useState('');
-  const [failed, setFailed] = useState(false);
-  const url = new URL('bao-tang-khmer.html', document.baseURI).href;
   useLayoutEffect(() => {
     const node = dialog.current!;
     node.showModal();
     return () => { if (node.open) node.close(); };
   }, []);
-  useEffect(() => {
-    let cancelled = false;
-    void QRCode.toDataURL(url, { width: 512, margin: 2, errorCorrectionLevel: 'M' })
-      .then(value => { if (!cancelled) setCode(value); })
-      .catch(() => { if (!cancelled) setFailed(true); });
-    return () => { cancelled = true; };
-  }, [url]);
-  return <dialog ref={dialog} className="md-qr-dialog" aria-labelledby="md-qr-title" onClose={onClose}
+  return <dialog ref={dialog} className="md-qr-dialog" aria-label={lang === 'vi' ? 'Tiếp tục trên điện thoại' : 'Continue on your phone'} onClose={onClose}
     onKeyDown={event => event.stopPropagation()} onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
     <button type="button" onClick={() => dialog.current?.close()} aria-label={lang === 'vi' ? 'Đóng mã QR' : 'Close QR code'}><X /></button>
-    <h2 id="md-qr-title">{lang === 'vi' ? 'Tiếp tục trên điện thoại' : 'Continue on your phone'}</h2>
-    <p>{lang === 'vi' ? 'Quét mã để mở trang Bảo tàng Văn hóa Khmer.' : 'Scan to open the Khmer Culture Museum.'}</p>
-    <div className="md-qr-image">{code ? <img src={code} alt={lang === 'vi' ? 'Mã QR trang bảo tàng' : 'Museum page QR code'} />
-      : <p role="status">{failed ? (lang === 'vi' ? 'Dùng liên kết bên dưới để mở trang.' : 'Use the link below to open the page.') : (lang === 'vi' ? 'Đang tạo mã QR…' : 'Creating QR code…')}</p>}</div>
-    <a href={url}>{url}</a>
+    <div className="hx-body"><ShareContent siteId="bao-tang-khmer" lang={lang} /></div>
   </dialog>;
 }

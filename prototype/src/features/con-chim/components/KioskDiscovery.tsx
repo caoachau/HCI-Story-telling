@@ -12,15 +12,19 @@ import { CONTENT_SECTIONS, COMMUNITY_TOPICS, EXPERIENCE_OPTIONS, HISTORY_STOPS, 
 import '../discovery.css';
 import '../storyLayers.css';
 import '../sections.css';
+import { restoredParams, setEntryIssue, updateRoute, useRememberedState } from '../../../experience/state';
 
 const interestIcons = { food: Utensils, landscape: Camera, local: Users };
 const openingPhotos = [PHOTOS[0], HERO_BANNER, PHOTOS[6]];
 const openingTitles = ['Nhịp sống trên cồn', 'Giữa dòng Cổ Chiên', 'Bên gian bếp quê'];
 export function KioskDiscovery() {
-  const initialLink=useMemo(()=>readStoryLink(window.location.search),[]);
-  const [view, setView] = useState<ConChimView>('home');
-  const [interest, setInterest] = useState<Interest>('food');
-  const [filter, setFilter] = useState<Interest | 'all'>('all');
+  const params = useMemo(() => restoredParams('con-chim'), []);
+  const initialLink=useMemo(()=>readStoryLink('?' + params.toString()),[]);
+  const validViews = ['home', ...CONTENT_SECTIONS.map(item => item.id)];
+  const initialView = validViews.includes(params.get('section') || '') ? params.get('section') as ConChimView : 'home';
+  const [view, setView] = useRememberedState<ConChimView>('con-chim:view', initialView, params.has('section'));
+  const [interest, setInterest] = useRememberedState<Interest>('con-chim:interest', ['food','landscape','local'].includes(params.get('interest') || '') ? params.get('interest') as Interest : 'food', params.has('interest'));
+  const [filter, setFilter] = useRememberedState<Interest | 'all'>('con-chim:filter', ['food','landscape','local','all'].includes(params.get('filter') || '') ? params.get('filter') as Interest | 'all' : 'all', params.has('filter'));
   const [storyId, setStoryId] = useState<string | null>(initialLink?.storyId||null);
   const [readerMode,setReaderMode]=useState<ReaderMode>(initialLink?.mode||'read');
   const [readerContext,setReaderContext]=useState<StoryContext|undefined>(initialLink||undefined);
@@ -28,10 +32,10 @@ export function KioskDiscovery() {
   const [opened, setOpened] = useState<string[]>([]);
   const [mapOpen, setMapOpen] = useState(true);
   const [hostMenu, setHostMenu] = useState(false);
-  const [scene,setScene] = useState(0);
-  const [historyStop,setHistoryStop] = useState(0);
-  const [communityTopic,setCommunityTopic] = useState(0);
-  const [experience,setExperience] = useState(0);
+  const [scene,setScene] = useRememberedState('con-chim:scene', 0);
+  const [historyStop,setHistoryStop] = useRememberedState('con-chim:history', 0);
+  const [communityTopic,setCommunityTopic] = useRememberedState('con-chim:community', 0);
+  const [experience,setExperience] = useRememberedState('con-chim:experience', 0);
   const main = useRef<HTMLElement>(null), heading = useRef<HTMLHeadingElement>(null);
   const { host, act } = useKioskHost();
   const story = DISCOVERY_STORIES.find(item => item.id === storyId);
@@ -42,7 +46,7 @@ export function KioskDiscovery() {
   const sectionStory=view==='history'?HISTORY_STOPS[historyStop].storyId:view==='community'?COMMUNITY_TOPICS[communityTopic].id:view==='experiences'?EXPERIENCE_OPTIONS[experience].story.id:featured.id;
   const choose:OpenStory = (id,mode='read',context) => { setStoryId(id);setReaderMode(mode);setReaderContext(context);setLastStoryId(id);setOpened(previous => previous.includes(id) ? previous : [...previous, id]); };
   const hostAction=(action:typeof hostItems[number]['action'])=>{setHostMenu(false);if(action==='qr')choose(lastStoryId||sectionStory,'takeaway');else act(action);};
-  const navigate = (next: ConChimView,reset=next==='home') => {
+  const navigate = (next: ConChimView,reset=false) => {
     setView(next); setStoryId(null); setHostMenu(false);
     if(next!==view)setLastStoryId('');
     if (reset) { setInterest('food'); setFilter('all'); setOpened([]); setMapOpen(true);setLastStoryId('');setScene(0);setHistoryStop(0);setCommunityTopic(0);setExperience(0); }
@@ -50,6 +54,10 @@ export function KioskDiscovery() {
     requestAnimationFrame(() => heading.current?.focus({ preventScroll:true }));
   };
   useEffect(() => { document.title = 'Cồn Chim · Chọn điều bạn muốn khám phá'; }, []);
+  useEffect(() => { if (params.get('story') && !initialLink) setEntryIssue({ vi: 'Không tìm thấy câu chuyện trong liên kết. Chọn một câu chuyện từ danh sách để tiếp tục.', en: 'The linked story was not found. Choose a story from the list to continue.' }); }, []);
+  useEffect(() => {
+    updateRoute({ section: view, interest, filter, story: storyId, ...(!storyId ? { mode: null, question: null, point: null, step: null } : {}) }, 'con-chim');
+  }, [view, interest, filter, storyId]);
   useEffect(() => {
     const closeMenu = (event: KeyboardEvent) => { if (event.key === 'Escape') setHostMenu(false); };
     document.addEventListener('keydown', closeMenu);

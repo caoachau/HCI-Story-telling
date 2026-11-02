@@ -1,26 +1,31 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
 import type { QuickLanguage, QuickPhoto } from "../data/locationQuickContent";
+import { restoredParams, updateRoute, useRememberedState } from '../experience/state';
 
 export function QuickLocationGallery({
   photos,
   lang,
   onPhotoChange,
+  memoryKey = 'quick',
 }: {
   photos: QuickPhoto[];
   lang: QuickLanguage;
   onPhotoChange: (photo: QuickPhoto) => void;
+  memoryKey?: string;
 }) {
-  const [index, setIndex] = useState(0);
+  const initial = restoredParams(memoryKey);
+  const [index, setIndex] = useRememberedState(`${memoryKey}:quickPhoto`, Math.max(0, Math.min(photos.length - 1, Number(initial.get('quickPhoto')) || 0)), initial.has('quickPhoto'));
   const [status, setStatus] = useState<"loading" | "ready" | "error">(
     "loading",
   );
   const image = useRef<HTMLImageElement>(null);
   const swipe = useRef<{ x: number; y: number } | null>(null);
   const vi = lang === "vi",
-    photo = photos[index];
+    photo = photos[Math.max(0, Math.min(index, photos.length - 1))];
   useLayoutEffect(() => {
     onPhotoChange(photo);
+    updateRoute({ quickPhoto: index }, memoryKey, !['con-chim', 'den-tho-bac'].includes(memoryKey));
   }, [photo, onPhotoChange]);
   function select(next: number) {
     if (next === index) return;

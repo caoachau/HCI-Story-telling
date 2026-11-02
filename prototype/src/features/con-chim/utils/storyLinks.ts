@@ -19,7 +19,7 @@ export function readStoryLink(search: string): StoryLinkState | null {
 export function publicStoryLink(storyId: string, context: StoryContext, currentUrl: string, configuredUrl = import.meta.env.VITE_CON_CHIM_PUBLIC_URL || ''): string | null {
   if (!DISCOVERY_STORIES.some(story => story.id === storyId)) return null;
   try {
-    const target = configuredUrl ? new URL(configuredUrl) : new URL('con-chim.html', currentUrl);
+    const target = configuredUrl ? new URL(configuredUrl) : new URL('con-chim.html', import.meta.env.VITE_PUBLIC_URL || currentUrl);
     const hostname = target.hostname.toLowerCase();
     // The kiosk cannot give visitors a useful link to its own loopback address.
     if (!['https:','http:'].includes(target.protocol) || target.username || target.password || hostname === 'localhost' || hostname.endsWith('.localhost') || hostname === '[::1]' || hostname === '0.0.0.0' || hostname.startsWith('127.')) return null;

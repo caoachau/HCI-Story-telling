@@ -1,4 +1,5 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { restoredParams, updateRoute } from '../../experience/state';
 import { flushSync } from "react-dom";
 import { gsap } from "gsap";
 import {
@@ -132,11 +133,12 @@ export function KhmerOverviewViewer({
   const reduced = useMuseumReducedMotion(dialog);
   const [reading, setReading] = useState({
     topic: initialTopic,
-    photoIndex: 0,
+    photoIndex: Math.max(0, Math.min(overviewViewerMedia[initialTopic].length - 1, Number(restoredParams('bao-tang-khmer').get('photo')) || 0)),
     revision: 0,
     direction: 1,
     change: "topic",
   });
+  useEffect(() => { updateRoute({ overview: reading.topic, photo: reading.photoIndex }, 'bao-tang-khmer'); }, [reading.topic, reading.photoIndex]);
   const [zoomed, setZoomed] = useState(false);
   const [failedPhoto, setFailedPhoto] = useState(false);
   const story = khmerOverviewStories[reading.topic];

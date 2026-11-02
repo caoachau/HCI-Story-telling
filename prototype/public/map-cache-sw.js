@@ -18,7 +18,7 @@ self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
   if (request.method !== 'GET' || url.origin !== self.location.origin || !url.pathname.startsWith(tilePath)) return;
-  if (!/\.(?:jpg|png)$/.test(url.pathname)) return;
+  if (!/\.(?:jpg|png|bin)$/.test(url.pathname)) return;
 
   event.respondWith((async () => {
     let cache;

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { RefreshCw, X } from 'lucide-react';
+import { detailSource } from '../experience/state';
 
 interface Props {
   isExpanded:boolean;isSidebarWide:boolean;
@@ -9,6 +10,7 @@ interface Props {
 const CHANNEL='den-tho-bac-detail';
 /** Keep the new detail page's typography and viewport independent of the map. */
 export function DenThoBacDetail({isExpanded,isSidebarWide,onToggleExpanded,onToggleSidebarWide,onClose,onContentChange}:Props){
+  const [src] = useState(() => detailSource('den-tho-bac'));
   const frame=useRef<HTMLIFrameElement>(null);const[ready,setReady]=useState(false),[slow,setSlow]=useState(false),[attempt,setAttempt]=useState(0);
   useEffect(()=>{
     const controls=()=>{
@@ -32,5 +34,5 @@ export function DenThoBacDetail({isExpanded,isSidebarWide,onToggleExpanded,onTog
     return()=>{window.removeEventListener('message',receive);observer.disconnect();media.removeEventListener('change',preferences);};
   },[isExpanded,isSidebarWide,onToggleExpanded,onToggleSidebarWide,onClose,onContentChange]);
   useEffect(()=>{const timer=setTimeout(()=>setSlow(true),15000);return()=>clearTimeout(timer);},[attempt]);
-  return <section className="dbk-host-detail relative h-full min-h-0 w-full bg-[#f7f6f0]" aria-label="Chi tiết Đền thờ Bác Hồ"><iframe ref={frame} key={attempt} src={`${import.meta.env.BASE_URL}den-tho-bac.html`} title="Khám phá Đền thờ Bác Hồ tại Long Đức" className="block h-full w-full border-0"/>{!ready&&<div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-[#f7f6f0] p-6 text-center text-[#252923]" role="status">{onClose&&<button type="button" className="absolute right-5 top-5 rounded-full border border-stone-400 p-3" onClick={onClose} aria-label="Đóng chi tiết Đền thờ Bác"><X size={22}/></button>}<p>{slow?'Chưa tải được nội dung chi tiết.':'Đang mở miền ký ức Long Đức…'}</p>{slow&&<button type="button" className="flex items-center gap-2 rounded-full bg-[#b52322] px-5 py-3 text-white" onClick={()=>{setReady(false);setSlow(false);setAttempt(n=>n+1);}}><RefreshCw size={18}/>Thử mở lại</button>}</div>}</section>;
+  return <section className="dbk-host-detail relative h-full min-h-0 w-full bg-[#f7f6f0]" aria-label="Chi tiết Đền thờ Bác Hồ"><iframe ref={frame} key={attempt} src={src} title="Khám phá Đền thờ Bác Hồ tại Long Đức" className="block h-full w-full border-0"/>{!ready&&<div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-[#f7f6f0] p-6 text-center text-[#252923]" role="status">{onClose&&<button type="button" className="absolute right-5 top-5 rounded-full border border-stone-400 p-3" onClick={onClose} aria-label="Đóng chi tiết Đền thờ Bác"><X size={22}/></button>}<p>{slow?'Chưa tải được nội dung chi tiết.':'Đang mở miền ký ức Long Đức…'}</p>{slow&&<button type="button" className="flex items-center gap-2 rounded-full bg-[#b52322] px-5 py-3 text-white" onClick={()=>{setReady(false);setSlow(false);setAttempt(n=>n+1);}}><RefreshCw size={18}/>Thử mở lại</button>}</div>}</section>;
 }

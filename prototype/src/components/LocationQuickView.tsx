@@ -29,6 +29,7 @@ import {
   QuickLocationReader,
   type QuickReaderBlock,
 } from "./QuickLocationReader";
+import { restoredParams, updateRoute, useRememberedState } from '../experience/state';
 
 const englishCategories: Record<HeritageSite["category"], string> = {
   "Di sản kiến trúc": "Architecture",
@@ -54,8 +55,9 @@ export function LocationQuickView({
   onOpenQRCode,
 }: Props) {
   const rootRef = useRef<HTMLElement>(null);
-  const [topic, setTopic] = useState<Topic>("overview");
-  useLayoutEffect(() => setTopic("overview"), [site.id]);
+  const initial = restoredParams(site.id);
+  const [topic, setTopic] = useRememberedState<Topic>(`${site.id}:quickTab`, ['overview', 'highlights', 'visit'].includes(initial.get('quickTab') || '') ? initial.get('quickTab') as Topic : 'overview', initial.has('quickTab'));
+  useEffect(() => { updateRoute({ quickTab: topic, view: 'quick' }, site.id, !['con-chim', 'den-tho-bac'].includes(site.id)); }, [topic, site.id]);
   const prepareRef = useRef(onPrepareDetails);
   prepareRef.current = onPrepareDetails;
   const warmDetails = () => {
@@ -252,6 +254,7 @@ export function LocationQuickView({
             photos={content.photos}
             lang={lang}
             onPhotoChange={onPhotoChange}
+            memoryKey={site.id}
           />
         </div>
         <div className="lqv-sheet">
@@ -329,6 +332,7 @@ export function LocationQuickView({
                     active={topic === item.id}
                     lang={lang}
                     reduced={reduced}
+                    memoryKey={`${site.id}:${item.id}`}
                   />
                 </section>
               ))}

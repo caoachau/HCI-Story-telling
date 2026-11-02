@@ -29,6 +29,8 @@ import { HERITAGE_SITES } from '../../data/heritageSites';
 import { soundscape } from '../../services/soundscape';
 import { initLenis, destroyLenis } from './motion/useMotion';
 import './motion/cinematic.css';
+import { usePreferences, setPreferences } from '../../experience/preferences';
+import { restoredParams, updateRoute } from '../../experience/state';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,16 +45,24 @@ export const AoBaOmMuseumKiosk: React.FC<AoBaOmMuseumKioskProps> = ({
   onClose,
   isStandalone = false,
 }) => {
-  const [lang, setLang] = useState<AoLanguage>(initialLang);
+  const prefs = usePreferences();
+  const lang = prefs.lang;
+  const setLang = (value: AoLanguage) => setPreferences({ lang: value });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isSoundPlaying, setIsSoundPlaying] = useState(false);
-  const [isLargeText, setIsLargeText] = useState(false);
-  const [isHighContrast, setIsHighContrast] = useState(false);
-  const [isReduceMotion, setIsReduceMotion] = useState(false);
+  const isLargeText = prefs.largeText;
+  const setIsLargeText = (value: boolean) => setPreferences({ largeText: value });
+  const isHighContrast = prefs.highContrast;
+  const setIsHighContrast = (value: boolean) => setPreferences({ highContrast: value });
+  const isReduceMotion = prefs.reduceMotion;
+  const setIsReduceMotion = (value: boolean) => setPreferences({ reduceMotion: value });
   const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
   const [activePanoramaZone, setActivePanoramaZone] = useState<SiteZone | null>(null);
   const [isQRCodeOpen, setIsQRCodeOpen] = useState(false);
-  const [activeSectionId, setActiveSectionId] = useState<string>('section-1-overview');
+  const [initialSection] = useState(() => { const value = restoredParams('ao-ba-om').get('section'); return value && /^section-[1-5]-[a-z-]+$/.test(value) ? value : 'section-1-overview'; });
+  const [activeSectionId, setActiveSectionId] = useState<string>(initialSection);
+  useEffect(() => { updateRoute({ entry: 'ao-kiosk', section: activeSectionId }, 'ao-ba-om'); }, [activeSectionId]);
+  useEffect(() => { if (initialSection !== 'section-1-overview') { const timer = setTimeout(() => document.getElementById(initialSection)?.scrollIntoView({ behavior: 'instant' }), 100); return () => clearTimeout(timer); } }, []);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [showFab, setShowFab] = useState(false);

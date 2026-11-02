@@ -4,9 +4,12 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import App from './App.tsx';
 import './index.css';
 import './map-interface.css';
+import { installExperienceBridge } from './experience/state';
+import { RecoveryBoundary } from './experience/RecoveryBoundary';
+installExperienceBridge();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <RecoveryBoundary><App /></RecoveryBoundary>
   </StrictMode>,
 );

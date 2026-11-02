@@ -1,0 +1,47 @@
+/* Protect slower cinematic flights, continuous frames and interruptibility. */
+const fs=require('node:fs'),path=require('node:path'),Module=require('node:module');
+const file=path.resolve(__dirname,'den-tho-bac-test.cjs'),source=fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n');
+const begin=source.indexOf('  const sections=['),end=source.lastIndexOf('\n}\nmain().catch');
+const body=String.raw`
+  await cdp('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+  await viewport(2456,1042);await cdp('Page.navigate',{url:base+'/'});
+  await wait('document.querySelectorAll(".heritage-marker").length===7','map starts');
+  await page('let el=document.querySelector(".maplibregl-canvas"),f;while(el&&!f){f=el[Object.keys(el).find(k=>k.startsWith("__reactFiber"))];el=el.parentElement}while(f){let h=f.memoizedState;while(h){const v=h.memoizedState?.current;if(v?.getCanvas&&v?.getSource){window.testMap=v;break}h=h.next}if(window.testMap)break;f=f.return}');
+  await click('.map-basemap-selector button:first-child');await sleep(1500);
+  await page('window.flightCalls=[];window.flightFrames=[];const fly=testMap.flyTo.bind(testMap);testMap.flyTo=options=>{flightCalls.push({duration:options.duration,curve:options.curve,center:options.center,zoom:options.zoom});return fly(options)};testMap.on("render",()=>{if(testMap.isMoving())flightFrames.push({t:performance.now(),z:testMap.getZoom(),pitch:testMap.getPitch(),lng:testMap.getCenter().lng,lat:testMap.getCenter().lat})});');
+  const select=async(id,longFlight=false)=>{
+    await page('flightCalls=[];flightFrames=[]');
+    await click('.heritage-marker[data-site-id='+id+']');
+    await wait('flightCalls.length===1&&testMap.isMoving()','native flight starts');
+    await sleep(600);
+    await check('testMap.isMoving()&&flightCalls[0].duration>=3600&&flightCalls[0].duration<=6000','Selecting '+id+' uses the slower cinematic flight');
+    await check('document.querySelector(".lqv-root").dataset.siteId==="'+id+'"','Selection feedback remains available while flying');
+    if(id==='den-tho-bac')await shot('restored-flight-midway');
+    await wait('!testMap.isMoving()&&Math.abs(testMap.getZoom()-17)<.001','flight finishes at detailed viewpoint');
+    const result=await page('const f=flightFrames,gaps=f.slice(1).map((v,i)=>v.t-f[i].t).sort((a,b)=>a-b);return {call:flightCalls[0],count:f.length,minZoom:Math.min(...f.map(v=>v.z)),maxZoom:Math.max(...f.map(v=>v.z)),p95FrameMs:gaps[Math.floor(gaps.length*.95)],largestZoomStep:Math.max(...f.slice(1).map((v,i)=>Math.abs(v.z-f[i].z))),last:f.at(-1)}');
+    console.log('FLIGHT',id,JSON.stringify(result));
+    assert.ok(result.count>30,'flight contains many intermediate views');
+    assert.ok(result.largestZoomStep<1,'camera progresses continuously');
+    if(longFlight)assert.ok(result.minZoom<15,'distant flight lifts above both destinations before descending');
+    await check('Math.abs(testMap.getCenter().lng-flightCalls[0].center[0])<.00001&&Math.abs(testMap.getCenter().lat-flightCalls[0].center[1])<.00001&&testMap.getSource("google-satellite").tileSize===1024','Arrival coordinates and packed high-resolution source are preserved');
+  };
+  await select('den-tho-bac');await select('bien-ba-dong',true);
+  await page('flightCalls=[];flightFrames=[]');
+  await click('.map-top-actions button:nth-child(2)');await sleep(600);
+  await check('testMap.isMoving()&&flightCalls[0].duration>=3800&&flightCalls[0].duration<=5000','Overview uses a slower, continuous zoom-out flight');
+  await wait('!testMap.isMoving()&&Math.abs(testMap.getZoom()-10.4)<.001','overview arrival');
+  await select('ao-ba-om');await select('chua-ang');
+  await check('flightCalls[0].duration===3600','A nearby hop has a gentle approach without a long-distance lift');
+  await click('.heritage-marker[data-site-id=den-tho-bac]');await sleep(350);
+  await click('.heritage-marker[data-site-id=con-chim]');await sleep(350);
+  await click('.heritage-marker[data-site-id=chua-ang]');
+  await wait('!testMap.isMoving()&&Math.abs(testMap.getCenter().lng-106.3036199)<.00001','latest selection wins');
+  await check('document.querySelector(".lqv-root").dataset.siteId==="chua-ang"','Interrupted flights never restore an earlier destination');
+  await click('.map-top-actions button:nth-child(2)');await sleep(300);
+  await cdp('Input.dispatchMouseEvent',{type:'mousePressed',x:900,y:500,button:'left',clickCount:1});
+  await cdp('Input.dispatchMouseEvent',{type:'mouseMoved',x:1050,y:520,button:'left',buttons:1});
+  await cdp('Input.dispatchMouseEvent',{type:'mouseReleased',x:1050,y:520,button:'left',clickCount:1});
+  await sleep(1300);await check('!testMap.isMoving()','Manual dragging still takes over from a flight');
+  assert.equal(errors.length,0,'no browser errors');console.log('PASS cinematic fly and optimized imagery coexist');
+`;
+const runner=new Module(file,module);runner.filename=file;runner.paths=Module._nodeModulePaths(path.dirname(file));runner._compile(source.slice(0,begin)+body+source.slice(end),file);

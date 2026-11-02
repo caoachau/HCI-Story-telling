@@ -9,6 +9,7 @@ const projectDir = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: { alias: { '@': resolve(projectDir, '.') } },
+  server: { watch: { ignored: ['**/.browser-profile/**', '**/preview/**'] } },
   build: {
     rollupOptions: {
       input: {

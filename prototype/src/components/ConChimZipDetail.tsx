@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { X, RefreshCw } from 'lucide-react';
 import type { DetailHostControls } from '../features/con-chim/utils/hostControls';
 import './conChimZipHost.css';
+import { detailSource } from '../experience/state';
 
 interface Props {
   lang: 'vi' | 'en';
@@ -22,7 +23,7 @@ export const ConChimZipDetail: React.FC<Props> = ({ lang, isExpanded, isSidebarW
   const [slow, setSlow] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const vi = lang === 'vi';
-  const src = `${import.meta.env.BASE_URL}con-chim.html`;
+  const [src] = useState(() => detailSource('con-chim'));
   const openHostModal = (open: () => void) => {
     if (isExpanded) onToggleExpanded?.();
     open();

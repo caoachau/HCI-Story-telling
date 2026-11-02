@@ -10,18 +10,23 @@ interface BeforeAfterSliderProps {
   presentImage: string;
   presentLabel: string;
   presentDescription: string;
+  historicalVerified?: boolean;
 }
 
 export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   lang,
   pastImage,
-  pastLabel,
-  pastYear,
-  pastDescription,
+  pastLabel: suppliedPastLabel,
+  pastYear: suppliedPastYear,
+  pastDescription: suppliedPastDescription,
   presentImage,
   presentLabel,
   presentDescription,
+  historicalVerified = false,
 }) => {
+  const pastLabel = historicalVerified ? suppliedPastLabel : (lang === 'vi' ? 'Ảnh đối chiếu A' : 'Comparison image A');
+  const pastYear = historicalVerified ? suppliedPastYear : (lang === 'vi' ? 'Chưa xác nhận niên đại' : 'Date unconfirmed');
+  const pastDescription = historicalVerified ? suppliedPastDescription : (lang === 'vi' ? 'Ảnh dùng để quan sát. Nguồn hiện có chưa đủ xác nhận đây là ảnh lịch sử của cùng địa điểm.' : 'An image for observation. Available provenance does not confirm a historical view of the same place.');
   const [sliderPos, setSliderPos] = useState<number>(50);
   const [viewMode, setViewMode] = useState<'split' | 'blend'>('split');
   const [blendOpacity, setBlendOpacity] = useState<number>(50);
@@ -46,14 +51,17 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
     }
   };
 
+  if (pastImage === presentImage) return <figure className="rounded-xl border border-white/20 p-4"><img src={presentImage} alt={presentLabel} className="max-h-80 w-full object-contain" /><figcaption className="mt-3 text-sm">{lang === 'vi' ? 'Hiện chỉ có một ảnh. Chưa có cặp ảnh lịch sử–hiện tại được xác nhận để so sánh.' : 'Only one image is available. A verified historical–current pair is not yet available.'}</figcaption></figure>;
+
   return (
     <div className="bg-[#121620] border border-white/10 rounded-2xl p-5 space-y-4 shadow-xl">
+      {!historicalVerified && <p className="text-xs text-amber-100" role="note">{lang === 'vi' ? 'Đối chiếu góc nhìn. Chưa xác nhận niên đại; không dùng hai ảnh này làm bằng chứng biến đổi lịch sử.' : 'Viewpoint comparison. Dates are unconfirmed; these images are not evidence of historical change.'}</p>}
       {/* Header controls */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <History className="w-4 h-4 text-amber-400" />
           <span className="text-xs font-mono uppercase tracking-widest text-amber-300 font-semibold">
-            {lang === 'vi' ? 'Đối chiếu lịch sử: Xưa ↔ Nay' : 'Historical Comparison: Past ↔ Present'}
+            {historicalVerified ? (lang === 'vi' ? 'Đối chiếu lịch sử: Xưa ↔ Nay' : 'Historical Comparison: Past ↔ Present') : (lang === 'vi' ? 'Đối chiếu hai góc nhìn' : 'Compare two views')}
           </span>
         </div>
 
@@ -103,7 +111,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             <img
               src={pastImage}
               alt={pastLabel}
-              className="absolute inset-0 w-full h-full object-cover max-w-none filter sepia-[0.35] contrast-105"
+              className="absolute inset-0 w-full h-full object-cover max-w-none"
               style={{
                 width: containerRef.current ? `${containerRef.current.clientWidth}px` : '100%',
               }}
@@ -141,11 +149,11 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             <img
               src={pastImage}
               alt={pastLabel}
-              className="absolute inset-0 w-full h-full object-cover filter sepia-[0.4] transition-opacity duration-150"
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-150"
               style={{ opacity: blendOpacity / 100 }}
             />
             <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center bg-black/75 px-3 py-1.5 rounded-lg border border-white/10 text-xs font-mono">
-              <span className="text-amber-300">{lang === 'vi' ? 'Tư liệu cổ' : 'Archive'}: {blendOpacity}%</span>
+              <span className="text-amber-300">{pastLabel}: {blendOpacity}%</span>
               <span className="text-emerald-300">{lang === 'vi' ? 'Hiện thực' : 'Present'}: {100 - blendOpacity}%</span>
             </div>
           </div>
@@ -155,16 +163,18 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             <span className="text-xs font-mono text-stone-400">{lang === 'vi' ? 'Hiện đại' : 'Present'}</span>
             <input
               type="range"
+              aria-label={lang === 'vi' ? 'Độ hiển thị ảnh đối chiếu' : 'Comparison image opacity'}
               min="0"
               max="100"
               value={blendOpacity}
               onChange={(e) => setBlendOpacity(Number(e.target.value))}
               className="flex-1 accent-amber-500 h-1.5 bg-white/10 rounded-lg cursor-pointer"
             />
-            <span className="text-xs font-mono text-amber-400">{lang === 'vi' ? 'Ảnh cổ' : 'Archive'} {pastYear}</span>
+            <span className="text-xs font-mono text-amber-400">{pastLabel} · {pastYear}</span>
           </div>
         </div>
       )}
+      {viewMode === 'split' && <label className="flex items-center gap-3 text-xs text-stone-200">{lang === 'vi' ? 'Vị trí chia ảnh' : 'Image divider position'}<input type="range" min="0" max="100" value={sliderPos} onChange={event => setSliderPos(Number(event.target.value))} className="flex-1 accent-amber-500" /></label>}
 
       {/* Descriptions */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
