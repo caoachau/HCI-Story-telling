@@ -1,6 +1,21 @@
+import { artwork } from "./data";
+import { KHMER_MUSEUM_NAME, KHMER_MUSEUM_TITLE_LINES } from "../../data/museumIdentity";
+import { khmerCulturePhotos } from "./khmerCulture";
+import { khmerIntroContext, khmerIntroSlides } from "./khmerIntro";
+import { khmerPlacePhotos } from "./khmerPlaces";
+import { khmerOverviewNarration, type OverviewNarrationTopic } from "./khmerOverviewNarration";
+
 // Editorial content from the user's btvhkm.docx. Source links document the
 // differing historical dates, collection counts and current locality name.
 export const khmerOverviewSources = {
+  objects: {
+    title: "VietNamNet · Hiện vật tại bảo tàng, 2023",
+    url: "https://vietnamnet.vn/800-hien-vat-tu-lieu-co-truyen-cua-dong-bao-khmer-o-tra-vinh-2203450.html",
+  },
+  photoEssay: {
+    title: "Báo ảnh Việt Nam · Nguyễn Luân, 2017",
+    url: "https://vietnam.vnanet.vn/vietnamese/tin-tuc/noi-bao-ton-van-hoa-dan-toc-khmer-153851.html",
+  },
   locality: {
     title: "Cổng thông tin tỉnh Vĩnh Long",
     url: "https://vinhlong.gov.vn/Portals/0/Documents/DiaDanh/PDF/B%E1%BA%A3o%20t%C3%A0ng%20v%C4%83n%20h%C3%B3a%20d%C3%A2n%20t%E1%BB%99c%20Khmer.pdf?ver=Hm5_GnD7N35VYzuvIQrc0Q%3D%3D",
@@ -27,6 +42,9 @@ export type KhmerOverviewTopic =
   | "identity"
   | "architecture"
   | "performing"
+  | "dailyLife"
+  | "spiritual"
+  | "visit"
   | "everyday"
   | "route"
   | "learning"
@@ -34,18 +52,15 @@ export type KhmerOverviewTopic =
 
 export const khmerOverview = {
   eyebrow: copy("TỔNG QUAN · TRÀ VINH", "SITE OVERVIEW · TRÀ VINH"),
-  title: { vi: ["BẢO TÀNG", "KHMER"], en: ["KHMER", "MUSEUM"] },
-  fullName: copy(
-    "Bảo tàng Văn hóa Dân tộc Khmer Trà Vinh",
-    "Trà Vinh Museum of Khmer Culture",
-  ),
+  title: KHMER_MUSEUM_TITLE_LINES,
+  fullName: KHMER_MUSEUM_NAME,
   subtitle: copy(
     "KÝ ỨC VĂN HÓA KHMER NAM BỘ",
     "MEMORIES OF SOUTHERN KHMER CULTURE",
   ),
   description: copy(
-    "Bảo tàng Văn hóa Dân tộc Khmer Trà Vinh lưu giữ những câu chuyện về tín ngưỡng, đời sống, làng nghề và nghệ thuật Khmer Nam Bộ. Nằm cạnh Ao Bà Om và Chùa Âng, nơi đây kết nối hiện vật với một không gian văn hóa còn tiếp nối.",
-    "Trà Vinh Museum of Khmer Culture preserves stories of belief, everyday life, craftsmanship and the arts of southern Khmer communities. Beside Ba Om Pond and Ang Pagoda, its collections connect objects with the living cultural landscape around them.",
+    "Nằm gần Ao Bà Om và Chùa Âng, bảo tàng lưu giữ những câu chuyện về người Khmer Nam Bộ. Từ gian bếp, ruộng đồng đến mái chùa, tiếng nhạc và điệu múa, mỗi hiện vật mở ra một phần ký ức của cộng đồng.",
+    "Khmer Ethnic Cultural Museum preserves stories of belief, everyday life, craftsmanship and the arts of southern Khmer communities. Beside Ba Om Pond and Ang Pagoda, its collections connect objects with the living cultural landscape around them.",
   ),
   preview: copy(
     "Từ kinh lá Buông đến dàn nhạc Ngũ âm, khám phá văn hóa Khmer trong không gian xanh bên Ao Bà Om và Chùa Âng.",
@@ -54,7 +69,6 @@ export const khmerOverview = {
   explore: copy("XEM TRƯNG BÀY", "VIEW COLLECTIONS"),
   readMore: copy("GIỚI THIỆU", "INTRODUCTION"),
   introCaption: copy("Văn hóa · Con người", "Culture · Community"),
-  noteTitle: copy("DI SẢN KHMER NAM BỘ", "SOUTHERN KHMER HERITAGE"),
   note: copy(
     "Một bảo tàng, nhiều lớp ký ức về đời sống và bản sắc cộng đồng.",
     "One museum, many layers of community life and cultural identity.",
@@ -111,9 +125,10 @@ export const khmerOverviewHighlights = [
     id: "identity",
     icon: "book",
     photo: "khmer-temple-model",
-    title: copy("BẢN SẮC ĐƯỢC TRAO TRUYỀN", "A HERITAGE PASSED ON"),
+    title: copy("KÝ ỨC KHMER NAM BỘ", "SOUTHERN KHMER MEMORIES"),
+    image: khmerPlacePhotos.village.src,
     text: copy(
-      "Tín ngưỡng, chữ viết và tri thức kết nối nhiều thế hệ Khmer.",
+      "Những đồ vật từng gắn bó với con người kể lại ký ức qua nhiều thế hệ.",
       "Belief, writing and knowledge connect Khmer generations.",
     ),
   },
@@ -121,7 +136,8 @@ export const khmerOverviewHighlights = [
     id: "architecture",
     icon: "building",
     photo: "khmer-facade",
-    title: copy("KIẾN TRÚC GIAO HÒA", "ARCHITECTURE IN DIALOGUE"),
+    title: copy("KIẾN TRÚC MANG HỒN KHMER", "ARCHITECTURE WITH A KHMER SOUL"),
+    image: khmerPlacePhotos.facade.src,
     text: copy(
       "Đường nét Khmer truyền thống trong một công trình bảo tàng hiện đại.",
       "Traditional Khmer forms meet a modern museum building.",
@@ -132,10 +148,27 @@ export const khmerOverviewHighlights = [
     icon: "music",
     photo: "khmer-pinpeat",
     title: copy("NGHỆ THUẬT CÒN TIẾP NỐI", "ARTS THAT LIVE ON"),
+    image: khmerPlacePhotos.ensemble.src,
     text: copy(
       "Ngũ âm, Rô-băm và Dù kê đưa hiện vật đến gần sân khấu, lễ hội.",
       "Pinpeat, Robam and Du ke connect objects with theatre and festivals.",
     ),
+  },
+  {
+    id: "dailyLife",
+    icon: "people",
+    photo: "khmer-tools",
+    image: khmerPlacePhotos.kitchen.src,
+    title: copy("ĐỜI SỐNG ĐƯỢC TÁI HIỆN", "EVERYDAY LIFE RECREATED"),
+    text: copy("Từ gian bếp đến ruộng đồng, nghề thủ công và lời chúc trong gia đình.", "From the kitchen to the fields, craft skills and family blessings."),
+  },
+  {
+    id: "spiritual",
+    icon: "building",
+    photo: "khmer-temple-model",
+    image: khmerPlacePhotos.chair.src,
+    title: copy("TÂM LINH QUA TỪNG HIỆN VẬT", "SPIRITUAL LIFE THROUGH OBJECTS"),
+    text: copy("Tượng Phật, ghế thuyết pháp và câu chuyện gắn bó với mái chùa.", "Buddha images, a preaching chair and the pagoda's place in community life."),
   },
 ] as const;
 
@@ -146,8 +179,18 @@ export const khmerOverviewVisitReasons = [
     photo: "khmer-tools",
     title: copy("HIỂU MỘT ĐỜI SỐNG", "UNDERSTAND EVERYDAY LIFE"),
     text: copy(
-      "Từ nông ngư cụ đến trang phục, nhìn văn hóa qua những điều gần gũi.",
-      "Explore culture through familiar tools, clothing and household objects.",
+      "Qua gian bếp, nông ngư cụ và khung dệt, tìm hiểu cách người Khmer sống và lao động.",
+      "Explore Khmer life and work through the kitchen, farming and fishing tools, and the loom.",
+    ),
+  },
+  {
+    id: "learning",
+    icon: "compass",
+    photo: "khmer-visitors",
+    title: copy("HỌC TỪ NHỮNG HIỆN VẬT", "LEARN FROM THE OBJECTS"),
+    text: copy(
+      "Kinh lá buông, nét chạm khắc và mặt nạ gợi mở tri thức, kỹ năng và trí tưởng tượng của người Khmer.",
+      "Palm-leaf manuscripts, carvings and masks reveal Khmer knowledge, skills and imagination.",
     ),
   },
   {
@@ -156,23 +199,13 @@ export const khmerOverviewVisitReasons = [
     photo: "khmer-facade",
     title: copy("KẾT NỐI BA ĐIỂM ĐẾN", "THREE CONNECTED PLACES"),
     text: copy(
-      "Bảo tàng, Ao Bà Om và Chùa Âng tạo nên một hành trình văn hóa.",
-      "The museum, Ba Om Pond and Ang Pagoda form a shared cultural landscape.",
-    ),
-  },
-  {
-    id: "learning",
-    icon: "compass",
-    photo: "khmer-visitors",
-    title: copy("HỌC TỪ NHỮNG HIỆN VẬT", "LEARN THROUGH OBJECTS"),
-    text: copy(
-      "Một không gian học tập và nghiên cứu về ký ức cộng đồng Khmer.",
-      "A place to learn and research the memories of Khmer communities.",
+      "Từ hiện vật ở bảo tàng đến kiến trúc Chùa Âng và bóng mát Ao Bà Om.",
+      "From museum objects to Ang Pagoda's architecture and Ba Om Pond's shade.",
     ),
   },
 ] as const;
 
-export const khmerOverviewGallery = [
+const khmerOverviewArchiveGallery = [
   {
     photo: "khmer-temple-model",
     title: copy("KHÔNG GIAN TÂM LINH", "SPIRITUAL LIFE"),
@@ -193,8 +226,8 @@ export const khmerOverviewGallery = [
       "Fishing implements tell stories of livelihoods in the delta.",
     ),
     alt: copy(
-      "Các dụng cụ đánh bắt thủy sản được trưng bày tại Bảo tàng Văn hóa Khmer",
-      "Traditional fishing implements displayed at the Khmer culture museum",
+      "Các dụng cụ đánh bắt thủy sản được trưng bày tại Bảo Tàng Văn Hóa Dân Tộc Khmer",
+      "Traditional fishing implements displayed at the Khmer Ethnic Cultural Museum",
     ),
   },
   {
@@ -223,6 +256,47 @@ export const khmerOverviewGallery = [
   },
 ];
 
+const introSlideCaptions = {
+  facade: copy(
+    "Mái tam giác, hoa văn và hàng cột tạo nên diện mạo kiến trúc của bảo tàng.",
+    "Triangular roofs, ornament and columns shape the museum's architectural identity.",
+  ),
+  exhibition: copy(
+    "Những hiện vật kể chuyện về tín ngưỡng, đời sống và ký ức văn hóa Khmer.",
+    "Objects tell stories of belief, everyday life and Khmer cultural memory.",
+  ),
+  drum: copy(
+    "Trưng bày tái hiện trống và múa Chhay-dăm trong nghệ thuật Khmer.",
+    "A display recreates Khmer Chhay-dam drumming and dance.",
+  ),
+  sang: copy(
+    "Nghệ nhân và thế hệ trẻ cùng tiếp nối nghề làm mão, mặt nạ Khmer.",
+    "Artisans and young learners sustain Khmer crown and mask making.",
+  ),
+};
+const overviewPhotoCards = [
+  ...khmerIntroContext.map(card => ({
+    photo: `intro-${card.photo}`,
+    src: khmerCulturePhotos[card.photo].src,
+    title: card.title,
+    caption: card.text,
+    alt: khmerCulturePhotos[card.photo].title,
+  })),
+  ...khmerIntroSlides.map(card => ({
+    photo: `intro-${card.id}`,
+    src: khmerCulturePhotos[card.id].src,
+    title: card.title,
+    caption: introSlideCaptions[card.id as keyof typeof introSlideCaptions] ?? khmerCulturePhotos[card.id].caption,
+    alt: khmerCulturePhotos[card.id].title,
+  })),
+  ...khmerOverviewArchiveGallery.map(card => ({ ...card, src: artwork(card.photo) })),
+];
+// Both introductory sections used Thach Sang's photograph. Keep its first card
+// once, alongside the existing overview pictures; the counter follows the data.
+export const khmerOverviewGallery = overviewPhotoCards.filter(
+  (card, index, cards) => cards.findIndex(other => other.src === card.src) === index,
+);
+
 type OverviewStory = {
   title: Copy;
   photo: string;
@@ -230,7 +304,7 @@ type OverviewStory = {
   sections?: { title: Copy; text: Copy }[];
   sources: (keyof typeof khmerOverviewSources)[];
 };
-export const khmerOverviewStories: Record<KhmerOverviewTopic, OverviewStory> = {
+const archivedOverviewStories: Record<Exclude<KhmerOverviewTopic, "dailyLife" | "spiritual" | "visit">, OverviewStory> = {
   introduction: {
     title: copy(
       "Nơi lưu giữ ký ức văn hóa Khmer",
@@ -239,7 +313,7 @@ export const khmerOverviewStories: Record<KhmerOverviewTopic, OverviewStory> = {
     photo: "khmer-facade",
     paragraphs: [
       copy(
-        "Bảo tàng Văn hóa Dân tộc Khmer Trà Vinh là nơi sưu tầm, bảo quản, nghiên cứu và giới thiệu văn hóa Khmer Nam Bộ. Tín ngưỡng, chữ viết, sinh hoạt gia đình, lao động, nghề thủ công, âm nhạc và sân khấu cùng tạo nên một bức tranh về đời sống cộng đồng.",
+        "Bảo Tàng Văn Hóa Dân Tộc Khmer là nơi sưu tầm, bảo quản, nghiên cứu và giới thiệu văn hóa Khmer Nam Bộ. Tín ngưỡng, chữ viết, sinh hoạt gia đình, lao động, nghề thủ công, âm nhạc và sân khấu cùng tạo nên một bức tranh về đời sống cộng đồng.",
         "The museum collects, conserves, researches and presents the culture of southern Khmer communities. Belief, writing, family life, work, crafts, music and theatre together create a portrait of community life.",
       ),
       copy(
@@ -464,6 +538,54 @@ export const khmerOverviewStories: Record<KhmerOverviewTopic, OverviewStory> = {
     ],
     sources: ["locality", "museum"],
   },
+};
+
+const narratedStory = (topic: OverviewNarrationTopic, english: OverviewStory): OverviewStory => {
+  const narration = khmerOverviewNarration[topic];
+  return {
+    ...english,
+    title: copy(narration.title, english.title.en),
+    paragraphs: [],
+    sections: [
+      ...narration.chapters.map(chapter => ({
+        title: copy(chapter.title, ""),
+        text: copy(chapter.paragraphs.join("\n\n"), ""),
+      })),
+      ...english.paragraphs.map(paragraph => ({ title: copy("", ""), text: copy("", paragraph.en) })),
+    ],
+    sources: [...new Set([...english.sources, "objects" as const, "photoEssay" as const])],
+  };
+};
+export const khmerOverviewStories: Record<KhmerOverviewTopic, OverviewStory> = {
+  ...archivedOverviewStories,
+  collections: narratedStory("collections", archivedOverviewStories.collections),
+  identity: narratedStory("identity", archivedOverviewStories.identity),
+  architecture: narratedStory("architecture", archivedOverviewStories.architecture),
+  performing: narratedStory("performing", archivedOverviewStories.performing),
+  dailyLife: narratedStory("dailyLife", {
+    ...archivedOverviewStories.everyday,
+    title: copy("", "Everyday life recreated — from the kitchen to the fields"),
+  }),
+  spiritual: narratedStory("spiritual", {
+    title: copy("", "Spiritual life through objects — stories from the pagoda"),
+    photo: "khmer-temple-model",
+    paragraphs: [
+      copy("", "Buddha images, manuscripts, temple models and ritual objects introduce the long connection between Southern Khmer communities and Theravada Buddhism. A recreated main hall evokes the setting in which people worship and gather."),
+      copy("", "A preaching chair, described as over a century old in the museum's 2023 photo essay, was used by monks when teaching. Its formal setting invites attention to both the object and the knowledge shared around it."),
+      copy("", "Folk beliefs are represented by a Sala dedicated to Neak Ta, a guardian of place and community. Hopes for good weather, harvests and peace connect belief with everyday life. The pagoda is also a place for learning, meeting and sustaining relationships between generations."),
+    ],
+    sources: ["museum", "objects"],
+  }),
+  visit: narratedStory("visit", {
+    title: copy("", "Why explore the museum"),
+    photo: "khmer-visitors",
+    paragraphs: [
+      ...archivedOverviewStories.everyday.paragraphs,
+      ...archivedOverviewStories.learning.paragraphs,
+      ...archivedOverviewStories.route.paragraphs,
+    ],
+    sources: ["museum", "locality"],
+  }),
 };
 
 export const khmerOverviewPhotoCredits: Record<string, Copy> = {

@@ -15,7 +15,6 @@ import {
 } from "./museumMotion";
 
 export const museumScreens = [
-  { id: "hero", vi: "Giới thiệu", en: "Introduction" },
   { id: "overview", vi: "Tổng quan", en: "Site overview" },
   { id: "map", vi: "Bản đồ", en: "Interactive map" },
   { id: "timeline", vi: "Lịch sử", en: "History" },
@@ -32,8 +31,11 @@ export function useMuseumScreens(
   visible = true,
 ) {
   const initial = restoredParams('bao-tang-khmer');
-  const first = museumScreens.find(screen => screen.id === initial.get('section'))?.id || 'hero';
-  const [activeSection, setActiveSection] = useRememberedState<MuseumSection>('museum:section', first, initial.has('section'));
+  const first = museumScreens.find(screen => screen.id === initial.get('section'))?.id || 'overview';
+  const [rememberedSection, setActiveSection] = useRememberedState<MuseumSection | 'hero'>('museum:section', first, initial.has('section'));
+  // Old links and saved sessions may still name the removed introductory screen.
+  const activeSection = museumScreens.find(screen => screen.id === rememberedSection)?.id ?? 'overview';
+  useEffect(() => { if (rememberedSection !== activeSection) setActiveSection(activeSection); }, [rememberedSection, activeSection]);
   const current = useRef<MuseumSection>(activeSection);
   const reduced = useMuseumReducedMotion(viewport);
   const animation = useRef<gsap.core.Timeline | null>(null);
@@ -45,7 +47,6 @@ export function useMuseumScreens(
   const outgoingNode = useRef<HTMLElement | null>(null);
   const restoreFocus = useRef(false);
   const showRef = useRef<(section: MuseumSection) => void>(() => {});
-  const wheel = useRef({ last: 0, changed: 0, distance: 0 });
   const touch = useRef<{ x: number; y: number; atTop: boolean; atBottom: boolean } | null>(null);
 
   const clearOutgoing = useCallback(() => {
@@ -157,67 +158,6 @@ export function useMuseumScreens(
       const next = museumScreens[index + direction];
       if (next) showSection(next.id);
     };
-    const onWheel = (event: WheelEvent) => {
-      if (
-        event.ctrlKey ||
-        Math.abs(event.deltaX) > Math.abs(event.deltaY) ||
-        !event.deltaY
-      )
-        return;
-      if (transitioning.current) {
-        event.preventDefault();
-        return;
-      }
-      const section = active();
-      if (!section) return;
-      const now = performance.now();
-      const previous = wheel.current.last;
-      wheel.current.last = now;
-      let nested = event.target instanceof HTMLElement ? event.target : null;
-      while (nested && nested !== section && nested !== element) {
-        if (
-          nested.scrollHeight > nested.clientHeight + 1 &&
-          /auto|scroll/.test(getComputedStyle(nested).overflowY)
-        )
-          return;
-        nested = nested.parentElement;
-      }
-      // A nested collection always owns its wheel; suppress gesture tails only
-      // when the gesture would move between entire museum rooms.
-      if (
-        wheel.current.changed &&
-        (now - wheel.current.changed < 900 || now - previous < 160)
-      ) {
-        event.preventDefault();
-        return;
-      }
-      const atEdge =
-        event.deltaY > 0
-          ? section.scrollTop + section.clientHeight >= section.scrollHeight - 2
-          : section.scrollTop <= 1;
-      if (!atEdge) {
-        wheel.current.distance = 0;
-        wheel.current.changed = 0;
-        return;
-      }
-      event.preventDefault();
-      if (
-        now - previous > 160 ||
-        Math.sign(wheel.current.distance) !== Math.sign(event.deltaY)
-      )
-        wheel.current.distance = 0;
-      wheel.current.distance +=
-        event.deltaY *
-        (event.deltaMode === 1
-          ? 16
-          : event.deltaMode === 2
-            ? section.clientHeight
-            : 1);
-      if (Math.abs(wheel.current.distance) < 35) return;
-      move(Math.sign(event.deltaY));
-      wheel.current.changed = now;
-      wheel.current.distance = 0;
-    };
     const onKeyDown = (event: KeyboardEvent) => {
       if (
         event.target instanceof HTMLElement &&
@@ -267,13 +207,11 @@ export function useMuseumScreens(
     const onTouchCancel = () => {
       touch.current = null;
     };
-    element.addEventListener("wheel", onWheel, { passive: false });
     keyboardTarget.addEventListener("keydown", onKeyDown);
     element.addEventListener("touchstart", onTouchStart, { passive: true });
     element.addEventListener("touchend", onTouchEnd, { passive: true });
     element.addEventListener("touchcancel", onTouchCancel, { passive: true });
     return () => {
-      element.removeEventListener("wheel", onWheel);
       keyboardTarget.removeEventListener("keydown", onKeyDown);
       element.removeEventListener("touchstart", onTouchStart);
       element.removeEventListener("touchend", onTouchEnd);

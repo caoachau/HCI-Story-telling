@@ -6,8 +6,8 @@ const t = (vi: string, en: string): Copy => ({ vi, en });
 
 export const khmerIntro = {
   title: {
-    vi: ["BẢO TÀNG", "VĂN HÓA", "KHMER"],
-    en: ["KHMER", "CULTURE", "MUSEUM"],
+    vi: ["Bảo Tàng", "Văn Hóa Dân Tộc", "Khmer"],
+    en: ["Khmer", "Ethnic Cultural", "Museum"],
   },
   subtitle: t(
     "KÝ ỨC KHMER NAM BỘ · TRÀ VINH",

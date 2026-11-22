@@ -1,4 +1,5 @@
 import conChimCyclingPhoto from '../assets/con-chim/cycling-2025.webp';
+import { KHMER_MUSEUM_NAME } from './museumIdentity';
 import conChimFarmingPhoto from '../assets/con-chim/con-chim-2019.webp';
 import conChimMealPhoto from '../assets/con-chim/islet-meal.webp';
 import aoPondPhoto from '../assets/ao-ba-om/pond.webp';
@@ -373,8 +374,8 @@ export const HERITAGE_SITES: HeritageSite[] = [
   },
   {
     id: 'bao-tang-khmer',
-    name: 'Bảo tàng Văn hóa Khmer Trà Vinh',
-    englishName: 'Khmer Cultural Heritage Museum',
+    name: KHMER_MUSEUM_NAME.vi,
+    englishName: KHMER_MUSEUM_NAME.en,
     category: 'Di sản kiến trúc',
     region: 'Đồng bằng Sông Cửu Long',
     province: 'Khóm 4, Phường 8, TP. Trà Vinh',
@@ -389,13 +390,13 @@ export const HERITAGE_SITES: HeritageSite[] = [
     gallery: [
       {
         url: 'https://commons.wikimedia.org/wiki/Special:FilePath/B%E1%BA%A3o%20t%C3%A0ng%20Khmer%20%E1%BB%9F%20Tr%C3%A0%20Vinh.jpg',
-        caption: 'Mặt tiền tòa nhà Bảo tàng Văn hóa Khmer Trà Vinh uy nghi trong quần thể di tích Phường 8',
-        credit: 'Wikimedia Commons / Bảo tàng Khmer Trà Vinh'
+        caption: 'Mặt tiền tòa nhà Bảo Tàng Văn Hóa Dân Tộc Khmer uy nghi trong quần thể di tích Phường 8',
+        credit: 'Wikimedia Commons / Bảo Tàng Văn Hóa Dân Tộc Khmer'
       },
       {
         url: 'https://commons.wikimedia.org/wiki/Special:FilePath/B%E1%BA%A3o%20t%C3%A0ng%20v%C4%83n%20h%C3%B3a%20d%C3%A2n%20t%E1%BB%99c%20Khmer%20t%E1%BB%89nh%20Tr%C3%A0%20Vinh.jpg',
         caption: 'Không gian trưng bày trang phục truyền thống và hiện vật đời sống cư dân Khmer',
-        credit: 'Wikimedia Commons / Hiện vật Bảo tàng Khmer'
+        credit: 'Wikimedia Commons / Hiện vật Bảo Tàng Văn Hóa Dân Tộc Khmer'
       },
       {
         url: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80',
@@ -476,7 +477,7 @@ export const HERITAGE_SITES: HeritageSite[] = [
       pastYear: '1995',
       pastDescription: 'Bộ sưu tập khởi đầu với 200 hiện vật do các chùa và nhân dân tự nguyện hiến tặng.',
       pastImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/B%E1%BA%A3o%20t%C3%A0ng%20Khmer%20%E1%BB%9F%20Tr%C3%A0%20Vinh.jpg',
-      pastImageCaption: 'Bảo tàng Khmer trong những ngày đầu khánh thành',
+      pastImageCaption: 'Bảo Tàng Văn Hóa Dân Tộc Khmer trong những ngày đầu khánh thành',
       presentLabel: 'Bảo tàng số hóa hiện đại (Hiện nay)',
       presentDescription: '100% hiện vật được số hóa 3D, thuyết minh đa ngôn ngữ qua mã QR và tương tác màn hình cảm ứng.',
       presentImage: 'https://commons.wikimedia.org/wiki/Special:FilePath/B%E1%BA%A3o%20t%C3%A0ng%20Khmer%20%E1%BB%9F%20Tr%C3%A0%20Vinh.jpg',

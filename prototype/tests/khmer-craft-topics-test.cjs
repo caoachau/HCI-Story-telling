@@ -1,0 +1,52 @@
+/* Real browser checks for the topic > exhibit > detail museum flow. */
+const fs = require('node:fs'), path = require('node:path'), Module = require('node:module');
+const file = path.resolve(__dirname, 'den-tho-bac-test.cjs');
+const source = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
+const start = source.indexOf('  const sections=['), end = source.lastIndexOf('\n}\nmain().catch');
+const body = String.raw`
+  await viewport(1920,1080);
+  await cdp('Page.navigate',{url:(process.env.MUSEUM_URL || 'http://127.0.0.1:3000')+'/bao-tang-khmer.html?section=map&tab=upper&place=crafts&scene=crafts-right'});
+  await wait('document.querySelector(".kd-panorama")?.dataset.panoramaState==="ready"','panorama');
+  await check('document.querySelectorAll(".kd-topic-hotspot:not([hidden])").length===3 && !document.querySelector(".kd-exhibit-dot:not([hidden])")','overview shows only three topics');
+  await check('!document.querySelector("[data-point-card]")','no numbered object strip on the topic overview');
+  await shot('craft-topics-overview');
+  for(const [topic, ids] of [['mat-weaving',[29,30,36,37,38,39]],['glass-painting',[40,41,42,43,44,45,46]],['basketry',[31,32,33,34,47,48,9,10,12,13,25]]]) {
+    await click('[data-action=exhibit-list]');
+    await check('document.querySelectorAll(".kd-topic-list section").length===3','list is divided into three topics');
+    await check('[...document.querySelectorAll(".kd-topic-list section")].map(s=>s.querySelectorAll(".kd-topic-list-item").length).join(",")==="7,7,11"','all requested exhibits and unnumbered equipment are listed');
+    await page('document.querySelectorAll(".kd-topic-list h3 button")['+(['mat-weaving','glass-painting','basketry'].indexOf(topic))+'].click()');
+    await wait('document.querySelector(".kd-topic-toolbar").dataset.topic==="'+topic+'" && document.querySelector(".kd-panorama-canvas").dataset.motionState==="idle"','topic focus');
+    if(topic==='basketry') await check('Math.abs(Number(document.querySelector(".kd-panorama-canvas").dataset.yaw)-282)<1 && Math.abs(Number(document.querySelector(".kd-panorama-canvas").dataset.fov)-90)<1','basketry keeps the wide two-sided viewing angle');
+    await check('!document.querySelector(".kd-topic-hotspot:not([hidden])")','topic labels yield to exhibit dots');
+    const visible = await page('return [...document.querySelectorAll(".kd-exhibit-dot:not([hidden])")].map(e=>e.dataset.panoramaPoint)');
+    assert.ok(visible.length>0,'topic has visible objects');
+    assert.ok(visible.every(id=>ids.some(n=>id==='crafts-display-object-'+n)||topic==='mat-weaving'&&id==='hotspot_projector_weaving'),'other topics are hidden');
+    await click('[data-panorama-point="crafts-display-object-'+ids[0]+'"]');
+    await check('document.querySelector("[data-selected-point]").dataset.selectedPoint==="crafts-display-object-'+ids[0]+'"','object opens adjacent information');
+    await click('[data-action=toggle-hotspots]');
+    await sleep(150);
+    await check('!document.querySelector(".kd-hotspot:not([hidden])")','hide hotspots clears photograph');
+    await click('[data-action=toggle-hotspots]');
+    await wait('document.querySelector(".kd-panorama-canvas").dataset.motionState==="idle"','object focus'); await sleep(150);
+    await shot('craft-topic-'+topic);
+  }
+  await click('.kd-topic-toolbar button'); await sleep(150);
+  await click('[data-action=exhibit-list]');
+  await page('const a=[...document.querySelectorAll(".kd-topic-list section")][0].querySelectorAll(".kd-topic-list-item");a[a.length-1].click()');
+  await check('document.querySelector("[data-selected-point]").dataset.selectedPoint==="hotspot_projector_weaving" && !document.querySelector(".kd-kicker").textContent.includes("undefined")','equipment has a technical ID and no assigned number');
+  await click('[data-action=fullscreen-panorama]');
+  await wait('document.querySelector(".kd-panorama[data-expanded=true]")','fullscreen');
+  await check('document.querySelector(".kd-topic-toolbar") && document.querySelector("[data-action=exhibit-list]")','topic controls stay available in fullscreen');
+  await shot('craft-topics-fullscreen');
+  await click('[data-action=fullscreen-panorama]');
+  await viewport(390,844);
+  await click('.kd-topic-toolbar button'); await sleep(150);
+  await click('[data-action=exhibit-list]');
+  await shot('craft-topics-mobile');
+  await check('(()=>{const r=document.querySelector(".kd-topic-list").getBoundingClientRect();return r.width>200&&r.height>100&&r.left>=0&&r.right<=innerWidth})()','mobile exhibit list fits');
+  await shot('craft-topics-mobile');
+  assert.deepEqual(errors,[]);console.log('PASS no browser runtime errors');
+`;
+const test = new Module(file, module); test.filename = file;
+test.paths = Module._nodeModulePaths(path.dirname(file));
+test._compile(source.slice(0, start) + body + source.slice(end), file);

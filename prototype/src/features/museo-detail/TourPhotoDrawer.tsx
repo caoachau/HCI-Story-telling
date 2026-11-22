@@ -13,15 +13,19 @@ export function TourPhotoDrawer({
   onSelect,
   items,
   lang,
+  topicTitle,
 }: {
   selectedScene: number;
   onSelect: (index: number, origin?: HTMLButtonElement) => void;
   items: TourPhotoItem[];
   lang: "vi" | "en";
+  topicTitle: string;
 }) {
   const vi = lang === "vi";
   const [expanded, setExpanded] = useState(false);
   const [firstVisible, setFirstVisible] = useState(0);
+  const visibleCount = Math.min(3, items.length);
+  const lastStart = Math.max(0, items.length - visibleCount);
   const track = useRef<HTMLDivElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
   const drag = useRef<{
@@ -41,7 +45,7 @@ export function TourPhotoDrawer({
     setFirstVisible(
       Math.max(
         0,
-        Math.min(items.length - 3, Math.round(element.scrollLeft / step)),
+        Math.min(lastStart, Math.round(element.scrollLeft / step)),
       ),
     );
   };
@@ -88,7 +92,7 @@ export function TourPhotoDrawer({
       parseFloat(getComputedStyle(element).columnGap);
     element.scrollTo({
       left:
-        Math.max(0, Math.min(items.length - 3, firstVisible + direction)) *
+        Math.max(0, Math.min(lastStart, firstVisible + direction)) *
         step,
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? "instant"
@@ -124,20 +128,20 @@ export function TourPhotoDrawer({
         aria-label={
           expanded
             ? vi
-              ? "Thu gọn bộ ảnh"
-              : "Collapse heritage gallery"
+              ? "Thu gọn ảnh liên quan"
+              : "Collapse related photographs"
             : vi
-              ? "Mở bộ ảnh sang trái"
-              : "Expand heritage gallery to the left"
+              ? `Xem ảnh liên quan: ${topicTitle}`
+              : `Related photographs: ${topicTitle}`
         }
         title={
           expanded
             ? vi
-              ? "Thu gọn bộ ảnh"
+              ? "Thu gọn ảnh liên quan"
               : "Collapse gallery"
             : vi
-              ? "Mở bộ ảnh"
-              : "Expand gallery"
+              ? "Ảnh liên quan đến chủ đề"
+              : "Related topic photographs"
         }
         onClick={() => setExpanded((value) => !value)}
         onKeyDown={(event) => {
@@ -154,7 +158,7 @@ export function TourPhotoDrawer({
         className="md-tour-photo-panel"
         role="region"
         aria-label={
-          vi ? "Bộ ảnh di sản mở rộng" : "Expandable heritage gallery"
+          vi ? `Ảnh liên quan: ${topicTitle}` : `Related photographs: ${topicTitle}`
         }
         hidden={!expanded}
         onKeyDown={(event) => {
@@ -166,19 +170,21 @@ export function TourPhotoDrawer({
         }}
       >
         <div className="md-tour-photo-heading">
-          <span>{vi ? "BỘ ẢNH DI SẢN" : "HERITAGE GALLERY"}</span>
+          <span>{vi ? "ẢNH LIÊN QUAN" : "RELATED PHOTOGRAPHS"}</span>
           <small>
-            {items.length} {vi ? "CHỦ ĐỀ" : "TOPICS"}
+            {items.length} {vi ? "ẢNH" : "PHOTOS"}
           </small>
         </div>
+        <p className="md-culture-related-title">{topicTitle}</p>
         <div
           ref={track}
           className="md-tour-photo-track"
+          style={{ gridAutoColumns: `calc((100% - ${Math.max(0, visibleCount - 1)} * var(--md-photo-gap)) / ${visibleCount || 1})` }}
           tabIndex={expanded ? 0 : -1}
           aria-label={
             vi
-              ? "Ảnh di sản. Kéo ngang hoặc dùng nút mũi tên để xem tiếp."
-              : "Heritage photos. Swipe or use arrow buttons to browse."
+              ? "Chọn một ảnh liên quan để xem trên ảnh nền."
+              : "Select a related photograph to display in the background."
           }
           onScroll={updatePosition}
           onKeyDown={(event) => {
@@ -248,7 +254,7 @@ export function TourPhotoDrawer({
             </button>
           ))}
         </div>
-        <div className="md-tour-photo-controls">
+        {items.length > visibleCount && <div className="md-tour-photo-controls">
           <button
             type="button"
             aria-label={vi ? "Ảnh trước" : "Previous heritage photos"}
@@ -259,18 +265,18 @@ export function TourPhotoDrawer({
           </button>
           <span aria-live="polite">
             {String(firstVisible + 1).padStart(2, "0")} -{" "}
-            {String(firstVisible + 3).padStart(2, "0")} /{" "}
+            {String(Math.min(items.length, firstVisible + visibleCount)).padStart(2, "0")} /{" "}
             {String(items.length).padStart(2, "0")}
           </span>
           <button
             type="button"
             aria-label={vi ? "Ảnh tiếp theo" : "Next heritage photos"}
-            disabled={firstVisible === items.length - 3}
+            disabled={firstVisible >= lastStart}
             onClick={() => move(1)}
           >
             <ChevronRight />
           </button>
-        </div>
+        </div>}
       </div>
     </>
   );

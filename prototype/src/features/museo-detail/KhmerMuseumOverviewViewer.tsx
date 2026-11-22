@@ -1,3 +1,4 @@
+import { InlineAudioActions } from "../../audio/InlineAudioActions";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { restoredParams, updateRoute } from '../../experience/state';
 import { flushSync } from "react-dom";
@@ -13,6 +14,9 @@ import {
   ZoomOut,
 } from "lucide-react";
 import { khmerPlaces } from "./khmerPlaces";
+import { khmerOverviewNarration, type OverviewNarrationTopic } from "./khmerOverviewNarration";
+import { formatAudioTime } from "../../audio/player";
+import { KHMER_MUSEUM_NAME } from "../../data/museumIdentity";
 import {
   khmerOverviewHighlights,
   khmerOverviewSources,
@@ -53,8 +57,8 @@ function OverviewMap({ lang }: { lang: OverviewLanguage }) {
       className="md-overview-map"
       aria-label={
         lang === "vi"
-          ? "Bản đồ Bảo tàng Khmer, Ao Bà Om và Chùa Âng"
-          : "Map of the Khmer museum, Ba Om Pond and Ang Pagoda"
+          ? "Bản đồ Bảo Tàng Văn Hóa Dân Tộc Khmer, Ao Bà Om và Chùa Âng"
+          : "Map of the Khmer Ethnic Cultural Museum, Ba Om Pond and Ang Pagoda"
       }
     >
       <div className="md-overview-map-plane">
@@ -91,8 +95,8 @@ function OverviewMap({ lang }: { lang: OverviewLanguage }) {
                 <span>
                   {place.id === "entrance"
                     ? lang === "vi"
-                      ? "Bảo tàng Khmer"
-                      : "Khmer Museum"
+                      ? KHMER_MUSEUM_NAME.vi
+                      : KHMER_MUSEUM_NAME.en
                     : place.title[lang]}
                 </span>
               </button>
@@ -108,11 +112,13 @@ function OverviewMap({ lang }: { lang: OverviewLanguage }) {
 // Flight images stay inside its top layer, including the reverse closing transition.
 export function KhmerOverviewViewer({
   initialTopic,
+  initialPhotoIndex,
   origin,
   lang,
   close,
 }: {
   initialTopic: KhmerOverviewTopic;
+  initialPhotoIndex?: number;
   origin?: HTMLElement;
   lang: OverviewLanguage;
   close: () => void;
@@ -133,7 +139,7 @@ export function KhmerOverviewViewer({
   const reduced = useMuseumReducedMotion(dialog);
   const [reading, setReading] = useState({
     topic: initialTopic,
-    photoIndex: Math.max(0, Math.min(overviewViewerMedia[initialTopic].length - 1, Number(restoredParams('bao-tang-khmer').get('photo')) || 0)),
+    photoIndex: Math.max(0, Math.min(overviewViewerMedia[initialTopic].length - 1, initialPhotoIndex ?? (Number(restoredParams('bao-tang-khmer').get('photo')) || 0))),
     revision: 0,
     direction: 1,
     change: "topic",
@@ -142,6 +148,7 @@ export function KhmerOverviewViewer({
   const [zoomed, setZoomed] = useState(false);
   const [failedPhoto, setFailedPhoto] = useState(false);
   const story = khmerOverviewStories[reading.topic];
+  const narration = khmerOverviewNarration[reading.topic as OverviewNarrationTopic];
   const gallery = overviewViewerMedia[reading.topic];
   const photo = gallery[reading.photoIndex];
   const group = overviewGroups.find((entry) =>
@@ -220,7 +227,7 @@ export function KhmerOverviewViewer({
       const image = element.querySelector<HTMLImageElement>(
         ".md-overview-main-image",
       );
-      const thumbnail = trigger.current?.querySelector<HTMLImageElement>("img");
+      const thumbnail = trigger.current?.querySelector<HTMLImageElement>("img") ?? trigger.current?.closest(".md-chamber")?.querySelector<HTMLImageElement>("img");
       const thumbnailBounds = thumbnail?.getBoundingClientRect();
       const canShare =
         image &&
@@ -453,13 +460,13 @@ export function KhmerOverviewViewer({
       const image = element.querySelector<HTMLImageElement>(
         ".md-overview-main-image",
       );
-      const thumbnail = trigger.current?.querySelector<HTMLImageElement>("img");
+      const thumbnail = trigger.current?.querySelector<HTMLImageElement>("img") ?? trigger.current?.closest(".md-chamber")?.querySelector<HTMLImageElement>("img");
       const bounds = thumbnail?.getBoundingClientRect();
       // Return to the actual original thumbnail only when it is still on screen
       // and the original photograph is selected; other stories fade away cleanly.
       const canShare =
         reading.topic === initialTopic &&
-        reading.photoIndex === 0 &&
+          reading.photoIndex === (initialPhotoIndex ?? 0) &&
         !zoomed &&
         image?.complete &&
         thumbnail?.complete &&
@@ -707,6 +714,8 @@ export function KhmerOverviewViewer({
             <h2 className="md-overview-title-mask" id="md-dialog-title">
               <span>{story.title[lang]}</span>
             </h2>
+            {narration && <p className="md-overview-listening-time">{lang === "vi" ? "THUYẾT MINH" : "NARRATION"} · {formatAudioTime(narration.duration)}</p>}
+            <InlineAudioActions lang={lang} id={`bao-tang-khmer:overview:${reading.topic}`} />
             <p className="md-overview-lead">{summary}</p>
             <dl className="md-overview-metadata">
               <div>
@@ -737,10 +746,10 @@ export function KhmerOverviewViewer({
                 {story.paragraphs.map((paragraph, position) => (
                   <p key={position}>{paragraph[lang]}</p>
                 ))}
-                {story.sections?.map((section, position) => (
+                {story.sections?.filter(section => section.text[lang]).map((section, position) => (
                   <section key={position}>
-                    <h3>{section.title[lang]}</h3>
-                    <p>{section.text[lang]}</p>
+                    {section.title[lang] && <h3>{section.title[lang]}</h3>}
+                    {section.text[lang].split("\n\n").map((paragraph, index) => <p key={index}>{paragraph}</p>)}
                   </section>
                 ))}
               </div>
@@ -765,6 +774,7 @@ export function KhmerOverviewViewer({
         </div>
         <nav
           className="md-overview-viewer-nav"
+          hidden={group.topics.length < 2}
           aria-label={
             lang === "vi"
               ? "Chuyển câu chuyện trong nhóm"

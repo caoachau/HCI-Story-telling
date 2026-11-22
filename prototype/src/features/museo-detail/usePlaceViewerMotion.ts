@@ -63,8 +63,8 @@ export function usePlaceViewerMotion(
     return (
       trigger.current?.querySelector<HTMLImageElement>("img") ??
       trigger.current
-        ?.closest(".md-khmer-places")
-        ?.querySelector<HTMLImageElement>(".md-featured-photo")
+        ?.closest(".kd-discovery")
+        ?.querySelector<HTMLImageElement>(".kd-detail-image img")
     );
   }
   function visible(image?: HTMLImageElement | null) {
@@ -179,7 +179,7 @@ export function usePlaceViewerMotion(
         trigger.current?.isConnected && !trigger.current.closest("[hidden]")
           ? trigger.current
           : (root.querySelector<HTMLElement>(
-              ".md-site-strip button.is-selected",
+              ".kd-strip button[aria-pressed=true]",
             ) ??
             root.querySelector<HTMLElement>(
               "[data-action=explore-khmer-place]",

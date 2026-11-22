@@ -5,10 +5,11 @@ import '../../index.css';
 import { installExperienceBridge } from '../../experience/state';
 import { ExperienceTools } from '../../experience/ExperienceTools';
 import { RecoveryBoundary } from '../../experience/RecoveryBoundary';
+import { AudioExperience } from '../../audio/AudioExperience';
 installExperienceBridge();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RecoveryBoundary><AoBaOmMuseumKiosk isStandalone={true} /><ExperienceTools siteId="ao-ba-om" /></RecoveryBoundary>
+    <RecoveryBoundary><AudioExperience siteId="ao-ba-om"><AoBaOmMuseumKiosk isStandalone={true} /><ExperienceTools siteId="ao-ba-om" /></AudioExperience></RecoveryBoundary>
   </React.StrictMode>
 );

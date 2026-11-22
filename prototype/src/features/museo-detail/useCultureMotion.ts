@@ -4,6 +4,7 @@ import {
   khmerCultureTopics,
   khmerCulturePhotos,
   type CultureLanguage,
+  type CulturePhotoId,
 } from "./khmerCulture";
 import {
   museumEase,
@@ -28,6 +29,7 @@ export function useCultureMotion(
   lang: CultureLanguage,
   active: boolean,
   obscured: boolean,
+  photoId?: CulturePhotoId,
 ) {
   const reduced = useMuseumReducedMotion(root);
   const previous = useRef<Snapshot | null>(null);
@@ -124,7 +126,7 @@ export function useCultureMotion(
     const current: Snapshot = {
       id,
       group: topic.group,
-      photo: khmerCulturePhotos[topic.gallery[0]].src,
+      photo: khmerCulturePhotos[photoId ?? topic.gallery[0]].src,
       title: topic.title[lang],
       index: String(collection.indexOf(topic) + 1).padStart(2, "0"),
       total: String(collection.length).padStart(2, "0"),
@@ -146,7 +148,8 @@ export function useCultureMotion(
     const progress = element.querySelector<HTMLElement>(
       ".md-culture-rail-progress i",
     )!;
-    const changing = !!before && before.id !== id;
+    const changing = !!before && (before.id !== id || before.photo !== current.photo);
+    const photoOnly = changing && before.id === id;
     const groupChanged = changing && before.group !== topic.group;
     const still = reduced || museumMotionReduced(element) || blocked.current;
     const direction = request?.direction ?? 1;
@@ -154,7 +157,7 @@ export function useCultureMotion(
     const ghosts: HTMLElement[] = [];
     let disposed = false,
       settled = false,
-      contentFinished = still,
+      contentFinished = still || photoOnly,
       imageFinished = still;
     let sequence: gsap.core.Timeline | undefined,
       photograph: gsap.core.Timeline | undefined;
@@ -194,22 +197,24 @@ export function useCultureMotion(
       oldTotal: HTMLElement | undefined,
       oldImage: HTMLImageElement | undefined;
     if (!still && changing) {
-      oldTitle = textGhost(
-        ".md-culture-story-mask",
-        before.title,
-        "md-culture-story-previous",
-      );
-      oldIndex = textGhost(
-        ".md-culture-index-mask",
-        before.index,
-        "md-culture-index-previous",
-      );
-      if (before.total !== current.total)
-        oldTotal = textGhost(
-          ".md-culture-total-mask",
-          before.total,
-          "md-culture-total-previous",
+      if (!photoOnly) {
+        oldTitle = textGhost(
+          ".md-culture-story-mask",
+          before.title,
+          "md-culture-story-previous",
         );
+        oldIndex = textGhost(
+          ".md-culture-index-mask",
+          before.index,
+          "md-culture-index-previous",
+        );
+        if (before.total !== current.total)
+          oldTotal = textGhost(
+            ".md-culture-total-mask",
+            before.total,
+            "md-culture-total-previous",
+          );
+      }
       oldImage = document.createElement("img");
       oldImage.src = before.photo;
       oldImage.alt = "";
@@ -259,6 +264,7 @@ export function useCultureMotion(
     const context = gsap.context(() => {
       if (still) return;
       element.dataset.cultureMotion = changing ? "changing" : "opening";
+      if (photoOnly) { gsap.set(indicator, targetLens); return; }
       sequence = gsap.timeline({
         onComplete: () => {
           contentFinished = true;
@@ -422,7 +428,7 @@ export function useCultureMotion(
               ease: museumEase,
             },
           );
-        } else if (request?.bounds && !groupChanged) {
+        } else if (request?.bounds && !groupChanged && !photoOnly) {
           const bounds = frame.getBoundingClientRect();
           const flight = document.createElement("img");
           flight.src = current.photo;
@@ -463,7 +469,7 @@ export function useCultureMotion(
         } else {
           photograph.fromTo(
             image,
-            { opacity: 0, x: 30 * direction, scale: 1.035 },
+            { opacity: 0, x: photoOnly ? 0 : 30 * direction, scale: photoOnly ? 1 : 1.035 },
             { opacity: 1, x: 0, scale: 1, duration: 0.65, ease: museumEase },
           );
           if (oldImage)
@@ -471,8 +477,8 @@ export function useCultureMotion(
               oldImage,
               {
                 opacity: 0,
-                x: -30 * direction,
-                scale: 0.985,
+                x: photoOnly ? 0 : -30 * direction,
+                scale: photoOnly ? 1 : 0.985,
                 duration: 0.65,
                 ease: museumEase,
               },
@@ -534,7 +540,7 @@ export function useCultureMotion(
       settle.current = null;
       element.dataset.cultureMotion = "ready";
     };
-  }, [root, id, lang, active, reduced]);
+  }, [root, id, photoId, lang, active, reduced]);
   useLayoutEffect(() => {
     if (!active || obscured || reduced) {
       clearPreview();

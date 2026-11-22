@@ -12,8 +12,10 @@ export const AboutProjectModal: React.FC<AboutProjectModalProps> = ({ onClose, l
       <div className="relative w-full max-w-3xl max-h-[88vh] overflow-y-auto bg-[#11141c] border border-amber-900/40 rounded-2xl shadow-2xl p-8 text-stone-200">
         {/* Close Button */}
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 text-stone-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+          aria-label={lang === 'vi' ? 'Đóng thông tin và hướng dẫn' : 'Close information and instructions'}
+          className="absolute top-6 right-6 flex min-h-11 min-w-11 items-center justify-center p-2 text-stone-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -27,6 +29,13 @@ export const AboutProjectModal: React.FC<AboutProjectModalProps> = ({ onClose, l
             ? 'Thiết kế trải nghiệm kể chuyện số nhằm hỗ trợ diễn giải di sản trong du lịch cộng đồng'
             : 'Designing digital storytelling experiences for heritage interpretation in community tourism'}
         </h2>
+
+        <section className="mt-6 rounded-xl border border-amber-500/30 bg-amber-500/5 p-4" aria-labelledby="about-guide-title">
+          <h3 id="about-guide-title" className="mb-2 flex items-center gap-2 text-base font-semibold text-amber-100"><BookOpen size={18} aria-hidden="true" />{lang === 'vi' ? 'Cách khám phá' : 'How to explore'}</h3>
+          <p className="text-sm leading-relaxed text-stone-200">{lang === 'vi'
+            ? 'Chạm vào một địa điểm trên bản đồ hoặc thẻ ảnh để xem giới thiệu. Chọn “Xem câu chuyện đầy đủ” để tìm hiểu sâu hơn; dùng nút tai nghe để nghe nội dung. Đóng cửa sổ để trở lại bản đồ và chọn một địa điểm khác.'
+            : 'Select a place on the map or a photo card to see its introduction. Choose “Explore the full story” to learn more, or use the headphones button to listen. Close the window to return to the map and choose another place.'}</p>
+        </section>
 
         {/* Introduction */}
         <p className="text-xs text-stone-300 mt-4 leading-relaxed font-sans">

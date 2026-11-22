@@ -179,3 +179,78 @@
 @media (prefers-reduced-motion: reduce) {
   .md-root > .md-footer *, .md-root > .md-detail-tools * { transition: none; }
 }
+/* Museum utilities share the existing upper-right control cluster. */
+.md-root > .md-detail-tools {
+  width: min(464px, calc(100% - 28px));
+  height: 60px;
+  display: block;
+  transition: width .26s cubic-bezier(.22,.61,.36,1);
+  padding: 4px;
+  gap: 3px;
+  overflow: visible;
+  border-color: #b99a72a6;
+  border-radius: 16px;
+  background: #1b1814f5;
+  box-shadow: 0 6px 22px #08070540;
+}
+.md-root > .md-detail-tools .md-tools-row > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 11px;
+  gap: 8px;
+  color: #eee1cf;
+  font: 600 14px/1.2 Arial, sans-serif;
+  white-space: nowrap;
+}
+.md-root > .md-detail-tools .md-tools-row > button:not(:last-child) { border-right: 0; }
+.md-root > .md-detail-tools .md-tools-row > button > svg { width: 23px; height: 23px; stroke-width: 1.7; }
+.md-root > .md-detail-tools .md-tools-row > .md-detail-tools-share { padding-inline: 9px; font-size: 14px; background: #b78c6321; color: #edcda8; }
+.md-root > .md-detail-tools .md-tools-row > .md-utilities-toggle { padding-inline: 9px; }
+.md-root > .md-detail-tools .md-tools-row > .md-tools-close { background: #a98a6314; color: #f4e5d1; }
+.md-root > .md-detail-tools .md-tools-row > button:hover, .md-root > .md-detail-tools .md-tools-row > button[aria-expanded="true"] { background: #96704b42; }
+.md-root > .md-detail-tools .md-tools-row > button:focus-visible { outline: 2px solid #ecd0a7; outline-offset: -2px; }
+.md-root > .md-detail-tools .md-tools-row > button > .md-utilities-chevron { width: 15px; height: 15px; transition: transform .18s; }
+.md-utilities-toggle[aria-expanded="true"] .md-utilities-chevron { transform: rotate(180deg); }
+.md-utilities-menu { position: absolute; right: 0; top: calc(100% + 10px); width: min(308px, calc(100vw - 28px)); padding: 10px; border: 1px solid #9d805e99; border-radius: 16px; background: #211d18; color: #eee1cf; box-shadow: 0 12px 36px #0006; }
+.md-utilities-menu[hidden] { display: none; }
+.md-utilities-menu > p { margin: 4px 10px 9px; padding-bottom: 10px; border-bottom: 1px solid #96765042; color: #c5ad8d; font: 600 10px/1.5 Arial,sans-serif; letter-spacing: .13em; }
+.md-utilities-menu .hx-tools--museum { position: static; inset: auto; transform: none; display: flex; flex-direction: column; width: 100%; padding: 0; gap: 3px; border: 0; border-radius: 0; background: transparent; box-shadow: none; max-height: min(360px, calc(100dvh - 120px)); overflow-y: auto; }
+.md-utilities-menu .hx-tools--museum > button { flex: 0 0 auto; display: flex; justify-content: flex-start; width: 100%; height: auto; min-height: 48px; padding: 11px 12px; gap: 13px; border: 0; border-radius: 9px; color: #eee1cf; background: transparent; font: 500 14px/1.4 Arial,sans-serif; text-align: left; }
+.md-utilities-menu .hx-tools--museum > button > span { display: block; }
+.md-utilities-menu .hx-tools--museum > button > svg { width: 23px; height: 23px; color: #c9a77d; stroke-width: 1.65; }
+.md-utilities-menu .hx-tools--museum > button:hover, .md-utilities-menu .hx-tools--museum > button:focus-visible { background: #b58c6230; outline: 1px solid #c8a37966; outline-offset: -1px; }
+@media (max-width: 600px) {
+  .md-root > .md-detail-tools { width: min(434px, calc(100% - 24px)); height: 56px; top: 10px; right: 12px; }
+  .md-root > .md-detail-tools .md-tools-row > button, .md-root > .md-detail-tools .md-tools-row > .md-detail-tools-share { font-size: 13px; gap: 6px; }
+  .md-root > .md-detail-tools .md-tools-row > button > svg { width: 22px; height: 22px; }
+  .md-root > .md-detail-tools .md-tools-row > button > .md-utilities-chevron { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .md-utilities-chevron { transition: none; } }
+
+/* Keep the reveal clipped so sliding controls never overflow the kiosk. */
+.md-tools-reveal { position: absolute; inset: 4px 58px 4px 4px; overflow: clip; }
+.md-tools-row { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,1fr) 48px 48px; height: 100%; gap: 3px; transition: transform .26s cubic-bezier(.22,.61,.36,1), opacity .18s ease; }
+.md-root > .md-detail-tools > .md-tools-collapse { position: absolute; inset: 4px 4px 4px auto; width: 48px; height: auto; min-height: 44px; padding: 0; border: 0; border-radius: 11px; background: #b78c631c; color: #edcda8; }
+.md-root > .md-detail-tools > .md-tools-collapse:hover { background: #96704b42; }
+.md-root > .md-detail-tools[data-collapsed="true"] { width: 56px; }
+.md-detail-tools[data-collapsed="true"] .md-tools-row { transform: translateX(110%); opacity: 0; }
+@media (max-width: 600px) {
+  .md-tools-row { grid-template-columns: minmax(0,1.2fr) minmax(0,1fr) 44px 44px; }
+  .md-root > .md-detail-tools .md-tools-row > .md-utilities-toggle { padding-inline: 4px; }
+}
+@media (max-width: 360px) {
+  .md-tools-row .md-detail-tools-share > span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-root > .md-detail-tools, .md-tools-row { transition: none; }
+}

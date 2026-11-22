@@ -85,7 +85,7 @@ export function getTraVinhMapPercentages(lat: number, lng: number): { xPercent: 
 }
 
 /**
- * Decluttering offset for closely clustered sites (Ao Bà Om, Chùa Âng, Bảo tàng Khmer in Phường 8, TP Trà Vinh)
+ * Decluttering offset for closely clustered sites (Ao Bà Om, Chùa Âng, Bảo Tàng Văn Hóa Dân Tộc Khmer in Phường 8, TP Trà Vinh)
  * When viewed from a distance, provides subtle non-overlapping offsets to prevent marker collisions.
  */
 export function getDeclutterOffset(siteId: string, zoomFactor: number): { x: number; y: number } {

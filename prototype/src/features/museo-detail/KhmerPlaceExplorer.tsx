@@ -37,7 +37,7 @@ export function KhmerPlaceDirectory({
   return (
     <article className="md-place-directory">
       <span className="md-eyebrow">
-        {vi ? "16 ĐIỂM · 4 KHU VỰC" : "16 PLACES · 4 AREAS"}
+        {vi ? `${khmerPlaces.length} ĐIỂM · ${khmerPlaceZones.length} KHU VỰC` : `${khmerPlaces.length} PLACES · ${khmerPlaceZones.length} AREAS`}
       </span>
       <h2 id="md-dialog-title">
         {vi ? "Chọn điểm khám phá" : "Choose a place to explore"}

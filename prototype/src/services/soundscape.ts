@@ -1,3 +1,5 @@
+import { stopOtherAudio } from '../experience/state';
+
 /**
  * Web Audio Generative Soundscape & Voice Narration Engine
  * Realistic generative audio for museum exhibition kiosks without external dependencies.
@@ -24,6 +26,8 @@ class SoundscapeEngine {
   }
 
   public playSoundscape(type: 'temple_bell' | 'wooden_loom' | 'mountain_stream' | 'pottery_wheel' | 'bronze_gong') {
+    window.dispatchEvent(new Event('heritage:stop-audio'));
+    stopOtherAudio();
     this.stopSoundscape();
     this.initContext();
     if (!this.ctx || !this.masterGain) return;
@@ -228,6 +232,7 @@ class SoundscapeEngine {
 }
 
 export const soundscape = new SoundscapeEngine();
+window.addEventListener('heritage:stop-audio', () => soundscape.stopSoundscape());
 
 /**
  * Speech Synthesis Narrator for Heritage Oral Interpretation
@@ -235,6 +240,8 @@ export const soundscape = new SoundscapeEngine();
 export const narrateStory = (text: string, lang: 'vi-VN' | 'en-US' = 'vi-VN', onEnd?: () => void) => {
   if (!('speechSynthesis' in window)) return null;
 
+  window.dispatchEvent(new Event('heritage:stop-audio'));
+  stopOtherAudio();
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = lang;

@@ -54,8 +54,8 @@ const editorial: Record<string, QuickEditorial> = {
   },
   "ao-ba-om": {
     introduction: t(
-      "Mặt nước, những bộ rễ cổ thụ và câu chuyện bà Om làm nên một không gian cảnh quan gắn bó với văn hóa Khmer. Đây cũng là điểm kết nối với Chùa Âng và Bảo tàng Văn hóa Khmer.",
-      "Water, exposed tree roots and the legend of Lady Om create a landscape closely connected with Khmer culture. The pond also links a visit to Ang Pagoda and the Khmer Cultural Museum.",
+      "Mặt nước, những bộ rễ cổ thụ và câu chuyện bà Om làm nên một không gian cảnh quan gắn bó với văn hóa Khmer. Đây cũng là điểm kết nối với Chùa Âng và Bảo Tàng Văn Hóa Dân Tộc Khmer.",
+      "Water, exposed tree roots and the legend of Lady Om create a landscape closely connected with Khmer culture. The pond also links a visit to Ang Pagoda and the Khmer Ethnic Cultural Museum.",
     ),
     visit: t(
       "Tản bộ quanh hồ, quan sát bộ rễ từ lối đi và giữ gìn không gian chung. Tránh trèo lên rễ cây; mang rác ra khỏi khu vực tham quan.",
@@ -185,8 +185,8 @@ export function quickLocationContent(site: HeritageSite, lang: QuickLanguage) {
         {
           src: museumFacade,
           caption: t(
-            "Kiến trúc Bảo tàng Văn hóa Khmer",
-            "Khmer Cultural Museum architecture",
+            "Kiến trúc Bảo Tàng Văn Hóa Dân Tộc Khmer",
+            "Khmer Ethnic Cultural Museum architecture",
           ),
           credit: "Hoàng Giám · VietNamNet · 2023",
         },

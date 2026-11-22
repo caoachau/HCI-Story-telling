@@ -105,7 +105,7 @@
   transition: background 160ms ease, border-color 160ms ease;
 }
 .heritage-category-tabs button[aria-pressed="true"] { background: var(--map-active); border-color: var(--map-active-border); color: #fff; }
-.map-top-actions { display: grid; grid-template-columns: 1.1fr 1fr 1.1fr; gap: 8px; width: var(--map-tools-width, 500px); top: calc(var(--map-header-bottom) + 12px); right: calc(var(--story-controls-offset) + var(--map-inset)); container: map-actions / inline-size; }
+.map-top-actions { display: grid; grid-template-columns: 1.1fr 1fr 1.3fr; gap: 8px; width: var(--map-tools-width, 500px); top: calc(var(--map-header-bottom) + 12px); right: calc(var(--story-controls-offset) + var(--map-inset)); container: map-actions / inline-size; }
 .map-top-actions:not(:has(.map-story-action)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .heritage-map-viewport[data-map-chrome-layout="wide"] .map-top-actions { top: calc(var(--map-tools-bottom) + 12px); }
 .map-top-actions > button {
@@ -127,6 +127,9 @@
 }
 .map-top-actions > button svg { flex-shrink: 0; width: 17px; height: 17px; color: inherit; }
 .map-top-actions > button span { white-space: nowrap; }
+@container map-actions (max-width: 520px) {
+  .map-top-actions > button { font-size: 11px; }
+}
 @container map-actions (max-width: 420px) {
   .map-top-actions > button { gap: 4px; padding-inline: 4px; font-size: 11px; }
   .map-top-actions > button span { white-space: normal; text-wrap: balance; line-height: 1.2; }

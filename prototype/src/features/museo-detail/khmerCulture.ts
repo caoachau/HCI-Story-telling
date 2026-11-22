@@ -116,6 +116,14 @@ const photo = (
 });
 export const khmerCulturePhotos = {
   ...khmerHistoryPhotos,
+  userMask: {
+    src: assets["../../assets/museo/khmer-culture-user-reference.jpg"],
+    crop: [330, 72, 550, 455] as const,
+    title: t("Mặt nạ sân khấu · Ảnh minh họa", "Theatre mask · Illustration"),
+    caption: t("Mặt nạ sân khấu với mão cao và các sắc vàng, đỏ, trắng; hình minh họa trong mẫu giao diện do bạn cung cấp.", "A theatrical mask with a tall crown and gold, red and white colouring; an illustration from the layout supplied by the user."),
+    author: "Ảnh minh họa do bạn cung cấp",
+    sourceUrl: assets["../../assets/museo/khmer-culture-user-reference.jpg"],
+  },
   lam: photo(
     "khmer-culture-lam-phen.jpg",
     t("Nghệ nhân Lâm Phên bên nhạc cụ", "Artisan Lam Phen with an instrument"),
@@ -370,7 +378,7 @@ export const khmerCultureTopics: CultureTopic[] = [
       "Crowns, masks and dance movements tell stories on the Khmer stage.",
     ),
     t("TRƯNG BÀY · THỰC HÀNH CỘNG ĐỒNG", "DISPLAY · COMMUNITY PRACTICE"),
-    ["mask", "sang", "training"],
+    ["userMask", "mask", "sang", "training"],
     [
       t(
         "Rôbăm kết hợp múa, âm nhạc và nhân vật trong những tích truyện, trong đó có truyền thống Reamker. Mão và mặt nạ góp phần thể hiện tính cách nhân vật, đi cùng phục trang và ngôn ngữ động tác.",

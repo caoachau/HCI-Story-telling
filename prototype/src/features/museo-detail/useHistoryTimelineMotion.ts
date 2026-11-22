@@ -72,17 +72,21 @@ export function useHistoryTimelineMotion(
       ghosts.push(node);
       return node;
     };
-    let railWidth = 0;
+    const distanceTo = (index: number) => {
+      const first = dots[0].getBoundingClientRect();
+      const dot = dots[index].getBoundingClientRect();
+      return dot.left + dot.width / 2 - first.left - first.width / 2;
+    };
     const measure = (animate: boolean) => {
       const bounds = track.getBoundingClientRect();
       const first = dots[0].getBoundingClientRect();
       const last = dots.at(-1)!.getBoundingClientRect();
-      railWidth = last.left + last.width / 2 - first.left - first.width / 2;
+      const railWidth = last.left + last.width / 2 - first.left - first.width / 2;
       rail.style.left = `${first.left + first.width / 2 - bounds.left + track.scrollLeft}px`;
       rail.style.top = `${first.top + first.height / 2 - bounds.top}px`;
       rail.style.width = `${railWidth}px`;
-      // A chapter spans the interval to its next milestone; the final chapter reaches the end.
-      const target = (railWidth * Math.min(selected + 1, 4)) / 4;
+      // Progress ends at the selected dot, including after resizing or scrolling.
+      const target = distanceTo(selected);
       if (!animate) {
         gsap.killTweensOf(progress);
         progress.style.width = `${target}px`;
@@ -128,7 +132,7 @@ export function useHistoryTimelineMotion(
       sequence.fromTo(
         progress,
         {
-          width: railWidth * (changing ? Math.min(before.index + 1, 4) / 4 : 0),
+          width: changing ? distanceTo(before.index) : 0,
         },
         { width: target, duration: 0.65, ease: museumSmooth },
         0,

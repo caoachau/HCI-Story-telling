@@ -1,266 +1,10 @@
-import { useMemo, useRef, useState } from "react";
-import {
-  ArrowRight,
-  BookOpen,
-  ChevronLeft,
-  ChevronRight,
-  Images,
-} from "lucide-react";
-import { TourPhotoDrawer } from "./TourPhotoDrawer";
-import { TourGalleryStrip } from "./TourGalleryStrip";
-import {
-  khmerCultureGroups,
-  khmerCulturePhotos,
-  khmerCultureSources,
-  khmerCultureTopics,
-  type CultureLanguage,
-  type CulturePhotoId,
-} from "./khmerCulture";
-import { useCultureMotion } from "./useCultureMotion";
-
-export function KhmerMuseumCulture({
-  lang,
-  active,
-  obscured = false,
-  selectedId,
-  onSelect,
-  onRead,
-}: {
-  lang: CultureLanguage;
-  active: boolean;
-  obscured?: boolean;
-  selectedId: string;
-  onSelect: (id: string) => void;
-  onRead: (id?: string) => void;
-}) {
-  const root = useRef<HTMLElement>(null);
-  const vi = lang === "vi";
-  const topic =
-    khmerCultureTopics.find((item) => item.id === selectedId) ??
-    khmerCultureTopics[0];
-  const group = khmerCultureGroups.find((item) => item.id === topic.group)!;
-  const topics = useMemo(
-    () => khmerCultureTopics.filter((item) => item.group === topic.group),
-    [topic.group],
-  );
-  const selected = topics.findIndex((item) => item.id === topic.id);
-  const selectedPhoto = khmerCulturePhotos[topic.gallery[0]];
-  const items = useMemo(
-    () =>
-      topics.map((item) => ({
-        id: item.id,
-        name: item.title[lang],
-        photo: khmerCulturePhotos[item.gallery[0]].src,
-        background: khmerCulturePhotos[item.gallery[0]].src,
-      })),
-    [topics, lang],
-  );
-  const motion = useCultureMotion(root, topic.id, lang, active, obscured);
-  const choose = (
-    index: number,
-    origin?: HTMLButtonElement,
-    direction?: number,
-  ) => {
-    motion.prepare(
-      topics[index].id,
-      origin,
-      direction ?? Math.sign(index - selected),
-    );
-    onSelect(topics[index].id);
-  };
-  const move = (direction: number) =>
-    choose(
-      (selected + direction + topics.length) % topics.length,
-      undefined,
-      direction,
-    );
-
-  return (
-    <section
-      ref={root}
-      className="md-section md-tour-section md-khmer-culture"
-      id="museo-tour"
-      hidden={!active}
-      tabIndex={-1}
-      aria-labelledby="md-tour-title"
-      lang={lang}
-      data-culture-topic={topic.id}
-      data-reduced-motion={motion.reduced}
-      data-obscured={obscured}
-    >
-      <div className="md-tour-frame">
-        <div className="md-culture-camera">
-          <img
-            className="md-tour-art is-alternate"
-            src={selectedPhoto.src}
-            alt={selectedPhoto.title[lang]}
-            loading="lazy"
-          />
-        </div>
-        <div className="md-culture-curtain" aria-hidden="true" />
-        <div className="md-culture-light" aria-hidden="true" />
-        <div className="md-tour-copy">
-          <span className="md-eyebrow">
-            {vi
-              ? "VĂN HÓA · HOẠT ĐỘNG · CON NGƯỜI"
-              : "CULTURE · ACTIVITIES · PEOPLE"}
-          </span>
-          <h2 className="md-display" id="md-tour-title">
-            <span className="md-culture-title-line">
-              <span className="md-culture-title-text">
-                {vi ? "DI SẢN" : "LIVING"}
-              </span>
-            </span>
-            <span className="md-culture-title-line">
-              <span className="md-culture-title-text">
-                {vi ? "SỐNG" : "HERITAGE"}
-              </span>
-            </span>
-          </h2>
-          <p className="md-tour-location">
-            {vi
-              ? "Bảo tàng văn hóa Khmer · Trà Vinh"
-              : "Khmer Culture Museum · Tra Vinh"}
-          </p>
-          <p className="md-culture-intro">
-            {vi
-              ? "Từ hiện vật đến đời sống: lễ hội, nghề truyền thống và những con người tiếp nối ký ức Khmer."
-              : "From objects to life: celebrations, traditional skills and the people carrying Khmer memory forward."}
-          </p>
-          <div
-            className="md-culture-groups"
-            role="group"
-            aria-label={vi ? "Nhóm chủ đề di sản" : "Heritage topic groups"}
-          >
-            {khmerCultureGroups.map((item) => (
-              <button
-                type="button"
-                key={item.id}
-                data-culture-group={item.id}
-                aria-pressed={topic.group === item.id}
-                onClick={() => {
-                  const next = khmerCultureTopics.find(
-                    (entry) => entry.group === item.id,
-                  )!.id;
-                  motion.prepare(next);
-                  onSelect(next);
-                }}
-              >
-                {item.title[lang]}{" "}
-                <small>
-                  {
-                    khmerCultureTopics.filter(
-                      (entry) => entry.group === item.id,
-                    ).length
-                  }
-                </small>
-              </button>
-            ))}
-            <i className="md-culture-lens-indicator" aria-hidden="true" />
-          </div>
-          <div className="md-tour-ctas">
-            <button
-              type="button"
-              className="md-button md-button-primary"
-              data-action="culture-read"
-              onClick={() => onRead(topic.id)}
-            >
-              <BookOpen />
-              {vi ? "ĐỌC CHỦ ĐỀ" : "READ THIS STORY"}
-              <ArrowRight />
-            </button>
-            <button
-              type="button"
-              className="md-button"
-              data-action="culture-directory"
-              onClick={() => onRead()}
-            >
-              <Images />
-              {vi ? "TÌM CHỦ ĐỀ" : "ALL TOPICS"}
-            </button>
-          </div>
-        </div>
-        <a
-          className="md-culture-photo-credit"
-          href={selectedPhoto.sourceUrl}
-          target="_blank"
-          rel="noreferrer"
-          title={selectedPhoto.caption[lang]}
-        >
-          <Images />
-          <span>{selectedPhoto.author}</span>
-          <ArrowRight />
-        </a>
-        <TourPhotoDrawer
-          items={items}
-          lang={lang}
-          selectedScene={selected}
-          onSelect={choose}
-        />
-        <TourGalleryStrip
-          items={items}
-          lang={lang}
-          active={active}
-          selectedScene={selected}
-          onSelect={choose}
-          onPreview={(index) =>
-            motion.preview(index === undefined ? undefined : topics[index].id)
-          }
-        />
-        <div
-          className="md-tour-scene-caption"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          <div className="md-culture-caption-top">
-            <span className="md-eyebrow">
-              <span className="md-culture-index-mask">
-                <span className="md-culture-index-current">
-                  {String(selected + 1).padStart(2, "0")}
-                </span>
-              </span>{" "}
-              /{" "}
-              <span className="md-culture-total-mask">
-                <span className="md-culture-total-current">
-                  {String(topics.length).padStart(2, "0")}
-                </span>
-              </span>{" "}
-              · {group.title[lang]}
-            </span>
-            <div>
-              <button
-                type="button"
-                className="md-round"
-                aria-label={vi ? "Chủ đề trước" : "Previous topic"}
-                onClick={() => move(-1)}
-              >
-                <ChevronLeft />
-              </button>
-              <button
-                type="button"
-                className="md-round"
-                aria-label={vi ? "Chủ đề tiếp theo" : "Next topic"}
-                onClick={() => move(1)}
-              >
-                <ChevronRight />
-              </button>
-            </div>
-          </div>
-          <h3 className="md-culture-story-mask">
-            <span className="md-culture-story-current">
-              {topic.title[lang]}
-            </span>
-          </h3>
-          <p>{topic.summary[lang]}</p>
-          <span className="md-culture-context">{topic.context[lang]}</span>
-        </div>
-        <div className="md-culture-rail-progress" aria-hidden="true">
-          <i />
-        </div>
-      </div>
-    </section>
-  );
-}
+import { InlineAudioActions } from "../../audio/InlineAudioActions";
+import { useState } from "react";
+import { ArrowRight, BookOpen } from "lucide-react";
+import { khmerCultureGroups, khmerCulturePhotos, khmerCultureSources, khmerCultureTopics, type CultureLanguage, type CulturePhotoId } from "./khmerCulture";
+import { CulturePhotoImage } from "./CulturePhotoImage";
+import { ExpandablePhoto } from "./ExpandableMedia";
+export { KhmerCultureHub as KhmerMuseumCulture } from "./KhmerCultureLanding";
 
 export function CulturePhotoGallery({
   ids,
@@ -274,11 +18,7 @@ export function CulturePhotoGallery({
   return (
     <div className="md-culture-gallery">
       <figure>
-        <img
-          className="md-story-photo"
-          src={photo.src}
-          alt={photo.title[lang]}
-        />
+        <ExpandablePhoto title={photo.title[lang]} lang={lang} className="md-story-photo"><CulturePhotoImage id={ids[selected]} lang={lang} fit="contain" /></ExpandablePhoto>
         <figcaption>
           <span>{photo.caption[lang]}</span>
           <a href={photo.sourceUrl} target="_blank" rel="noreferrer">
@@ -301,7 +41,7 @@ export function CulturePhotoGallery({
             aria-pressed={selected === index}
             onClick={() => setSelected(index)}
           >
-            <img src={khmerCulturePhotos[id].src} alt="" loading="lazy" />
+            <CulturePhotoImage id={id} decorative lang={lang} />
           </button>
         ))}
       </div>
@@ -350,6 +90,7 @@ export function KhmerCultureStory({
         {topic?.title[lang] ??
           (vi ? "Những câu chuyện di sản sống" : "Stories of living heritage")}
       </h2>
+<InlineAudioActions lang={lang} id={topic ? `bao-tang-khmer:culture:${topic.id}` : undefined} />
       {topic ? (
         <>
           <p className="md-culture-reading-context">{topic.context[lang]}</p>
@@ -402,7 +143,7 @@ export function KhmerCultureStory({
               : "The museum preserves and interprets heritage. Celebrations, crafts and arts are also practised in pagodas, villages, homes and regional stages. Choose a topic to read its story, photographs and references."}
           </p>
           <label className="md-culture-search">
-            <span>{vi ? "Tìm trong 24 chủ đề" : "Search 24 topics"}</span>
+            <span>{vi ? `Tìm trong ${khmerCultureTopics.length} chủ đề` : `Search ${khmerCultureTopics.length} topics`}</span>
             <input
               type="search"
               value={query}

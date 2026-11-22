@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Accessibility, BookOpen, HelpCircle, Headphones, QrCode, X } from 'lucide-react';
 import { HERITAGE_SITES } from '../data/heritageSites';
@@ -11,10 +11,12 @@ import { narration, useNarrationState } from './narration';
 import { usePreferences, setPreferences } from './preferences';
 import { entryIssue, setEntryIssue, routeParams, updateRoute, useRememberedState, type SiteId } from './state';
 import './experience.css';
+const AudioPanel = lazy(() => import('../audio/AudioPanel').then(module => ({ default: module.AudioPanel })));
 
 type Panel = 'menu' | 'help' | 'story' | 'settings' | 'share' | 'listen' | null;
 function useReaderToolsHost() {
   const [host, setHost] = useState<HTMLElement | null>(null);
+  const [museumHost, setMuseumHost] = useState<HTMLElement | null>(null);
   useEffect(() => {
     const refresh = () => {
       const candidates = [...document.querySelectorAll<HTMLElement>('dialog[open]:not(.hx-dialog), [role=dialog][aria-modal=true]:not(.hx-dialog)')].filter(value => !value.closest('.hx-dialog') && value.getClientRects().length);
@@ -22,6 +24,8 @@ function useReaderToolsHost() {
       const quickPanel = quick?.closest<HTMLElement>('.heritage-story-panel');
       const compactQuick = quick && quickPanel && getComputedStyle(quickPanel).position === 'fixed' ? quick : null;
       setHost(candidates.at(-1) || compactQuick);
+      const museum = document.querySelector<HTMLElement>('[data-museum-tools-host]');
+      setMuseumHost(museum?.closest('.md-root')?.getClientRects().length ? museum : null);
     };
     const observer = new MutationObserver(refresh);
     observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['open', 'hidden', 'aria-hidden'] });
@@ -29,12 +33,21 @@ function useReaderToolsHost() {
     refresh();
     return () => { observer.disconnect(); window.removeEventListener('resize', refresh); };
   }, []);
-  return host;
+  return { readerHost: host, museumHost };
 }
-function Dialog({ title, close, children }: { title: string; close: () => void; children: React.ReactNode }) {
+function Dialog({ title, close, children, audio = false, returnFocus }: { title: string; close: () => void; children: React.ReactNode; audio?: boolean; returnFocus?: HTMLElement | null }) {
   const root = useRef<HTMLDialogElement>(null);
-  useEffect(() => { const origin = document.activeElement as HTMLElement | null; root.current?.showModal(); return () => { root.current?.close(); if (origin?.isConnected) origin.focus({ preventScroll: true }); }; }, []);
-  return <dialog ref={root} className="hx-dialog" onKeyDown={event => event.stopPropagation()} onCancel={event => { event.preventDefault(); event.stopPropagation(); close(); }} onClick={event => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) close(); } }} aria-label={title}><header><h2>{title}</h2><button type="button" onClick={close} aria-label={document.documentElement.lang === 'vi' ? 'Đóng công cụ' : 'Close tools'}><X size={20} /></button></header><div className="hx-body">{children}</div></dialog>;
+  useEffect(() => {
+    const active = document.activeElement as HTMLElement | null;
+    const origin = returnFocus ?? active;
+    const dialog = root.current;
+    dialog?.showModal();
+    return () => {
+      dialog?.close();
+      requestAnimationFrame(() => { if (origin?.isConnected) origin.focus({ preventScroll: true }); });
+    };
+  }, []);
+  return <dialog ref={root} className={`hx-dialog${audio ? ' hx-audio-dialog' : ''}`} onKeyDown={event => event.stopPropagation()} onCancel={event => { event.preventDefault(); event.stopPropagation(); close(); }} onClick={event => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) close(); } }} aria-label={title}><header><h2>{title}</h2><button type="button" onClick={close} aria-label={document.documentElement.lang === 'vi' ? 'Đóng công cụ' : 'Close tools'}><X size={20} /></button></header><div className="hx-body">{children}</div></dialog>;
 }
 
 export function StoryOverview({ siteId, lang }: { siteId: SiteId; lang: 'vi' | 'en' }) {
@@ -94,11 +107,12 @@ function visibleReadingText() {
 }
 
 export function ExperienceTools({ siteId, hidden = false, dockHost = null }: { siteId: SiteId; hidden?: boolean; dockHost?: HTMLElement | null }) {
-  const readerHost = useReaderToolsHost();
+  const { readerHost, museumHost } = useReaderToolsHost();
   const prefs = usePreferences();
   const vi = prefs.lang === 'vi';
   const [panel, setPanel] = useState<Panel>(() => routeParams().get('tools') === 'story' ? 'story' : null);
   const returnPanel = useRef<Panel>(null);
+  const toolOrigin = useRef<HTMLElement | null>(null);
   const [reading, setReading] = useState('');
   const [issue, setIssue] = useState(entryIssue);
   const voice = useNarrationState();
@@ -107,24 +121,42 @@ export function ExperienceTools({ siteId, hidden = false, dockHost = null }: { s
   useEffect(() => { const refresh = () => setIssue(entryIssue()); window.addEventListener('heritage:entry-issue', refresh); refresh(); return () => window.removeEventListener('heritage:entry-issue', refresh); }, []);
   useEffect(() => { const help = (event: KeyboardEvent) => { if (event.key === 'F1') { event.preventDefault(); setPanel('help'); } }; window.addEventListener('keydown', help); return () => window.removeEventListener('keydown', help); }, []);
   useEffect(() => { if (hidden) setPanel(null); }, [hidden]);
-  const open = (next: Panel) => { returnPanel.current = next === 'share' && panel ? panel : null; if (next === 'story') updateRoute({ tools: 'story' }, siteId); if (next === 'listen') setReading(visibleReadingText() || `${name}\n${quickLocationContent(site, prefs.lang).summary}`); setPanel(next); };
+  const open = (next: Panel) => {
+    const active = document.activeElement as HTMLElement | null;
+    toolOrigin.current = active?.closest('[data-museum-tools-host]')?.closest('.md-detail-tools')?.querySelector<HTMLElement>('[data-museum-tools-toggle]') ?? active;
+    returnPanel.current = next === 'share' && panel ? panel : null;
+    if (next === 'story') updateRoute({ tools: 'story' }, siteId);
+    if (next === 'listen') setReading(visibleReadingText() || `${name}\n${quickLocationContent(site, prefs.lang).summary}`);
+    setPanel(next);
+  };
+  useEffect(() => {
+    const handle = (event: Event) => {
+      const request = (event as CustomEvent<{ siteId?: string; panel?: string }>).detail;
+      if (!hidden && siteId === 'bao-tang-khmer' && request?.siteId === siteId && request.panel === 'listen') open('listen');
+    };
+    window.addEventListener('heritage:open-tool', handle);
+    return () => window.removeEventListener('heritage:open-tool', handle);
+  }, [hidden, siteId, prefs.lang, panel]);
   const title = panel === 'menu' ? (vi ? 'Công cụ khám phá' : 'Exploration tools') : panel === 'help' ? (vi ? 'Hướng dẫn khám phá' : 'How to explore') : panel === 'settings' ? (vi ? 'Tùy chỉnh trải nghiệm' : 'Experience settings') : panel === 'listen' ? (vi ? 'Nghe và bản chữ' : 'Narration and transcript') : panel === 'share' ? (vi ? 'Mang nội dung theo' : 'Take content with you') : (vi ? 'Câu chuyện và tư liệu' : 'Stories and references');
   const close = () => { narration.stop(); const target = returnPanel.current; returnPanel.current = null; if (!target) updateRoute({ tools: null }, siteId); setPanel(target); };
   if (hidden) return null;
+  const integratedMuseum = siteId === 'bao-tang-khmer' && !!museumHost && !readerHost;
   const toolButtons = <>
     <button type="button" onClick={() => open('help')} title={vi ? 'Hướng dẫn' : 'Help'} aria-label={vi ? 'Hướng dẫn' : 'Help'} aria-haspopup="dialog" aria-expanded={panel === 'help'}><HelpCircle size={20} /><span>{vi ? 'Hướng dẫn' : 'Help'}</span></button>
     <button type="button" onClick={() => open('story')} title={vi ? 'Câu chuyện và nguồn' : 'Story and sources'} aria-label={vi ? 'Câu chuyện và nguồn' : 'Story and sources'} aria-haspopup="dialog" aria-expanded={panel === 'story'}><BookOpen size={20} /><span>{vi ? 'Câu chuyện và nguồn' : 'Story and sources'}</span></button>
-    <button type="button" onClick={() => open('listen')} title={vi ? 'Nghe và bản chữ' : 'Listen and transcript'} aria-label={vi ? 'Nghe và bản chữ' : 'Listen and transcript'} aria-haspopup="dialog" aria-expanded={panel === 'listen'}><Headphones size={20} /><span>{vi ? 'Nghe và bản chữ' : 'Listen and transcript'}</span></button>
-    <button type="button" onClick={() => open('share')} title={vi ? 'Chia sẻ đúng phần đang xem' : 'Share the current content'} aria-label={vi ? 'Chia sẻ đúng phần đang xem' : 'Share the current content'} aria-haspopup="dialog" aria-expanded={panel === 'share'}><QrCode size={20} /><span>{vi ? 'Mang theo / Chia sẻ' : 'Take with you / Share'}</span></button>
+    {!integratedMuseum && <button type="button" onClick={() => open('listen')} title={vi ? 'Nghe và bản chữ' : 'Listen and transcript'} aria-label={vi ? 'Nghe và bản chữ' : 'Listen and transcript'} aria-haspopup="dialog" aria-expanded={panel === 'listen'}><Headphones size={20} /><span>{vi ? 'Nghe và bản chữ' : 'Listen and transcript'}</span></button>}
+    {!integratedMuseum && <button type="button" onClick={() => open('share')} title={vi ? 'Chia sẻ đúng phần đang xem' : 'Share the current content'} aria-label={vi ? 'Chia sẻ đúng phần đang xem' : 'Share the current content'} aria-haspopup="dialog" aria-expanded={panel === 'share'}><QrCode size={20} /><span>{siteId === 'bao-tang-khmer' ? (vi ? 'QR phần đang xem' : 'Current content QR') : (vi ? 'Mang theo / Chia sẻ' : 'Take with you / Share')}</span></button>}
     <button type="button" onClick={() => open('settings')} title={vi ? 'Ngôn ngữ và trợ năng' : 'Language and accessibility'} aria-label={vi ? 'Ngôn ngữ và trợ năng' : 'Language and accessibility'} aria-haspopup="dialog" aria-expanded={panel === 'settings'}><Accessibility size={20} /><span>{vi ? 'Ngôn ngữ và trợ năng' : 'Language and accessibility'}</span></button>
   </>;
-  const docked = !!dockHost && !readerHost;
-  const toolbar = <nav className={`hx-tools ${readerHost ? 'hx-tools--reader' : docked ? 'hx-tools--docked' : ''}`} aria-label={vi ? 'Công cụ khám phá dùng chung' : 'Exploration tools'}>{readerHost ? <button type="button" aria-label={vi ? 'Mở công cụ khám phá' : 'Open exploration tools'} onClick={() => open('menu')}><Accessibility size={18} /><span>{vi ? 'Công cụ' : 'Tools'}</span></button> : toolButtons}</nav>;
+  const museumDock = siteId === 'bao-tang-khmer' && !readerHost ? museumHost : null;
+  const targetDock = museumDock ?? dockHost;
+  const docked = !!targetDock && !readerHost;
+  const toolbar = <nav className={`hx-tools ${readerHost ? 'hx-tools--reader' : museumDock ? 'hx-tools--museum' : docked ? 'hx-tools--docked' : ''}`} aria-label={vi ? 'Công cụ khám phá dùng chung' : 'Exploration tools'}>{readerHost ? <button type="button" aria-label={vi ? 'Mở công cụ khám phá' : 'Open exploration tools'} onClick={() => open('menu')}><Accessibility size={18} /><span>{vi ? 'Công cụ' : 'Tools'}</span></button> : toolButtons}</nav>;
   const contents = <>
     {issue && <aside className="hx-route-notice" role="alert"><p>{issue[prefs.lang]}</p><button onClick={() => setEntryIssue(null)}>{vi ? 'Đã hiểu' : 'Dismiss'}</button></aside>}
     {['playing', 'paused'].includes(voice.status) && <aside className={`hx-audio-strip ${readerHost ? 'hx-audio-strip--reader' : ''}`} aria-label={vi ? 'Điều khiển giọng đọc' : 'Narration controls'}><button onClick={() => voice.status === 'paused' ? narration.resume() : narration.pause()}>{voice.status === 'paused' ? (vi ? 'Tiếp tục nghe' : 'Resume') : (vi ? 'Tạm dừng' : 'Pause')}</button><button onClick={narration.stop}>{vi ? 'Dừng' : 'Stop'}</button><button onClick={narration.restart}>{vi ? 'Nghe lại' : 'Restart'}</button><span>{voice.index + 1} / {voice.chunks.length}</span></aside>}
     {!docked && toolbar}
-    {panel && <Dialog title={title} close={close}>
+    {panel && <Dialog title={title} close={close} audio={panel === 'listen' || panel === 'share'} returnFocus={toolOrigin.current}>
       {panel === 'menu' && <nav className="hx-tool-menu">{toolButtons}</nav>}
       {panel === 'help' && <><ol><li><strong>{vi ? 'Chọn điều bạn muốn biết.' : 'Choose what interests you.'}</strong><p>{vi ? 'Chạm địa điểm, thẻ hoặc tìm theo tên. Trong trang địa điểm, chọn khu, chủ đề hoặc câu chuyện.' : 'Select a place or card, or search by name. Then choose an area, theme or story.'}</p></li><li><strong>{vi ? 'Nắm ý chính rồi tự chọn độ sâu.' : 'Start with the key idea, then choose your depth.'}</strong><p>{vi ? 'Bạn có thể đọc, nghe, chọn ảnh/chi tiết hoặc hỏi sâu. Không cần xem hết mọi phần.' : 'Read, listen, select images or details, or explore questions. You do not need to finish every section.'}</p></li><li><strong>{vi ? 'Quay lại, đổi chuyện hoặc mang theo.' : 'Go back, choose another story or take it with you.'}</strong><p>{vi ? 'Đóng cửa sổ để về phần trước. Dùng QR hoặc liên kết để mở lại đúng phần. Nếu không có điện thoại, tiếp tục đọc trên màn hình này.' : 'Close a window to return. Use QR or a link to reopen the selected content. You may continue on this screen without a phone.'}</p></li></ol><button onClick={close}>{vi ? 'Bắt đầu khám phá' : 'Start exploring'}</button></>}
       {panel === 'settings' && <><label>{vi ? 'Ngôn ngữ' : 'Language'}<select aria-label={vi ? 'Ngôn ngữ nội dung' : 'Content language'} value={prefs.lang} onChange={event => setPreferences({ lang: event.target.value as 'vi' | 'en' })}><option value="vi">Tiếng Việt</option><option value="en">English</option></select></label>{([
@@ -132,9 +164,9 @@ export function ExperienceTools({ siteId, hidden = false, dockHost = null }: { s
       ] as const).map(([key, label]) => <label key={key}><input type="checkbox" checked={prefs[key]} onChange={event => setPreferences({ [key]: event.target.checked })} />{label}</label>)}</>}
       {panel === 'story' && <><StoryOverview siteId={siteId} lang={prefs.lang} /><div className="hx-actions"><button onClick={() => open('share')}>{vi ? 'Mang theo / Gửi cho người khác' : 'Take with you / Share'}</button></div></>}
       {panel === 'share' && <ShareContent siteId={siteId} lang={prefs.lang} />}
-      {panel === 'listen' && <><p>{vi ? 'Giọng tổng hợp đọc bản chữ của nội dung đang xem. Chọn một câu trong bản chữ để nghe từ đó.' : 'Synthetic narration reads the current written content. Select a sentence to listen from that point.'}</p><div className="hx-actions"><button onClick={() => narration.play(reading, vi ? 'vi-VN' : 'en-US', `reading:${siteId}:${reading.slice(0, 70)}`)}>{vi ? 'Phát / Tiếp tục từ câu đã lưu' : 'Play / Resume saved sentence'}</button><button disabled={!['playing', 'paused'].includes(voice.status)} onClick={() => voice.status === 'paused' ? narration.resume() : narration.pause()}>{voice.status === 'paused' ? (vi ? 'Tiếp tục' : 'Resume') : (vi ? 'Tạm dừng' : 'Pause')}</button><button onClick={narration.stop}>{vi ? 'Dừng' : 'Stop'}</button><button disabled={!voice.chunks.length} onClick={narration.restart}>{vi ? 'Nghe lại từ đầu' : 'Restart'}</button></div>{voice.message && <p role="status">{voice.message}</p>}{voice.chunks.length && voice.key.startsWith(`reading:${siteId}`) ? <ol className="hx-transcript">{voice.chunks.map((chunk, index) => <li key={index} aria-current={index === voice.index}><button onClick={() => narration.seek(index)}>{chunk}</button></li>)}</ol> : <div className="hx-transcript">{reading.split('\n').map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>}</>}
+      {panel === 'listen' && <><Suspense fallback={<p role="status">{vi ? "?ang t?i audio?" : "Loading audio?"}</p>}><AudioPanel siteId={siteId} lang={prefs.lang} /></Suspense><details className="ha-legacy-transcript"><summary>{vi ? "B?n ch? v? gi?ng ??c c?a thi?t b?" : "Transcript and device narration"}</summary><p>{vi ? 'Giọng tổng hợp đọc bản chữ của nội dung đang xem. Chọn một câu trong bản chữ để nghe từ đó.' : 'Synthetic narration reads the current written content. Select a sentence to listen from that point.'}</p><div className="hx-actions"><button onClick={() => narration.play(reading, vi ? 'vi-VN' : 'en-US', `reading:${siteId}:${reading.slice(0, 70)}`)}>{vi ? 'Phát / Tiếp tục từ câu đã lưu' : 'Play / Resume saved sentence'}</button><button disabled={!['playing', 'paused'].includes(voice.status)} onClick={() => voice.status === 'paused' ? narration.resume() : narration.pause()}>{voice.status === 'paused' ? (vi ? 'Tiếp tục' : 'Resume') : (vi ? 'Tạm dừng' : 'Pause')}</button><button onClick={narration.stop}>{vi ? 'Dừng' : 'Stop'}</button><button disabled={!voice.chunks.length} onClick={narration.restart}>{vi ? 'Nghe lại từ đầu' : 'Restart'}</button></div>{voice.message && <p role="status">{voice.message}</p>}{voice.chunks.length && voice.key.startsWith(`reading:${siteId}`) ? <ol className="hx-transcript">{voice.chunks.map((chunk, index) => <li key={index} aria-current={index === voice.index}><button onClick={() => narration.seek(index)}>{chunk}</button></li>)}</ol> : <div className="hx-transcript">{reading.split('\n').map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>}</details></>}
     </Dialog>}
   </>;
-  return readerHost ? createPortal(contents, readerHost) : <>{contents}{docked && createPortal(toolbar, dockHost)}</>;
+  return readerHost ? createPortal(contents, readerHost) : <>{contents}{docked && createPortal(toolbar, targetDock!)}</>;
 }
 

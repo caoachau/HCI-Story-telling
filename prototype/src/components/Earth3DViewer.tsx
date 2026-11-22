@@ -899,9 +899,9 @@ export const Earth3DViewer: React.FC<Earth3DViewerProps> = ({
           <span>{lang === 'vi' ? 'Toàn cảnh tỉnh' : 'Province overview'}</span>
         </button>
         {!isStorytellingOpen && <button type="button" className="map-story-action" onClick={onOpenStorytelling}
-          title={lang === 'vi' ? 'Mở bảng diễn giải di sản' : 'Open heritage story'}
-          aria-label={lang === 'vi' ? 'Mở diễn giải di sản' : 'Open heritage interpretation'}>
-          <MapIcon aria-hidden="true" /><span>{lang === 'vi' ? 'Diễn giải di sản' : 'Heritage story'}</span>
+          title={lang === 'vi' ? 'Khám phá câu chuyện' : 'Explore stories'}
+          aria-label={lang === 'vi' ? 'Khám phá câu chuyện' : 'Explore stories'}>
+          <MapIcon aria-hidden="true" /><span>{lang === 'vi' ? 'Khám phá câu chuyện' : 'Explore stories'}</span>
         </button>}
       </div>
 

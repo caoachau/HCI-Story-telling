@@ -7,7 +7,7 @@ import '../experience/experience.css';
 
 interface Props { site: HeritageSite; lang: 'vi' | 'en'; onClose: () => void; }
 export function QRCodeModal({ site, lang, onClose }: Props) {
-  return <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"><article className="hx-body relative max-h-[95dvh] w-full max-w-xl overflow-auto rounded-2xl bg-[#fbf8f1] text-[#173f3c]">
+  return <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"><article className="hx-body ha-qr-dialog relative max-h-[95dvh] w-full max-w-xl overflow-auto rounded-2xl">
     <button type="button" onClick={onClose} aria-label={lang === 'vi' ? 'Đóng mã QR' : 'Close QR code'} style={{ float: 'right' }}><X size={20} /></button>
     <p className="hx-kicker">{lang === 'vi' ? site.name : site.englishName}</p>
     {isSiteId(site.id) && <ShareContent siteId={site.id} lang={lang} />}

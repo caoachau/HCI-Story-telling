@@ -10,6 +10,10 @@ let language = 'vi-VN';
 let rate = 1;
 function update(patch: Partial<NarrationState>) { state = { ...state, ...patch }; listeners.forEach(fn => fn()); }
 function cancel() { revision++; const owned = utterance; if (owned) { owned.onend = null; owned.onerror = null; owned.onboundary = null; } utterance = null; if (owned) window.speechSynthesis?.cancel(); }
+function reclaimNarrationFocus() {
+  window.dispatchEvent(new CustomEvent('heritage:stop-audio', { detail: { except: 'speech' } }));
+  stopOtherAudio();
+}
 function playChunk(index: number) {
   if (!state.chunks[index]) { update({ status: 'idle', index: 0 }); return; }
   if (!window.speechSynthesis || typeof window.SpeechSynthesisUtterance !== 'function') {
@@ -35,6 +39,7 @@ function saveProgress(index: number) {
 }
 export const narration = {
   play(text: string | string[], lang = 'vi-VN', key = 'current', speed = 1) {
+    window.dispatchEvent(new Event('heritage:stop-audio'));
     cancel(); stopOtherAudio();
     const chunks = (Array.isArray(text) ? text : text.split(/\n+/)).flatMap(paragraph => paragraph.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).map(value => value.trim()).filter(Boolean);
     language = lang; rate = speed;
@@ -51,10 +56,10 @@ export const narration = {
     window.setTimeout(() => { if (revision === token && state.status === 'playing') playChunk(target); }, 30);
   },
   pause() { if (state.status === 'playing') { window.speechSynthesis?.pause(); saveProgress(state.index); update({ status: 'paused' }); } },
-  resume() { if (state.status === 'paused') { if (utterance) { window.speechSynthesis?.resume(); update({ status: 'playing' }); } else playChunk(state.index); } },
+  resume() { if (state.status === 'paused') { reclaimNarrationFocus(); if (utterance) { window.speechSynthesis?.resume(); update({ status: 'playing' }); } else playChunk(state.index); } },
   stop() { saveProgress(state.index); cancel(); update({ status: 'idle' }); },
-  restart() { cancel(); saveProgress(0); if (state.chunks.length) playChunk(0); },
-  seek(index: number) { if (index < 0 || index >= state.chunks.length) return; cancel(); saveProgress(index); playChunk(index); },
+  restart() { reclaimNarrationFocus(); cancel(); saveProgress(0); if (state.chunks.length) playChunk(0); },
+  seek(index: number) { if (index < 0 || index >= state.chunks.length) return; reclaimNarrationFocus(); cancel(); saveProgress(index); playChunk(index); },
 };
 const subscribe = (fn: () => void) => { listeners.add(fn); return () => listeners.delete(fn); };
 export function useNarrationState() { return useSyncExternalStore(subscribe, () => state, () => state); }
@@ -66,5 +71,5 @@ export function useNarration(text: string, lang = 'vi-VN', key = 'current') {
 }
 document.addEventListener('visibilitychange', () => { if (document.hidden) narration.stop(); });
 window.addEventListener('pagehide', narration.stop);
-window.addEventListener('heritage:stop-audio', narration.stop);
+window.addEventListener('heritage:stop-audio', event => { if (!(event instanceof CustomEvent) || event.detail?.except !== 'speech') narration.stop(); });
 

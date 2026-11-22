@@ -1,3 +1,4 @@
+import { InlineAudioActions } from "../../audio/InlineAudioActions";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
@@ -144,6 +145,15 @@ export function KhmerMuseumHistory({
               ?.focus({ preventScroll: true });
           }}
         >
+          <button
+            type="button"
+            className="md-round"
+            data-action="history-previous-phase"
+            aria-label={vi ? "Giai đoạn trước" : "Previous period"}
+            onClick={() => move(-1)}
+          >
+            <ChevronLeft />
+          </button>
           {khmerHistoryPhases.map((item, index) => (
             <button
               key={item.id}
@@ -175,6 +185,7 @@ export function KhmerMuseumHistory({
           <button
             type="button"
             className="md-round"
+            data-action="history-next-phase"
             aria-label={vi ? "Giai đoạn tiếp theo" : "Next period"}
             onClick={() => move(1)}
           >
@@ -443,6 +454,7 @@ export function KhmerHistoryStory({
               ? "Lịch sử hình thành & phát triển"
               : "Formation and development")}
       </h2>
+<InlineAudioActions lang={lang} id={topic ? `bao-tang-khmer:history:${topic.id}` : phase ? `bao-tang-khmer:phase:${phase.id}` : undefined} />
       <p className="md-history-reading-date">
         {topic?.date[lang] ?? phase?.range ?? "1992 – 2026"}
       </p>

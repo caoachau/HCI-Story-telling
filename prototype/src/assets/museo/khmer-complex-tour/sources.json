@@ -1,0 +1,295 @@
+{
+  "source": "https://chuaang.tinhdoanvinhlong.vn/",
+  "retrieved": "2026-11-14",
+  "description": "Original 512px tiles at level 1: six complete 1024px cube faces per scene. Source multires notation begins with tile size, followed by face resolutions. No photographic alterations. Source retains its rights.",
+  "files": [
+    {
+      "file": "pagoda/r-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/r/l1/1/l1_r_1_2.jpg",
+      "bytes": 118244,
+      "sha256": "ce279316fc8e9aac61061a25ad3c8e346d183dade6f85793fc70484ab6cd94c5"
+    },
+    {
+      "file": "pagoda/r-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/r/l1/1/l1_r_1_1.jpg",
+      "bytes": 106543,
+      "sha256": "7f5b259324dbcbf355b24d2ef7307ebc808b8a36b55178c280c1f323cc6c509e"
+    },
+    {
+      "file": "pagoda/r-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/r/l1/2/l1_r_2_2.jpg",
+      "bytes": 93005,
+      "sha256": "a0676aed0348237d0e8e091e951aeed7e2563c9a8687f22a8696d9eef0939d9f"
+    },
+    {
+      "file": "pagoda/r-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/r/l1/2/l1_r_2_1.jpg",
+      "bytes": 81127,
+      "sha256": "6b27e5732bd7519501b237eaaa2c2557dd0acea03595863ee55a9f891ffb5815"
+    },
+    {
+      "file": "pagoda/l-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/l/l1/1/l1_l_1_1.jpg",
+      "bytes": 61671,
+      "sha256": "b0710cf598bb5c51225bc6a7e30aded1fd3d689ae53ed242bcf92be7394b94b5"
+    },
+    {
+      "file": "pagoda/l-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/l/l1/1/l1_l_1_2.jpg",
+      "bytes": 84936,
+      "sha256": "8ccddfbb268e4cbb5cd333d2a00e2c69da920dd238ee3c9024a0eedaaaa900fd"
+    },
+    {
+      "file": "pagoda/l-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/l/l1/2/l1_l_2_2.jpg",
+      "bytes": 70182,
+      "sha256": "0f3a131b54e21faf82cc832a88969056293b0a50cea8da4812bbd16d6056f21e"
+    },
+    {
+      "file": "pagoda/u-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/u/l1/1/l1_u_1_1.jpg",
+      "bytes": 52303,
+      "sha256": "1cb8513bdcbeaaac1e342355154094ec84877daf220f87b5a88699adb222e7c0"
+    },
+    {
+      "file": "pagoda/u-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/u/l1/2/l1_u_2_1.jpg",
+      "bytes": 43650,
+      "sha256": "6556e781dd37c405e83f4caa6f4e972de607c39adcdab38335e0aced4fba2946"
+    },
+    {
+      "file": "pagoda/u-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/u/l1/2/l1_u_2_2.jpg",
+      "bytes": 56655,
+      "sha256": "fb65f3b6faecfb958e671d385ace46ac0e277dfa1ee9203f0b10219ec787d678"
+    },
+    {
+      "file": "pagoda/u-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/u/l1/1/l1_u_1_2.jpg",
+      "bytes": 66243,
+      "sha256": "78439590127a3ff0cd3ff52e1e99fa876ec76f7e7a4346b521ee5889512e9a46"
+    },
+    {
+      "file": "pagoda/l-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/l/l1/2/l1_l_2_1.jpg",
+      "bytes": 86206,
+      "sha256": "ddfd8213658e31abc45de6067e8f7dd13acecc44427231b7b308a2f80487546e"
+    },
+    {
+      "file": "pagoda/d-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/d/l1/1/l1_d_1_2.jpg",
+      "bytes": 83045,
+      "sha256": "79bed23c023a7ae2e64823f4b49a2068cbc29e982fb0c3b3ec2f94ee83843baa"
+    },
+    {
+      "file": "pagoda/b-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/b/l1/1/l1_b_1_1.jpg",
+      "bytes": 72061,
+      "sha256": "aaa5c657ac6a30fbee2b0ebbf8480370939f845737b305d451d98a0367527342"
+    },
+    {
+      "file": "pagoda/b-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/b/l1/1/l1_b_1_2.jpg",
+      "bytes": 75538,
+      "sha256": "9daa0d43e59b1fed039f5aeec8b6db2fe4f789c9781392aff7fd02e6b2ca6352"
+    },
+    {
+      "file": "pagoda/d-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/d/l1/2/l1_d_2_2.jpg",
+      "bytes": 82367,
+      "sha256": "280cf4b89efe2322e11e62d22db90f7f5fc6089da35ebb567a0ddbb54c3ecdb9"
+    },
+    {
+      "file": "pagoda/d-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/d/l1/1/l1_d_1_1.jpg",
+      "bytes": 80615,
+      "sha256": "458308915f29b51c15d8fa365908808ee34c013311051ee3cf4663f619fa7566"
+    },
+    {
+      "file": "pagoda/d-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/d/l1/2/l1_d_2_1.jpg",
+      "bytes": 90793,
+      "sha256": "dc186617e64ab823464c6477613e58eadf973fac72d0e66a48c28c129154af67"
+    },
+    {
+      "file": "pagoda/b-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/b/l1/2/l1_b_2_2.jpg",
+      "bytes": 89563,
+      "sha256": "9415530949bb77e29a4950ca66eb68f35124dc49751cff3b71f0ee2e8d5dfa5c"
+    },
+    {
+      "file": "pagoda/f-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/f/l1/2/l1_f_2_2.jpg",
+      "bytes": 80471,
+      "sha256": "42d48836f5a3c28b493bad2f1914c9f32ca3719489111d99d31268f5de7a3313"
+    },
+    {
+      "file": "pagoda/b-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/b/l1/2/l1_b_2_1.jpg",
+      "bytes": 65565,
+      "sha256": "83454f58242e648e049656f56621cf95c8b6b00d3bdc439b8ddeab7f16c6c728"
+    },
+    {
+      "file": "pagoda/f-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/f/l1/1/l1_f_1_1.jpg",
+      "bytes": 104828,
+      "sha256": "758819eb3c5e9f3dcab3261ea9579085a53591a5f28a13f807f943198c2b1db3"
+    },
+    {
+      "file": "pagoda/f-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/f/l1/1/l1_f_1_2.jpg",
+      "bytes": 108228,
+      "sha256": "5fb414e1d54d542d3c949fd24d62f8beb6e96207783b4e949e687c1476614a15"
+    },
+    {
+      "file": "pagoda/f-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/12_CONG_CHINH_DIEN.tiles/f/l1/2/l1_f_2_1.jpg",
+      "bytes": 74813,
+      "sha256": "7e737c83e2cca5085c402d89a86b5aa2d80aff8dda1a9a306b60223f045f2f50"
+    },
+    {
+      "file": "pond/r-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/r/l1/1/l1_r_1_2.jpg",
+      "bytes": 108791,
+      "sha256": "180401e4deef8b83323382211a304e7c06b23d44383c2011e7d983fc41cee59c"
+    },
+    {
+      "file": "pond/r-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/r/l1/2/l1_r_2_1.jpg",
+      "bytes": 92434,
+      "sha256": "0ef7cbfc42cab53fb9128acd5653fa43e17030659b78e11a56c1a2da46e7ade0"
+    },
+    {
+      "file": "pond/r-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/r/l1/2/l1_r_2_2.jpg",
+      "bytes": 65875,
+      "sha256": "3728457f809a9d87a771ce2aaaba6f9e9d481af4d461798286c5ceeb5cb34997"
+    },
+    {
+      "file": "pond/r-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/r/l1/1/l1_r_1_1.jpg",
+      "bytes": 108996,
+      "sha256": "e73f8df85426d9c510e8f471012bc48876c17b23f65632fbaeae18ed31c2cc31"
+    },
+    {
+      "file": "pond/l-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/l/l1/1/l1_l_1_2.jpg",
+      "bytes": 122739,
+      "sha256": "22fb4bc79f9a1aa3e39e617c56929fe0140fa17d6740e5b200f55a5590a99500"
+    },
+    {
+      "file": "pond/l-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/l/l1/1/l1_l_1_1.jpg",
+      "bytes": 132576,
+      "sha256": "5b4755d75f3e4d65de665d3b938de36c93ce12fea4cef4d94d7a11ac43a3ccc6"
+    },
+    {
+      "file": "pond/l-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/l/l1/2/l1_l_2_2.jpg",
+      "bytes": 82707,
+      "sha256": "d96812679ed3b211388d74fcbed6c6b7b582e8956a9953041a5dfaae570a9c4b"
+    },
+    {
+      "file": "pond/l-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/l/l1/2/l1_l_2_1.jpg",
+      "bytes": 66075,
+      "sha256": "e1c76ee5359418ed107e0af38c6357891c3737e8e9d176d9bde554b4bc081852"
+    },
+    {
+      "file": "pond/u-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/u/l1/2/l1_u_2_1.jpg",
+      "bytes": 128323,
+      "sha256": "3a8e7c839497a9a3daca483944173788fececca086b60a9a90d32e78ef23e936"
+    },
+    {
+      "file": "pond/u-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/u/l1/2/l1_u_2_2.jpg",
+      "bytes": 128554,
+      "sha256": "9a6d77d9d6a1a50d46aca1ba6a4f94aa77254cdc814348718364d520749b1431"
+    },
+    {
+      "file": "pond/u-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/u/l1/1/l1_u_1_2.jpg",
+      "bytes": 133442,
+      "sha256": "8f787a1a6df5ac0eb7f0bcbd8f1762e89c9e728a519ccc577b1b81edf80cf55c"
+    },
+    {
+      "file": "pond/u-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/u/l1/1/l1_u_1_1.jpg",
+      "bytes": 145069,
+      "sha256": "8ca982659b6355d80136bb0ebd7cea2c5b031b7885cece06933cedd586b9af8b"
+    },
+    {
+      "file": "pond/d-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/d/l1/2/l1_d_2_1.jpg",
+      "bytes": 60110,
+      "sha256": "01af1220f50bf64b0c7d75c39b64daa3b45b01d2d69275cc45d411449aabba82"
+    },
+    {
+      "file": "pond/d-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/d/l1/1/l1_d_1_1.jpg",
+      "bytes": 82669,
+      "sha256": "487cadd2fded5fce6918c152b6e4bd4d6df681a87c39b7df6ad0f041e56f33da"
+    },
+    {
+      "file": "pond/d-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/d/l1/1/l1_d_1_2.jpg",
+      "bytes": 91510,
+      "sha256": "489f6f5d440cc73622f9d726d40d569d38433a42d2ded3edb5dda3539902c563"
+    },
+    {
+      "file": "pond/d-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/d/l1/2/l1_d_2_2.jpg",
+      "bytes": 62649,
+      "sha256": "51d1be130f6fac8bd479c54d9bcba6942198bc409987d40279f01d80eec93eff"
+    },
+    {
+      "file": "pond/b-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/b/l1/1/l1_b_1_1.jpg",
+      "bytes": 109236,
+      "sha256": "e46c6b346942d0b0591a9cbb7531691063bb84abc582ea027275ac36f33fa541"
+    },
+    {
+      "file": "pond/b-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/b/l1/1/l1_b_1_2.jpg",
+      "bytes": 121310,
+      "sha256": "077824e4d026c9d239a4772ef0a8f44dc8a3a113ec65c3a4b2e45bcf680e922b"
+    },
+    {
+      "file": "pond/b-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/b/l1/2/l1_b_2_1.jpg",
+      "bytes": 58137,
+      "sha256": "f1a2c80f8dd04bb349242b36322c6088abd8e0681f407fdec7191977c9e411b6"
+    },
+    {
+      "file": "pond/b-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/b/l1/2/l1_b_2_2.jpg",
+      "bytes": 62786,
+      "sha256": "9ba3681f128d93121239214f4d5cc5af4ea79848d8f740df2c3cc1f8ebfd25f9"
+    },
+    {
+      "file": "pond/f-1-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/f/l1/1/l1_f_1_2.jpg",
+      "bytes": 89583,
+      "sha256": "115feb8e1d09197fd8f5487cd1e686c460da1332533c88a931d35e9c1509a421"
+    },
+    {
+      "file": "pond/f-2-2.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/f/l1/2/l1_f_2_2.jpg",
+      "bytes": 96538,
+      "sha256": "905b4995239adecb55b73026f7cb431c1a42a84d9a89905b3b49a93e541bb0e0"
+    },
+    {
+      "file": "pond/f-1-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/f/l1/1/l1_f_1_1.jpg",
+      "bytes": 98810,
+      "sha256": "68cd7c5c6e2155f3beb50fcd55a571db0cf7707c9d3a91b9c530a844a99fa51b"
+    },
+    {
+      "file": "pond/f-2-1.jpg",
+      "url": "https://chuaang.tinhdoanvinhlong.vn/panos/6_1_AO_BA_OM.tiles/f/l1/2/l1_f_2_1.jpg",
+      "bytes": 102179,
+      "sha256": "b81d018dbf6bb1dab28568125cb336775dbf43265633af6915a1ce7da7616710"
+    }
+  ]
+}

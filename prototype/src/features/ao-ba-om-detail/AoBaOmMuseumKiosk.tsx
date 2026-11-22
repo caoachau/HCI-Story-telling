@@ -31,6 +31,7 @@ import { initLenis, destroyLenis } from './motion/useMotion';
 import './motion/cinematic.css';
 import { usePreferences, setPreferences } from '../../experience/preferences';
 import { restoredParams, updateRoute } from '../../experience/state';
+import { useAudioContentContext } from '../../audio/context';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -61,6 +62,7 @@ export const AoBaOmMuseumKiosk: React.FC<AoBaOmMuseumKioskProps> = ({
   const [isQRCodeOpen, setIsQRCodeOpen] = useState(false);
   const [initialSection] = useState(() => { const value = restoredParams('ao-ba-om').get('section'); return value && /^section-[1-5]-[a-z-]+$/.test(value) ? value : 'section-1-overview'; });
   const [activeSectionId, setActiveSectionId] = useState<string>(initialSection);
+  useAudioContentContext(activeSectionId === 'section-1-overview' ? 'ao-ba-om' : activeSectionId === 'section-4-community' ? 'ao-ba-om:section:community' : 'ao-ba-om:section:legacy', !['section-2-map', 'section-3-timeline'].includes(activeSectionId), 'ao-ba-om');
   useEffect(() => { updateRoute({ entry: 'ao-kiosk', section: activeSectionId }, 'ao-ba-om'); }, [activeSectionId]);
   useEffect(() => { if (initialSection !== 'section-1-overview') { const timer = setTimeout(() => document.getElementById(initialSection)?.scrollIntoView({ behavior: 'instant' }), 100); return () => clearTimeout(timer); } }, []);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -372,10 +374,11 @@ export const AoBaOmMuseumKiosk: React.FC<AoBaOmMuseumKioskProps> = ({
 
         <Section2InteractiveSiteMap
           lang={lang}
+          active={activeSectionId === 'section-2-map'}
           onOpenPanorama={(zone) => setActivePanoramaZone(zone)}
         />
 
-        <Section3ProgressiveTimeline lang={lang} />
+        <Section3ProgressiveTimeline lang={lang} active={activeSectionId === 'section-3-timeline'} />
 
         <Section4LivingCommunityExhibition lang={lang} />
 

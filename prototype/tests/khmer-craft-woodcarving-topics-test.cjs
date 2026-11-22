@@ -1,0 +1,31 @@
+/* Real browser checks for the hierarchical woodcarving topics and zodiac exhibit. */
+const fs = require('node:fs'), path = require('node:path'), Module = require('node:module');
+const file = path.resolve(__dirname, 'den-tho-bac-test.cjs');
+const source = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
+const start = source.indexOf('  const sections=['), end = source.lastIndexOf('\n}\nmain().catch');
+const body = String.raw`
+  await viewport(1920,1080);
+  await cdp('Page.navigate',{url:(process.env.MUSEUM_URL || 'http://127.0.0.1:3000')+'/bao-tang-khmer.html?section=map&tab=upper&place=crafts&scene=crafts-left'});
+  await wait('document.querySelector(".kd-panorama")?.dataset.panoramaState==="ready"','panorama');
+  await check('document.querySelectorAll(".kd-topic-hotspot:not([hidden])").length===1 && document.querySelector(".kd-topic-hotspot:not([hidden])")?.textContent.includes("Nghề chạm khắc gỗ")','woodcarving overview shows one root topic');
+  await check('!document.querySelector(".kd-exhibit-dot:not([hidden])")','woodcarving overview hides all exhibits');
+  await click('[data-panorama-point=topic-wood-carving]');
+  await wait('document.querySelector(".kd-topic-toolbar").dataset.topic==="wood-carving" && document.querySelector(".kd-panorama-canvas").dataset.motionState==="idle"','woodcarving root focus');
+  await check('[...document.querySelectorAll(".kd-topic-hotspot:not([hidden])")].map(button=>button.dataset.panoramaPoint).sort().join(",")==="topic-wood-artworks,topic-wood-display-case"','woodcarving root reveals two areas');
+  await click('[data-panorama-point=topic-wood-artworks]');
+  await wait('document.querySelector(".kd-topic-toolbar").dataset.topic==="wood-artworks" && document.querySelector(".kd-panorama-canvas").dataset.motionState==="idle"','area two focus');
+  await check('[...document.querySelectorAll(".kd-topic-hotspot:not([hidden])")].map(button=>button.dataset.panoramaPoint).sort().join(",")==="topic-wood-artworks-center,topic-wood-artworks-left"','area two reveals its two exhibit clusters');
+  await click('[data-panorama-point=topic-wood-artworks-center]');
+  await wait('document.querySelector(".kd-topic-toolbar").dataset.topic==="wood-artworks-center" && document.querySelector(".kd-panorama-canvas").dataset.motionState==="idle"','central artwork cluster focus');
+  const visible=await page('return [...document.querySelectorAll(".kd-exhibit-dot:not([hidden])")].map(button=>button.dataset.panoramaPoint)');
+  assert.ok(visible.includes('hotspot_zodiac_woodcarving'),'zodiac exhibit is visible in area two');
+  assert.ok(visible.every(id=>['crafts-right-object-80','crafts-right-object-81','crafts-right-object-82','hotspot_zodiac_woodcarving'].includes(id)),'area two center hides unrelated exhibits');
+  await click('[data-panorama-point=hotspot_zodiac_woodcarving]');
+  await check('document.querySelector("[data-selected-point]").dataset.selectedPoint==="hotspot_zodiac_woodcarving"','zodiac exhibit opens its detail');
+  await click('[data-action=exhibit-list]');
+  await check('[...document.querySelectorAll(".kd-topic-list-item")].some(button=>button.textContent.includes("Tượng 12 con giáp"))','zodiac exhibit appears in the exhibit list');
+  assert.deepEqual(errors,[]);console.log('PASS no browser runtime errors');
+`;
+const test = new Module(file, module); test.filename = file;
+test.paths = Module._nodeModulePaths(path.dirname(file));
+test._compile(source.slice(0, start) + body + source.slice(end), file);

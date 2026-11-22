@@ -5,8 +5,9 @@ import { installDetailBridge } from './utils/detailBridge';
 import { installExperienceBridge } from '../../experience/state';
 import { ExperienceTools } from '../../experience/ExperienceTools';
 import { RecoveryBoundary } from '../../experience/RecoveryBoundary';
+import { AudioExperience } from '../../audio/AudioExperience';
 installExperienceBridge();
 
-createRoot(document.getElementById('root')!).render(<RecoveryBoundary><App /><ExperienceTools siteId="con-chim" /></RecoveryBoundary>);
+createRoot(document.getElementById('root')!).render(<RecoveryBoundary><AudioExperience siteId="con-chim"><App /><ExperienceTools siteId="con-chim" /></AudioExperience></RecoveryBoundary>);
 installDetailBridge();
 

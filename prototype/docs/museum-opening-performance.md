@@ -1,5 +1,9 @@
 # Chuyển từ thông tin nhanh vào trang Bảo tàng Khmer
 
+Cập nhật 14/11/2026: theo yêu cầu người dùng, màn giới thiệu mở đầu (`hero`) đã được bỏ khỏi luồng và trang mở thẳng Tổng quan (`overview`). Thanh đáy, PageUp/PageDown và liên kết/trạng thái cũ đều trở về Tổng quan còn lại. Toàn bộ thẻ nổi “Di sản Khmer Nam Bộ”, gồm mô tả và nút “Câu chuyện bảo tàng”, đã bỏ theo yêu cầu tiếp theo; nút “Giới thiệu” chính vẫn mở bài giới thiệu. Khi mở chi tiết từ thông tin nhanh, lớp ảnh chuyển tiếp được dọn ngay khi Tổng quan tiếp nhận. Các mô tả và số đo cinematic intro bên dưới là lịch sử của màn đã bỏ. Kiểm tra luồng hiện tại: `node tests/khmer-overview-entry-test.cjs`.
+
+Các thẻ ảnh của màn đã bỏ được chuyển vào khung ảnh trước/sau ở phần dưới của Tổng quan hiện tại. Giữ bốn ảnh cũ, thêm Không gian di sản, Hiện vật & nghệ thuật, Con người tiếp nối, Kiến trúc Khmer, Hiện vật & ký ức và Nghệ thuật Khmer. Con người tiếp nối / Di sản tiếp nối dùng cùng ảnh Thạch Sang nên chỉ giữ một lần. Danh sách lọc trùng theo URL ảnh, hiện có 10 thẻ; tiêu đề, mô tả, văn bản thay thế và bộ đếm cập nhật cùng ảnh. Nguồn ảnh và chú thích gốc tiếp tục được giữ trong dữ liệu Văn hóa/Lịch sử; không dựng lại màn mở đầu.
+
 Giữ nguyên bố cục, nội dung và các hiệu ứng chính. Tối ưu việc chuẩn bị màn hình và thứ tự chạy hiệu ứng thay vì giảm độ phong phú của trang.
 
 ## Những điểm đã sửa

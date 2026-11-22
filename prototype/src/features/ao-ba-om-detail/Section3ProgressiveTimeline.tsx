@@ -14,14 +14,18 @@ import {
 } from 'lucide-react';
 import { TIMELINE_EPOCHS } from './aoBaOm5PartsData';
 import type { TimelineEpoch, TimelineSubCard, AoLanguage } from './types';
+import { useAudioContentContext } from '../../audio/context';
+import { restoredParams } from '../../experience/state';
 
 interface Section3ProgressiveTimelineProps {
   lang: AoLanguage;
+  active?: boolean;
 }
 
-export const Section3ProgressiveTimeline: React.FC<Section3ProgressiveTimelineProps> = ({ lang }) => {
+export const Section3ProgressiveTimeline: React.FC<Section3ProgressiveTimelineProps> = ({ lang, active = false }) => {
   const [selectedTag, setSelectedTag] = useState<string>('all');
-  const [selectedCard, setSelectedCard] = useState<TimelineSubCard | null>(null);
+  const [selectedCard, setSelectedCard] = useState<TimelineSubCard | null>(() => TIMELINE_EPOCHS.flatMap(epoch => epoch.cards).find(card => card.id === restoredParams('ao-ba-om').get('topic')) ?? null);
+  useAudioContentContext(selectedCard ? `ao-ba-om:history:${selectedCard.id}` : 'ao-ba-om:section:history', active, 'ao-ba-om');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollTimeline = (direction: 'left' | 'right') => {

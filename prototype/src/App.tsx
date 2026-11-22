@@ -5,9 +5,9 @@ import { HeaderTopBar } from './components/HeaderTopBar';
 import { LandmarkDrawer } from './components/LandmarkDrawer';
 import { LocationQuickView } from './components/LocationQuickView';
 import { LocationUtilityDialog } from './components/LocationUtilityDialog';
+import { SessionExpiredDialog } from './components/SessionExpiredDialog';
 import type { CameraManager, CameraChapterView } from './services/cameraManager';
 import { soundscape } from './services/soundscape';
-import { Clock3 } from 'lucide-react';
 import { fetchLocalWeather, type LocalWeather } from './services/localWeather';
 import { usePreferences, setPreferences } from './experience/preferences';
 import { ExperienceTools } from './experience/ExperienceTools';
@@ -150,6 +150,11 @@ export default function App() {
       setIsPanoramaOpen(false);
       setIsQRCodeOpen(false);
       setIsListDrawerOpen(false);
+      setIsAboutOpen(false);
+      setIsSearchOpen(false);
+      setIsAutoTouring(false);
+      setIsAttractMode(false);
+      cameraManagerRef.current?.stopAttractMode();
       setIsSessionExpired(true);
       cameraManagerRef.current?.flyToOverview();
     }, 5 * 60 * 1000);
@@ -166,7 +171,7 @@ export default function App() {
       window.clearTimeout(idleTimerRef.current);
     }
     idleTimerRef.current = window.setTimeout(() => {
-      if (!isAutoTouring && !isSidebarOpen && !hasUserSelectedSite) {
+      if (!isAutoTouring && !isSidebarOpen && !hasUserSelectedSite && !isSessionExpired) {
         setIsAttractMode(true);
         cameraManagerRef.current?.startAttractMode();
       }
@@ -186,7 +191,7 @@ export default function App() {
         window.clearTimeout(idleTimerRef.current);
       }
     };
-  }, [isAutoTouring, isSidebarOpen, hasUserSelectedSite, isAttractMode]);
+  }, [isAutoTouring, isSidebarOpen, hasUserSelectedSite, isAttractMode, isSessionExpired]);
 
   // Ambient sound toggle
   const handleToggleSound = () => {
@@ -488,17 +493,13 @@ export default function App() {
       )}
 
       {isSessionExpired && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/75 p-5 backdrop-blur-sm" role="alertdialog" aria-modal="true" aria-labelledby="session-expired-title">
-          <div className="w-full max-w-md rounded-3xl border border-amber-500/30 bg-[#11141c] p-7 text-center shadow-2xl">
-            <Clock3 className="mx-auto mb-4 h-8 w-8 text-amber-300" />
-            <h2 id="session-expired-title" className="mb-2 font-serif text-2xl text-amber-100">{lang === 'vi' ? 'Lượt khám phá đã kết thúc' : 'Your visit has ended'}</h2>
-            <p className="mb-6 text-sm leading-relaxed text-stone-300">{lang === 'vi' ? 'Bản đồ đã trở về toàn cảnh. Bạn có thể bắt đầu hành trình mới bất cứ lúc nào.' : 'The map has returned to the overview. You can begin a new journey at any time.'}</p>
-            <button onClick={() => setIsSessionExpired(false)} className="min-h-11 rounded-xl bg-amber-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-500">{lang === 'vi' ? 'Tiếp tục khám phá' : 'Continue exploring'}</button>
-          </div>
-        </div>
+        <SessionExpiredDialog lang={lang} onStart={() => {
+          setIsSessionExpired(false);
+          requestAnimationFrame(() => document.querySelector<HTMLButtonElement>('.landmark-carousel-card:not([hidden])')?.focus({ preventScroll: true }));
+        }} />
       )}
 
-    <ExperienceTools siteId={isSiteId(selectedSite.id) ? selectedSite.id : 'ao-ba-om'} dockHost={isSidebarOpen && isStoryExpanded ? null : mapToolsHost} hidden={isSidebarOpen && isStoryExpanded && ['con-chim', 'den-tho-bac'].includes(selectedSite.id)} />
+    <ExperienceTools siteId={isSiteId(selectedSite.id) ? selectedSite.id : 'ao-ba-om'} dockHost={isSidebarOpen && isStoryExpanded ? null : mapToolsHost} hidden={isSessionExpired || (isSidebarOpen && isStoryExpanded && ['con-chim', 'den-tho-bac'].includes(selectedSite.id))} />
     </div>
   );
 }

@@ -122,8 +122,8 @@ export const khmerLegacyValues: KhmerLegacyValue[] = [
             "The museum building dates to the 1990s, while the histories it introduces reach further back. Khmer life, Theravada Buddhism, Brahmanical traces and Oc Eo culture should be understood through their own dates, places and contexts.",
           ),
           t(
-            "Trong di sản khảo cổ của tỉnh, bộ Linga–Yoni niên đại thế kỷ V–VI được công nhận bảo vật quốc gia năm 2016. Hồ sơ của Cục Di sản văn hóa ghi nơi lưu giữ là Bảo tàng Tổng hợp Trà Vinh. Hiện vật này giúp mở rộng bối cảnh lịch sử vùng đất; nơi lưu giữ cần được phân biệt với Bảo tàng Văn hóa dân tộc Khmer.",
-            "In the province's archaeological heritage, a fifth- to sixth-century Linga–Yoni was recognised as a National Treasure in 2016. The Department of Cultural Heritage identifies its custodian as Tra Vinh General Museum. It broadens the regional historical context, with custody distinct from the Khmer Culture Museum.",
+            "Trong di sản khảo cổ của tỉnh, bộ Linga–Yoni niên đại thế kỷ V–VI được công nhận bảo vật quốc gia năm 2016. Hồ sơ của Cục Di sản văn hóa ghi nơi lưu giữ là Bảo tàng Tổng hợp Trà Vinh. Hiện vật này giúp mở rộng bối cảnh lịch sử vùng đất; nơi lưu giữ cần được phân biệt với Bảo Tàng Văn Hóa Dân Tộc Khmer.",
+            "In the province's archaeological heritage, a fifth- to sixth-century Linga–Yoni was recognised as a National Treasure in 2016. The Department of Cultural Heritage identifies its custodian as Tra Vinh General Museum. It broadens the regional historical context, with custody distinct from the Khmer Ethnic Cultural Museum.",
           ),
         ],
       ),

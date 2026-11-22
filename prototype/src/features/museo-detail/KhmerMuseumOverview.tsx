@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { InlineAudioActions } from "../../audio/InlineAudioActions";
 import {
   ArrowRight,
   BookOpen,
@@ -17,11 +18,11 @@ import { artwork } from "./data";
 import {
   khmerOverview,
   khmerOverviewFacts,
-  khmerOverviewGallery,
   khmerOverviewHighlights,
   khmerOverviewVisitReasons,
   type KhmerOverviewTopic,
 } from "./khmerOverview";
+import { khmerOverviewAlbum as khmerOverviewGallery } from "./khmerOverviewExhibition";
 
 const icons = {
   map: Map,
@@ -97,7 +98,7 @@ export function KhmerMuseumOverview({
 }: {
   lang: Language;
   active: boolean;
-  onRead: (topic: KhmerOverviewTopic, origin: HTMLElement) => void;
+  onRead: (topic: KhmerOverviewTopic, origin: HTMLElement, photoIndex?: number) => void;
   onContentChange: () => void;
 }) {
   const [photoIndex, setPhotoIndex] = useState(0);
@@ -125,8 +126,8 @@ export function KhmerMuseumOverview({
           src={artwork("khmer-facade")}
           alt={
             lang === "vi"
-              ? "Mặt tiền Bảo tàng Văn hóa Dân tộc Khmer Trà Vinh giữa khuôn viên cây xanh"
-              : "The Khmer culture museum's facade in its leafy grounds"
+              ? "Mặt tiền Bảo Tàng Văn Hóa Dân Tộc Khmer giữa khuôn viên cây xanh"
+              : "The Khmer Ethnic Cultural Museum's facade in its leafy grounds"
           }
           loading="lazy"
         />
@@ -155,32 +156,9 @@ export function KhmerMuseumOverview({
             >
               {khmerOverview.explore[lang]} <ArrowRight />
             </button>
-            <button
-              className="md-intro-link"
-              type="button"
-              data-overview-topic="introduction"
-              onClick={(event) => onRead("introduction", event.currentTarget)}
-            >
-              <span className="md-play-disc">
-                <BookOpen />
-              </span>
-              <span>
-                <strong>{khmerOverview.readMore[lang]}</strong>
-                <small>{khmerOverview.introCaption[lang]}</small>
-              </span>
-            </button>
+            <InlineAudioActions lang={lang} id="bao-tang-khmer:overview:collections" />
           </div>
         </div>
-        <aside className="md-unesco-note">
-          <strong>{khmerOverview.noteTitle[lang]}</strong>
-          <p>{khmerOverview.note[lang]}</p>
-          <button
-            type="button"
-            onClick={(event) => onRead("introduction", event.currentTarget)}
-          >
-            {khmerOverview.noteAction[lang]} <ArrowRight />
-          </button>
-        </aside>
       </div>
       <div className="md-facts">
         <div className="md-fact-items">
@@ -211,8 +189,8 @@ export function KhmerMuseumOverview({
       <div className="md-overview-bottom">
         <div className="md-remarkable">
           <h3>{khmerOverview.highlightsTitle[lang]}</h3>
-          {khmerOverviewHighlights.map((item) => {
-            const Icon = icons[item.icon];
+          <div className="md-remarkable-list" role="region" aria-label={lang === "vi" ? "Các câu chuyện bản sắc, cuộn xuống để xem thêm" : "Distinctive stories, scroll down for more"} tabIndex={0}>
+          {khmerOverviewHighlights.map((item, index) => {
             return (
               <button
                 className="md-remarkable-row"
@@ -221,8 +199,8 @@ export function KhmerMuseumOverview({
                 data-overview-topic={item.id}
                 onClick={(event) => onRead(item.id, event.currentTarget)}
               >
-                <img src={artwork(item.photo)} alt="" loading="lazy" />
-                <Icon aria-hidden="true" />
+                <img src={item.image} alt="" loading="lazy" />
+                <span className="md-overview-row-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                 <span>
                   <strong>{item.title[lang]}</strong>
                   <small>{item.text[lang]}</small>
@@ -233,15 +211,22 @@ export function KhmerMuseumOverview({
               </button>
             );
           })}
+          </div>
         </div>
-        <div className="md-chamber">
+        <div className="md-chamber" data-overview-slide={photo.photo} data-overview-album-topic={photo.topic} role="region" aria-label={lang === "vi" ? "Ảnh và câu chuyện bảo tàng" : "Museum photographs and stories"}>
           <img
-            src={artwork(photo.photo)}
+            src={photo.src}
             alt={photo.alt[lang]}
             loading="lazy"
           />
+          <button
+            type="button"
+            className="md-chamber-open"
+            aria-label={`${lang === "vi" ? "Xem câu chuyện" : "Read the story"}: ${photo.title[lang]}`}
+            onClick={(event) => onRead(photo.topic, event.currentTarget, photo.photoIndex)}
+          />
           <div className="md-chamber-caption">
-            <span>
+            <span aria-live="polite" aria-atomic="true">
               <strong>{photo.title[lang]}</strong>
               <small>{photo.caption[lang]}</small>
             </span>
@@ -280,7 +265,9 @@ export function KhmerMuseumOverview({
           </div>
         </div>
         <div className="md-why-visit">
-          <h3>{khmerOverview.visitTitle[lang]}</h3>
+          <div className="md-visit-heading">
+            <h3>{khmerOverview.visitTitle[lang]}</h3>
+          </div>
           {khmerOverviewVisitReasons.map((item) => {
             const Icon = icons[item.icon];
             return (
@@ -289,13 +276,16 @@ export function KhmerMuseumOverview({
                 key={item.id}
                 type="button"
                 data-overview-topic={item.id}
-                onClick={(event) => onRead(item.id, event.currentTarget)}
+                onClick={(event) => onRead("visit", event.currentTarget)}
               >
                 <img src={artwork(item.photo)} alt="" loading="lazy" />
                 <Icon aria-hidden="true" />
                 <span>
                   <strong>{item.title[lang]}</strong>
                   <small>{item.text[lang]}</small>
+                </span>
+                <span className="md-small-arrow" aria-hidden="true">
+                  <ArrowRight />
                 </span>
               </button>
             );

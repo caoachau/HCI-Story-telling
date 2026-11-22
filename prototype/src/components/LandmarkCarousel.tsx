@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useMemo, useRef } from 'react';
 import { HERITAGE_SITES, type HeritageSite } from '../data/heritageSites';
 import { calculateDistanceKm } from '../utils/geoCoordinates';
 import { isSiteInCategory } from '../data/siteCategories';
+import { KHMER_MUSEUM_NAME } from '../data/museumIdentity';
 
 interface LandmarkCarouselProps {
   selectedSite: HeritageSite;
@@ -16,7 +17,7 @@ interface LandmarkCarouselProps {
 const labels: Record<string, { vi: string; en: string; compact: { vi: string; en: string } }> = {
   'ao-ba-om': { vi: 'Danh thắng Ao Bà Om', en: 'Ba Om Pond', compact: { vi: 'Ao Bà Om', en: 'Ba Om Pond' } },
   'chua-ang': { vi: 'Chùa Âng (Angkor Rajaborey)', en: 'Ang Pagoda', compact: { vi: 'Chùa Âng', en: 'Ang Pagoda' } },
-  'bao-tang-khmer': { vi: 'Bảo tàng Văn hóa Khmer', en: 'Khmer Culture Museum', compact: { vi: 'Bảo tàng Khmer', en: 'Khmer Museum' } },
+  'bao-tang-khmer': { ...KHMER_MUSEUM_NAME, compact: KHMER_MUSEUM_NAME },
   'chua-hang': { vi: 'Chùa Hang (Kompongnicrôth)', en: 'Hang Pagoda', compact: { vi: 'Chùa Hang', en: 'Hang Pagoda' } },
   'den-tho-bac': { vi: 'Đền thờ Bác Hồ Trà Vinh', en: 'Ho Chi Minh Memorial', compact: { vi: 'Đền thờ Bác Hồ', en: 'Ho Chi Minh' } },
   'con-chim': { vi: 'Du lịch cộng đồng Cồn Chim', en: 'Con Chim Community Tourism', compact: { vi: 'Cồn Chim', en: 'Con Chim' } },

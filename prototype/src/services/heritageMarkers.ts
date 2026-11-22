@@ -1,4 +1,5 @@
 import type { HeritageSite } from '../data/heritageSites';
+import { KHMER_MUSEUM_NAME } from '../data/museumIdentity';
 
 const markerImages = import.meta.glob('../assets/heritage-markers/*.{png,webp,avif,jpg,jpeg}', {
   eager: true,
@@ -9,7 +10,7 @@ const markerImages = import.meta.glob('../assets/heritage-markers/*.{png,webp,av
 const markerLabels: Record<string, { vi: string; en: string }> = {
   'ao-ba-om': { vi: 'Ao Bà Om', en: 'Ba Om Pond' },
   'chua-ang': { vi: 'Chùa Âng', en: 'Ang Pagoda' },
-  'bao-tang-khmer': { vi: 'Bảo tàng Khmer', en: 'Khmer Museum' },
+  'bao-tang-khmer': KHMER_MUSEUM_NAME,
   'chua-hang': { vi: 'Chùa Hang', en: 'Hang Pagoda' },
   'den-tho-bac': { vi: 'Đền thờ Bác', en: 'Ho Chi Minh Memorial' },
   'con-chim': { vi: 'Cồn Chim', en: 'Con Chim Island' },

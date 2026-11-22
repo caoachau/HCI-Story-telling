@@ -25,6 +25,8 @@ export function publicStoryLink(storyId: string, context: StoryContext, currentU
     if (!['https:','http:'].includes(target.protocol) || target.username || target.password || hostname === 'localhost' || hostname.endsWith('.localhost') || hostname === '[::1]' || hostname === '0.0.0.0' || hostname.startsWith('127.')) return null;
     target.search = ''; target.hash = '';
     target.searchParams.set('story', storyId); target.searchParams.set('portable','1');
+    target.searchParams.set('view', 'audio');
+    target.searchParams.set('listen', `con-chim:story:${storyId}`);
     if (context.mode !== 'read') target.searchParams.set('mode',context.mode);
     if (context.mode === 'questions' && context.question) target.searchParams.set('question',context.question);
     if (context.mode === 'observe' && context.point) target.searchParams.set('point',context.point);

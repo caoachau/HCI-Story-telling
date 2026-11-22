@@ -1,12 +1,37 @@
+import { KHMER_MUSEUM_NAME } from "../../data/museumIdentity";
 export type PlaceLanguage = "vi" | "en";
 type Copy = Record<PlaceLanguage, string>;
 const t = (vi: string, en: string): Copy => ({ vi, en });
 
 export const khmerPlaceSources = {
+  traditional360: {
+    title: t("Ảnh 360° phòng truyền thống do người dùng cung cấp", "User-supplied traditional exhibition panorama"),
+    url: new URL("../../assets/museo/khmer-traditional-360.jpg", import.meta.url).href,
+  },
+  thematic360: {
+    title: t("Ảnh 360° phòng chuyên đề do người dùng cung cấp", "User-supplied thematic exhibition panorama"),
+    url: new URL("../../assets/museo/khmer-thematic-360.jpg", import.meta.url).href,
+  },
+  complexAerial: {
+    title: t("Ảnh flycam quần thể do người dùng cung cấp", "User-supplied aerial photograph"),
+    url: new URL("../../assets/museo/khmer-complex-aerial.png", import.meta.url).href,
+  },
+  headdresses: {
+    title: t("Bảo tàng Vĩnh Long · Nghề làm mão, mặt nạ", "Vinh Long Museum · Headdress and mask making"),
+    url: "https://baotangvinhlong.vn/bai-viet-nghien-cuu-67150/doi-net-nghe-lam-mao-mu-mat-na-cua-dong-bao-khmer-o-tra-vinh-di-san-van-hoa-phi-vat-the-quoc-gia-587164",
+  },
+  groundTrial360: {
+    title: t("Ảnh thử 360° do bạn cung cấp", "User-supplied 360° test image"),
+    url: new URL("../../assets/museo/khmer-ground-test-360.jpg", import.meta.url).href,
+  },
+  grounds360: {
+    title: t("Google Maps · Ảnh 360° sân trước bảo tàng", "Google Maps · Museum courtyard panorama"),
+    url: "https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgIC-1ISKKw&heading=357.14067872652447&pitch=7.739648039236371&fov=90",
+  },
   archive: {
     title: t(
-      "Bảo tàng Văn hóa Dân tộc Khmer · Bảo tàng Lịch sử Quốc gia, 2014",
-      "Khmer Cultural Museum · National Museum of History, 2014",
+      "Bảo Tàng Văn Hóa Dân Tộc Khmer · Bảo tàng Lịch sử Quốc gia, 2014",
+      "Khmer Ethnic Cultural Museum · National Museum of History, 2014",
     ),
     url: "https://baotanglichsu.vn/VI/Articles/3096/16337/bao-tang-van-hoa-dan-toc-khmer-tinh-tra-vinh.html",
   },
@@ -19,8 +44,8 @@ export const khmerPlaceSources = {
   },
   museum: {
     title: t(
-      "Thăm Bảo tàng Văn hóa Khmer · Bảo tàng Lịch sử Quốc gia, 2008",
-      "Visiting the Khmer museum · National Museum of History, 2008",
+      "Thăm Bảo Tàng Văn Hóa Dân Tộc Khmer · Bảo tàng Lịch sử Quốc gia, 2008",
+      "Visiting the Khmer Ethnic Cultural Museum · National Museum of History, 2008",
     ),
     url: "https://baotanglichsu.vn/vi/Articles/1508/49946/tham-bao-tang-van-hoa-khmer-tai-tra-vinh.html",
   },
@@ -77,6 +102,58 @@ function photo(
   };
 }
 export const khmerPlacePhotos = {
+  traditional360: photo("khmer-traditional-360.jpg", t("Phòng trưng bày truyền thống", "Traditional exhibition room"), t("Toàn cảnh phòng truyền thống với hiện vật, ảnh và tư liệu về thời kỳ kháng chiến. Kéo để nhìn quanh hoặc chọn hotspot quay về cầu thang.", "A panorama of the traditional exhibition with objects, photographs and documents about the wartime period. Drag to look around or use the hotspot to return to the staircase."), "traditional360", "Ảnh 360° do người dùng cung cấp"),
+  thematic360: photo("khmer-thematic-360.jpg", t("Phòng trưng bày chuyên đề", "Thematic exhibition room"), t("Toàn cảnh phòng chuyên đề với chén, đĩa và các hiện vật trong tủ kính, cùng tranh ký họa trên tường. Kéo để nhìn quanh hoặc chọn hotspot quay về cầu thang.", "A panorama of the thematic exhibition with bowls, plates and objects in glass cases, alongside wall-mounted sketches. Drag to look around or use the hotspot to return to the staircase."), "thematic360", "Ảnh 360° do người dùng cung cấp"),
+  artsCenter360: photo("khmer-arts-center-360.jpg", t("Văn hóa nghệ thuật · Trung tâm", "Culture and arts · Center"), t("Góc trung tâm với nhạc cụ, sân khấu tái hiện và các tủ trang phục, mặt nạ. Chọn hotspot để sang trái, phải hoặc quay về cầu thang.", "The central viewpoint shows musical instruments, a recreated stage, costumes and masks. Use the hotspots to visit either side or return to the staircase."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  artsLeft360: photo("khmer-arts-left-360.jpg", t("Văn hóa nghệ thuật · Bên trái", "Culture and arts · Left"), t("Góc bên trái với nhạc cụ, trang phục biểu diễn và tư liệu hình ảnh trong phòng văn hóa nghệ thuật. Có hotspot trở lại trung tâm phòng.", "The left viewpoint shows musical instruments, performance costumes and exhibition photographs. A hotspot returns to the room center."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  artsRight360: photo("khmer-arts-right-360.jpg", t("Văn hóa nghệ thuật · Bên phải", "Culture and arts · Right"), t("Góc bên phải với cảnh múa, diễn xướng được tái hiện, nhạc cụ và trang phục biểu diễn. Có hotspot trở lại trung tâm phòng.", "The right viewpoint shows recreated dance and performance scenes, musical instruments and costumes. A hotspot returns to the center."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  craftsCenter360: photo("khmer-crafts-center-360.jpg", t("Ngành nghề truyền thống · Trung tâm", "Traditional occupations · Center"), t("Góc trung tâm với khung dệt, các chi tiết chạm khắc và tủ hiện vật nghề truyền thống. Chọn hotspot để sang trái, phải hoặc quay về cầu thang.", "The central viewpoint shows looms, carved details and traditional craft exhibits. Use the hotspots to visit either side or return to the staircase."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  craftsLeft360: photo("khmer-crafts-left-360.jpg", t("Ngành nghề truyền thống · Bên trái", "Traditional occupations · Left"), t("Góc bên trái quan sát các sản phẩm chạm khắc và tư liệu nghề thủ công. Có hotspot trở lại trung tâm phòng.", "The left viewpoint shows carved objects and documents about traditional crafts. A hotspot returns to the room center."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  craftsRight360: photo("khmer-crafts-right-360.jpg", t("Ngành nghề truyền thống · Bên phải", "Traditional occupations · Right"), t("Góc bên phải với khung dệt, chiếu, sản phẩm đan lát và tư liệu các nghề truyền thống. Có hotspot trở lại trung tâm phòng.", "The right viewpoint shows a loom, mats, woven objects and documents about traditional occupations. A hotspot returns to the center."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  dailyCenter360: photo("khmer-daily-center-360.jpg", t("Văn hóa cuộc sống đời thường · Trung tâm", "Everyday culture · Center"), t("Góc nhìn trung tâm với cảnh sinh hoạt được tái hiện, các dụng cụ lao động và đồ dùng thường ngày. Chọn hotspot để sang hai bên hoặc quay về cầu thang.", "The central viewpoint shows a recreated everyday scene, working tools and household objects. Use the hotspots to visit either side or return to the staircase."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  dailyLeft360: photo("khmer-daily-left-360.jpg", t("Văn hóa cuộc sống đời thường · Bên trái", "Everyday culture · Left"), t("Góc bên trái với dụng cụ lao động và đồ đan lát trong không gian trưng bày đời sống. Có hotspot quay về trung tâm phòng.", "The left viewpoint shows working tools and woven objects in the everyday-life exhibition. A hotspot returns to the center."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  dailyRight360: photo("khmer-daily-right-360.jpg", t("Văn hóa cuộc sống đời thường · Bên phải", "Everyday culture · Right"), t("Góc bên phải nhìn về gian bếp, đồ dùng và cảnh sinh hoạt được tái hiện. Có hotspot quay về trung tâm phòng.", "The right viewpoint faces the recreated kitchen, household objects and everyday scene. A hotspot returns to the center."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  faithCenter360: photo("khmer-faith-center-360.jpg", t("Tín ngưỡng, tôn giáo · Trung tâm", "Belief and religion · Center"), t("Góc nhìn trung tâm của phòng trưng bày tín ngưỡng, tôn giáo. Chọn hotspot để đi sang hai bên hoặc quay về cầu thang.", "Central viewpoint of the belief and religion exhibition. Use the hotspots to visit either side or return to the staircase."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  faithLeft360: photo("khmer-faith-left-360.jpg", t("Tín ngưỡng, tôn giáo · Bên trái", "Belief and religion · Left"), t("Góc bên trái với các tủ hiện vật, mô hình và tư liệu trưng bày. Chọn hotspot để trở lại trung tâm phòng.", "The left viewpoint shows display cases, models and exhibition documents. Use the hotspot to return to the center."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  faithRight360: photo("khmer-faith-right-360.jpg", t("Tín ngưỡng, tôn giáo · Bên phải", "Belief and religion · Right"), t("Góc bên phải để quan sát các chi tiết trang trí, tranh và hiện vật trong phòng. Chọn hotspot để trở lại trung tâm.", "The right viewpoint offers a closer view of decoration, paintings and exhibits. Use the hotspot to return to the center."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  interiorHall360: photo("khmer-interior-hall-360.jpg", t("Sảnh chính", "Main hall"), t("Nhìn quanh sảnh chính. Chạm hotspot trên cầu thang để chuyển đến góc nhìn tiếp theo.", "Explore the main hall. Touch the stair hotspot to move to the next viewpoint."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  interiorStairs360: photo("khmer-interior-stairs-360.jpg", t("Cầu thang", "Staircase"), t("Góc nhìn 360° tại cầu thang. Bạn có thể xoay quan sát hoặc quay về sảnh chính.", "A 360° viewpoint at the staircase. Look around or return to the main hall."), "groundTrial360", "Ảnh 360° do người dùng cung cấp"),
+  complexAerial: photo(
+    "khmer-complex-aerial.png",
+    t("Quần thể bảo tàng – chùa Âng – Ao Bà Om", "Museum, Ang Pagoda and Ao Ba Om"),
+    t("Ảnh nhìn từ trên cao của quần thể: bảo tàng phía phải, chùa Âng phía trái và Ao Bà Om phía trên ảnh.", "An aerial view of the complex: museum on the right, Ang Pagoda on the left and Ao Ba Om at the top."),
+    "complexAerial",
+    "Ảnh do người dùng cung cấp",
+  ),
+  royalHeaddresses: photo(
+    "khmer-royal-headdresses-preview.png",
+    t("Mão vua – mão hoàng hậu", "King and queen headdresses"),
+    t("Đạo cụ đội đầu trong nghệ thuật sân khấu Khmer, gợi mở câu chuyện về vai diễn hoàng gia và nghề làm mão truyền thống.", "Khmer theatrical headdresses introduce royal roles and the traditional craft of headdress making."),
+    "headdresses",
+    "Ảnh mô hình 3D · Tư liệu do người dùng cung cấp",
+  ),
+  groundTrial360: photo(
+    "khmer-ground-test-360.jpg",
+    t("Ảnh thử 360° · Tầng trệt", "Ground floor · 360° test image"),
+    t("Ảnh thử do bạn cung cấp để kiểm tra xoay 360°, không phải tư liệu xác nhận không gian bảo tàng. Kéo để nhìn quanh, dùng hai ngón tay để phóng to.", "User-supplied image for testing spherical viewing, not verified museum imagery. Drag to look around or pinch to zoom."),
+    "groundTrial360", "Ảnh thử do bạn cung cấp",
+  ),
+  upperTrial360: photo(
+    "khmer-ground-test-360.jpg",
+    t("Ảnh thử 360° · Tầng lầu", "Upper floor · 360° test image"),
+    t("Tạm dùng lại ảnh 360° của Tầng trệt để thử giao diện Tầng lầu. Kéo để nhìn quanh, dùng hai ngón tay để phóng to.", "Temporarily reusing the ground-floor test panorama for the upper-floor preview. Drag to look around or pinch to zoom."),
+    "groundTrial360", "Ảnh thử do bạn cung cấp · Dùng tạm cho Tầng lầu",
+  ),
+  grounds360: photo(
+    "khmer-grounds-360-preview.jpg",
+    t("Sân trước bảo tàng · 360°", "Museum courtyard · 360°"),
+    t(
+      "Nhìn quanh sân trước, mặt tiền và cây xanh từ ảnh 360° trên Google Maps. Kéo để đổi góc nhìn hoặc dùng hai ngón tay để phóng to.",
+      "Look around the courtyard, facade and trees using the Google Maps panorama. Drag to look around or pinch to zoom.",
+    ),
+    "grounds360",
+    "Google Maps · ảnh 360° do người dùng chia sẻ",
+  ),
   facade: photo(
     "khmer-facade-2023.jpg",
     t("Mặt tiền bảo tàng", "The museum facade"),
@@ -347,7 +424,7 @@ export const khmerPlaces: KhmerPlace[] = [
   {
     id: "entrance",
     zone: "landscape",
-    title: t("Bảo tàng Văn hóa Khmer", "Khmer Cultural Museum"),
+    title: KHMER_MUSEUM_NAME,
     location: t(
       "Trung tâm quần thể di tích",
       "At the heart of the heritage landscape",
@@ -430,7 +507,7 @@ export const khmerPlaces: KhmerPlace[] = [
       t("Huyền thoại", "Folklore"),
       t("Lễ hội", "Festival"),
     ],
-    gallery: ["pond", "roots", "pagoda", "boat"],
+    gallery: ["pond", "roots"],
     sources: ["pond"],
     related: ["pagoda", "boat", "entrance"],
     paragraphs: [
@@ -492,7 +569,7 @@ export const khmerPlaces: KhmerPlace[] = [
       t("Mỹ thuật", "Art"),
       t("Tri thức", "Learning"),
     ],
-    gallery: ["pagoda", "temple", "pond", "roof"],
+    gallery: ["pagoda"],
     sources: ["pagoda", "museum"],
     related: ["faith", "manuscripts", "architecture"],
     paragraphs: [
@@ -1042,8 +1119,8 @@ export const khmerPlaces: KhmerPlace[] = [
         "Read each object by its provenance and date rather than assigning one age to the whole collection. Material, shape and religious use provide clues to their differences.",
       ),
       t(
-        "Linga–Yoni Lưu Cừ II là một câu chuyện liên quan của vùng, được công nhận bảo vật quốc gia năm 2016. Nguồn Bảo tàng Vĩnh Long xác định đơn vị lưu giữ là Bảo tàng tỉnh Vĩnh Long; trang này không khẳng định bảo vật đang trưng bày thường trực tại Bảo tàng Văn hóa Khmer.",
-        "The Luu Cu II Linga–Yoni is a related regional story, recognized as a national treasure in 2016. Vinh Long Museum identifies the provincial museum as its custodian; this page does not claim it is permanently displayed at the Khmer Cultural Museum.",
+        "Linga–Yoni Lưu Cừ II là một câu chuyện liên quan của vùng, được công nhận bảo vật quốc gia năm 2016. Nguồn Bảo tàng Vĩnh Long xác định đơn vị lưu giữ là Bảo tàng tỉnh Vĩnh Long; trang này không khẳng định bảo vật đang trưng bày thường trực tại Bảo Tàng Văn Hóa Dân Tộc Khmer.",
+        "The Luu Cu II Linga–Yoni is a related regional story, recognized as a national treasure in 2016. Vinh Long Museum identifies the provincial museum as its custodian; this page does not claim it is permanently displayed at the Khmer Ethnic Cultural Museum.",
       ),
     ],
     highlights: [
@@ -1310,6 +1387,30 @@ export const khmerPlaces: KhmerPlace[] = [
         "Connect the arts with festivals and village life.",
       ),
     ],
+  },
+  {
+    id: "traditional", zone: "upper",
+    title: t("Phòng trưng bày truyền thống", "Traditional exhibition room"),
+    location: t("Lối vào tại mốc 02 ở cầu thang", "Entrance at staircase marker 02"),
+    icon: "book", position: [75, 55.5],
+    short: t("Hiện vật, ảnh và tư liệu thời kỳ kháng chiến.", "Objects, photographs and wartime documents."),
+    description: khmerPlacePhotos.traditional360.caption,
+    tags: [t("Truyền thống", "Tradition"), t("Kháng chiến", "Wartime history"), t("Tư liệu", "Documents")],
+    gallery: ["traditional360"], sources: ["traditional360"], related: ["stairs", "thematic"],
+    paragraphs: [t("Quan sát các tủ hiện vật và tư liệu hình ảnh trong toàn cảnh phòng. Có thể xoay ảnh 360° để xem các phía của không gian trưng bày.", "Observe the display cases and photographs in the room panorama. Rotate the 360° image to explore the exhibition from all sides.")],
+    highlights: [highlight("Nhìn quanh phòng", "Look around", "Kéo ảnh để quan sát; chọn mũi tên hoặc nút quay về cầu thang để tiếp tục hành trình.", "Drag to look around; use the arrow or the staircase return button to continue the tour.")],
+  },
+  {
+    id: "thematic", zone: "upper",
+    title: t("Phòng trưng bày chuyên đề", "Thematic exhibition room"),
+    location: t("Lối vào tại mốc 03 ở cầu thang", "Entrance at staircase marker 03"),
+    icon: "craft", position: [25, 55.5],
+    short: t("Chén, đĩa trong các tủ kính và tranh ký họa trên tường.", "Bowls and plates in glass cases, with sketches on the walls."),
+    description: khmerPlacePhotos.thematic360.caption,
+    tags: [t("Chuyên đề", "Thematic exhibition"), t("Chén, đĩa", "Bowls and plates"), t("Ký họa", "Sketches")],
+    gallery: ["thematic360"], sources: ["thematic360"], related: ["stairs", "traditional"],
+    paragraphs: [t("Quan sát hình dáng và hoa văn của chén, đĩa trong các tủ kính, rồi nhìn lên các tranh ký họa trên tường.", "Observe the shapes and decoration of bowls and plates in the glass cases, then look at the sketches on the walls.")],
+    highlights: [highlight("Nhìn quanh phòng", "Look around", "Kéo ảnh để quan sát; chọn mũi tên hoặc nút quay về cầu thang để tiếp tục hành trình.", "Drag to look around; use the arrow or the staircase return button to continue the tour.")],
   },
 ];
 

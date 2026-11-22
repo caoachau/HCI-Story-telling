@@ -1,3 +1,4 @@
+import { InlineAudioActions } from "../../audio/InlineAudioActions";
 import { ArrowRight, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { CulturePhotoGallery } from "./KhmerMuseumCulture";
@@ -204,6 +205,7 @@ export function KhmerLegacyStory({
       <h2 id="md-dialog-title" tabIndex={-1}>
         {value.title[lang]}
       </h2>
+<InlineAudioActions lang={lang} id={`bao-tang-khmer:value:${value.id}`} />
       <CulturePhotoGallery key={value.id} ids={value.gallery} lang={lang} />
       <p className="md-legacy-lead">{value.lead[lang]}</p>
       <nav

@@ -1,0 +1,30 @@
+/* Real browser checks for the fabric-weaving topic in the center panorama. */
+const fs = require('node:fs'), path = require('node:path'), Module = require('node:module');
+const file = path.resolve(__dirname, 'den-tho-bac-test.cjs');
+const source = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
+const start = source.indexOf('  const sections=['), end = source.lastIndexOf('\n}\nmain().catch');
+const body = String.raw`
+  await viewport(1920,1080);
+  await cdp('Page.navigate',{url:(process.env.MUSEUM_URL || 'http://127.0.0.1:3000')+'/bao-tang-khmer.html?section=map&tab=upper&place=crafts&scene=crafts-center'});
+  await wait('document.querySelector(".kd-panorama")?.dataset.panoramaState==="ready"','panorama');
+  await check('document.querySelectorAll(".kd-topic-hotspot:not([hidden])").length===1 && document.querySelector(".kd-topic-hotspot:not([hidden])")?.textContent.includes("Nghề dệt vải")','center overview shows only the fabric-weaving topic');
+  await check('!document.querySelector(".kd-exhibit-dot:not([hidden])")','center overview hides all child exhibits');
+  await click('[data-action=exhibit-list]');
+  await check('document.querySelectorAll(".kd-topic-list section").length===1 && document.querySelectorAll(".kd-topic-list-item").length===7','fabric-weaving list contains exactly seven exhibits');
+  await page('document.querySelector(".kd-topic-list h3 button").click()');
+  await wait('document.querySelector(".kd-topic-toolbar").dataset.topic==="fabric-weaving" && document.querySelector(".kd-panorama-canvas").dataset.motionState==="idle"','fabric-weaving focus');
+  const visible=await page('return [...document.querySelectorAll(".kd-exhibit-dot:not([hidden])")].map(button=>button.dataset.panoramaPoint)');
+  const ids=[1,3,4,5,6,7,8];
+  assert.ok(visible.length>0,'fabric-weaving topic has visible exhibits');
+  assert.ok(visible.every(id=>ids.some(number=>id==='crafts-center-object-'+number)),'only requested fabric-weaving exhibits are visible');
+  await check('!document.querySelector("[data-panorama-point=crafts-center-object-2].kd-exhibit-dot")','hotspot 2 is retained outside the fabric-weaving group');
+  await click('[data-panorama-point=crafts-center-object-1]');
+  await check('document.querySelector("[data-selected-point]").dataset.selectedPoint==="crafts-center-object-1"','fabric-weaving exhibit opens its detail');
+  await click('.kd-topic-toolbar button');
+  await wait('document.querySelector(".kd-panorama-canvas").dataset.motionState==="idle"','center overview return');
+  await check('document.querySelectorAll(".kd-topic-hotspot:not([hidden])").length===1 && !document.querySelector(".kd-exhibit-dot:not([hidden])")','back restores the single-topic overview');
+  assert.deepEqual(errors,[]);console.log('PASS no browser runtime errors');
+`;
+const test = new Module(file, module); test.filename = file;
+test.paths = Module._nodeModulePaths(path.dirname(file));
+test._compile(source.slice(0, start) + body + source.slice(end), file);

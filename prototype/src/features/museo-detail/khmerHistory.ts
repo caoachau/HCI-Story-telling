@@ -281,8 +281,8 @@ export const khmerHistoryPhases: HistoryPhase[] = [
         "facade",
         [
           t(
-            "Theo TTXVN, Bảo tàng Văn hóa dân tộc Khmer Trà Vinh được xây dựng năm 1992. Đây là điểm bắt đầu của tiến trình hình thành công trình, trước khi bảo tàng đi vào hoạt động phục vụ khách.",
-            "VNA records that construction of the Khmer Cultural Museum in Tra Vinh began in 1992. This marks the building's formation, before its public operation.",
+            "Theo TTXVN, Bảo Tàng Văn Hóa Dân Tộc Khmer được xây dựng năm 1992. Đây là điểm bắt đầu của tiến trình hình thành công trình, trước khi bảo tàng đi vào hoạt động phục vụ khách.",
+            "VNA records that construction of the Khmer Ethnic Cultural Museum in Tra Vinh began in 1992. This marks the building's formation, before its public operation.",
           ),
           t(
             "Bảo tàng được đặt trong cụm văn hóa Ao Bà Om – Chùa Âng. Không gian cây xanh và kiến trúc Khmer tạo mối liên hệ giữa tòa nhà trưng bày với cảnh quan bên ngoài.",
@@ -565,8 +565,8 @@ export const khmerHistoryPhases: HistoryPhase[] = [
         "memorial",
         [
           t(
-            "Theo bài viết của Bảo tàng Vĩnh Long năm 2025, tháp tưởng niệm cụ Maha Sơn Thông được xây dựng năm 2012 trong khuôn viên Bảo tàng Văn hóa dân tộc Khmer Trà Vinh.",
-            "Vinh Long Museum's 2025 article states that the Maha Son Thong memorial was built in 2012 within the grounds of the Khmer Cultural Museum in Tra Vinh.",
+            "Theo bài viết của Bảo tàng Vĩnh Long năm 2025, tháp tưởng niệm cụ Maha Sơn Thông được xây dựng năm 2012 trong khuôn viên Bảo Tàng Văn Hóa Dân Tộc Khmer.",
+            "Vinh Long Museum's 2025 article states that the Maha Son Thong memorial was built in 2012 within the grounds of the Khmer Ethnic Cultural Museum in Tra Vinh.",
           ),
           t(
             "Công trình lưu giữ ký ức về một vị lão thành cách mạng người Khmer. Bia và không gian tưởng niệm bổ sung một lớp lịch sử con người bên cạnh các trưng bày văn hóa.",
@@ -920,8 +920,8 @@ export const khmerHistoryPhases: HistoryPhase[] = [
         "facade",
         [
           t(
-            "Bảo tàng Văn hóa dân tộc Khmer Trà Vinh được Hiệp hội Du lịch ĐBSCL công nhận điểm du lịch tiêu biểu năm 2024. Báo Trà Vinh ghi nhận quyết định số 08/QĐ-HHDL ngày 27/03/2024.",
-            "The Khmer Cultural Museum in Tra Vinh was recognised by the Mekong Delta Tourism Association in 2024. Tra Vinh newspaper records Decision 08/QD-HHDL dated 27 March 2024.",
+            "Bảo Tàng Văn Hóa Dân Tộc Khmer được Hiệp hội Du lịch ĐBSCL công nhận điểm du lịch tiêu biểu năm 2024. Báo Trà Vinh ghi nhận quyết định số 08/QĐ-HHDL ngày 27/03/2024.",
+            "The Khmer Ethnic Cultural Museum in Tra Vinh was recognised by the Mekong Delta Tourism Association in 2024. Tra Vinh newspaper records Decision 08/QD-HHDL dated 27 March 2024.",
           ),
           t(
             "Sự ghi nhận đặt bảo tàng trong mạng lưới điểm đến của vùng, bên cạnh giá trị bảo tồn và nghiên cứu. Du khách có thể kết nối trải nghiệm tại đây với Chùa Âng và Ao Bà Om.",
@@ -1003,8 +1003,8 @@ export const khmerHistoryPhases: HistoryPhase[] = [
             "Sources before 2025 commonly give the address as Ward 8, Tra Vinh city, Tra Vinh province. The two address forms should be read according to the document's date.",
           ),
           t(
-            "Vị trí tham quan vẫn gắn với Bảo tàng Văn hóa dân tộc Khmer Trà Vinh, Chùa Âng và Ao Bà Om. Tên địa phương trong lịch sử tiếp tục giúp nhận diện nguồn gốc của điểm đến.",
-            "The visit remains associated with the Khmer Cultural Museum in Tra Vinh, Ang Pagoda and Ao Ba Om. Historical place names continue to identify the destination's origins.",
+            "Vị trí tham quan vẫn gắn với Bảo Tàng Văn Hóa Dân Tộc Khmer, Chùa Âng và Ao Bà Om. Tên địa phương trong lịch sử tiếp tục giúp nhận diện nguồn gốc của điểm đến.",
+            "The visit remains associated with the Khmer Ethnic Cultural Museum in Tra Vinh, Ang Pagoda and Ao Ba Om. Historical place names continue to identify the destination's origins.",
           ),
         ],
         ["locality"],

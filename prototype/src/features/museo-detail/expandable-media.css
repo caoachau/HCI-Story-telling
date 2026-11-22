@@ -1,0 +1,21 @@
+.md-expandable-media, .md-media-surface { width: 100%; min-width: 0; }
+.md-expandable-media { position: relative; }
+.md-media-surface { height: 100%; }
+.md-media-expanded { position: fixed; margin: 0; padding: 0; max-width: none; max-height: none; overflow: hidden; border: 2px solid #b99c73; border-radius: 0; background: #12110e; color: #eee5d7; box-sizing: border-box; }
+.md-media-expanded::backdrop { background: transparent; }
+.md-media-expanded .kd-model { width: 100%; height: 100%; min-height: 0; border: 0; border-radius: 0; }
+.kd-inline-model > .md-expandable-media { position: absolute; inset: 0; height: 100%; }
+.kd-inline-model .kd-model { height: 100%; min-height: 0; border: 0; border-radius: 0; }
+.md-expandable-photo-content { position: relative; width: 100%; height: 100%; background: #0e0e0c; overflow: hidden; }
+.md-media-surface .md-expandable-photo-content > :is(img,svg) { display: block; width: 100%; height: 100%; max-height: none; object-fit: contain; }
+.md-expandable-photo-content > svg { aspect-ratio: auto; }
+.md-media-surface .md-photo-expand-button { position: absolute; z-index: 2; right: 14px; bottom: 14px; display: grid; place-items: center; width: 48px; height: 48px; min-height: 48px; padding: 12px; border: 1px solid #bd9b6b88; border-radius: 7px; background: #201a13ed; color: #f1e1c8; cursor: pointer; touch-action: manipulation; }
+.md-media-expanded .kd-model-controls button { border: 0; background: transparent; color: #f1e1c8; cursor: pointer; touch-action: manipulation; }
+.md-media-expanded .kd-model-controls { right: 84px; }
+.md-media-expanded .md-photo-expand-button { right: 84px; bottom: 16px; }
+.md-photo-expand-button > svg, .md-media-expanded .kd-model-controls svg { width: 22px; height: 22px; stroke-width: 1.5; }
+.md-media-expanded button:focus-visible { outline: 2px solid #f1c99e; outline-offset: -4px; }
+.kd-object-body figure > .md-expandable-photo { height: min(62dvh, 650px); }
+.khc-exhibit-photo > .md-expandable-photo { height: 100%; }
+.md-culture-gallery figure > .md-expandable-photo.md-story-photo { padding: 0; background: #0e0e0c; }
+@media (max-width: 700px) { .kd-object-body figure > .md-expandable-photo { height: 44dvh; } }

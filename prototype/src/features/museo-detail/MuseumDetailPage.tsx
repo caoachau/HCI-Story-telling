@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { KHMER_MUSEUM_NAME } from "../../data/museumIdentity";
+import { useAudioContentContext } from '../../audio/context';
 import {
   ArrowRight,
   ChevronLeft,
@@ -13,10 +15,10 @@ import {
   X,
 } from "lucide-react";
 import { artwork } from "./data";
-import { KhmerMuseumIntro } from "./KhmerMuseumIntro";
 import { KhmerMuseumHistory, KhmerHistoryStory } from "./KhmerMuseumHistory";
 import { khmerHistoryPhases, khmerHistoryPhotos } from "./khmerHistory";
 import { KhmerMuseumPlaces } from "./KhmerMuseumPlaces";
+import { discoveryEntryForPlace, hasKhmerDiscoveryEntry } from "./khmerDiscovery";
 import { KhmerPlaceDirectory } from "./KhmerPlaceExplorer";
 import { KhmerPlaceExhibition } from "./KhmerPlaceExhibition";
 import {
@@ -38,23 +40,27 @@ import {
 } from "./useMuseumScreens";
 import { MuseumFooter, MuseumTools } from "./MuseumChrome";
 import { restoredParams, updateRoute, useRememberedState } from '../../experience/state';
+import { takeMuseumOpening } from '../../utils/museumOpening';
+import { warmMuseumPanoramas } from './museumMediaCache';
 import "./museo.css";
+import "../../components/conChimFonts.css";
 import "./screen-layout.css";
 import "./khmer-overview.css";
 import "./khmer-places.css";
 import "./khmer-history.css";
 import "./khmer-culture.css";
 import "./khmer-legacy.css";
-import "./khmer-intro.css";
 import "./museum-motion.css";
 import "./khmer-overview-viewer.css";
 import "./khmer-place-exhibition.css";
-import "./khmer-places-motion.css";
 import "./khmer-history-motion.css";
 import "./khmer-culture-motion.css";
 import "./khmer-legacy-motion.css";
 import "./museum-chrome.css";
 import "./khmer-legacy-exhibition.css";
+import "./khmer-discovery.css";
+import "./khmer-culture-hub.css";
+import "./khmer-culture-exhibit.css";
 
 type Section = MuseumSection;
 type Modal = {
@@ -74,6 +80,7 @@ type Modal = {
   historyPhaseId?: string;
   historyTopicId?: string;
   overviewTopic?: KhmerOverviewTopic;
+  overviewPhotoIndex?: number;
   overviewOrigin?: HTMLElement;
   placeId?: string;
   placeOrigin?: HTMLElement;
@@ -236,6 +243,11 @@ function MuseumDialog({
             topicId={cultureReading}
             lang={lang}
             onRead={(id) => {
+              if (!cultureReading) {
+                close();
+                navigate("tour", id);
+                return;
+              }
               navigate("tour", id);
               // The dialog stays open while selecting another reading topic.
               setCultureReading(id);
@@ -415,6 +427,10 @@ export function MuseumDetailPage({
   onContentChange,
 }: Props) {
   const viewport = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const timer = window.setTimeout(warmMuseumPanoramas, 650);
+    return () => clearTimeout(timer);
+  }, []);
   const initial = restoredParams('bao-tang-khmer');
   const placeId = khmerPlaces.find(place => place.id === initial.get('place'))?.id || 'entrance';
   const cultureId = khmerCultureTopics.find(topic => topic.id === initial.get('culture'))?.id || 'pagoda';
@@ -441,10 +457,25 @@ export function MuseumDetailPage({
     onContentChange,
     isExpanded !== false,
   );
-  // First paint contains only the opening scene. Visited rooms retain their state.
+  const modalPlace = modal?.placeId ?? selectedPlaceId;
+  const audioPlaceEntry = discoveryEntryForPlace(modalPlace);
+  const audioPlaceObject = audioPlaceEntry.entry.objects.find(object => object.placeId === modalPlace);
+  const audioPlaceId = !hasKhmerDiscoveryEntry(modalPlace) ? `bao-tang-khmer:record:${modalPlace}`
+    : audioPlaceObject ? `bao-tang-khmer:object:${audioPlaceEntry.entry.id}:${audioPlaceObject.id}`
+    : `bao-tang-khmer:place:${audioPlaceEntry.tab.id}:${audioPlaceEntry.entry.id}`;
+  const audioContentId = modal?.kind === 'overview' ? `bao-tang-khmer:overview:${modal.overviewTopic ?? 'introduction'}`
+    : modal?.kind === 'place' ? audioPlaceId
+    : modal?.kind === 'culture' ? `bao-tang-khmer:culture:${modal.cultureTopicId ?? selectedCultureId}`
+    : modal?.kind === 'legacy' ? `bao-tang-khmer:value:${modal.legacyValueId ?? selectedLegacyId}`
+    : modal?.kind === 'history' && modal.historyTopicId ? `bao-tang-khmer:history:${modal.historyTopicId}`
+    : activeSection === 'overview' ? 'bao-tang-khmer'
+    : `bao-tang-khmer:section:${activeSection}`;
+  useAudioContentContext(audioContentId, activeSection !== 'map' && activeSection !== 'tour' || !!modal);
+  // Open directly on the requested screen. Visited rooms retain their state.
   const [mountedScreens, setMountedScreens] = useState<Set<Section>>(
-    () => new Set(["hero", activeSection]),
+    () => new Set([activeSection]),
   );
+  useEffect(() => { if (isExpanded !== false) takeMuseumOpening()?.dispose(); }, [isExpanded]);
   useEffect(() => {
     setMountedScreens((previous) =>
       previous.has(activeSection)
@@ -459,7 +490,17 @@ export function MuseumDetailPage({
       const place = khmerPlaces.find(
         (point) => point.id === item || point.title[lang] === item,
       );
-      if (place) setSelectedPlaceId(place.id);
+      if (place) {
+        // Keep linked-site and unlocated-object stories accessible without
+        // assigning them a viewpoint, room or floor that has not been supplied.
+        if (!hasKhmerDiscoveryEntry(place.id)) {
+          changed();
+          setModal({ kind: "place", placeId: place.id });
+          showSection(section);
+          return;
+        }
+        setSelectedPlaceId(place.id);
+      }
     }
     if (item && section === "exhibitions") {
       const value = khmerLegacyValues.find((entry) => entry.id === item);
@@ -482,14 +523,14 @@ export function MuseumDetailPage({
   };
   const openModal = (value: Modal) => {
     changed();
-    updateRoute({ chapter: null, photo: null, anchorId: null, anchorOffset: null, ...(value.kind === 'overview' ? { overview: value.overviewTopic } : {}) }, 'bao-tang-khmer');
+    updateRoute({ chapter: null, photo: value.kind === 'overview' ? value.overviewPhotoIndex ?? null : null, anchorId: null, anchorOffset: null, ...(value.kind === 'overview' ? { overview: value.overviewTopic } : {}) }, 'bao-tang-khmer');
     if (value.placeId) setSelectedPlaceId(value.placeId);
     if (value.cultureTopicId) setSelectedCultureId(value.cultureTopicId);
     if (value.legacyValueId) setSelectedLegacyId(value.legacyValueId);
     setModal(value);
   };
   return (
-    <div className="md-root" aria-label="Bảo tàng văn hóa Khmer · MUSEO">
+    <div className="md-root" aria-label={KHMER_MUSEUM_NAME[lang]}>
       <a
         className="md-skip-link"
         href="#museo-overview"
@@ -502,20 +543,12 @@ export function MuseumDetailPage({
       </a>
       <div className="md-scroll" ref={viewport}>
         <main className="md-main" lang={lang}>
-          <KhmerMuseumIntro
-            active={activeSection === "hero"}
-            visible={isExpanded !== false}
-            lang={lang}
-            navigate={navigate}
-            onChange={changed}
-          />
-
           {mountedScreens.has("overview") || activeSection === "overview" ? (
             <KhmerMuseumOverview
               lang={lang}
               active={activeSection === "overview" && isExpanded !== false}
-              onRead={(overviewTopic, overviewOrigin) =>
-                openModal({ kind: "overview", overviewTopic, overviewOrigin })
+              onRead={(overviewTopic, overviewOrigin, overviewPhotoIndex) =>
+                openModal({ kind: "overview", overviewTopic, overviewOrigin, overviewPhotoIndex })
               }
               onContentChange={changed}
             />
@@ -629,6 +662,7 @@ export function MuseumDetailPage({
       {modal?.kind === "overview" ? (
         <KhmerOverviewViewer
           initialTopic={modal.overviewTopic ?? "introduction"}
+          initialPhotoIndex={modal.overviewPhotoIndex}
           origin={modal.overviewOrigin}
           lang={lang}
           close={() => setModal(null)}
@@ -641,7 +675,7 @@ export function MuseumDetailPage({
           close={() => setModal(null)}
           onSelect={(id) => {
             changed();
-            setSelectedPlaceId(id);
+            if (hasKhmerDiscoveryEntry(id)) setSelectedPlaceId(id);
           }}
         />
       ) : modal?.kind === "legacy" ? (

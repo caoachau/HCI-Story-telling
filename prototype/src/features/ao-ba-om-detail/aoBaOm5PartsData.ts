@@ -816,7 +816,7 @@ export const SACRED_ARTIFACTS: SacredArtifact[] = [
       en: 'Pounded millions of fragrant green sticky rice flakes offered to the Moon Deity across decades of celebrations.',
     },
     todayContinuity: {
-      vi: 'Được lưu giữ trang trọng tại Bảo tàng Văn hóa Dân tộc Khmer và mang ra trình diễn nghề truyền thống cho du khách trải nghiệm giã cốm thực tế.',
+      vi: 'Được lưu giữ trang trọng tại Bảo Tàng Văn Hóa Dân Tộc Khmer và mang ra trình diễn nghề truyền thống cho du khách trải nghiệm giã cốm thực tế.',
       en: 'Preserved in the museum and operated live during cultural workshops for visiting tourists.',
     },
     image: lanternsImg,

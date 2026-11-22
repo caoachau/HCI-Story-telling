@@ -4,7 +4,7 @@ import { preferences, setPreferences } from './preferences';
 export const SITE_IDS = ['ao-ba-om', 'chua-ang', 'bao-tang-khmer', 'chua-hang', 'den-tho-bac', 'con-chim', 'bien-ba-dong'] as const;
 export type SiteId = typeof SITE_IDS[number];
 export const isSiteId = (id: unknown): id is SiteId => typeof id === 'string' && (SITE_IDS as readonly string[]).includes(id);
-const ALLOWED = new Set(['site', 'detail', 'view', 'entry', 'tools', 'coreTab', 'object', 'media', 'anchorId', 'anchorOffset', 'topic', 'quickTab', 'quickPhoto', 'quickPage', 'section', 'story', 'mode', 'question', 'point', 'step', 'portable', 'tab', 'chapter', 'photo', 'place', 'phase', 'culture', 'value', 'person', 'scene', 'filter', 'interest', 'audioBlock', 'audioKey', 'reader', 'overview', 'spot', 'legacyFilter']);
+const ALLOWED = new Set(['site', 'detail', 'view', 'entry', 'tools', 'coreTab', 'object', 'media', 'anchorId', 'anchorOffset', 'topic', 'quickTab', 'quickPhoto', 'quickPage', 'section', 'story', 'mode', 'question', 'point', 'step', 'portable', 'tab', 'chapter', 'photo', 'place', 'phase', 'culture', 'value', 'person', 'scene', 'filter', 'interest', 'audioBlock', 'audioKey', 'reader', 'overview', 'spot', 'legacyFilter', 'listen']);
 const routes = new Map<string, string>();
 const CHANNEL = 'heritage-experience-v1';
 let installed = false;
@@ -36,7 +36,7 @@ export function updateRoute(patch: Record<string, string | number | boolean | un
     if (value === undefined || value === null || value === '') url.searchParams.delete(key);
     else url.searchParams.set(key, String(value).slice(0, 160));
   }
-  if (['con-chim.html', 'den-tho-bac.html', 'bao-tang-khmer.html', 'ao-ba-om.html'].some(page => location.pathname.endsWith(page))) url.searchParams.set('view', 'detail');
+  if (url.searchParams.get('view') !== 'audio' && ['con-chim.html', 'den-tho-bac.html', 'bao-tang-khmer.html', 'ao-ba-om.html'].some(page => location.pathname.endsWith(page))) url.searchParams.set('view', 'detail');
   try { history.replaceState(null, '', url); } catch { /* Reading does not depend on browser history. */ }
   const id = siteId || url.searchParams.get('site');
   if (isSiteId(id) && persist) {

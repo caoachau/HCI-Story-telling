@@ -20,17 +20,22 @@ import {
 import { SITE_ZONES } from './aoBaOm5PartsData';
 import type { SiteZone, AoLanguage } from './types';
 import { BeforeAfterSlider } from '../../components/BeforeAfterSlider';
+import { useAudioContentContext } from '../../audio/context';
+import { restoredParams } from '../../experience/state';
 
 interface Section2InteractiveSiteMapProps {
   lang: AoLanguage;
+  active?: boolean;
   onOpenPanorama?: (zone: SiteZone) => void;
 }
 
 export const Section2InteractiveSiteMap: React.FC<Section2InteractiveSiteMapProps> = ({
   lang,
+  active = false,
   onOpenPanorama,
 }) => {
-  const [selectedZone, setSelectedZone] = useState<SiteZone>(SITE_ZONES[0]);
+  const [selectedZone, setSelectedZone] = useState<SiteZone>(() => SITE_ZONES.find(zone => zone.id === restoredParams('ao-ba-om').get('place')) ?? SITE_ZONES[0]);
+  useAudioContentContext(`ao-ba-om:zone:${selectedZone.id}`, active, 'ao-ba-om');
   const [hoveredZoneId, setHoveredZoneId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'info' | 'beforeAfter' | '3dModel' | 'panorama'>('info');
   const [isInspectorOpen, setIsInspectorOpen] = useState<boolean>(true);

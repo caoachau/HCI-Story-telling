@@ -35,6 +35,12 @@
 }
 .md-khmer-history .md-era-track {
   isolation: isolate;
+  grid-template-columns: max(44px, 3cqw) repeat(5, minmax(0, 1fr)) max(44px, 3cqw);
+}
+.md-khmer-history .md-era-track > .md-round {
+  width: max(44px, 3cqw);
+  height: max(44px, 3cqw);
+  justify-self: center;
 }
 .md-khmer-history .md-era-track::before,
 .md-khmer-history .md-era-photo::after {
@@ -293,6 +299,9 @@
   }
 }
 @container museum (max-width: 999px) {
+  .md-khmer-history .md-era-track {
+    grid-template-columns: 44px repeat(5, max(115px, 22cqw)) 44px;
+  }
   .md-khmer-history > .md-frame {
     grid-template-rows: 32% 18% minmax(0, 1fr);
   }

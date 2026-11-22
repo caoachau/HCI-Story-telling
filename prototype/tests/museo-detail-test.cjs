@@ -148,7 +148,7 @@ async function quickViewChecks() {
     await check("document.querySelector('#md-dialog-title').textContent==='Four themes, one Khmer way of life' && document.querySelector('.md-khmer-story').lang==='en' && document.querySelector('.md-khmer-story-prose').innerText.includes('palm-leaf manuscripts')",width+'px collection dialog shows the full English content');
     await escape();
     await section('map'); await click('[data-place-zone="upper"]');
-    await check("document.querySelector('.md-featured-title h3').textContent==='Religion & belief' && document.querySelector('[data-place-zone=\"upper\"]').textContent.includes('Upper floor')",width+'px Khmer place introductions follow the English host language');
+    await check("document.querySelector('.kd-detail h3').textContent==='Religion & belief' && document.querySelector('[data-place-zone=\"upper\"]').textContent.includes('Upper floor')",width+'px Khmer place introductions follow the English host language');
     await click('[data-action="explore-khmer-place"]');
     await wait("document.querySelector('.md-khmer-place-dialog')?.open",'English Khmer place dialog');
     await check("document.querySelector('#md-dialog-title').textContent==='Religion & belief' && document.querySelector('.md-place-content:not(.md-place-measure)').textContent.includes('Theravada') && document.querySelector('.md-site-photo-caption strong').textContent==='Faith and belief displays'",width+'px place story and photograph captions render in English');
@@ -209,7 +209,7 @@ async function quickViewChecks() {
   await evaluate('document.fonts.ready');
   await check("const r=document.querySelector('.md-root').getBoundingClientRect();r.width===innerWidth && r.height===innerHeight && document.querySelectorAll('.md-host-controls button').length===3 && !document.querySelector('.landmark-carousel')",'museum opens full bleed with QR, return and close controls');
   await shot('integrated-fullscreen');
-  await section('map'); await click('[data-place-zone="landscape"]'); await click('.md-site-strip button:nth-child(2)');
+  await section('map'); await click('[data-place-zone="landscape"]'); await click('.kd-strip button:nth-child(2)'); await click('[data-action=explore-khmer-place]');
   await wait("document.querySelector('.md-dialog-site')?.open", 'integrated site explorer');
   await check("const r=document.querySelector('.md-dialog-site').getBoundingClientRect();Math.abs(r.left-56)<1 && Math.abs(r.right-(innerWidth-56))<1",'integrated exhibition viewer keeps responsive desktop margins');
   await escape();
@@ -998,7 +998,7 @@ async function main() {
   await cultureChecks();
   await heritageDrawerChecks();
   await legacyChecks();
-  await section('map'); await click('.md-view-all'); await wait("document.querySelector('dialog')?.open", 'search opens');
+  await section('map'); await click('.kd-directory'); await wait("document.querySelector('dialog')?.open", 'search opens');
   await evaluate("const input=document.querySelector('.md-search-field input');const set=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set;set.call(input,'ngu am');input.dispatchEvent(new Event('input',{bubbles:true}));");
   await wait("document.querySelectorAll('.md-place-directory-results>button').length===1", 'directory search filters Khmer cultural topics');
   await escape();
