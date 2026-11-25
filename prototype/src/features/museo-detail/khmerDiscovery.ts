@@ -14,6 +14,7 @@ import { khmerCraftsDisplayPoints } from "./khmerCraftsDisplayPoints";
 import { khmerCraftsRightPoints } from "./khmerCraftsRightPoints";
 import { khmerArtsCenterPoints } from "./khmerArtsCenterPoints";
 import { khmerDailyCenterPoints } from "./khmerDailyCenterPoints";
+import { groupRoomPoints } from "./khmerRoomTopics";
 
 export interface DiscoveryObject {
   id: string;
@@ -192,7 +193,7 @@ const interiorRoomScene = (room: keyof typeof interiorRooms, id: string, photo: 
   ...entry(id, photo, [photo]), placeId: room, trial: true,
   viewpointTitle: side,
   title: { vi: `${stairRoomNames[interiorRooms[room].number].vi} · ${side.vi}`, en: `${stairRoomNames[interiorRooms[room].number].en} · ${side.en}` },
-  panorama: { src: khmerPlacePhotos[photo].src, preview: photo, yaw: id === "crafts-right" ? 194 : 180, pitch: -8, fov: id === "crafts-right" ? 95 : 80, sceneGroup: "interior-tour", backEntryId, viewpoints: interiorRooms[room].viewpoints, points },
+  panorama: { src: khmerPlacePhotos[photo].src, preview: photo, yaw: id === "crafts-right" ? 194 : 180, pitch: -8, fov: id === "crafts-right" ? 95 : 80, sceneGroup: "interior-tour", backEntryId, viewpoints: interiorRooms[room].viewpoints, points: room === "crafts" ? points : groupRoomPoints(id.startsWith("traditional-") ? "traditional-room" : id.startsWith("thematic-") ? "thematic-room" : id, photo, points) },
 });
 const traditionalRoom: DiscoveryEntry = {
   ...interiorRoomScene("traditional", "traditional-room", "traditional360", { vi: "Toàn cảnh", en: "Panorama" }, "interior-stairs", [

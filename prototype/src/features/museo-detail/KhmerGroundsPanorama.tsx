@@ -79,6 +79,8 @@ export function KhmerGroundsPanorama({
   const fullscreen = fallbackFullscreen;
   const vi = lang === "vi";
   const themed = panorama.points?.some(point => point.markerKind === "topic") ?? false;
+  const roomTopics = (panorama.points ?? []).filter(point => point.markerKind === "topic" && point.topicId?.startsWith("room-")).map(point => ({ id: point.topicId!, title: point.title, areaId: "main-display" as const, numbers: [1] as readonly number[], parentId: undefined as string | undefined }));
+  const allTopics = [...craftTopics, ...roomTopics];
   const [topicId, setTopicId] = useState<string>();
   const [topicAreaId, setTopicAreaId] = useState<CraftTopicAreaId>();
   const [showHotspots, setShowHotspots] = useState(true);
@@ -88,34 +90,35 @@ export function KhmerGroundsPanorama({
   useEffect(() => { setTopicId(undefined); setTopicAreaId(undefined); setShowHotspots(true); setListOpen(false); }, [panorama]);
   useEffect(() => { actions.current?.redraw(); }, [topicId, showHotspots]);
   function chooseTopic(id: string) {
-    const topic = craftTopics.find(item => item.id === id);
+    const topic = allTopics.find(item => item.id === id);
     if (topic) setTopicAreaId(topic.areaId);
     setTopicId(id); setShowHotspots(true); setListOpen(false); onClearPoint?.();
     actions.current?.focus(`topic-${id}`);
   }
   function overview() {
-    const areaId = craftTopics.find(topic => topic.id === topicId)?.areaId ?? topicAreaId;
+    const areaId = allTopics.find(topic => topic.id === topicId)?.areaId ?? topicAreaId;
     setTopicId(undefined); setListOpen(false); setShowHotspots(true); onClearPoint?.();
-    if (areaId) actions.current?.lookAt(craftTopicAreas[areaId]);
+    if (topicId?.startsWith("room-")) actions.current?.reset();
+    else if (areaId) actions.current?.lookAt(craftTopicAreas[areaId]);
     else actions.current?.reset();
   }
   function backTopicLevel() {
-    const topic = craftTopics.find(item => item.id === topicId);
+    const topic = allTopics.find(item => item.id === topicId);
     if (!topic?.parentId) { overview(); return; }
     setTopicId(topic.parentId); setListOpen(false); setShowHotspots(true); onClearPoint?.();
     actions.current?.focus(`topic-${topic.parentId}`);
   }
   function toggleList() {
     if (listOpen) { setListOpen(false); return; }
-    const visibleTopic = craftTopics.find(topic => {
+    const visibleTopic = allTopics.find(topic => {
       const button = hotspotButtons.current[`topic-${topic.id}`];
       return button != null && !button.hidden;
     });
-    setTopicAreaId(craftTopics.find(topic => topic.id === topicId)?.areaId ?? visibleTopic?.areaId ?? "main-display");
+    setTopicAreaId(allTopics.find(topic => topic.id === topicId)?.areaId ?? visibleTopic?.areaId ?? "main-display");
     setListOpen(true);
   }
-  const listAreaId = craftTopics.find(topic => topic.id === topicId)?.areaId ?? topicAreaId ?? "main-display";
-  const listedTopics = craftTopics.filter(topic => topic.areaId === listAreaId && topic.numbers.length > 0);
+  const listAreaId = allTopics.find(topic => topic.id === topicId)?.areaId ?? topicAreaId ?? "main-display";
+  const listedTopics = roomTopics.length ? roomTopics.filter(topic => !topicId || topic.id === topicId) : craftTopics.filter(topic => topic.areaId === listAreaId && topic.numbers.length > 0);
   const preview = khmerPlacePhotos[panorama.preview ?? "grounds360"];
   const selectedPoint = panorama.points?.find(
     (point) => point.id === selectedPointId,
@@ -261,7 +264,7 @@ export function KhmerGroundsPanorama({
             (!topicState.current.themed || (point.targetEntryId
               ? true
               : topicState.current.showHotspots && (point.markerKind === "topic"
-                ? (craftTopics.find(topic => topic.id === point.topicId)?.parentId ?? undefined) === topicState.current.topicId
+                ? (allTopics.find(topic => topic.id === point.topicId)?.parentId ?? undefined) === topicState.current.topicId
                 : point.markerKind === "exhibit" && point.topicId === topicState.current.topicId && !turn))) &&
             cameraSpace.z < 0 &&
             projected.z >= -1 &&
@@ -591,7 +594,7 @@ export function KhmerGroundsPanorama({
             aria-haspopup={point.targetEntryId || point.markerKind === "topic" ? undefined : "dialog"}
             aria-label={themed ? point.title[lang] : `${point.number ?? ""}. ${point.title[lang]}`}
             onPointerDown={(event) => event.stopPropagation()}
-            onClick={() => point.markerKind === "topic" ? chooseTopic(point.topicId!) : onSelectPoint?.(point.id)}
+            onClick={(event) => { if (point.markerKind === "topic") chooseTopic(point.topicId!); else { onSelectPoint?.(point.id); if (point.markerKind === "exhibit") onOpenPoint?.(point.id, event.currentTarget); } }}
           >
             <b>{point.markerKind === "topic" ? point.title[lang] : point.markerKind === "exhibit" ? <span className="kd-dot-core" /> : point.targetEntryId && !point.showNumber ? <ArrowUpRight size={24} aria-hidden="true" /> : point.number}</b>
             <span className="kd-hotspot-label">{point.title[lang]}</span>
@@ -646,11 +649,11 @@ export function KhmerGroundsPanorama({
       )}
       {themed && <div className="kd-topic-toolbar" data-topic={topicId ?? "overview"}>
         <button type="button" onClick={topicId ? backTopicLevel : overview}><ArrowLeft size={17} />{(() => {
-          const parentId = craftTopics.find(topic => topic.id === topicId)?.parentId;
-          const parent = craftTopics.find(topic => topic.id === parentId);
+          const parentId = allTopics.find(topic => topic.id === topicId)?.parentId;
+          const parent = allTopics.find(topic => topic.id === parentId);
           return parent ? (vi ? `Quay lại ${parent.title.vi}` : `Back to ${parent.title.en}`) : (vi ? "Quay lại toàn cảnh" : "Room overview");
         })()}</button>
-        {topicId && <span className="kd-current-topic">{craftTopics.find(topic => topic.id === topicId)?.title[lang]}</span>}
+        {topicId && <span className="kd-current-topic">{allTopics.find(topic => topic.id === topicId)?.title[lang]}</span>}
         <button type="button" data-action="exhibit-list" aria-expanded={listOpen} onClick={toggleList}><List size={17} />{vi ? "Danh sách hiện vật" : "Exhibit list"}</button>
         <button type="button" data-action="toggle-hotspots" aria-pressed={showHotspots} onClick={() => setShowHotspots(value => !value)}>{showHotspots ? <Eye size={17} /> : <EyeOff size={17} />}{vi ? showHotspots ? "Ẩn hotspot" : "Hiện hotspot" : showHotspots ? "Hide hotspots" : "Show hotspots"}</button>
       </div>}
@@ -658,7 +661,7 @@ export function KhmerGroundsPanorama({
         <button className="kd-topic-list-close" type="button" onClick={() => setListOpen(false)} aria-label={vi ? "Đóng danh sách" : "Close list"}><X size={18} /></button>
         {listedTopics.map(topic => <section key={topic.id}>
           <h3><button type="button" onClick={() => chooseTopic(topic.id)}>{topic.title[lang]}</button></h3>
-          {panorama.points?.filter(point => point.markerKind === "exhibit" && point.topicId === topic.id).map(point => <button key={point.id} type="button" className="kd-topic-list-item" aria-pressed={point.id === selectedPointId} onClick={() => { chooseTopic(topic.id); onSelectPoint?.(point.id); }}>{point.title[lang]}</button>)}
+          {panorama.points?.filter(point => point.markerKind === "exhibit" && point.topicId === topic.id).map(point => <button key={point.id} type="button" className="kd-topic-list-item" aria-pressed={point.id === selectedPointId} onClick={(event) => { chooseTopic(topic.id); onSelectPoint?.(point.id); onOpenPoint?.(point.id, event.currentTarget); }}>{point.title[lang]}</button>)}
         </section>)}
       </div>}
       {onBack && <button type="button" className="kd-panorama-back" data-action="interior-back" onClick={onBack}><ArrowLeft size={20} />{backLabel?.[lang] ?? (vi ? "Quay về sảnh chính" : "Back to main hall")}</button>}
